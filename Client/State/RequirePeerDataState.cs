@@ -32,10 +32,14 @@ namespace Client.Client.State
         public override void ReceiveJoiningPeerData(Context context, CRLFSocket socket, Packet packet)
         {
             IList<PeerData> peerList = new List<PeerData>();
-            foreach (string peer in packet.Data)
+
+            if (packet.Data != null)
             {
-                string[] peerData = peer.Split(new char[] { ',' });
-                peerList.Add(new PeerData(peerData[0], int.Parse(peerData[1]), int.Parse(peerData[2])));
+                foreach (string peer in packet.Data)
+                {
+                    string[] peerData = peer.Split(new char[] { ',' });
+                    peerList.Add(new PeerData(peerData[0], int.Parse(peerData[1]), int.Parse(peerData[2])));
+                }
             }
 
             int[] connectedPeerIds = context.ConnectToPeers(peerList.ToArray());
