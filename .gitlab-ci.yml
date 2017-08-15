@@ -1,0 +1,11 @@
+stages:
+  - build
+
+cache:
+ key: "$CI_PIPELINE_ID"
+ untracked: true
+
+build:
+ stage: build
+ script:
+    - msbuild "Client.sln"
