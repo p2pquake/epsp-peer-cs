@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Client.Client;
 using Client.Common.General;
 
 namespace Client.Peer
@@ -108,14 +109,9 @@ namespace Client.Peer
     interface IPeerContext
     {
         /// <summary>
-        /// 最大接続数
+        /// ピアIDの情報を有するインタフェースへの参照
         /// </summary>
-        int MaxConnections { get; set; }
-
-        /// <summary>
-        /// 接続タイムアウト(秒)
-        /// </summary>
-        int ConnectionTimeoutSeconds { get; set; }
+        IPeerIdManager PeerIdManager { get; set; }
 
         /// <summary>
         /// 地震情報イベント
@@ -154,5 +150,18 @@ namespace Client.Peer
         /// すべてのピア接続を切断します。
         /// </summary>
         void DisconnectAll();
+
+        /// <summary>
+        /// 指定ポート番号で接続を受け入れます。
+        /// </summary>
+        /// <param name="port">ポート番号</param>
+        /// <returns>リッスンできたかどうか</returns>
+        bool Listen(int port);
+
+        /// <summary>
+        /// 接続の受け入れを終了します。
+        /// </summary>
+        /// <returns>切断したかどうか</returns>
+        bool EndListen();
     }
 }
