@@ -90,6 +90,17 @@ namespace Client.Peer
         bool IsCancelled { get; set; } = false;
         IList<TsunamiForecastRegion> RegionList { get; set; } = null;
     }
+    
+    class EPSPAreapeersEventArgs : EPSPDataEventArgs
+    {
+        IDictionary<string, int> AreaPeerDictionary { get; set; } = null;
+    }
+
+    class EPSPUserquakeEventArgs : EPSPDataEventArgs
+    {
+        string AreaCode { get; set; } = "";
+        string PublicKey { get; set; } = "";
+    }
 
     /// <summary>
     /// 対ピア通信を行うサブシステムのコンテキストインタフェース
@@ -115,9 +126,17 @@ namespace Client.Peer
         /// 津波予報イベント
         /// </summary>
         event EventHandler<EPSPTsunamiEventArgs> OnTsunami;
-        
-        // TODO: FIXME: 地震感知情報、各地域ピア数はまだ未定義
 
+        /// <summary>
+        /// 地域ピア数イベント
+        /// </summary>
+        event EventHandler<EPSPAreapeersEventArgs> OnAreapeers;
+
+        /// <summary>
+        /// 地震感知情報イベント
+        /// </summary>
+        event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
+        
         /// <summary>
         /// 指定したピアへの接続を試行します。
         /// </summary>
