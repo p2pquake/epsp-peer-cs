@@ -9,7 +9,10 @@ namespace Client.Peer
 {
     abstract class EPSPDataEventArgs : EventArgs
     {
-        bool IsValid { get; set; }
+        /// <summary>署名の妥当性チェック結果</summary>
+        bool IsValid { get; set; } = false;
+        bool IsInvalidSignature { get; set; } = false;
+        bool IsExpired { get; set; } = false;
     }
 
     enum DomesticTsunamiType
@@ -28,13 +31,13 @@ namespace Client.Peer
     {
         /// <summary>震度速報</summary>
         ScalePrompt,
-        /// <summary>震源情報</summary>
+        /// <summary>震源に関する情報</summary>
         Destination,
-        /// <summary>震度・震源情報</summary>
+        /// <summary>震源・震度に関する情報</summary>
         ScaleAndDestination,
         /// <summary>各地の震度に関する情報</summary>
         Detail,
-        /// <summary>遠地地震情報</summary>
+        /// <summary>遠地地震に関する情報</summary>
         Foreign,
         /// <summary>不明</summary>
         Unknown
@@ -60,7 +63,7 @@ namespace Client.Peer
         string Latitude { get; set; } = "不明";
         string Longitude { get; set; } = "不明";
         string IssueFrom { get; set; } = "不明";
-        IList<QuakeObservationPoint> PointList { get; set; }
+        IList<QuakeObservationPoint> PointList { get; set; } = null;
     }
 
     enum TsunamiCategory
