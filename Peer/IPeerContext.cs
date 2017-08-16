@@ -63,7 +63,30 @@ namespace Client.Peer
         IList<QuakeObservationPoint> PointList { get; set; }
     }
 
+    enum TsunamiCategory
+    {
+        /// <summary>津波注意報</summary>
+        Advisory,
+        /// <summary>津波警報</summary>
+        Warning,
+        /// <summary>大津波警報</summary>
+        MajorWarning,
+        /// <summary>不明</summary>
+        Unknown
+    }
 
+    class TsunamiForecastRegion
+    {
+        TsunamiCategory Category { get; set; } = TsunamiCategory.Unknown;
+        string Region { get; set; } = "不明";
+        bool IsImmediately { get; set; } = false;
+    }
+
+    class EPSPTsunamiEventArgs : EPSPDataEventArgs
+    {
+        bool IsCancelled { get; set; } = false;
+        IList<TsunamiForecastRegion> RegionList { get; set; } = null;
+    }
 
     /// <summary>
     /// 対ピア通信を行うサブシステムのコンテキストインタフェース
@@ -85,7 +108,12 @@ namespace Client.Peer
         /// </summary>
         event EventHandler<EPSPQuakeEventArgs> OnEarthquake;
 
-        // TODO: FIXME: 津波予報、地震感知情報、各地域ピア数はまだ未定義
+        /// <summary>
+        /// 津波予報イベント
+        /// </summary>
+        event EventHandler<EPSPTsunamiEventArgs> OnTsunami;
+        
+        // TODO: FIXME: 地震感知情報、各地域ピア数はまだ未定義
 
         /// <summary>
         /// 指定したピアへの接続を試行します。
