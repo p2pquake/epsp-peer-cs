@@ -17,5 +17,7 @@ namespace Client.Common.Config
 
         int MaxConnections { get; set; }
         int ConnectionTimeoutSeconds { get; set; }
+
+        int AreaCode { get; set; }
     }
 }
