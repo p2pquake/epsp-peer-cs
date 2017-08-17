@@ -14,5 +14,7 @@ namespace Client.App
         TimeSpan TimeOffset { get; set; }
 
         KeyData Key { get; set; }
+
+        IDictionary<string, int> AreaPeerDictionary { get; set; }
     }
 }
