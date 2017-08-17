@@ -132,19 +132,6 @@ namespace Client.Peer
         /// 地震感知情報イベント
         /// </summary>
         event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
-        
-        /// <summary>
-        /// 指定したピアへの接続を試行します。
-        /// </summary>
-        /// <param name="peers">ピア情報</param>
-        /// <returns>接続したピアのピアID</returns>
-        int[] Connect(PeerData[] peers);
-
-        /// <summary>
-        /// 現在のピア接続数を返します。
-        /// </summary>
-        /// <returns></returns>
-        int GetNumberOfConnections();
 
         /// <summary>
         /// すべてのピア接続を切断します。
