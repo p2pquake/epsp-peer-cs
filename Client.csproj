@@ -78,6 +78,7 @@
     <Compile Include="App\MaintainTimer.cs" />
     <Compile Include="Client\General\ClientConst.cs" />
     <Compile Include="Client\General\KeyData.cs" />
+    <Compile Include="Client\IClientContext.cs" />
     <Compile Include="Common\Config\Configuration.cs" />
     <Compile Include="Common\General\PeerData.cs" />
     <Compile Include="Client\State\IFinishedState.cs" />
