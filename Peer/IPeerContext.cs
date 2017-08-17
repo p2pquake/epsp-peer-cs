@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Client.App;
 using Client.Client;
 using Client.Common.General;
 
@@ -108,10 +109,7 @@ namespace Client.Peer
     /// </summary>
     interface IPeerContext
     {
-        /// <summary>
-        /// ピアIDの情報を有するインタフェースへの参照
-        /// </summary>
-        IPeerIdManager PeerIdManager { get; set; }
+        IPeerState PeerState { get; set; }
 
         /// <summary>
         /// 地震情報イベント

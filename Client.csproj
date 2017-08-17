@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App\IOperatable.cs" />
+    <Compile Include="App\IPeerState.cs" />
     <Compile Include="App\State\AbstractState.cs" />
     <Compile Include="App\State\ConnectedState.cs" />
     <Compile Include="App\State\ConnectingState.cs" />
@@ -77,7 +78,6 @@
     <Compile Include="App\MaintainTimer.cs" />
     <Compile Include="Client\General\ClientConst.cs" />
     <Compile Include="Client\General\KeyData.cs" />
-    <Compile Include="Client\IPeerIdManager.cs" />
     <Compile Include="Common\Config\Configuration.cs" />
     <Compile Include="Common\General\PeerData.cs" />
     <Compile Include="Client\State\IFinishedState.cs" />
