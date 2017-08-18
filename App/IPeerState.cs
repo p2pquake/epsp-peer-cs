@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Client.Client;
 using Client.Client.General;
 
 namespace Client.App
 {
     interface IPeerState
     {
+        ClientState ClientState { get; }
+
         int PeerId { get; set; }
 
         TimeSpan TimeOffset { get; set; }

@@ -8,11 +8,21 @@ using Client.Peer;
 
 namespace Client.Client
 {
+    enum ClientState
+    {
+        Disconnected,
+        Connecting,
+        Connected,
+        Disconnecting
+    }
+
     interface IClientContext
     {
         IPeerState PeerState { get; set; }
 
         IPeerConnector PeerConnector { get; set; }
+        
+        ClientState ClientState { get; }
 
         /// <summary>
         /// 参加する
