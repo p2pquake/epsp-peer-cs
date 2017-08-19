@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Client.App;
 using Client.Client;
 using Client.Common.General;
+using Client.Common.Net;
 
 namespace Client.Peer
 {
@@ -107,7 +108,7 @@ namespace Client.Peer
     /// <summary>
     /// 対ピア通信を行うサブシステムのコンテキストインタフェース
     /// </summary>
-    interface IPeerContext
+    interface IPeerContext : IPeerConnector
     {
         IPeerState PeerState { get; set; }
 
@@ -142,6 +143,12 @@ namespace Client.Peer
         /// <param name="port">ポート番号</param>
         /// <returns>リッスンできたかどうか</returns>
         bool Listen(int port);
+
+        /// <summary>
+        /// すべてのピアにデータを配信します。
+        /// </summary>
+        /// <param name="packet">データ</param>
+        void SendAll(Packet packet);
 
         /// <summary>
         /// 接続の受け入れを終了します。
