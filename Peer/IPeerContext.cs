@@ -110,7 +110,7 @@ namespace Client.Peer
     /// </summary>
     interface IPeerContext : IPeerConnector
     {
-        IPeerState PeerState { get; set; }
+        IPeerState PeerState { set; }
 
         /// <summary>
         /// 地震情報イベント

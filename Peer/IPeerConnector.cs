@@ -17,9 +17,9 @@ namespace Client.Peer
         int[] Connect(PeerData[] peers);
 
         /// <summary>
-        /// 現在のピア接続数を返します。
+        /// 現在のピア接続数
         /// </summary>
         /// <returns></returns>
-        int GetNumberOfConnections();
+        int Connections { get; }
     }
 }

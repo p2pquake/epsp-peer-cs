@@ -16,6 +16,8 @@ namespace Client.Peer.Manager
 
         public Func<int> PeerId;
 
+        internal int Connections { get { return peerList.Count; } }
+
         public PeerManager(Context context)
         {
             this.context = context;
@@ -38,12 +40,7 @@ namespace Client.Peer.Manager
 
             return result;
         }
-
-        internal int GetNumberOfConnection()
-        {
-            return peerList.Count;
-        }
-
+        
         internal void Send(Packet packet)
         {
             Send(packet, null);

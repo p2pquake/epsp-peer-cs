@@ -7,6 +7,7 @@ using Client.Common.General;
 using Client.Common.Net;
 
 using Client.Peer.Manager;
+using Client.App;
 
 #if MOBILE
 using Client.Mobile;
@@ -14,60 +15,66 @@ using Client.Mobile;
 
 namespace Client.Peer
 {
-    class Context
+    class Context : IPeerContext, IPeerConnector
     {
-        PeerManager peerManager;
-#if MOBILE
-        HTTPServer server;
-#endif
+        private PeerManager peerManager;
 
-        public Func<int> PeerId;
+        // TODO: FIXME: イベント発行はまだ未実装。
+        public event EventHandler<EPSPQuakeEventArgs> OnEarthquake;
+        public event EventHandler<EPSPTsunamiEventArgs> OnTsunami;
+        public event EventHandler<EPSPAreapeersEventArgs> OnAreapeers;
+        public event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
 
-        internal Context()
+        public IPeerState PeerState { private get; set; }
+        public int Connections { get { return peerManager.Connections; } }
+
+        public Context()
         {
             peerManager = new PeerManager(this);
-            peerManager.PeerId += () => { return PeerId(); };
-
-#if MOBILE
-            server = new HTTPServer(peerManager);
-            server.start();
-#endif
+            peerManager.PeerId += () => { return PeerState.PeerId; };
         }
 
-        internal int[] ConnectTo(PeerData[] peerList)
+        public bool Listen(int port)
         {
-            List<int> connectedPeerIds = new List<int>();
+            // TODO: FIXME:
+            throw new NotImplementedException();
+        }
 
-            foreach (PeerData peer in peerList)
+        public int[] Connect(PeerData[] peers)
+        {
+            List<int> connectedPeerIdList = new List<int>();
+
+            foreach (PeerData peer in peers)
             {
-                if (peerManager.Connect(peer))
-                {
-                    connectedPeerIds.Add(peer.PeerId);
-                }
-
                 // TODO: 最大接続数ハードコーディング
-                if (peerManager.GetNumberOfConnection() >= 4)
+                if (peerManager.Connections >= 4)
                 {
                     break;
                 }
+
+                if (peerManager.Connect(peer))
+                {
+                    connectedPeerIdList.Add(peer.PeerId);
+                }
             }
 
-            return connectedPeerIds.ToArray();
+            return connectedPeerIdList.ToArray();
         }
 
-        internal int GetNumberOfConnection()
+        public void SendAll(Packet packet)
         {
-            return peerManager.GetNumberOfConnection();
+            peerManager.Send(packet);
         }
 
-        internal void DisconnectAll()
+        public void DisconnectAll()
         {
             peerManager.DisconnectAll();
         }
 
-        internal void SendAll(Packet packet)
+        public bool EndListen()
         {
-            peerManager.Send(packet);
+            // TODO: FIXME:
+            throw new NotImplementedException();
         }
     }
 }
