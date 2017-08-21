@@ -24,6 +24,7 @@ namespace Client.Peer
         public event EventHandler<EPSPTsunamiEventArgs> OnTsunami;
         public event EventHandler<EPSPAreapeersEventArgs> OnAreapeers;
         public event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
+        public event EventHandler<EventArgs> ConnectionsChanged;
 
         public IPeerState PeerState { private get; set; }
         public int Connections { get { return peerManager.Connections; } }

@@ -10,6 +10,11 @@ namespace Client.Peer
     interface IPeerConnector
     {
         /// <summary>
+        /// ピア接続数が変化したことを通知します。
+        /// </summary>
+        event EventHandler<EventArgs> ConnectionsChanged;
+
+        /// <summary>
         /// 指定したピアへの接続を試行します。
         /// </summary>
         /// <param name="peers">ピア情報</param>
