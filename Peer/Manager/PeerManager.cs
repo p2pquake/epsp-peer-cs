@@ -10,17 +10,15 @@ namespace Client.Peer.Manager
 {
     class PeerManager
     {
-        Context context;
-        List<Peer> peerList;
-        DuplicateRemover duplicateRemover;
+        private List<Peer> peerList;
+        private DuplicateRemover duplicateRemover;
 
-        public Func<int> PeerId;
+        public Func<int> PeerId { get; set; }
 
         internal int Connections { get { return peerList.Count; } }
 
-        public PeerManager(Context context)
+        public PeerManager()
         {
-            this.context = context;
             peerList = new List<Peer>();
             duplicateRemover = new DuplicateRemover();
         }
@@ -59,20 +57,11 @@ namespace Client.Peer.Manager
 
         void peer_ReadLine(object sender, ReadLineEventArgs e)
         {
-            if (duplicateRemover.isDuplicate(e.packet))
+            if (!duplicateRemover.isDuplicate(e.packet))
             {
-                Logger.GetLog().Debug("重複データにつき処理をスキップします。");
-            }
-            else
-            {
-                Logger.GetLog().Debug("new data >> " + e.packet.ToPacketString());
-                Logger.GetLog().Debug("新規データにつき配信します。");
                 e.packet.Hop++;
                 Send(e.packet, (Peer)sender);
             }
-
-            // TODO: 未実装
-            // Logger.GetLog().Debug("受信しました: " + e.packet.ToPacketString());
         }
 
         void peer_Closed(object sender, EventArgs e)

@@ -31,7 +31,7 @@ namespace Client.Peer
 
         public Context()
         {
-            peerManager = new PeerManager(this);
+            peerManager = new PeerManager();
             peerManager.PeerId += () => { return PeerState.PeerId; };
         }
 
