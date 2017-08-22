@@ -13,6 +13,8 @@ namespace Client.Peer.Manager
         private List<Peer> peerList;
         private DuplicateRemover duplicateRemover;
 
+        public event EventHandler<EventArgs> ConnectionsChanged;
+
         public Func<int> PeerId { get; set; }
 
         internal int Connections { get { return peerList.Count; } }
@@ -29,11 +31,12 @@ namespace Client.Peer.Manager
             peer.Closed += new EventHandler(peer_Closed);
             peer.ReadLine += new EventHandler<ReadLineEventArgs>(peer_ReadLine);
             peer.PeerId += () => { return PeerId(); };
-
+            
             bool result = peer.Connect(peerData);
             if (result)
             {
                 peerList.Add(peer);
+                ConnectionsChanged(this, EventArgs.Empty);
             }
 
             return result;
@@ -67,6 +70,7 @@ namespace Client.Peer.Manager
         void peer_Closed(object sender, EventArgs e)
         {
             peerList.Remove((Peer)sender);
+            ConnectionsChanged(this, EventArgs.Empty);
         }
 
         internal void DisconnectAll()
@@ -76,6 +80,7 @@ namespace Client.Peer.Manager
                 peer.Disconnect();
             }
             peerList.Clear();
+            ConnectionsChanged(this, EventArgs.Empty);
         }
     }
 }
