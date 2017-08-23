@@ -42,7 +42,8 @@ namespace Client.App
             ClientContext.NotifyCurrentPeers += ClientContext_NotifyCurrentPeers;
 
             PeerContext = new Peer.Context();
-            PeerContext.PeerId += () => { return ClientContext.PeerId; };
+            // TODO: FIXME:
+            // PeerContext.PeerId += () => { return ClientContext.PeerId; };
 
             State = new DisconnectedState();
 
@@ -66,13 +67,13 @@ namespace Client.App
         {
             Logger.GetLog().Debug("ピア接続が要求されました。");
 
-            int[] connectedPeers = PeerContext.ConnectTo(peerList);
+            int[] connectedPeers = PeerContext.Connect(peerList);
             return connectedPeers;
         }
 
         internal int ClientContext_GetCurrentConnection()
         {
-            return PeerContext.GetNumberOfConnection();
+            return PeerContext.Connections;
         }
 
         void ClientContext_NotifyCurrentPeers(int peers)
