@@ -35,7 +35,7 @@ namespace Client.App.State
 
             if (operationResult == ClientConst.OperationResult.Successful)
             {
-                Logger.GetLog().Info("接続を維持しています（接続数: " + peerContext.GetNumberOfConnection() + "）。");
+                Logger.GetLog().Info("接続を維持しています（接続数: " + peerContext.Connections + "）。");
 
                 mediatorContext.State = new ConnectedState();
             }
@@ -45,7 +45,7 @@ namespace Client.App.State
 
                 peerContext.DisconnectAll();
 
-                Logger.GetLog().Info("ピア接続をすべて切断しました（接続数: " + peerContext.GetNumberOfConnection() + "）");
+                Logger.GetLog().Info("ピア接続をすべて切断しました（接続数: " + peerContext.Connections + "）");
 
                 mediatorContext.State = new DisconnectedState();
 

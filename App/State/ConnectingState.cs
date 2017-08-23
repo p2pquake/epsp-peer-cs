@@ -35,7 +35,7 @@ namespace Client.App.State
 
             if (operationResult == ClientConst.OperationResult.Successful)
             {
-                Logger.GetLog().Info("接続が完了しました（接続数： " + peerContext.GetNumberOfConnection() + "）。");
+                Logger.GetLog().Info("接続が完了しました（接続数： " + peerContext.Connections + "）。");
 
                 mediatorContext.State = new ConnectedState();
             }
