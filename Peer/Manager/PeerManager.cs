@@ -5,6 +5,7 @@ using System.Text;
 
 using Client.Common.General;
 using Client.Common.Net;
+using Client.Peer.General;
 
 namespace Client.Peer.Manager
 {
@@ -12,8 +13,12 @@ namespace Client.Peer.Manager
     {
         private List<Peer> peerList;
         private DuplicateRemover duplicateRemover;
-
+        
         public event EventHandler<EventArgs> ConnectionsChanged;
+        public event EventHandler<EPSPQuakeEventArgs> OnEarthquake;
+        public event EventHandler<EPSPTsunamiEventArgs> OnTsunami;
+        public event EventHandler<EPSPAreapeersEventArgs> OnAreapeers;
+        public event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
 
         public Func<int> PeerId { get; set; }
 
@@ -62,8 +67,45 @@ namespace Client.Peer.Manager
         {
             if (!duplicateRemover.isDuplicate(e.packet))
             {
+                raiseDataEvent(e.packet);
+
                 e.packet.Hop++;
                 Send(e.packet, (Peer)sender);
+            }
+        }
+
+        private void raiseDataEvent(Packet packet)
+        {
+            // TODO: FIXME: 署名検証をしていない
+            if (packet.Code == Code.EARTHQUAKE)
+            {
+
+            }
+            if (packet.Code == Code.TSUNAMI)
+            {
+
+            }
+            if (packet.Code == Code.AREAPEERS)
+            {
+
+            }
+            if (packet.Code == Code.USERQUAKE)
+            {
+                if (packet.Data == null || packet.Data.Length < 6)
+                {
+                    return;
+                }
+
+                string[] data = packet.Data[5].Split(',');
+                if (data.Length < 2)
+                {
+                    return;
+                }
+
+                EPSPUserquakeEventArgs e = new EPSPUserquakeEventArgs();
+                e.PublicKey = packet.Data[2];
+                e.AreaCode = data[1];
+                OnUserquake(this, e);
             }
         }
 

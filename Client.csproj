@@ -101,6 +101,7 @@
     <Compile Include="Common\Net\Packet.cs" />
     <Compile Include="Mobile\HTTPServer.cs" />
     <Compile Include="Peer\Context.cs" />
+    <Compile Include="Peer\General\Code.cs" />
     <Compile Include="Peer\General\PeerConst.cs" />
     <Compile Include="Peer\IPeerConnector.cs" />
     <Compile Include="Peer\IPeerContext.cs" />
