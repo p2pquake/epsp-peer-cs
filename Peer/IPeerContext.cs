@@ -13,9 +13,9 @@ namespace Client.Peer
     abstract class EPSPDataEventArgs : EventArgs
     {
         /// <summary>署名の妥当性チェック結果</summary>
-        bool IsValid { get; set; } = false;
-        bool IsInvalidSignature { get; set; } = false;
-        bool IsExpired { get; set; } = false;
+        public bool IsValid { get; set; } = false;
+        public bool IsInvalidSignature { get; set; } = false;
+        public bool IsExpired { get; set; } = false;
     }
 
     enum DomesticTsunamiType
@@ -101,8 +101,8 @@ namespace Client.Peer
 
     class EPSPUserquakeEventArgs : EPSPDataEventArgs
     {
-        string AreaCode { get; set; } = "";
-        string PublicKey { get; set; } = "";
+        public string AreaCode { get; set; } = "";
+        public string PublicKey { get; set; } = "";
     }
 
     /// <summary>
