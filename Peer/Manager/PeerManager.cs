@@ -87,7 +87,15 @@ namespace Client.Peer.Manager
             }
             if (packet.Code == Code.AREAPEERS)
             {
+                if (packet.Data == null || packet.Data.Length < 2)
+                {
+                    return;
+                }
 
+                string[] data = packet.Data[2].Split(';');
+                EPSPAreapeersEventArgs e = new EPSPAreapeersEventArgs();
+                e.AreaPeerDictionary = data.ToDictionary(e => e.Split(',')[0], e => int.Parse(e.Split(',')[1]));
+                OnAreapeers(this, e);
             }
             if (packet.Code == Code.USERQUAKE)
             {
