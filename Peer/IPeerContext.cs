@@ -96,7 +96,7 @@ namespace Client.Peer
     
     class EPSPAreapeersEventArgs : EPSPDataEventArgs
     {
-        IDictionary<string, int> AreaPeerDictionary { get; set; } = null;
+        public IDictionary<string, int> AreaPeerDictionary { get; set; } = null;
     }
 
     class EPSPUserquakeEventArgs : EPSPDataEventArgs
