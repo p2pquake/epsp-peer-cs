@@ -92,9 +92,9 @@ namespace Client.Peer.Manager
                     return;
                 }
 
-                string[] data = packet.Data[2].Split(';');
+                string[] datas = packet.Data[2].Split(';');
                 EPSPAreapeersEventArgs e = new EPSPAreapeersEventArgs();
-                e.AreaPeerDictionary = data.ToDictionary(e => e.Split(',')[0], e => int.Parse(e.Split(',')[1]));
+                e.AreaPeerDictionary = datas.ToDictionary(data => data.Split(',')[0], data => int.Parse(data.Split(',')[1]));
                 OnAreapeers(this, e);
             }
             if (packet.Code == Code.USERQUAKE)
