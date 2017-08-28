@@ -1,0 +1,21 @@
+﻿<Window x:Class="EPSPWPFClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EPSPWPFClient"
+        mc:Ignorable="d"
+        Title="P2P地震情報 for Peer" Height="480" Width="640">
+    <Grid>
+        <ListBox x:Name="menuListBox" Margin="10,70,0,10" RenderTransformOrigin="1.153,0.624" HorizontalAlignment="Left" Width="150"/>
+        <Frame x:Name="contentFrame" Content="" Margin="165,10,10,10" Source="Pages/StatusPage.xaml" NavigationUIVisibility="Hidden" />
+        <Grid HorizontalAlignment="Left" Height="55" Margin="10,10,0,0" VerticalAlignment="Top" Width="150">
+            <Image x:Name="statusIcon" HorizontalAlignment="Left" Height="55" VerticalAlignment="Top" Width="40"/>
+            <Border BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Left" Height="55" Margin="45,0,0,0" VerticalAlignment="Top" Width="105">
+                <TextBlock x:Name="statusText" TextWrapping="Wrap" VerticalAlignment="Center" Text="接続済み" FontSize="20" Margin="0,14.2" />
+            </Border>
+
+        </Grid>
+
+    </Grid>
+</Window>
