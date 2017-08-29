@@ -11,16 +11,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using MahApps.Metro.Controls;
 
-namespace EPSPWPFClient
+namespace EPSPWPFClient.Pages
 {
     /// <summary>
-    /// MainWindow.xaml の相互作用ロジック
+    /// ConfigPage.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow
+    public partial class ConfigPage : Page
     {
-        public MainWindow()
+        public ConfigPage()
         {
             InitializeComponent();
         }
