@@ -1,0 +1,31 @@
+﻿<Page x:Class="EPSPWPFClient.Pages.ConfigPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:EPSPWPFClient.Pages"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      mc:Ignorable="d" 
+      d:DesignHeight="400" d:DesignWidth="400"
+      Title="ConfigPage">
+
+    <Grid>
+        <TextBlock x:Name="appTitleText" HorizontalAlignment="Left" Margin="10,160,0,0" TextWrapping="Wrap" Text="接続設定" VerticalAlignment="Top" RenderTransformOrigin="0.203,-0.313" FontSize="20"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="145,236,0,0" TextWrapping="Wrap" Text="6911" VerticalAlignment="Top" TextAlignment="Right" Width="50"/>
+        <TextBlock x:Name="textBlock_Copy" HorizontalAlignment="Left" Margin="75,240,0,0" TextWrapping="Wrap" Text="ポート番号" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="75,275,0,0" TextWrapping="Wrap" Text="UPnP" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBox_Copy" Content="使用する" HorizontalAlignment="Left" Margin="145,275,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBox" Content="ポート開放を有効にする（推奨）" HorizontalAlignment="Left" Margin="25,205,0,0" VerticalAlignment="Top"/>
+        <Slider x:Name="slider" HorizontalAlignment="Left" Margin="145,310,0,0" VerticalAlignment="Top" Width="150" Minimum="4" Maximum="50" Value="10" />
+        <TextBlock x:Name="textBlock_Copy2" HorizontalAlignment="Left" Margin="75,310,0,0" TextWrapping="Wrap" Text="最大接続数" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="306,310,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top"/>
+        <TextBlock x:Name="appTitleText_Copy" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="アプリケーション設定" VerticalAlignment="Top" RenderTransformOrigin="0.203,-0.313" FontSize="20"/>
+        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="150,45,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBlock x:Name="textBlock_Copy3" HorizontalAlignment="Left" Margin="25,50,0,0" TextWrapping="Wrap" Text="地域" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock_Copy4" HorizontalAlignment="Left" Margin="25,85,0,0" TextWrapping="Wrap" Text="地震感知情報の発信" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBox1" Content="中クリック" HorizontalAlignment="Left" Margin="150,85,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBox1_Copy" Content="中ダブルクリック" HorizontalAlignment="Left" Margin="150,107,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBox1_Copy1" Content="右ダブルクリック" HorizontalAlignment="Left" Margin="150,130,0,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</Page>
