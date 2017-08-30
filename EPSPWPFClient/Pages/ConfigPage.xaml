@@ -6,26 +6,35 @@
       xmlns:local="clr-namespace:EPSPWPFClient.Pages"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
       mc:Ignorable="d" 
-      d:DesignHeight="400" d:DesignWidth="400"
+      d:DesignHeight="400" d:DesignWidth="440"
       Title="ConfigPage">
 
     <Grid>
-        <TextBlock x:Name="appTitleText" HorizontalAlignment="Left" Margin="10,160,0,0" TextWrapping="Wrap" Text="接続設定" VerticalAlignment="Top" RenderTransformOrigin="0.203,-0.313" FontSize="20"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="145,236,0,0" TextWrapping="Wrap" Text="6911" VerticalAlignment="Top" TextAlignment="Right" Width="50"/>
-        <TextBlock x:Name="textBlock_Copy" HorizontalAlignment="Left" Margin="75,240,0,0" TextWrapping="Wrap" Text="ポート番号" VerticalAlignment="Top"/>
-        <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="75,275,0,0" TextWrapping="Wrap" Text="UPnP" VerticalAlignment="Top"/>
-        <CheckBox x:Name="checkBox_Copy" Content="使用する" HorizontalAlignment="Left" Margin="145,275,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="checkBox" Content="ポート開放を有効にする（推奨）" HorizontalAlignment="Left" Margin="25,205,0,0" VerticalAlignment="Top"/>
-        <Slider x:Name="slider" HorizontalAlignment="Left" Margin="145,310,0,0" VerticalAlignment="Top" Width="150" Minimum="4" Maximum="50" Value="10" />
-        <TextBlock x:Name="textBlock_Copy2" HorizontalAlignment="Left" Margin="75,310,0,0" TextWrapping="Wrap" Text="最大接続数" VerticalAlignment="Top"/>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="306,310,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top"/>
-        <TextBlock x:Name="appTitleText_Copy" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="アプリケーション設定" VerticalAlignment="Top" RenderTransformOrigin="0.203,-0.313" FontSize="20"/>
-        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="150,45,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBlock x:Name="appTitleText" HorizontalAlignment="Left" Margin="11,215,0,0" TextWrapping="Wrap" Text="接続" VerticalAlignment="Top" RenderTransformOrigin="0.203,-0.313" FontSize="20"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="115,286,0,0" TextWrapping="Wrap" Text="6911" VerticalAlignment="Top" TextAlignment="Right" Width="50"/>
+        <TextBlock x:Name="textBlock_Copy" HorizontalAlignment="Left" Margin="60,290,0,0" TextWrapping="Wrap" Text="ポート番号" VerticalAlignment="Top" RenderTransformOrigin="-0.02,0.627"/>
+        <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="60,320,0,0" TextWrapping="Wrap" Text="UPnP" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBox_Copy" Content="使用する" HorizontalAlignment="Left" Margin="115,319,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBox" Content="ポートを開放する（推奨）" HorizontalAlignment="Left" Margin="26,260,0,0" VerticalAlignment="Top"/>
+        <Slider x:Name="slider" HorizontalAlignment="Left" Margin="60,371,0,0" VerticalAlignment="Top" Width="100" Minimum="4" Maximum="50" Value="10" />
+        <TextBlock x:Name="textBlock_Copy2" HorizontalAlignment="Left" Margin="60,350,0,0" TextWrapping="Wrap" Text="最大接続数" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="165,371,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top"/>
+        <TextBlock x:Name="appTitleText_Copy" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="アプリケーション" VerticalAlignment="Top" RenderTransformOrigin="0.203,-0.313" FontSize="20"/>
+        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="40,71,0,0" VerticalAlignment="Top" Width="120"/>
         <TextBlock x:Name="textBlock_Copy3" HorizontalAlignment="Left" Margin="25,50,0,0" TextWrapping="Wrap" Text="地域" VerticalAlignment="Top"/>
-        <TextBlock x:Name="textBlock_Copy4" HorizontalAlignment="Left" Margin="25,85,0,0" TextWrapping="Wrap" Text="地震感知情報の発信" VerticalAlignment="Top"/>
-        <CheckBox x:Name="checkBox1" Content="中クリック" HorizontalAlignment="Left" Margin="150,85,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="checkBox1_Copy" Content="中ダブルクリック" HorizontalAlignment="Left" Margin="150,107,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="checkBox1_Copy1" Content="右ダブルクリック" HorizontalAlignment="Left" Margin="150,130,0,0" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock_Copy4" HorizontalAlignment="Left" Margin="25,109,0,0" TextWrapping="Wrap" Text="地震感知情報の発信" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBox1" Content="中クリック" HorizontalAlignment="Left" Margin="40,130,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBox1_Copy" Content="中ダブルクリック" HorizontalAlignment="Left" Margin="40,153,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBox1_Copy1" Content="右ダブルクリック" HorizontalAlignment="Left" Margin="40,176,0,0" VerticalAlignment="Top"/>
+        <TextBlock x:Name="appTitleText_Copy1" HorizontalAlignment="Left" Margin="220,10,0,0" TextWrapping="Wrap" Text="情報表示" VerticalAlignment="Top" RenderTransformOrigin="0.203,-0.313" FontSize="20"/>
+        <CheckBox x:Name="checkBox1_Copy2" Content="地震情報" HorizontalAlignment="Left" Margin="230,50,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBox1_Copy3" Content="津波予報" HorizontalAlignment="Left" Margin="230,100,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBox1_Copy4" Content="地震感知情報" HorizontalAlignment="Left" Margin="230,160,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBox1_Copy5" Content="緊急地震速報（発表のみ）" HorizontalAlignment="Left" Margin="230,130,0,0" VerticalAlignment="Top"/>
+        <Slider x:Name="slider_Copy" HorizontalAlignment="Left" Margin="260,185,0,0" VerticalAlignment="Top" Width="100" Minimum="1" Maximum="4" Value="3" IsEnabled="False" />
+        <TextBlock x:Name="textBlock_Copy5" HorizontalAlignment="Left" Margin="365,185,0,0" TextWrapping="Wrap" Text="レベル3" VerticalAlignment="Top" IsEnabled="False"/>
+        <Slider x:Name="slider_Copy1" HorizontalAlignment="Left" Margin="260,73,0,0" VerticalAlignment="Top" Width="100" Minimum="1" Maximum="8" Value="1" />
+        <TextBlock x:Name="textBlock_Copy6" HorizontalAlignment="Left" Margin="365,73,0,0" TextWrapping="Wrap" Text="震度1以上" VerticalAlignment="Top"/>
 
     </Grid>
 </Page>
