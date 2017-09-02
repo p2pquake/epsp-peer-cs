@@ -33,6 +33,38 @@ namespace Client.Peer
         {
             peerManager = new PeerManager();
             peerManager.PeerId += () => { return PeerState.PeerId; };
+
+            peerManager.ConnectionsChanged += PeerManager_ConnectionsChanged;
+
+            peerManager.OnAreapeers += PeerManager_OnAreapeers;
+            peerManager.OnEarthquake += PeerManager_OnEarthquake;
+            peerManager.OnTsunami += PeerManager_OnTsunami;
+            peerManager.OnUserquake += PeerManager_OnUserquake;
+        }
+
+        private void PeerManager_OnUserquake(object sender, EPSPUserquakeEventArgs e)
+        {
+            OnUserquake(sender, e);
+        }
+
+        private void PeerManager_OnTsunami(object sender, EPSPTsunamiEventArgs e)
+        {
+            OnTsunami(sender, e);
+        }
+
+        private void PeerManager_OnEarthquake(object sender, EPSPQuakeEventArgs e)
+        {
+            OnEarthquake(sender, e);
+        }
+
+        private void PeerManager_OnAreapeers(object sender, EPSPAreapeersEventArgs e)
+        {
+            OnAreapeers(sender, e);
+        }
+
+        private void PeerManager_ConnectionsChanged(object sender, EventArgs e)
+        {
+            ConnectionsChanged(sender, e);
         }
 
         public bool Listen(int port)
