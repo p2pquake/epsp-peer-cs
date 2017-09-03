@@ -9,11 +9,12 @@
         Title="P2P地震情報 for Peer" Height="480" Width="640">
     <Grid>
         <ListBox x:Name="menuListBox" Margin="10,70,0,10" RenderTransformOrigin="1.153,0.624" HorizontalAlignment="Left" Width="150">
-            <ListBoxItem Content="システム"/>
             <ListBoxItem Content="情報履歴"/>
-            <ListBoxItem Content="設定"/>
+            <ListBoxItem Content="分布図"/>
+            <ListBoxItem Content="設定" Selector.IsSelected="True"/>
+            <ListBoxItem Content="システム情報"/>
         </ListBox>
-        <Frame x:Name="contentFrame" Content="" Margin="165,10,10,10" Source="Pages/ConfigPage.xaml" NavigationUIVisibility="Hidden" />
+        <Frame x:Name="contentFrame" Content="" Margin="165,10,10,10" Source="Pages/HistoryPage.xaml" NavigationUIVisibility="Hidden" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
         <Grid HorizontalAlignment="Left" Height="55" Margin="10,10,0,0" VerticalAlignment="Top" Width="150">
             <Image x:Name="statusIcon" HorizontalAlignment="Left" Height="55" VerticalAlignment="Top" Width="40"/>
             <Border BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Left" Height="55" Margin="45,0,0,0" VerticalAlignment="Top" Width="105">

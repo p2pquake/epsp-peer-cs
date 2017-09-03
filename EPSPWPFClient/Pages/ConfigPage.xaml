@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:EPSPWPFClient.Pages"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
       mc:Ignorable="d" 
-      d:DesignHeight="400" d:DesignWidth="440"
+      MinHeight="420" MinWidth="440"
       Title="ConfigPage">
 
     <Grid>
@@ -21,9 +21,9 @@
         <TextBlock x:Name="textBlock_Copy3" HorizontalAlignment="Left" Margin="25,50,0,0" TextWrapping="Wrap" Text="地域" VerticalAlignment="Top"/>
         <TextBlock x:Name="textBlock_Copy4" HorizontalAlignment="Left" Margin="25,109,0,0" TextWrapping="Wrap" Text="地震感知情報の発信" VerticalAlignment="Top"/>
         <CheckBox x:Name="checkBox1" Content="中クリック" HorizontalAlignment="Left" Margin="40,130,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="checkBox1_Copy" Content="中ダブルクリック" HorizontalAlignment="Left" Margin="40,153,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="checkBox1_Copy1" Content="右ダブルクリック" HorizontalAlignment="Left" Margin="40,176,0,0" VerticalAlignment="Top"/>
-        <TextBlock x:Name="appTitleText_Copy1" HorizontalAlignment="Left" Margin="220,10,0,0" TextWrapping="Wrap" Text="表示設定" VerticalAlignment="Top" RenderTransformOrigin="0.203,-0.313" FontSize="20"/>
+        <CheckBox x:Name="checkBox1_Copy" Content="中ダブルクリック" HorizontalAlignment="Left" Margin="40,155,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBox1_Copy1" Content="右ダブルクリック" HorizontalAlignment="Left" Margin="40,180,0,0" VerticalAlignment="Top"/>
+        <TextBlock x:Name="appTitleText_Copy1" HorizontalAlignment="Left" Margin="220,10,0,0" TextWrapping="Wrap" Text="表示条件" VerticalAlignment="Top" RenderTransformOrigin="0.203,-0.313" FontSize="20"/>
         <CheckBox x:Name="checkBox1_Copy2" Content="地震情報" HorizontalAlignment="Left" Margin="230,50,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="checkBox1_Copy3" Content="津波予報" HorizontalAlignment="Left" Margin="230,115,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="checkBox1_Copy4" Content="地震感知情報" HorizontalAlignment="Left" Margin="230,185,0,0" VerticalAlignment="Top"/>
@@ -34,10 +34,11 @@
         <Slider x:Name="slider_Copy" HorizontalAlignment="Left" Margin="310,215,0,0" VerticalAlignment="Top" Width="75" Minimum="1" Maximum="4" Value="4" />
         <TextBlock x:Name="textBlock_Copy2" HorizontalAlignment="Left" Margin="390,215,0,0" TextWrapping="Wrap" Text="高い" VerticalAlignment="Top"/>
         <TextBlock x:Name="textBlock_Copy5" HorizontalAlignment="Left" Margin="265,215,0,0" TextWrapping="Wrap" Text="信頼度" VerticalAlignment="Top"/>
-        <TextBlock x:Name="appTitleText_Copy2" HorizontalAlignment="Left" Margin="220,255,0,0" TextWrapping="Wrap" Text="その他" VerticalAlignment="Top" RenderTransformOrigin="0.203,-0.313" FontSize="20"/>
-        <CheckBox x:Name="checkBox1_Copy6" Content="効果音" HorizontalAlignment="Left" Margin="230,295,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="checkBox1_Copy7" Content="常に手前に表示" HorizontalAlignment="Left" Margin="230,325,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="checkBox1_Copy8" Content="フォーカスを奪わない" HorizontalAlignment="Left" Margin="230,355,0,0" VerticalAlignment="Top"/>
+        <TextBlock x:Name="appTitleText_Copy2" HorizontalAlignment="Left" Margin="220,255,0,0" TextWrapping="Wrap" Text="表示設定" VerticalAlignment="Top" RenderTransformOrigin="0.203,-0.313" FontSize="20"/>
+        <CheckBox x:Name="checkBox1_Copy6" Content="音を鳴らす" HorizontalAlignment="Left" Margin="230,295,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBox1_Copy7" Content="常に手前に表示" HorizontalAlignment="Left" Margin="230,370,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBox1_Copy8" Content="フォーカスを奪わない" HorizontalAlignment="Left" Margin="230,345,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBox1_Copy9" Content="別ウインドウで表示" HorizontalAlignment="Left" Margin="230,320,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Page>
