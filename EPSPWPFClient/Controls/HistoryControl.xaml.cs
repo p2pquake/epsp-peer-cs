@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace EPSPWPFClient.Pages
+namespace EPSPWPFClient.Controls
 {
     /// <summary>
-    /// PeerMapPage.xaml の相互作用ロジック
+    /// HistoryControl.xaml の相互作用ロジック
     /// </summary>
-    public partial class PeerMapPage : Page
+    public partial class HistoryControl : UserControl
     {
-        public PeerMapPage()
+        public HistoryControl()
         {
             InitializeComponent();
         }
