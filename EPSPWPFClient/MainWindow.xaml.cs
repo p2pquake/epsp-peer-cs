@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
+using EPSPWPFClient.Controls;
 
 namespace EPSPWPFClient
 {
@@ -20,9 +21,40 @@ namespace EPSPWPFClient
     /// </summary>
     public partial class MainWindow
     {
+        private UserControl historyControl = new HistoryControl();
+        private UserControl peerMapControl = new PeerMapControl();
+        private UserControl configControl = new ConfigControl();
+        private UserControl statusControl = new StatusControl();
+
+
         public MainWindow()
         {
             InitializeComponent();
+            menuListBox.SelectedIndex = 3;
+        }
+
+        private void menuListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int selected = menuListBox.SelectedIndex;
+            UserControl control = null;
+            
+            switch (selected)
+            {
+                case 0:
+                    control = historyControl;
+                    break;
+                case 1:
+                    control = peerMapControl;
+                    break;
+                case 2:
+                    control = configControl;
+                    break;
+                case 3:
+                    control = statusControl;
+                    break;
+            }
+
+            contentControl.Content = control;
         }
     }
 }

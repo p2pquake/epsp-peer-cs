@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace EPSPWPFClient.Pages
+namespace EPSPWPFClient.Controls
 {
     /// <summary>
-    /// HistoryPage.xaml の相互作用ロジック
+    /// ConfigControl.xaml の相互作用ロジック
     /// </summary>
-    public partial class HistoryPage : Page
+    public partial class ConfigControl : UserControl
     {
-        public HistoryPage()
+        public ConfigControl()
         {
             InitializeComponent();
         }
