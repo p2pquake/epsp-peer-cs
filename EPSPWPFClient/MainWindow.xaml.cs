@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 using EPSPWPFClient.Controls;
+using System.Windows.Threading;
 
 namespace EPSPWPFClient
 {
@@ -21,7 +22,7 @@ namespace EPSPWPFClient
     /// </summary>
     public partial class MainWindow
     {
-        private UserControl historyControl = new HistoryControl();
+        private HistoryControl historyControl = new HistoryControl();
         private UserControl peerMapControl = new PeerMapControl();
         private UserControl configControl = new ConfigControl();
         private UserControl statusControl = new StatusControl();
@@ -42,6 +43,13 @@ namespace EPSPWPFClient
             {
                 case 0:
                     control = historyControl;
+                    Dispatcher.BeginInvoke(new Action(
+                        () =>
+                        {
+                            MessageBox.Show("ControlActualWidth:" + contentControl.ActualWidth + ", CanvasActualWidth:" + historyControl.canvas.ActualWidth + ", HistoryControlActualWidth:" + historyControl.ActualWidth);
+                            new Quake.QuakeDrawer().Draw(historyControl.canvas);
+                        }
+                        ), DispatcherPriority.Loaded);
                     break;
                 case 1:
                     control = peerMapControl;
