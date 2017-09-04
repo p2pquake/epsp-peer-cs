@@ -15,7 +15,7 @@
             <ComboBoxItem Content="09/03 14:32:30 | 津波予報 | 大津波警報: 北海道太平洋沿岸東部、北海道太平洋沿岸西部 津波警報: 宮城県、岩手県、福島県" HorizontalAlignment="Left" Width="419"/>
             <ComboBoxItem Content="09/03 14:25:00 | 震度速報 | 震度5弱 | 津波の有無は調査中" HorizontalAlignment="Left" Width="419"/>
         </ComboBox>
-        <Image x:Name="image" Margin="10,37,10,10"/>
+        <Canvas x:Name="canvas" Margin="10,41,10,10"/>
 
     </Grid>
 </UserControl>
