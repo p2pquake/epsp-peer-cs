@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using EPSPWPFClient.Properties;
 using Map.Map;
 using Map.Util;
 
@@ -17,6 +20,12 @@ namespace EPSPWPFClient.Quake
         public void Draw(Canvas canvas)
         {
             canvas.Children.Clear();
+
+            Image img = new Image();
+            img.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/japan.png"));
+            img.Width = canvas.ActualWidth;
+            img.Height = canvas.ActualHeight;
+            canvas.Children.Add(img);
 
             PointCalculator calculator = new PointCalculator(47, 23, 121, 150,
                 canvas.ActualWidth, canvas.ActualHeight);

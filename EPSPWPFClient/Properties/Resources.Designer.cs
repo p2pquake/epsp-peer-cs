@@ -61,6 +61,16 @@ namespace EPSPWPFClient.Properties {
         }
         
         /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap japan {
+            get {
+                object obj = ResourceManager.GetObject("japan", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   北海道,石狩市花川,43.172,141.315
         ///北海道,石狩市聚富,43.275,141.418
         ///北海道,札幌中央区北２条,43.060,141.328
