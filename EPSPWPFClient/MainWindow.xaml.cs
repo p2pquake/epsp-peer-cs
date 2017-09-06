@@ -46,8 +46,8 @@ namespace EPSPWPFClient
                     Dispatcher.BeginInvoke(new Action(
                         () =>
                         {
-                            MessageBox.Show("ControlActualWidth:" + contentControl.ActualWidth + ", CanvasActualWidth:" + historyControl.canvas.ActualWidth + ", HistoryControlActualWidth:" + historyControl.ActualWidth);
-                            new Quake.QuakeDrawer().Draw(historyControl.canvas);
+                            // MessageBox.Show("ControlActualWidth:" + contentControl.ActualWidth + ", CanvasActualWidth:" + historyControl.canvas.ActualWidth + ", HistoryControlActualWidth:" + historyControl.ActualWidth);
+                            new Quake.QuakeDrawer().Draw(historyControl.svgViewer);
                         }
                         ), DispatcherPriority.Loaded);
                     break;
