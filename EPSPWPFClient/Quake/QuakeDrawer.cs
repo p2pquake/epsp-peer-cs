@@ -21,11 +21,9 @@ namespace EPSPWPFClient.Quake
 {
     class QuakeDrawer
     {
-        public void Draw(SvgCanvas svgCanvas)
+        public void Draw(Canvas canvas)
         {
-            Canvas canvas = svgCanvas;
-            svgCanvas.Children.Clear();
-            svgCanvas.AutoSize = false;
+            canvas.Children.Clear();
 
             // ラスタ(ビットマップ)
             //Image img = new Image();
@@ -34,14 +32,22 @@ namespace EPSPWPFClient.Quake
             //img.Height = canvas.ActualHeight;
 
             // ベクタ
-            svgCanvas.Source = new Uri("pack://application:,,,/Resources/japan_vector.svgz");
-            
+            SvgViewbox svg = new SvgViewbox();
+            svg.MaxHeight = canvas.ActualHeight;
+            svg.MaxWidth = canvas.ActualWidth;
+            svg.Source = new Uri("pack://application:,,,/Resources/japan_vector.svgz");
+
+            canvas.Children.Add(svg);
+
+            svg.InvalidateMeasure();
+            svg.UpdateLayout();
+
             //svgCanvas.LoadDiagrams("Resources/japan_vector.svgz");
 
             //canvas.Children.Add(image);
 
             PointCalculator calculator = new PointCalculator(47, 23, 121, 150,
-                canvas.ActualWidth, canvas.ActualHeight);
+                svg.ActualWidth, svg.ActualHeight);
 
             string[] points =
             {
