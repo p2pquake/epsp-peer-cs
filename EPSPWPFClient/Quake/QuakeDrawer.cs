@@ -122,14 +122,27 @@ namespace EPSPWPFClient.Quake
                     Height = 10,
                     Fill = Brushes.Cyan,
                     Stroke = Brushes.Black,
-                    StrokeThickness = 1,
-                    RadiusX = 5,
-                    RadiusY = 5,
+                    StrokeThickness = 1
                 };
                 Canvas.SetLeft(rectangle, xy[0]);
                 Canvas.SetTop(rectangle, xy[1]);
 
                 canvas.Children.Add(rectangle);
+
+                TextBlock text = new TextBlock()
+                {
+                    Text = "1"
+                };
+
+                ContentControl control = new ContentControl()
+                {
+                    Content = text
+                };
+
+                Canvas.SetLeft(control, xy[0]);
+                Canvas.SetTop(control, xy[1]);
+
+                canvas.Children.Add(control);
             }
         }
     }
