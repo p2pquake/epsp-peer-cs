@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using EPSPWPFClient.Quake;
 
 namespace EPSPWPFClient.Controls
 {
@@ -20,9 +21,22 @@ namespace EPSPWPFClient.Controls
     /// </summary>
     public partial class HistoryControl : UserControl
     {
+        private QuakeDrawer drawer = new QuakeDrawer();
+
+
         public HistoryControl()
         {
             InitializeComponent();
+        }
+
+        public void draw()
+        {
+            drawer.Draw(canvas);
+        }
+
+        private void canvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            drawer.Redraw(canvas);
         }
     }
 }

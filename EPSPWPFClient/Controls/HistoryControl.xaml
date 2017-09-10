@@ -16,7 +16,7 @@
             <ComboBoxItem Content="09/03 14:25:00 | 震度速報 | 震度5弱 | 津波の有無は調査中" HorizontalAlignment="Left" Width="419"/>
         </ComboBox>
         
-        <Canvas x:Name="canvas" Margin="10,41,10,10" />
+        <Canvas x:Name="canvas" Margin="10,41,10,10" SizeChanged="canvas_SizeChanged" />
     
     </Grid>
 </UserControl>

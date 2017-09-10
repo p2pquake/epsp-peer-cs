@@ -21,6 +21,21 @@ namespace EPSPWPFClient.Quake
 {
     class QuakeDrawer
     {
+        private SvgViewbox svg;
+
+        public void Redraw(Canvas canvas)
+        {
+            if (svg == null)
+            {
+                return;
+            }
+
+            svg.MaxHeight = canvas.ActualHeight;
+            svg.MaxWidth = canvas.ActualWidth;
+            svg.InvalidateMeasure();
+            svg.UpdateLayout();
+        }
+
         public void Draw(Canvas canvas)
         {
             canvas.Children.Clear();
@@ -32,7 +47,7 @@ namespace EPSPWPFClient.Quake
             //img.Height = canvas.ActualHeight;
 
             // ベクタ
-            SvgViewbox svg = new SvgViewbox();
+            svg = new SvgViewbox();
             svg.MaxHeight = canvas.ActualHeight;
             svg.MaxWidth = canvas.ActualWidth;
             svg.Source = new Uri("pack://application:,,,/Resources/japan_vector.svgz");
