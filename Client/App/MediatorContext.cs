@@ -9,7 +9,7 @@ using Client.Common.General;
 
 namespace Client.App
 {
-    class MediatorContext : IOperatable
+    class MediatorContext : IOperatable, IMediatorContext
     {
         private AbstractState state;
 
