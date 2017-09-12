@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Client.App.State
 {
-    abstract class AbstractState
+    public abstract class AbstractState
     {
         internal abstract bool CanConnect { get; }
         internal abstract bool CanDisconnect { get; }

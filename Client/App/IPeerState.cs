@@ -8,7 +8,7 @@ using Client.Client.General;
 
 namespace Client.App
 {
-    interface IPeerState
+    public interface IPeerState
     {
         ClientState ClientState { get; }
 

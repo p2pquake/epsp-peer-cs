@@ -8,7 +8,7 @@ namespace Client.Client.General
     /// <summary>
     /// 鍵の情報をあらわすクラス
     /// </summary>
-    class KeyData
+    public class KeyData
     {
         /// <summary>秘密鍵</summary>
         public string PrivateKey { get; set; }

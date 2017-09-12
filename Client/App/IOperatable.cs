@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Client.App
 {
-    interface IOperatable
+    public interface IOperatable
     {
         /// <summary>
         /// 接続処理を実行できる状態かどうか
