@@ -8,7 +8,7 @@ using Client.Peer;
 
 namespace Client.Client
 {
-    enum ClientState
+    public enum ClientState
     {
         Disconnected,
         Connecting,
