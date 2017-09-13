@@ -16,6 +16,10 @@ namespace Client.App
 
         TimeSpan TimeOffset { get; set; }
 
+        int Connections { get; }
+
+        bool IsPortOpened { get; }
+
         KeyData Key { get; set; }
 
         IDictionary<string, int> AreaPeerDictionary { get; set; }
