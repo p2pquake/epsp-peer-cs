@@ -4,19 +4,22 @@ using System.Linq;
 using System.Text;
 
 using Client.App.State;
+using Client.Client;
 using Client.Client.General;
 using Client.Common.General;
+using Client.Peer;
 
 namespace Client.App
 {
-    class MediatorContext : IOperatable, IMediatorContext
+    class MediatorContext : IMediatorContext, IOperatable, IPeerState
     {
         private AbstractState state;
 
         public AbstractState State
         {
             get { return state; }
-            set {
+            set
+            {
                 state = value;
                 StateChanged(this, EventArgs.Empty);
                 Logger.GetLog().Debug("アプリケーションの状態が変化しました: " + state.GetType().Name);
@@ -31,6 +34,10 @@ namespace Client.App
         }
 
         public event EventHandler StateChanged = (s, e) => { };
+        public event EventHandler<EPSPQuakeEventArgs> OnEarthquake = (s, e) => { };
+        public event EventHandler<EPSPTsunamiEventArgs> OnTsunami = (s, e) => { };
+        public event EventHandler<EPSPAreapeersEventArgs> OnAreapeers = (s, e) => { };
+        public event EventHandler<EPSPUserquakeEventArgs> OnUserquake = (s, e) => { };
 
         public MediatorContext()
         {
@@ -56,7 +63,7 @@ namespace Client.App
         {
             Logger.GetLog().Debug("クライアント状態が変化しました: " + ClientContext.State.GetType().Name);
         }
-       
+
         void ClientContext_OperationCompleted(object sender, EventArgs e)
         {
             Logger.GetLog().Debug("クライアント処理が完了しました: " + ClientContext.getOperationResult().ToString());
@@ -101,6 +108,82 @@ namespace Client.App
         #endregion
 
         internal bool CanMaintain { get { return state.CanMaintain; } }
+
+        public ClientState ClientState
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        int IPeerState.PeerId
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public TimeSpan TimeOffset
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int Connections
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public bool IsPortOpened
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public KeyData Key
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public IDictionary<string, int> AreaPeerDictionary
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         internal bool Maintain()
         {

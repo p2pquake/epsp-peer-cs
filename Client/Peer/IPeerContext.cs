@@ -10,7 +10,7 @@ using Client.Common.Net;
 
 namespace Client.Peer
 {
-    abstract class EPSPDataEventArgs : EventArgs
+    public abstract class EPSPDataEventArgs : EventArgs
     {
         /// <summary>署名の妥当性チェック結果</summary>
         public bool IsValid { get; set; } = false;
@@ -53,7 +53,7 @@ namespace Client.Peer
         string Name { get; set; } = "";
     }
 
-    class EPSPQuakeEventArgs : EPSPDataEventArgs
+    public class EPSPQuakeEventArgs : EPSPDataEventArgs
     {
         string OccuredTime { get; set; } = "不明";
         string Scale { get; set; } = "不明";
@@ -88,18 +88,18 @@ namespace Client.Peer
         bool IsImmediately { get; set; } = false;
     }
 
-    class EPSPTsunamiEventArgs : EPSPDataEventArgs
+    public class EPSPTsunamiEventArgs : EPSPDataEventArgs
     {
         bool IsCancelled { get; set; } = false;
         IList<TsunamiForecastRegion> RegionList { get; set; } = null;
     }
-    
-    class EPSPAreapeersEventArgs : EPSPDataEventArgs
+
+    public class EPSPAreapeersEventArgs : EPSPDataEventArgs
     {
         public IDictionary<string, int> AreaPeerDictionary { get; set; } = null;
     }
 
-    class EPSPUserquakeEventArgs : EPSPDataEventArgs
+    public class EPSPUserquakeEventArgs : EPSPDataEventArgs
     {
         public string AreaCode { get; set; } = "";
         public string PublicKey { get; set; } = "";
