@@ -5,7 +5,12 @@ cache:
  key: "$CI_PIPELINE_ID"
  untracked: true
 
-build:
+build_client:
+ stage: build
+ script:
+    - msbuild "Client/Client.csproj"
+
+build_all:
  stage: build
  script:
     - msbuild "Client.sln"
