@@ -106,11 +106,11 @@ namespace Client.Peer
     }
 
     /// <summary>
-    /// 対ピア通信を行うサブシステムのコンテキストインタフェース
+    /// 上位クラスへ見せるPeerContextインタフェース
     /// </summary>
     interface IPeerContext : IPeerConnector
     {
-        IPeerState PeerState { set; }
+        IPeerStateForPeer PeerState { set; }
 
         /// <summary>
         /// 地震情報イベント

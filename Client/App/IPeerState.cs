@@ -12,15 +12,43 @@ namespace Client.App
     {
         ClientState ClientState { get; }
 
+        int PeerId { get; }
+
+        TimeSpan TimeOffset { get; }
+
+        int Connections { get; }
+
+        bool IsPortOpened { get; }
+
+        KeyData Key { get; }
+
+        IDictionary<string, int> AreaPeerDictionary { get; }
+    }
+
+    interface IPeerStateForClient
+    {
         int PeerId { get; set; }
 
         TimeSpan TimeOffset { get; set; }
 
         int Connections { get; }
 
-        bool IsPortOpened { get; }
+        bool IsPortOpened { set; }
 
         KeyData Key { get; set; }
+
+        IDictionary<string, int> AreaPeerDictionary { get; set; }
+    }
+
+    interface IPeerStateForPeer
+    {
+        ClientState ClientState { get; }
+
+        int PeerId { get; }
+
+        TimeSpan TimeOffset { get; }
+
+        KeyData Key { get; }
 
         IDictionary<string, int> AreaPeerDictionary { get; set; }
     }
