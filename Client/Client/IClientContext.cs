@@ -16,11 +16,14 @@ namespace Client.Client
         Disconnecting
     }
 
+    /// <summary>
+    /// 上位クラスへ見せるClientContextインタフェース
+    /// </summary>
     interface IClientContext
     {
-        IPeerState PeerState { get; set; }
+        IPeerStateForClient PeerState { set; }
 
-        IPeerConnector PeerConnector { get; set; }
+        IPeerConnector PeerConnector { set; }
         
         ClientState ClientState { get; }
 

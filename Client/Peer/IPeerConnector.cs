@@ -7,6 +7,9 @@ using Client.Common.General;
 
 namespace Client.Peer
 {
+    /// <summary>
+    /// 上位クラス・隣接クラスへ見せるPeerConnectorインタフェース
+    /// </summary>
     interface IPeerConnector
     {
         /// <summary>
@@ -21,10 +24,7 @@ namespace Client.Peer
         /// <returns>接続したピアのピアID</returns>
         int[] Connect(PeerData[] peers);
 
-        /// <summary>
-        /// 現在のピア接続数
-        /// </summary>
-        /// <returns></returns>
+        /// <summary>接続数</summary>
         int Connections { get; }
     }
 }
