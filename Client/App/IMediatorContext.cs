@@ -12,6 +12,8 @@ namespace Client.App
     {
         /// <summary>接続状態の変化</summary>
         event EventHandler StateChanged;
+        /// <summary>接続数の変化</summary>
+        event EventHandler ConnectionsChanged;
 
         /// <summary>地震情報イベント</summary>
         event EventHandler<EPSPQuakeEventArgs> OnEarthquake;
