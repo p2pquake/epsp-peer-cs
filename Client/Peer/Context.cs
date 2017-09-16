@@ -26,7 +26,7 @@ namespace Client.Peer
         public event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
         public event EventHandler<EventArgs> ConnectionsChanged;
 
-        public IPeerState PeerState { private get; set; }
+        public IPeerStateForPeer PeerState { private get; set; }
         public int Connections { get { return peerManager.Connections; } }
 
         public Context()
