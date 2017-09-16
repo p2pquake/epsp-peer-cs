@@ -39,6 +39,7 @@ namespace Client.App
             // TODO: FIXME: インスタンス生成が必要（まだクラス作ってない）
             clientContext.PeerConnector = peerContext;
             clientContext.PeerState = this;
+            clientContext.StateChanged += (s, e) => { StateChanged(s, e); };
 
             peerContext.PeerState = this;
             peerContext.ConnectionsChanged += (s,e) => { ConnectionsChanged(s, e); };
@@ -46,8 +47,6 @@ namespace Client.App
             peerContext.OnUserquake += (s, e) => { OnUserquake(s, e); };
             peerContext.OnTsunami += (s, e) => { OnTsunami(s, e); };
             peerContext.OnEarthquake += (s, e) => { OnEarthquake(s, e); };
-            // TODO: FIXME: StateChangedは?
-
         }
 
         public bool Connect()

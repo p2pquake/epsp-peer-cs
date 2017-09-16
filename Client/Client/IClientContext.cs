@@ -27,6 +27,8 @@ namespace Client.Client
         
         ClientState ClientState { get; }
 
+        event EventHandler StateChanged;
+
         /// <summary>
         /// 参加する
         /// </summary>
