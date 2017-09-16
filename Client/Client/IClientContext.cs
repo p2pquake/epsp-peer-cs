@@ -13,7 +13,8 @@ namespace Client.Client
         Disconnected,
         Connecting,
         Connected,
-        Disconnecting
+        Disconnecting,
+        Maintaining,
     }
 
     /// <summary>
