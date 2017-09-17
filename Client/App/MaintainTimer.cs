@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 using System.Threading;
-
+using Client.Client;
 using Client.Common.General;
 using Client.Common.Net;
 
@@ -12,111 +12,64 @@ namespace Client.App
 {
     class MaintainTimer
     {
-        private static readonly int MAINTAIN_INTERVAL = 30000;
-        private static readonly int WATCHDOG_COUNT = (90 * 1000) / MAINTAIN_INTERVAL;
+        private readonly int maintainInterval = 30000;
+        private readonly int processTimeout = 90000;
 
-        private MediatorContext context;
-        private DateTime latestEcho;
-        private int processingWatchdogCount;
+        private IMediatorContext mediatorContext;
+        private IClientContext clientContext;
 
-        public MaintainTimer(MediatorContext p_context)
+        private Timer timer;
+        private bool isStopped;
+
+        public MaintainTimer(IMediatorContext mediatorContext, IClientContext clientContext)
         {
-            context = p_context;
-            processingWatchdogCount = 0;
-            latestEcho = DateTime.MinValue;
-            context.StateChanged += new EventHandler(context_StateChanged);
+            this.mediatorContext = mediatorContext;
+            this.clientContext = clientContext;
+            clientContext.StateChanged += ClientContext_StateChanged;
         }
 
-        void context_StateChanged(object sender, EventArgs e)
+        public void Start()
         {
-            if (context.State is State.ConnectedState)
-            {
-                Logger.GetLog().Debug("エコーが行われました。");
-                latestEcho = DateTime.Now;
-            }
-            if (context.State is State.DisconnectingState || context.State is State.DisconnectedState)
-            {
-                latestEcho = DateTime.MinValue;
-            }
+            isStopped = false;
+
+            timer = new Timer(Tick);
+            timer.Change(0, maintainInterval);
         }
 
-        public void start()
+        private void Tick(object state)
         {
-            Timer timer = new Timer(execTimer, null, 0, 30000);
-        }
-        
-        private void execTimer(Object state)
-        {
-            // TODO: メンテナンスタイマ、今は雑な実装のみ
-
-            // TODO: 簡易ウォッチドッグ・タイマ実装
-            if (context.State is State.DisconnectingState || context.State is State.ConnectingState || context.State is State.MaintenanceState)
+            // Stopした後に動くことがないように（そういうことがあるのかわからんが）
+            if (isStopped)
             {
-                processingWatchdogCount++;
-
-                if (processingWatchdogCount >= WATCHDOG_COUNT)
-                {
-                    Logger.GetLog().Error("サーバ通信ハングアップを検出しました。");
-                    Environment.Exit(1);
-                    throw new TimeoutException("サーバとの接続処理中のまま一定時間が経過しました（フリーズ？）。");
-                }
-            }
-            else
-            {
-                processingWatchdogCount = 0;
-            }
-
-            // Logger.Write("状態: " + context.State + " (接続操作: " + context.CanConnect() + ", 切断操作: " + context.CanDisconnect() + ")", Logger.LogLevel.L7_DEBUG);
-            StringBuilder sb = new StringBuilder();
-            sb.Append("状態: " + context.State);
-            sb.Append(", 接続数: " + context.ClientContext_GetCurrentConnection());
-            sb.Append(" (");
-            sb.Append("接続操作: " + context.CanConnect + ", ");
-            sb.Append("切断操作: " + context.CanDisconnect + ", ");
-            sb.Append("維持操作: " + context.CanMaintain);
-            sb.Append(")");
-
-            Logger.GetLog().Debug(sb.ToString());
-            //Logger.GetLog().Debug("
-
-            // TODO: ずっと接続維持するやつ
-            if (context.CanConnect)
-            {
-                Logger.GetLog().Info("未接続状態のため、接続します。");
-                context.Connect();
                 return;
             }
 
-            if (latestEcho == DateTime.MinValue)
+            if (clientContext.ClientState == ClientState.Disconnected)
             {
-                Logger.GetLog().Debug("接続状態ではありません。");
-                return;
+                // TODO: FIXME: 接続する
             }
+            else if (clientContext.ClientState == ClientState.Connected)
+            {
+                // TODO: FIXME: 必要に応じてメンテナンス接続
+                // TODO: FIXME: メンテ時に"IPAddress Changed"とか言われたときの考慮してない.以前の設計ではClient.State.IFinishedStateにもたせていたので、類似の方法で対応？
+            }
+            else if (clientContext.ClientState == ClientState.Connecting ||
+                     clientContext.ClientState == ClientState.Disconnecting ||
+                     clientContext.ClientState == ClientState.Maintaining)
+            {
+                // TODO: FIXME: 長時間ingの場合は異常とみなしてDisconnectedへ遷移させる
+            }
+        }
 
-            Packet packet = new Packet();
-            packet.Code = 611;
-            packet.Hop = 1;
-            context.PeerContext.SendAll(packet);
+        public void Stop()
+        {
+            isStopped = true;
+            timer.Change(Timeout.Infinite, Timeout.Infinite);
+        }
 
-            // TODO: エコー間隔をハードコーディング
-            int echoIntervalMinute = 12;
-            if (context.ClientContext_GetCurrentConnection() < 3)
-            {
-                echoIntervalMinute = 3;
-            }
-            if (context.ClientContext_GetCurrentConnection() < 2)
-            {
-                echoIntervalMinute = 2;
-            }
-
-            TimeSpan progress = DateTime.Now - latestEcho;
-            if (progress.TotalMinutes >= echoIntervalMinute)
-            {
-                if (context.CanMaintain)
-                {
-                    context.Maintain();
-                }
-            }
+        private void ClientContext_StateChanged(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }
