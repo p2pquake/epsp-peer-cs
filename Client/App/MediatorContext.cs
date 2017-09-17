@@ -15,7 +15,8 @@ namespace Client.App
     {
         private IClientContext clientContext;
         private IPeerContext peerContext;
-
+        private MaintainTimer maintainTimer;
+        
         public event EventHandler StateChanged;
         public event EventHandler ConnectionsChanged;
         public event EventHandler<EPSPQuakeEventArgs> OnEarthquake;
@@ -37,6 +38,7 @@ namespace Client.App
         public MediatorContext()
         {
             // TODO: FIXME: インスタンス生成が必要（まだクラス作ってない）
+
             clientContext.PeerConnector = peerContext;
             clientContext.PeerState = this;
             clientContext.StateChanged += (s, e) => { StateChanged(s, e); };
@@ -55,8 +57,10 @@ namespace Client.App
             {
                 return false;
             }
-            
-            return clientContext.Join();
+
+            peerContext.DisconnectAll();
+            maintainTimer.Start();
+            return true;
         }
 
         public bool Disconnect()
@@ -66,7 +70,8 @@ namespace Client.App
                 return false;
             }
 
-            clientContext.Part();
+            peerContext.DisconnectAll();
+            maintainTimer.Stop();
             return true;
         }
     }
