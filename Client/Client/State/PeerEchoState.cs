@@ -2,26 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Client.App;
 
 namespace Client.Client.State
 {
     class PeerEchoState : AbstractState
     {
-        public override void Process(Context context, Common.Net.CRLFSocket socket)
+        public override void Process(IClientContextForState context, Common.Net.CRLFSocket socket)
         {
-            string[] datas = { context.PeerId.ToString(), context.GetCurrentConnection().ToString() };
+            IPeerStateForClient peerState = context.PeerState;
+            string[] datas = { peerState.PeerId.ToString(), peerState.Connections.ToString() };
             socket.WriteLine("123 1 " + string.Join(":", datas));
         }
 
-        public override void AcceptedEcho(Context context, Common.Net.CRLFSocket socket, Common.Net.Packet packet)
+        public override void AcceptedEcho(IClientContextForState context, Common.Net.CRLFSocket socket, Common.Net.Packet packet)
         {
-            if (context.Key == null || context.Key.IsExpired())
+            IPeerStateForClient peerState = context.PeerState;
+            if (peerState.Key == null || peerState.Key.IsExpired())
             {
                 context.State = new RequireReallocateKeyState();
             }
             else
             {
-                if (context.GetCurrentConnection() <= 2)
+                // TODO: FIXME: 固定値になっている
+                if (peerState.Connections <= 2)
                 {
                     context.State = new RequirePeerDataState(General.ClientConst.ProcessType.Maintain);
                 }

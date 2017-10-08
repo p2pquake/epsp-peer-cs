@@ -19,12 +19,12 @@ namespace Client.Client.State
             this.errorCode = errorCode;
         }
 
-        public override void Process(Context context, CRLFSocket socket)
+        public override void Process(IClientContextForState context, CRLFSocket socket)
         {
             socket.WriteLine("119 1");
         }
 
-        public override void EndConnection(Context context, CRLFSocket socket, Packet packet)
+        public override void EndConnection(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
             socket.Close();
 

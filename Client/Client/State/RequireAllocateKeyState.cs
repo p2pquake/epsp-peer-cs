@@ -11,18 +11,18 @@ namespace Client.Client.State
 {
     class RequireAllocateKeyState : AbstractState
     {
-        public override void Process(Context context, CRLFSocket socket)
+        public override void Process(IClientContextForState context, CRLFSocket socket)
         {
-            socket.WriteLine("117 1 " + context.PeerId);
+            socket.WriteLine("117 1 " + context.PeerState.PeerId);
         }
 
-        public override void AllocateKey(Context context, CRLFSocket socket, Packet packet)
+        public override void AllocateKey(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
-            context.Key = CreateKeyData(packet);
+            context.PeerState.Key = CreateKeyData(packet);
             context.State = new RequireAreaPeersState();
         }
 
-        public override void KeyCantAllocateError(Context context, CRLFSocket socket, Packet packet)
+        public override void KeyCantAllocateError(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
             context.State = new RequireAreaPeersState();
         }

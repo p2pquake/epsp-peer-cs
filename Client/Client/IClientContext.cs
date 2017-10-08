@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Client.App;
+using Client.Client.General;
 using Client.Peer;
 
 namespace Client.Client
@@ -17,6 +18,21 @@ namespace Client.Client
         Maintaining,
     }
 
+    public class OperationCompletedEventArgs : EventArgs
+    {
+        private ClientConst.OperationResult result;
+        private ClientConst.ErrorCode errorCode;
+
+        ClientConst.OperationResult Result { get { return result; } }
+        ClientConst.ErrorCode ErrorCode { get { return errorCode; } }
+
+        internal OperationCompletedEventArgs(ClientConst.OperationResult result, ClientConst.ErrorCode errorCode)
+        {
+            this.result = result;
+            this.errorCode = errorCode;
+        }
+    }
+
     /// <summary>
     /// 上位クラスへ見せるClientContextインタフェース
     /// </summary>
@@ -25,10 +41,11 @@ namespace Client.Client
         IPeerStateForClient PeerState { set; }
 
         IPeerConnector PeerConnector { set; }
-        
+
         ClientState ClientState { get; }
 
         event EventHandler StateChanged;
+        event EventHandler<OperationCompletedEventArgs> OperationCompleted;
 
         /// <summary>
         /// 参加する

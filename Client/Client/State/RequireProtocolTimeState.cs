@@ -10,12 +10,12 @@ namespace Client.Client.State
 {
     class RequireProtocolTimeState : AbstractState
     {
-        public override void Process(Context context, CRLFSocket socket)
+        public override void Process(IClientContextForState context, CRLFSocket socket)
         {
             socket.WriteLine("118 1");
         }
 
-        public override void ReceiveProtocolTime(Context context, CRLFSocket socket, Packet packet)
+        public override void ReceiveProtocolTime(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
             // TODO: プロトコル時刻の情報を捨ててる
 
