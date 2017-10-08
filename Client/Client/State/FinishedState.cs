@@ -19,7 +19,7 @@ namespace Client.Client.State
             ErrorCode = errorCode;
         }
 
-        public override void Process(Context context, CRLFSocket socket)
+        public override void Process(IClientContextForState context, CRLFSocket socket)
         {
             // 何もしない。
         }

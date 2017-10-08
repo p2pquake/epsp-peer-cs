@@ -14,22 +14,22 @@ namespace Client.Client.State
     /// </summary>
     class ConnectedState : AbstractState
     {
-        ClientConst.ProcessType processType;
+        public ClientConst.ProcessType ProcessType { get; }
 
         public ConnectedState(ClientConst.ProcessType processType)
         {
-            this.processType = processType;
+            ProcessType = processType;
         }
 
-        public override void Process(Context context, CRLFSocket socket)
+        public override void Process(IClientContextForState context, CRLFSocket socket)
         {
             Logger.GetLog().Debug("...再接続中かな？");
             // throw new NotSupportedException();
         }
 
-        public override void RequireAllowVersion(Context context, CRLFSocket socket, Packet packet)
+        public override void RequireAllowVersion(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
-            context.State = new NotifyProtocolVersionState(processType);
+            context.State = new NotifyProtocolVersionState(ProcessType);
         }
     }
 }

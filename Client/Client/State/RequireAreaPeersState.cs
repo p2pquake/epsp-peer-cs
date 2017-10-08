@@ -9,12 +9,12 @@ namespace Client.Client.State
 {
     class RequireAreaPeersState : AbstractState
     {
-        public override void Process(Context context, CRLFSocket socket)
+        public override void Process(IClientContextForState context, CRLFSocket socket)
         {
             socket.WriteLine("127 1");
         }
 
-        public override void NoticeAreaPeers(Context context, CRLFSocket socket, Packet packet)
+        public override void NoticeAreaPeers(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
             // TODO: 地域ピア数の情報を捨ててる
 

@@ -21,7 +21,7 @@ namespace Client.Client.State
             this.processType = processType;
         }
 
-        public override void Process(Context context, CRLFSocket socket)
+        public override void Process(IClientContextForState context, CRLFSocket socket)
         {
             if (context.PeerId <= 0)
                 throw new InvalidOperationException("ピアIDが設定されていません。");
@@ -29,7 +29,7 @@ namespace Client.Client.State
             socket.WriteLine("115 1 " + context.PeerId);
         }
 
-        public override void ReceiveJoiningPeerData(Context context, CRLFSocket socket, Packet packet)
+        public override void ReceiveJoiningPeerData(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
             IList<PeerData> peerList = new List<PeerData>();
 

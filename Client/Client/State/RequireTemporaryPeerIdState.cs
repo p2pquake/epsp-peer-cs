@@ -12,15 +12,15 @@ namespace Client.Client.State
     /// </summary>
     class RequireTemporaryPeerIdState : AbstractState
     {
-        public override void Process(Context context, CRLFSocket socket)
+        public override void Process(IClientContextForState context, CRLFSocket socket)
         {
             socket.WriteLine("113 1");
         }
 
-        public override void AllocateTemporaryPeerId(Context context, CRLFSocket socket, Packet packet)
+        public override void AllocateTemporaryPeerId(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
             string peerId = packet.Data[0];
-            context.PeerId = int.Parse(peerId);
+            context.PeerState.PeerId = int.Parse(peerId);
 
             // TODO: ポート開放の分岐がなく、常にポート閉鎖状態になっている
             context.State = new RequirePeerDataState(General.ClientConst.ProcessType.Join);
