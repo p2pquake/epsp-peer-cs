@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using Client.Client;
 using Client.Client.General;
 
 using Client.Common.General;
@@ -57,7 +57,7 @@ namespace Client.App.State
             }
             else if (operationResult == ClientConst.OperationResult.Retryable)
             {
-                // TODO: 暫定。本当はすぐに再試行したい
+                // FIXME: 暫定。本当はすぐに再試行したい
                 Logger.GetLog().Info("接続維持に失敗しました。再試行可能なエラーです。");
 
                 mediatorContext.State = new ConnectedState();

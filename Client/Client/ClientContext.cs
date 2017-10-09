@@ -86,9 +86,9 @@ namespace Client.Client
 
             CRLFSocket socket = new CRLFSocket();
             socket.ReadLine += new EventHandler<ReadLineEventArgs>(ProcessData);
-            // TODO: Closedに対する処理は未実装
+            // FIXME: Closedに対する処理は未実装
 
-            // TODO: 接続先はp2pquake.ddo.jp固定。本当は複数対応にしたい
+            // FIXME: 接続先はp2pquake.ddo.jp固定。本当は複数対応にしたい
             return socket.Connect("p2pquake.ddo.jp", 6910);
         }
 
@@ -107,7 +107,7 @@ namespace Client.Client
 
             Logger.GetLog().Debug("実行するメソッド: " + methodName);
 
-            // TODO: XXX: こんなところでリフレクションを無駄に使うのはいかんでしょう。
+            // HACK: こんなところでリフレクションを無駄に使うのはいかんでしょう。
             Type type = State.GetType();
             MethodInfo methodInfo = type.GetMethod(methodName);
 
@@ -122,7 +122,7 @@ namespace Client.Client
 
         private void UpdateClientState(AbstractState state)
         {
-            // TODO: XXX: もうちょっとすっきり書きたい。マップ？
+            // HACK: もうちょっとすっきり書きたい。マップ？
             if (state is ConnectedState)
             {
                 ClientConst.ProcessType processType = ((ConnectedState)state).ProcessType;
