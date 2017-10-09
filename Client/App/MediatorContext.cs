@@ -11,7 +11,7 @@ using Client.Peer;
 
 namespace Client.App
 {
-    public class MediatorContext : IMediatorContext, IOperatable, IPeerState, IPeerStateForClient, IPeerStateForPeer
+    public class MediatorContext : IMediatorContext, IOperatable, IPeerState, IPeerStateForClient, IPeerStateForPeer, IPeerConfig
     {
         private IClientContext clientContext;
         private IPeerContext peerContext;
@@ -31,6 +31,11 @@ namespace Client.App
         public KeyData Key { get; set; }
         public int PeerId { get; set; }
         public TimeSpan TimeOffset { get; set; }
+
+        public int AreaCode { get; set; }
+        public bool IsPortOpen { get; set; }
+        public int Port { get; set; }
+        public int MaxConnections { get; set; }
 
         public bool CanConnect { get { return (clientContext.ClientState == ClientState.Disconnected); } }
         public bool CanDisconnect { get { return (clientContext.ClientState == ClientState.Connected); } }

@@ -8,7 +8,7 @@ using Client.Peer;
 
 namespace Client.App
 {
-    public interface IMediatorContext : IOperatable, IPeerState
+    public interface IMediatorContext : IOperatable, IPeerState, IPeerConfig
     {
         /// <summary>接続状態の変化</summary>
         event EventHandler StateChanged;

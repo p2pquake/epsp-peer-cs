@@ -40,6 +40,8 @@ namespace Client.Client
     {
         IPeerStateForClient PeerState { set; }
 
+        IPeerConfig PeerConfig { set; }
+
         IPeerConnector PeerConnector { set; }
 
         ClientState ClientState { get; }
