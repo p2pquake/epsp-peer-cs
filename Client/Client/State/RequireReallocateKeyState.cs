@@ -11,8 +11,8 @@ namespace Client.Client.State
     {
         public override void Process(IClientContextForState context, Common.Net.CRLFSocket socket)
         {
-            string[] datas = { context.PeerId.ToString(), "Unknown" };
-            if (context.Key != null)
+            string[] datas = { context.PeerState.PeerId.ToString(), "Unknown" };
+            if (context.PeerState.Key != null)
             {
                 // FIXME: PrivateKeyに値入っているっけ？
                 datas[1] = context.PeerState.Key.PrivateKey;
@@ -24,7 +24,7 @@ namespace Client.Client.State
         public override void ReAllocateKey(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
             RequireAllocateKeyState allocateKeyState = new RequireAllocateKeyState();
-            context.Key = allocateKeyState.CreateKeyData(packet);
+            context.PeerState.Key = allocateKeyState.CreateKeyData(packet);
 
             ChangeState(context);
         }
@@ -36,7 +36,7 @@ namespace Client.Client.State
 
         private void ChangeState(IClientContextForState context)
         {
-            if (context.GetCurrentConnection() <= 2)
+            if (context.PeerState.Connections <= 2)
             {
                 context.State = new RequirePeerDataState(General.ClientConst.ProcessType.Maintain);
             }

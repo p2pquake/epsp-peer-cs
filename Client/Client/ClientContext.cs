@@ -30,7 +30,9 @@ namespace Client.Client
 
         public ClientState ClientState { get; private set; }
 
-        public IPeerConnector PeerConnector { private get; set; }
+        public IPeerConfig PeerConfig { get; set; }
+
+        public IPeerConnector PeerConnector { get; set; }
 
         public IPeerStateForClient PeerState { get; set; }
 

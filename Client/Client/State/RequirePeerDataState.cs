@@ -23,10 +23,10 @@ namespace Client.Client.State
 
         public override void Process(IClientContextForState context, CRLFSocket socket)
         {
-            if (context.PeerId <= 0)
+            if (context.PeerState.PeerId <= 0)
                 throw new InvalidOperationException("ピアIDが設定されていません。");
 
-            socket.WriteLine("115 1 " + context.PeerId);
+            socket.WriteLine("115 1 " + context.PeerState.PeerId);
         }
 
         public override void ReceiveJoiningPeerData(IClientContextForState context, CRLFSocket socket, Packet packet)
@@ -42,7 +42,7 @@ namespace Client.Client.State
                 }
             }
 
-            int[] connectedPeerIds = context.ConnectToPeers(peerList.ToArray());
+            int[] connectedPeerIds = context.PeerConnector.Connect(peerList.ToArray());
 
             socket.WriteLine("155 1 " + string.Join(":", Array.ConvertAll(connectedPeerIds, delegate(int v) { return v.ToString(); })));
 

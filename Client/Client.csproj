@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="App\IMediatorContext.cs" />
     <Compile Include="App\IOperatable.cs" />
+    <Compile Include="App\IPeerConfig.cs" />
     <Compile Include="App\IPeerState.cs" />
     <Compile Include="App\State\AbstractState.cs" />
     <Compile Include="App\State\ConnectedState.cs" />

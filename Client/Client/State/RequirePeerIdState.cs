@@ -12,7 +12,7 @@ namespace Client.Client.State
         public override void Process(IClientContextForState context, CRLFSocket socket)
         {
             IPeerStateForClient peerState = context.PeerState;
-            string[] datas = { peerState.PeerId.ToString(), context.Port.ToString(), context.AreaCode.ToString(), peerState.Connections.ToString(), context.AllowConnection.ToString() };
+            string[] datas = { peerState.PeerId.ToString(), context.PeerConfig.Port.ToString(), context.PeerConfig.AreaCode.ToString(), peerState.Connections.ToString(), context.PeerConfig.MaxConnections.ToString() };
 
             socket.WriteLine("116 1 " + string.Join(":", datas));
         }
