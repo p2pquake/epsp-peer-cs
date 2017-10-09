@@ -24,7 +24,7 @@ namespace Client.Client.State
             }
             else
             {
-                // TODO: FIXME: 固定値になっている
+                // TODO: 接続数増加のしきい値が固定値になっている
                 if (peerState.Connections <= 2)
                 {
                     context.State = new RequirePeerDataState(General.ClientConst.ProcessType.Maintain);

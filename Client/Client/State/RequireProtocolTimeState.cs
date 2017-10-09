@@ -17,7 +17,7 @@ namespace Client.Client.State
 
         public override void ReceiveProtocolTime(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
-            // TODO: プロトコル時刻の情報を捨ててる
+            // FIXME: プロトコル時刻の情報を捨ててる
 
             context.State = new EndConnectionState(ClientConst.OperationResult.Successful, ClientConst.ErrorCode.SUCCESSFUL);
         }

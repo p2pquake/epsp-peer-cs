@@ -21,7 +21,7 @@ namespace Client.Client.General
 
         public bool IsExpired()
         {
-            // TODO: システム日時を使用。本当はプロトコル時刻を使う
+            // FIXME: システム日時を使用。本当はプロトコル時刻を使う
             return Expire < DateTime.Now;
         }
     }

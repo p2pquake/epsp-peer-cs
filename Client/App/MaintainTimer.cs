@@ -46,18 +46,18 @@ namespace Client.App
 
             if (clientContext.ClientState == ClientState.Disconnected)
             {
-                // TODO: FIXME: 接続する
+                // FIXME: 接続する
             }
             else if (clientContext.ClientState == ClientState.Connected)
             {
-                // TODO: FIXME: 必要に応じてメンテナンス接続
-                // TODO: FIXME: メンテ時に"IPAddress Changed"とか言われたときの考慮してない.以前の設計ではClient.State.IFinishedStateにもたせていたので、類似の方法で対応？
+                // FIXME: 必要に応じてメンテナンス接続
+                // FIXME: メンテ時に"IPAddress Changed"とか言われたときの考慮してない.以前の設計ではClient.State.IFinishedStateにもたせていたので、類似の方法で対応？
             }
             else if (clientContext.ClientState == ClientState.Connecting ||
                      clientContext.ClientState == ClientState.Disconnecting ||
                      clientContext.ClientState == ClientState.Maintaining)
             {
-                // TODO: FIXME: 長時間ingの場合は異常とみなしてDisconnectedへ遷移させる
+                // FIXME: 長時間ingの場合は異常とみなしてDisconnectedへ遷移させる
             }
         }
 

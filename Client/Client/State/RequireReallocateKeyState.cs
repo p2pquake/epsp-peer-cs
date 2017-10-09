@@ -14,7 +14,8 @@ namespace Client.Client.State
             string[] datas = { context.PeerId.ToString(), "Unknown" };
             if (context.Key != null)
             {
-                datas[1] = context.Key.PrivateKey;
+                // FIXME: PrivateKeyに値入っているっけ？
+                datas[1] = context.PeerState.Key.PrivateKey;
             }
 
             socket.WriteLine("124 1 " + string.Join(":", datas));

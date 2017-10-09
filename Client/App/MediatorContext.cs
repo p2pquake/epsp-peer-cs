@@ -37,7 +37,7 @@ namespace Client.App
         
         public MediatorContext()
         {
-            // TODO: FIXME: インスタンス生成が必要（まだクラス作ってない）
+            // FIXME: インスタンス生成が必要（まだクラス作ってない）
 
             clientContext.PeerConnector = peerContext;
             clientContext.PeerState = this;

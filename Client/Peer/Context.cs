@@ -19,7 +19,7 @@ namespace Client.Peer
     {
         private PeerManager peerManager;
 
-        // TODO: FIXME: イベント発行はまだ未実装。
+        // FIXME: 情報受信イベント発行はまだ未実装。
         public event EventHandler<EPSPQuakeEventArgs> OnEarthquake;
         public event EventHandler<EPSPTsunamiEventArgs> OnTsunami;
         public event EventHandler<EPSPAreapeersEventArgs> OnAreapeers;
@@ -69,7 +69,7 @@ namespace Client.Peer
 
         public bool Listen(int port)
         {
-            // TODO: FIXME:
+            // TODO: Listen実装していない
             throw new NotImplementedException();
         }
 
@@ -106,7 +106,7 @@ namespace Client.Peer
 
         public bool EndListen()
         {
-            // TODO: FIXME:
+            // FIXME: Listen実装していない
             throw new NotImplementedException();
         }
     }
