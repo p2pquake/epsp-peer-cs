@@ -10,6 +10,9 @@ namespace Client.App
 {
     public interface IMediatorContext : IOperatable, IPeerState, IPeerConfig
     {
+        /// <summary>状態</summary>
+        AbstractState State { get; set; }
+
         /// <summary>接続状態の変化</summary>
         event EventHandler StateChanged;
         /// <summary>接続数の変化</summary>
