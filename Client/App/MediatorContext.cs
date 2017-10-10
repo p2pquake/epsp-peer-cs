@@ -24,6 +24,8 @@ namespace Client.App
         public event EventHandler<EPSPAreapeersEventArgs> OnAreapeers;
         public event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
 
+        public AbstractState State { get; set; }
+
         public IDictionary<string, int> AreaPeerDictionary { get; set; }
         public ClientState ClientState { get { return clientContext.ClientState; } }
         public int Connections { get { return peerContext.Connections; } }
