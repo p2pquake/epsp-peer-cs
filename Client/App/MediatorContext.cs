@@ -49,6 +49,7 @@ namespace Client.App
             clientContext.PeerConnector = peerContext;
             clientContext.PeerState = this;
             clientContext.StateChanged += (s, e) => { StateChanged(s, e); };
+            clientContext.OperationCompleted += (s, e) => { State.Completed(this, clientContext, peerContext, e); };
 
             peerContext.PeerState = this;
             peerContext.ConnectionsChanged += (s,e) => { ConnectionsChanged(s, e); };

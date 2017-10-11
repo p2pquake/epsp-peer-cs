@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Client.Client;
+using Client.Peer;
 
 namespace Client.App.State
 {
@@ -25,7 +27,7 @@ namespace Client.App.State
             get { return false; }
         }
 
-        internal override bool Connect(MediatorContext mediatorContext, Client.Context clientContext, Peer.Context peerContext)
+        internal override bool Connect(MediatorContext mediatorContext, IClientContext clientContext, IPeerContext peerContext)
         {
             mediatorContext.State = new ConnectingState();
 

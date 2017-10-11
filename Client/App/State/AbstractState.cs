@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Client.Client;
+using Client.Peer;
 
 namespace Client.App.State
 {
@@ -11,27 +13,27 @@ namespace Client.App.State
         internal abstract bool CanDisconnect { get; }
         internal abstract bool CanMaintain { get; }
 
-        internal virtual bool Connect(MediatorContext mediatorContext, Client.Context clientContext, Peer.Context peerContext)
+        internal virtual bool Connect(MediatorContext mediatorContext, IClientContext clientContext, IPeerContext peerContext)
         {
             throw new NotImplementedException();
         }
 
-        internal virtual void Disconnect(MediatorContext mediatorContext, Client.Context clientContext, Peer.Context peerContext)
+        internal virtual void Disconnect(MediatorContext mediatorContext, IClientContext clientContext, IPeerContext peerContext)
         {
             throw new InvalidOperationException();
         }
 
-        internal virtual bool Maintain(MediatorContext mediatorContext, Client.Context clientContext, Peer.Context peerContext)
+        internal virtual bool Maintain(MediatorContext mediatorContext, IClientContext clientContext, IPeerContext peerContext)
         {
             throw new InvalidOperationException();
         }
 
-        internal virtual void Completed(MediatorContext mediatorContext, Client.Context clientContext, Peer.Context peerContext)
+        internal virtual void Completed(MediatorContext mediatorContext, IClientContext clientContext, IPeerContext peerContext, OperationCompletedEventArgs oce)
         {
             throw new NotImplementedException();
         }
 
-        internal virtual void Abort(MediatorContext mediatorContext, Client.Context clientContext, Peer.Context peerContext)
+        internal virtual void Abort(MediatorContext mediatorContext, IClientContext clientContext, IPeerContext peerContext)
         {
             throw new NotImplementedException();
         }

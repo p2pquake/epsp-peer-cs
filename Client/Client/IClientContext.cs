@@ -23,8 +23,8 @@ namespace Client.Client
         private ClientConst.OperationResult result;
         private ClientConst.ErrorCode errorCode;
 
-        ClientConst.OperationResult Result { get { return result; } }
-        ClientConst.ErrorCode ErrorCode { get { return errorCode; } }
+        public ClientConst.OperationResult Result { get { return result; } }
+        public ClientConst.ErrorCode ErrorCode { get { return errorCode; } }
 
         internal OperationCompletedEventArgs(ClientConst.OperationResult result, ClientConst.ErrorCode errorCode)
         {

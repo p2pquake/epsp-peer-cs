@@ -6,6 +6,7 @@ using Client.Client;
 using Client.Client.General;
 
 using Client.Common.General;
+using Client.Peer;
 
 namespace Client.App.State
 {
@@ -29,9 +30,9 @@ namespace Client.App.State
             get { return false; }
         }
 
-        internal override void Completed(MediatorContext mediatorContext, Client.Context clientContext, Peer.Context peerContext)
+        internal override void Completed(MediatorContext mediatorContext, IClientContext clientContext, IPeerContext peerContext, OperationCompletedEventArgs oce)
         {
-            ClientConst.OperationResult operationResult = clientContext.getOperationResult();
+            ClientConst.OperationResult operationResult = oce.Result;
 
             if (operationResult == ClientConst.OperationResult.Successful)
             {
