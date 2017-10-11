@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Client.Client.General
 {
-    class ClientConst
+    public class ClientConst
     {
         public static string getCodeName(int code)
         {

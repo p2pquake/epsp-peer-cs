@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Client.Client;
+using Client.Peer;
 
 namespace Client.App.State
 {
@@ -25,14 +27,14 @@ namespace Client.App.State
             get { return true; }
         }
 
-        internal override void Disconnect(MediatorContext mediatorContext, Client.Context clientContext, Peer.Context peerContext)
+        internal override void Disconnect(MediatorContext mediatorContext, IClientContext clientContext, IPeerContext peerContext)
         {
             mediatorContext.State = new DisconnectingState();
             peerContext.DisconnectAll();
             clientContext.Part();
         }
 
-        internal override bool Maintain(MediatorContext mediatorContext, Client.Context clientContext, Peer.Context peerContext)
+        internal override bool Maintain(MediatorContext mediatorContext, IClientContext clientContext, IPeerContext peerContext)
         {
             mediatorContext.State = new MaintenanceState();
 
