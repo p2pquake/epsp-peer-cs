@@ -44,8 +44,11 @@ namespace Client.App
         
         public MediatorContext()
         {
-            // FIXME: インスタンス生成が必要（まだクラス作ってない）
+            clientContext = new ClientContext();
+            peerContext = new Context();
+            maintainTimer = new MaintainTimer(this, clientContext);
 
+            clientContext.PeerConfig = this;
             clientContext.PeerConnector = peerContext;
             clientContext.PeerState = this;
             clientContext.StateChanged += (s, e) => { StateChanged(s, e); };
