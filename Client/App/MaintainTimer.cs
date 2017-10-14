@@ -7,11 +7,14 @@ using System.Threading;
 using Client.Client;
 using Client.Common.General;
 using Client.Common.Net;
+using log4net;
 
 namespace Client.App
 {
     class MaintainTimer
     {
+        private ILog logger = Logger.GetLog();
+
         private readonly int maintainInterval = 30000;
         private readonly int processTimeout = 90000;
 
@@ -47,6 +50,7 @@ namespace Client.App
             if (clientContext.ClientState == ClientState.Disconnected)
             {
                 // FIXME: 接続する
+                clientContext.Join();
             }
             else if (clientContext.ClientState == ClientState.Connected)
             {
@@ -69,7 +73,8 @@ namespace Client.App
 
         private void ClientContext_StateChanged(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            logger.Debug("ClientState changed to " + clientContext.ClientState.ToString());
+            // throw new NotImplementedException();
         }
     }
 }
