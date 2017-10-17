@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Client.App.State;
+using Client.Client;
 using Client.Peer;
 
 namespace Client.App
@@ -15,6 +16,8 @@ namespace Client.App
 
         /// <summary>接続状態の変化</summary>
         event EventHandler StateChanged;
+        /// <summary>完了状態への遷移</summary>
+        event EventHandler<OperationCompletedEventArgs> Completed;
         /// <summary>接続数の変化</summary>
         event EventHandler ConnectionsChanged;
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Client.App;
 using Client.Client.General;
+using Client.Client.State;
 using Client.Peer;
 
 namespace Client.Client
@@ -44,7 +45,7 @@ namespace Client.Client
 
         IPeerConnector PeerConnector { set; }
 
-        ClientState ClientState { get; }
+        AbstractState State { get; }
 
         event EventHandler StateChanged;
         event EventHandler<OperationCompletedEventArgs> OperationCompleted;
