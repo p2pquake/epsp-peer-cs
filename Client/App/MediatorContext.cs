@@ -67,8 +67,24 @@ namespace Client.App
             peerContext.OnUserquake += (s, e) => { OnUserquake(s, e); };
             peerContext.OnTsunami += (s, e) => { OnTsunami(s, e); };
             peerContext.OnEarthquake += (s, e) => { OnEarthquake(s, e); };
+
+            maintainTimer.RequireConnect += MaintainTimer_RequireConnect;
+            maintainTimer.RequireMaintain += MaintainTimer_RequireMaintain;
         }
 
+        private void MaintainTimer_RequireConnect(object sender, EventArgs e)
+        {
+            if (!CanConnect) { return; }
+
+            State.Connect(this, clientContext, peerContext);
+        }
+
+        private void MaintainTimer_RequireMaintain(object sender, EventArgs e)
+        {
+            if (!CanMaintain) { return; }
+
+            State.Maintain(this, clientContext, peerContext);
+        }
 
         private void ClientContext_StateChanged(object sender, EventArgs e)
         {
