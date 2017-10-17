@@ -18,16 +18,21 @@ namespace Client.App
         private MaintainTimer maintainTimer;
         
         public event EventHandler StateChanged;
+        public event EventHandler<OperationCompletedEventArgs> Completed;
         public event EventHandler ConnectionsChanged;
         public event EventHandler<EPSPQuakeEventArgs> OnEarthquake;
         public event EventHandler<EPSPTsunamiEventArgs> OnTsunami;
         public event EventHandler<EPSPAreapeersEventArgs> OnAreapeers;
         public event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
 
-        public AbstractState State { get; set; }
+        private AbstractState state;
+
+        public AbstractState State {
+            get { return state; }
+            set { state = value; StateChanged(this, EventArgs.Empty);  }
+        }
 
         public IDictionary<string, int> AreaPeerDictionary { get; set; }
-        public ClientState ClientState { get { return clientContext.ClientState; } }
         public int Connections { get { return peerContext.Connections; } }
         public bool IsPortOpened { get; set; }
         public KeyData Key { get; set; }
@@ -39,20 +44,22 @@ namespace Client.App
         public int Port { get; set; }
         public int MaxConnections { get; set; }
 
-        public bool CanConnect { get { return (clientContext.ClientState == ClientState.Disconnected); } }
-        public bool CanDisconnect { get { return (clientContext.ClientState == ClientState.Connected); } }
+        public bool CanConnect { get { return State is DisconnectedState; } }
+        public bool CanDisconnect { get { return State is ConnectedState; } }
+        private bool CanMaintain { get { return CanDisconnect; } }
         
         public MediatorContext()
         {
             clientContext = new ClientContext();
             peerContext = new Context();
             maintainTimer = new MaintainTimer(this, clientContext);
-
+            state = new DisconnectedState();
+            
             clientContext.PeerConfig = this;
             clientContext.PeerConnector = peerContext;
             clientContext.PeerState = this;
-            clientContext.StateChanged += (s, e) => { StateChanged(s, e); };
-            clientContext.OperationCompleted += (s, e) => { State.Completed(this, clientContext, peerContext, e); };
+            clientContext.StateChanged += ClientContext_StateChanged;
+            clientContext.OperationCompleted += ClientContext_OperationCompleted;
 
             peerContext.PeerState = this;
             peerContext.ConnectionsChanged += (s,e) => { ConnectionsChanged(s, e); };
@@ -60,6 +67,21 @@ namespace Client.App
             peerContext.OnUserquake += (s, e) => { OnUserquake(s, e); };
             peerContext.OnTsunami += (s, e) => { OnTsunami(s, e); };
             peerContext.OnEarthquake += (s, e) => { OnEarthquake(s, e); };
+        }
+
+
+        private void ClientContext_StateChanged(object sender, EventArgs e)
+        {
+            // Do nothing.
+            Logger.GetLog().Debug("ClientContext_StateChanged: " + clientContext.State.ToString());
+        }
+
+        private void ClientContext_OperationCompleted(object sender, OperationCompletedEventArgs e)
+        {
+            Logger.GetLog().Debug("ClientContext_OperationCompleted: " + e.Result.ToString() + ", " + e.ErrorCode.ToString());
+
+            State.Completed(this, clientContext, peerContext, e);
+            Completed(this, e);
         }
 
         public bool Connect()

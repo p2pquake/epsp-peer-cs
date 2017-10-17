@@ -18,17 +18,12 @@ namespace Client.Client
         private AbstractState state;
 
         public AbstractState State {
-            private get { return state; }
-            set
-            {
-                ClientState beforeClientState = ClientState;
+            get { return state; }
+            set {
                 state = value;
-                UpdateClientState(state);
-                RaiseEvent(beforeClientState, state);
+                RaiseEvent();
             }
         }
-
-        public ClientState ClientState { get; private set; }
 
         public IPeerConfig PeerConfig { get; set; }
 
@@ -41,12 +36,7 @@ namespace Client.Client
         
         public bool IsOperatable
         {
-            get
-            {
-                return (ClientState == ClientState.Connecting ||
-                        ClientState == ClientState.Disconnecting ||
-                        ClientState == ClientState.Maintaining);
-            }
+            get { return State is IFinishedState; }
         }
 
         public bool Join()
@@ -91,7 +81,8 @@ namespace Client.Client
             // FIXME: Closedに対する処理は未実装
 
             // FIXME: 接続先はp2pquake.ddo.jp固定。本当は複数対応にしたい
-            return socket.Connect("p2pquake.ddo.jp", 6910);
+            //return socket.Connect("p2pquake.ddo.jp", 6910);
+            return socket.Connect("www.p2pquake.net", 6910);
         }
 
         /// <summary>
@@ -121,66 +112,9 @@ namespace Client.Client
 
             State.Process(this, socket);
         }
-
-        private void UpdateClientState(AbstractState state)
+        
+        private void RaiseEvent()
         {
-            // HACK: もうちょっとすっきり書きたい。マップ？
-            if (state is ConnectedState)
-            {
-                ClientConst.ProcessType processType = ((ConnectedState)state).ProcessType;
-                if (processType == ClientConst.ProcessType.Join)
-                {
-                    ClientState = ClientState.Connecting;
-                }
-                if (processType == ClientConst.ProcessType.Maintain)
-                {
-                    ClientState = ClientState.Maintaining;
-                }
-                if (processType == ClientConst.ProcessType.Part)
-                {
-                    ClientState = ClientState.Disconnecting;
-                }
-            }
-            else if (state is IFinishedState)
-            {
-                ClientConst.OperationResult result = ((IFinishedState)state).Result;
-                if (result == ClientConst.OperationResult.Successful)
-                {
-                    if (ClientState == ClientState.Connecting || ClientState == ClientState.Maintaining)
-                    {
-                        ClientState = ClientState.Connected;
-                    }
-                    if (ClientState == ClientState.Disconnecting)
-                    {
-                        ClientState = ClientState.Disconnected;
-                    }
-                }
-                if (result == ClientConst.OperationResult.Restartable)
-                {
-                    ClientState = ClientState.Disconnected;
-                }
-                if (result == ClientConst.OperationResult.Fatal ||
-                    result == ClientConst.OperationResult.Retryable)
-                {
-                    if (ClientState == ClientState.Connecting || ClientState == ClientState.Disconnecting)
-                    {
-                        ClientState = ClientState.Disconnected;
-                    }
-                    if (ClientState == ClientState.Maintaining)
-                    {
-                        ClientState = ClientState.Connected;
-                    }
-                }
-            }
-        }
-
-        private void RaiseEvent(ClientState beforeClientState, AbstractState state)
-        {
-            if (beforeClientState != ClientState)
-            {
-                StateChanged(this, EventArgs.Empty);
-            }
-
             if (state is IFinishedState)
             {
                 IFinishedState finishedState = (IFinishedState)state;

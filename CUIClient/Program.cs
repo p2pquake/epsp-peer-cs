@@ -20,10 +20,17 @@ namespace CUIClient
             mediatorContext.OnTsunami += MediatorContext_OnTsunami;
             mediatorContext.OnUserquake += MediatorContext_OnUserquake;
             mediatorContext.StateChanged += MediatorContext_StateChanged;
+            mediatorContext.Completed += MediatorContext_Completed;
 
             mediatorContext.Connect();
 
             Console.ReadLine();
+        }
+
+        private static void MediatorContext_Completed(object sender, Client.Client.OperationCompletedEventArgs e)
+        {
+            Console.WriteLine("MediatorContext completed(" + e.Result.ToString() + ", " + e.ErrorCode.ToString() + ")");
+            // throw new NotImplementedException();
         }
 
         private static void MediatorContext_StateChanged(object sender, EventArgs e)

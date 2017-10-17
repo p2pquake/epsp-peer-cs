@@ -10,8 +10,6 @@ namespace Client.App
 {
     public interface IPeerState
     {
-        ClientState ClientState { get; }
-
         int PeerId { get; }
 
         TimeSpan TimeOffset { get; }
@@ -42,8 +40,6 @@ namespace Client.App
 
     interface IPeerStateForPeer
     {
-        ClientState ClientState { get; }
-
         int PeerId { get; }
 
         TimeSpan TimeOffset { get; }
