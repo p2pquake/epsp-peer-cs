@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using System.Threading;
+using Client.App.State;
 using Client.Client;
 using Client.Common.General;
 using Client.Common.Net;
@@ -13,9 +14,12 @@ namespace Client.App
 {
     class MaintainTimer
     {
+        public event EventHandler RequireConnect;
+        public event EventHandler RequireMaintain;
+
         private ILog logger = Logger.GetLog();
 
-        private readonly int maintainInterval = 30000;
+        private readonly int maintainInterval = 10000;
         private readonly int processTimeout = 90000;
 
         private IMediatorContext mediatorContext;
@@ -28,38 +32,38 @@ namespace Client.App
         {
             this.mediatorContext = mediatorContext;
             this.clientContext = clientContext;
-            clientContext.StateChanged += ClientContext_StateChanged;
+
+            timer = new Timer(Tick);
         }
 
         public void Start()
         {
             isStopped = false;
-
-            timer = new Timer(Tick);
             timer.Change(0, maintainInterval);
         }
 
         private void Tick(object state)
         {
+            logger.Debug("Tick");
+
             // Stopした後に動くことがないように（そういうことがあるのかわからんが）
             if (isStopped)
             {
                 return;
             }
 
-            if (clientContext.ClientState == ClientState.Disconnected)
+            if (mediatorContext.State is DisconnectedState)
             {
-                // FIXME: 接続する
-                clientContext.Join();
+                RequireConnect(this, EventArgs.Empty);
             }
-            else if (clientContext.ClientState == ClientState.Connected)
+            else if (mediatorContext.State is ConnectedState)
             {
                 // FIXME: 必要に応じてメンテナンス接続
                 // FIXME: メンテ時に"IPAddress Changed"とか言われたときの考慮してない.以前の設計ではClient.State.IFinishedStateにもたせていたので、類似の方法で対応？
             }
-            else if (clientContext.ClientState == ClientState.Connecting ||
-                     clientContext.ClientState == ClientState.Disconnecting ||
-                     clientContext.ClientState == ClientState.Maintaining)
+            else if (mediatorContext.State is ConnectingState ||
+                     mediatorContext.State is DisconnectingState ||
+                     mediatorContext.State is MaintenanceState)
             {
                 // FIXME: 長時間ingの場合は異常とみなしてDisconnectedへ遷移させる
             }
@@ -69,12 +73,8 @@ namespace Client.App
         {
             isStopped = true;
             timer.Change(Timeout.Infinite, Timeout.Infinite);
-        }
-
-        private void ClientContext_StateChanged(object sender, EventArgs e)
-        {
-            logger.Debug("ClientState changed to " + clientContext.ClientState.ToString());
-            // throw new NotImplementedException();
+            
+            // FIXME: 切断処理が必要
         }
     }
 }
