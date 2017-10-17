@@ -10,7 +10,14 @@ build_client:
  script:
     - msbuild "Client/Client.csproj"
 
-build_all:
+build_cui:
  stage: build
  script:
-    - msbuild "Client.sln"
+    - msbuild "Client/Client.csproj"
+    - msbuild "CUIClient/CUIClient.csproj"
+
+build_epspwpf:
+ stage: build
+ script:
+    - msbuild "Client/Client.csproj"
+    - msbuild "EPSPWPFClient/EPSPWPFClient.csproj"
