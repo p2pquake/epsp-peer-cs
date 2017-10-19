@@ -20,13 +20,15 @@ namespace Client.App
         private ILog logger = Logger.GetLog();
 
         private readonly int maintainInterval = 10000;
-        private readonly int processTimeout = 90000;
+        private readonly int processTimeoutCount = 9;
 
         private IMediatorContext mediatorContext;
         private IClientContext clientContext;
 
         private Timer timer;
         private bool isStopped;
+
+        private int processingCount = 0;
 
         public MaintainTimer(IMediatorContext mediatorContext, IClientContext clientContext)
         {
@@ -54,10 +56,14 @@ namespace Client.App
 
             if (mediatorContext.State is DisconnectedState)
             {
+                processingCount = 0;
+
                 RequireConnect(this, EventArgs.Empty);
             }
             else if (mediatorContext.State is ConnectedState)
             {
+                processingCount = 0;
+
                 // FIXME: 必要に応じてメンテナンス接続
                 // FIXME: メンテ時に"IPAddress Changed"とか言われたときの考慮してない.以前の設計ではClient.State.IFinishedStateにもたせていたので、類似の方法で対応？
             }
@@ -65,7 +71,13 @@ namespace Client.App
                      mediatorContext.State is DisconnectingState ||
                      mediatorContext.State is MaintenanceState)
             {
-                // FIXME: 長時間ingの場合は異常とみなしてDisconnectedへ遷移させる
+                processingCount++;
+                if (processingCount > processTimeoutCount)
+                {
+                    // TODO: ゴミセッションをどうやって消すか...
+                    logger.Warn("サーバ通信が中断されました。後ほど再接続します。");
+                    mediatorContext.State = new DisconnectedState();
+                }
             }
         }
 
