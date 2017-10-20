@@ -16,6 +16,7 @@ namespace Client.App
     {
         public event EventHandler RequireConnect;
         public event EventHandler RequireMaintain;
+        public event EventHandler RequireDisconnect;
 
         private ILog logger = Logger.GetLog();
 
@@ -86,7 +87,10 @@ namespace Client.App
             isStopped = true;
             timer.Change(Timeout.Infinite, Timeout.Infinite);
             
-            // FIXME: 切断処理が必要
+            if (mediatorContext.State is ConnectedState)
+            {
+                RequireDisconnect(this, EventArgs.Empty);
+            }
         }
     }
 }
