@@ -70,6 +70,14 @@ namespace Client.App
 
             maintainTimer.RequireConnect += MaintainTimer_RequireConnect;
             maintainTimer.RequireMaintain += MaintainTimer_RequireMaintain;
+            maintainTimer.RequireDisconnect += MaintainTimer_RequireDisconnect;
+        }
+
+        private void MaintainTimer_RequireDisconnect(object sender, EventArgs e)
+        {
+            if (!CanDisconnect) { return; }
+
+            State.Disconnect(this, clientContext, peerContext);
         }
 
         private void MaintainTimer_RequireConnect(object sender, EventArgs e)
