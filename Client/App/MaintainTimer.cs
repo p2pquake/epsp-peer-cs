@@ -22,6 +22,8 @@ namespace Client.App
 
         private readonly int maintainInterval = 10000;
         private readonly int processTimeoutCount = 9;
+        private readonly int echoIntervalThreshold = 60;
+        private readonly int echoIntervalThresholdIfLackOfConnection = 6;
 
         private IMediatorContext mediatorContext;
         private IClientContext clientContext;
@@ -30,13 +32,24 @@ namespace Client.App
         private bool isStopped;
 
         private int processingCount = 0;
+        private int echoElapsedCount = 0;
 
         public MaintainTimer(IMediatorContext mediatorContext, IClientContext clientContext)
         {
             this.mediatorContext = mediatorContext;
             this.clientContext = clientContext;
 
+            mediatorContext.Completed += MediatorContext_Completed;
+
             timer = new Timer(Tick);
+        }
+
+        private void MediatorContext_Completed(object sender, OperationCompletedEventArgs e)
+        {
+            if (e.Result == Client.General.ClientConst.OperationResult.Successful)
+            {
+                echoElapsedCount = 0;
+            }
         }
 
         public void Start()
@@ -48,6 +61,7 @@ namespace Client.App
         private void Tick(object state)
         {
             logger.Debug("Tick");
+            echoElapsedCount++;
 
             // Stopした後に動くことがないように（そういうことがあるのかわからんが）
             if (isStopped)
@@ -65,7 +79,11 @@ namespace Client.App
             {
                 processingCount = 0;
 
-                // FIXME: 必要に応じてメンテナンス接続
+                // FIXME: 接続数が少ない判定がClientのStateとバラバラになっていると思われる
+                if (echoElapsedCount > echoIntervalThreshold || (mediatorContext.Connections < 2 && echoElapsedCount > echoIntervalThresholdIfLackOfConnection))
+                {
+                    RequireMaintain(this, EventArgs.Empty);
+                }
                 // FIXME: メンテ時に"IPAddress Changed"とか言われたときの考慮してない.以前の設計ではClient.State.IFinishedStateにもたせていたので、類似の方法で対応？
             }
             else if (mediatorContext.State is ConnectingState ||
