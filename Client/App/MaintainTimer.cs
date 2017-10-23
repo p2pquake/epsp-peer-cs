@@ -50,6 +50,14 @@ namespace Client.App
             {
                 echoElapsedCount = 0;
             }
+            if (e.Result == Client.General.ClientConst.OperationResult.Restartable)
+            {
+                // TODO: メンテ時のみ再接続
+            }
+            if (e.Result == Client.General.ClientConst.OperationResult.Retryable)
+            {
+                // TODO: リトライカウントが必要 切断時はすぐ終了
+            }
         }
 
         public void Start()
