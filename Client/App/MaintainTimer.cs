@@ -33,6 +33,7 @@ namespace Client.App
 
         private int processingCount = 0;
         private int echoElapsedCount = 0;
+        private int retryCount = 0;
 
         public MaintainTimer(IMediatorContext mediatorContext, IClientContext clientContext)
         {
@@ -49,14 +50,29 @@ namespace Client.App
             if (e.Result == Client.General.ClientConst.OperationResult.Successful)
             {
                 echoElapsedCount = 0;
+                retryCount = 0;
+                return;
             }
+
+            retryCount++;
+
             if (e.Result == Client.General.ClientConst.OperationResult.Restartable)
             {
-                // TODO: メンテ時のみ再接続
+                if (isStopped || retryCount > 10)
+                {
+                    return;
+                }
+
+                RequireConnect(this, EventArgs.Empty);
             }
             if (e.Result == Client.General.ClientConst.OperationResult.Retryable)
             {
-                // TODO: リトライカウントが必要 切断時はすぐ終了
+                if (isStopped || retryCount > 10)
+                {
+                    return;
+                }
+
+                // TODO: 直前に何をしていたか覚えていないのでリトライ操作ができない.
             }
         }
 
