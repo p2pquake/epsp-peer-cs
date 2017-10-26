@@ -17,6 +17,7 @@ namespace Client.App
         public event EventHandler RequireConnect;
         public event EventHandler RequireMaintain;
         public event EventHandler RequireDisconnect;
+        public event EventHandler RequireDisconnectAllPeers;
 
         private ILog logger = Logger.GetLog();
 
@@ -63,6 +64,7 @@ namespace Client.App
                     return;
                 }
 
+                RequireDisconnectAllPeers(this, EventArgs.Empty);
                 RequireConnect(this, EventArgs.Empty);
             }
             if (e.Result == Client.General.ClientConst.OperationResult.Retryable)
@@ -72,7 +74,15 @@ namespace Client.App
                     return;
                 }
 
-                // TODO: 直前に何をしていたか覚えていないのでリトライ操作ができない.
+                // isStoppedでない: ConnectかMaintain なので絞りこめる
+                if (mediatorContext.State is ConnectedState)
+                {
+                    RequireMaintain(this, EventArgs.Empty);
+                }
+                if (mediatorContext.State is DisconnectedState)
+                {
+                    RequireConnect(this, EventArgs.Empty);
+                }
             }
         }
 
@@ -108,7 +118,6 @@ namespace Client.App
                 {
                     RequireMaintain(this, EventArgs.Empty);
                 }
-                // FIXME: メンテ時に"IPAddress Changed"とか言われたときの考慮してない.以前の設計ではClient.State.IFinishedStateにもたせていたので、類似の方法で対応？
             }
             else if (mediatorContext.State is ConnectingState ||
                      mediatorContext.State is DisconnectingState ||
@@ -117,8 +126,8 @@ namespace Client.App
                 processingCount++;
                 if (processingCount > processTimeoutCount)
                 {
-                    // TODO: ゴミセッションをどうやって消すか...
                     logger.Warn("サーバ通信が中断されました。後ほど再接続します。");
+                    RequireDisconnectAllPeers(this, EventArgs.Empty);
                     mediatorContext.State = new DisconnectedState();
                 }
             }
