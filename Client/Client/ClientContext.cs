@@ -39,6 +39,11 @@ namespace Client.Client
             get { return State is IFinishedState; }
         }
 
+        public ClientContext()
+        {
+            state = new FinishedState(ClientConst.OperationResult.Successful, ClientConst.ErrorCode.SUCCESSFUL);
+        }
+
         public bool Join()
         {
             bool result = Connect(new ConnectedState(ClientConst.ProcessType.Join));
@@ -71,7 +76,7 @@ namespace Client.Client
         /// <returns></returns>
         private bool Connect(AbstractState state)
         {
-            if (IsOperatable)
+            if (!IsOperatable)
                 return false;
 
             State = state;
