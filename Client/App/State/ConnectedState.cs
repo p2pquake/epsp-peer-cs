@@ -37,14 +37,7 @@ namespace Client.App.State
         internal override bool Maintain(MediatorContext mediatorContext, IClientContext clientContext, IPeerContext peerContext)
         {
             mediatorContext.State = new MaintenanceState();
-
-            bool result = clientContext.Maintain();
-            if (!result)
-            {
-                mediatorContext.State = new ConnectedState();
-            }
-
-            return result;
+            return clientContext.Maintain();
         }
     }
 }
