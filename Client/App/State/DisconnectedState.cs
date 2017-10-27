@@ -30,14 +30,7 @@ namespace Client.App.State
         internal override bool Connect(MediatorContext mediatorContext, IClientContext clientContext, IPeerContext peerContext)
         {
             mediatorContext.State = new ConnectingState();
-
-            bool result = clientContext.Join();
-            if (!result)
-            {
-                mediatorContext.State = new DisconnectedState();
-            }
-
-            return result;
+            return clientContext.Join();
         }
     }
 }
