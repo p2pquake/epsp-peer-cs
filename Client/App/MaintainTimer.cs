@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using System.Threading;
+using System.Threading.Tasks;
 using Client.App.State;
 using Client.Client;
 using Client.Common.General;
@@ -64,8 +65,11 @@ namespace Client.App
                     return;
                 }
 
-                RequireDisconnectAllPeers(this, EventArgs.Empty);
-                RequireConnect(this, EventArgs.Empty);
+                Task.Run(() =>
+                {
+                    RequireDisconnectAllPeers(this, EventArgs.Empty);
+                    RequireConnect(this, EventArgs.Empty);
+                });
             }
             if (e.Result == Client.General.ClientConst.OperationResult.Retryable)
             {
@@ -77,11 +81,17 @@ namespace Client.App
                 // isStoppedでない: ConnectかMaintain なので絞りこめる
                 if (mediatorContext.State is ConnectedState)
                 {
-                    RequireMaintain(this, EventArgs.Empty);
+                    Task.Run(() =>
+                    {
+                        RequireMaintain(this, EventArgs.Empty);
+                    });
                 }
                 if (mediatorContext.State is DisconnectedState)
                 {
-                    RequireConnect(this, EventArgs.Empty);
+                    Task.Run(() =>
+                    {
+                        RequireConnect(this, EventArgs.Empty);
+                    });
                 }
             }
         }
