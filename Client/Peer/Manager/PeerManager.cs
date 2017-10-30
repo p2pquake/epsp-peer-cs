@@ -77,6 +77,7 @@ namespace Client.Peer.Manager
         private void raiseDataEvent(Packet packet)
         {
             // TODO: 署名検証をしていない
+            // FIXME: 実装していない
             if (packet.Code == Code.EARTHQUAKE)
             {
 
