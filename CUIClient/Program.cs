@@ -56,7 +56,7 @@ namespace CUIClient
 
         private static void MediatorContext_OnAreapeers(object sender, Client.Peer.EPSPAreapeersEventArgs e)
         {
-            throw new NotImplementedException();
+            // TODO: will implement
         }
 
         private static void MediatorContext_ConnectionsChanged(object sender, EventArgs e)
