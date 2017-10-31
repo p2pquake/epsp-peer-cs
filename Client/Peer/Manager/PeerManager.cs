@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading;
 using Client.Common.General;
 using Client.Common.Net;
 using Client.Peer.General;
@@ -13,7 +13,8 @@ namespace Client.Peer.Manager
     {
         private List<Peer> peerList;
         private DuplicateRemover duplicateRemover;
-        
+        private Timer echoTimer;
+
         public event EventHandler<EventArgs> ConnectionsChanged;
         public event EventHandler<EPSPQuakeEventArgs> OnEarthquake;
         public event EventHandler<EPSPTsunamiEventArgs> OnTsunami;
@@ -24,10 +25,13 @@ namespace Client.Peer.Manager
 
         internal int Connections { get { return peerList.Count; } }
 
+
         public PeerManager()
         {
             peerList = new List<Peer>();
             duplicateRemover = new DuplicateRemover();
+            echoTimer = new Timer(EchoTimer_Tick);
+            echoTimer.Change(0, 300000);
         }
 
         public bool Connect(PeerData peerData)
@@ -132,6 +136,14 @@ namespace Client.Peer.Manager
             }
             peerList.Clear();
             ConnectionsChanged(this, EventArgs.Empty);
+        }
+    
+        private void EchoTimer_Tick(object state)
+        {
+            Packet packet = new Packet();
+            packet.Code = Code.PEER_PING;
+            packet.Hop = 1;
+            Send(packet);
         }
     }
 }

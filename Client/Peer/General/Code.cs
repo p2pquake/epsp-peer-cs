@@ -12,5 +12,7 @@ namespace Client.Peer.General
         public static readonly int TSUNAMI = 552;
         public static readonly int USERQUAKE = 555;
         public static readonly int AREAPEERS = 561;
+
+        public static readonly int PEER_PING = 611;
     }
 }
