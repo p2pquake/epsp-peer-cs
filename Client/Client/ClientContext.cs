@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 using Client.App;
 using Client.Client.General;
 using Client.Client.State;
@@ -33,6 +34,9 @@ namespace Client.Client
 
         public event EventHandler StateChanged = (s, e) => { };
         public event EventHandler<OperationCompletedEventArgs> OperationCompleted = (s, e) => { };
+
+        private List<ServerPoint> serverPointList = new List<ServerPoint>();
+        private Random random = new Random();
         
         public bool IsOperatable
         {
@@ -42,6 +46,13 @@ namespace Client.Client
         public ClientContext()
         {
             state = new FinishedState(ClientConst.OperationResult.Successful, ClientConst.ErrorCode.SUCCESSFUL);
+            
+            string[] servers = ConfigurationManager.AppSettings["servers"].Split(',');
+            foreach (string server in servers)
+            {
+                string[] items = server.Split(':');
+                serverPointList.Add(new ServerPoint(items[0], int.Parse(items[1])));
+            }
         }
 
         public bool Join()
@@ -85,9 +96,8 @@ namespace Client.Client
             socket.ReadLine += new EventHandler<ReadLineEventArgs>(ProcessData);
             // FIXME: Closedに対する処理は未実装
 
-            // FIXME: 接続先はp2pquake.ddo.jp固定。本当は複数対応にしたい
-            //return socket.Connect("p2pquake.ddo.jp", 6910);
-            return socket.Connect("www.p2pquake.net", 6910);
+            ServerPoint server = serverPointList[random.Next(serverPointList.Count)];
+            return socket.Connect(server.Host, server.Port);
         }
 
         /// <summary>
