@@ -9,10 +9,6 @@ using Client.Common.Net;
 using Client.Peer.Manager;
 using Client.App;
 
-#if MOBILE
-using Client.Mobile;
-#endif
-
 namespace Client.Peer
 {
     class Context : IPeerContext, IPeerConnector
