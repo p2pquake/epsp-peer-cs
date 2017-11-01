@@ -121,7 +121,6 @@
     <Compile Include="Common\General\Logger.cs" />
     <Compile Include="Common\Net\CRLFSocket.cs" />
     <Compile Include="Common\Net\Packet.cs" />
-    <Compile Include="Mobile\HTTPServer.cs" />
     <Compile Include="Peer\Context.cs" />
     <Compile Include="Peer\General\Code.cs" />
     <Compile Include="Peer\General\PeerConst.cs" />
