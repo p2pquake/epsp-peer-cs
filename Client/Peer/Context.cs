@@ -14,8 +14,7 @@ namespace Client.Peer
     class Context : IPeerContext, IPeerConnector
     {
         private PeerManager peerManager;
-
-        // FIXME: 情報受信イベント発行はまだ未実装。
+        
         public event EventHandler<EPSPQuakeEventArgs> OnEarthquake;
         public event EventHandler<EPSPTsunamiEventArgs> OnTsunami;
         public event EventHandler<EPSPAreapeersEventArgs> OnAreapeers;
