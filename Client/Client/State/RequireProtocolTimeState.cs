@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -17,7 +18,8 @@ namespace Client.Client.State
 
         public override void ReceiveProtocolTime(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
-            // FIXME: プロトコル時刻の情報を捨ててる
+            DateTime protocolTime = DateTime.ParseExact(packet.Data[0], "yyyy/MM/dd HH-mm-ss", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None);
+            context.PeerState.TimeOffset = DateTime.Now - protocolTime;
 
             context.State = new EndConnectionState(ClientConst.OperationResult.Successful, ClientConst.ErrorCode.SUCCESSFUL);
         }
