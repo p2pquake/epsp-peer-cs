@@ -21,6 +21,8 @@ namespace Client.App
         KeyData Key { get; }
 
         IDictionary<string, int> AreaPeerDictionary { get; }
+
+        DateTime CalcNowProtocolTime();
     }
 
     interface IPeerStateForClient
@@ -36,6 +38,8 @@ namespace Client.App
         KeyData Key { get; set; }
 
         IDictionary<string, int> AreaPeerDictionary { get; set; }
+
+        DateTime CalcNowProtocolTime();
     }
 
     interface IPeerStateForPeer
@@ -47,5 +51,7 @@ namespace Client.App
         KeyData Key { get; }
 
         IDictionary<string, int> AreaPeerDictionary { get; set; }
+
+        DateTime CalcNowProtocolTime();
     }
 }
