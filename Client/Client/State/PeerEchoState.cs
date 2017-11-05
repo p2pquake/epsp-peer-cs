@@ -18,7 +18,7 @@ namespace Client.Client.State
         public override void AcceptedEcho(IClientContextForState context, Common.Net.CRLFSocket socket, Common.Net.Packet packet)
         {
             IPeerStateForClient peerState = context.PeerState;
-            if (peerState.Key == null || peerState.Key.IsExpired())
+            if (peerState.Key == null || peerState.Key.IsExpired(context.PeerState.CalcNowProtocolTime()))
             {
                 context.State = new RequireReallocateKeyState();
             }
