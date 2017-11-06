@@ -19,10 +19,9 @@ namespace Client.Client.General
         /// <summary>署名</summary>
         public string Signature { get; set; }
 
-        public bool IsExpired()
+        public bool IsExpired(DateTime protocolTime)
         {
-            // FIXME: システム日時を使用。本当はプロトコル時刻を使う
-            return Expire < DateTime.Now;
+            return Expire < protocolTime;
         }
     }
 }

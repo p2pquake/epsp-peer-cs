@@ -131,5 +131,14 @@ namespace Client.App
             maintainTimer.Stop();
             return true;
         }
+
+        public DateTime CalcNowProtocolTime()
+        {
+            if (TimeOffset == null)
+            {
+                return DateTime.Now;
+            }
+            return DateTime.Now + TimeOffset;
+        }
     }
 }
