@@ -120,6 +120,7 @@
     <Compile Include="Client\State\RequireTemporaryPeerIdState.cs" />
     <Compile Include="Common\General\Const.cs" />
     <Compile Include="Common\General\Logger.cs" />
+    <Compile Include="Common\Net\AsyncListener.cs" />
     <Compile Include="Common\Net\CRLFSocket.cs" />
     <Compile Include="Common\Net\Packet.cs" />
     <Compile Include="Peer\Context.cs" />
