@@ -14,6 +14,7 @@ namespace Client.Peer
     class Context : IPeerContext, IPeerConnector
     {
         private PeerManager peerManager;
+        private AsyncListener asyncListener;
         
         public event EventHandler<EPSPQuakeEventArgs> OnEarthquake;
         public event EventHandler<EPSPTsunamiEventArgs> OnTsunami;
@@ -64,7 +65,16 @@ namespace Client.Peer
 
         public bool Listen(int port)
         {
-            // TODO: Listen実装していない
+            asyncListener = new AsyncListener(port);
+            asyncListener.Accept += AsyncListener_Accept;
+            asyncListener.Start();
+
+            return true;
+        }
+
+        private void AsyncListener_Accept(object sender, AcceptEventArgs e)
+        {
+            // TODO: FIXME: ここ実装しよう
             throw new NotImplementedException();
         }
 
@@ -101,8 +111,13 @@ namespace Client.Peer
 
         public bool EndListen()
         {
-            // FIXME: Listen実装していない
-            throw new NotImplementedException();
+            if (asyncListener == null)
+            {
+                return false;
+            }
+
+            asyncListener.Stop();
+            return true;
         }
     }
 }
