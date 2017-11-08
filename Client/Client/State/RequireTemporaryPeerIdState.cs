@@ -22,7 +22,13 @@ namespace Client.Client.State
             string peerId = packet.Data[0];
             context.PeerState.PeerId = int.Parse(peerId);
 
-            // TODO: ポート開放の分岐がなく、常にポート閉鎖状態になっている
+            if (context.PeerConfig.IsPortOpen)
+            {
+                context.State = new RequirePortScanState();
+                return;
+            }
+
+            context.PeerState.IsPortOpened = false;
             context.State = new RequirePeerDataState(General.ClientConst.ProcessType.Join);
         }
     }
