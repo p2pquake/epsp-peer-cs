@@ -103,6 +103,7 @@
     <Compile Include="Client\General\KeyData.cs" />
     <Compile Include="Client\IClientContext.cs" />
     <Compile Include="Client\IClientContextForState.cs" />
+    <Compile Include="Client\State\RequirePortScanState.cs" />
     <Compile Include="Common\Config\Configuration.cs" />
     <Compile Include="Common\General\PeerData.cs" />
     <Compile Include="Client\State\IFinishedState.cs" />
