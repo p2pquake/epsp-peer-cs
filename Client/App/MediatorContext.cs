@@ -60,7 +60,7 @@ namespace Client.App
             clientContext.PeerState = this;
             clientContext.StateChanged += ClientContext_StateChanged;
             clientContext.OperationCompleted += ClientContext_OperationCompleted;
-
+            
             peerContext.PeerState = this;
             peerContext.ConnectionsChanged += (s,e) => { ConnectionsChanged(s, e); };
             peerContext.OnAreapeers += (s, e) => { OnAreapeers(s, e); };
@@ -77,6 +77,7 @@ namespace Client.App
         {
             if (!CanDisconnect) { return; }
 
+            peerContext.EndListen();
             State.Disconnect(this, clientContext, peerContext);
         }
 
@@ -84,6 +85,10 @@ namespace Client.App
         {
             if (!CanConnect) { return; }
 
+            if (IsPortOpen)
+            {
+                peerContext.Listen(Port);
+            }
             State.Connect(this, clientContext, peerContext);
         }
 
