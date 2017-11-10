@@ -15,7 +15,7 @@ namespace Client.Client.State
         public override void Process(IClientContextForState context, CRLFSocket socket)
         {
             string[] datas = { context.PeerState.PeerId.ToString(), context.PeerConfig.Port.ToString() };
-            socket.WriteLine("114 1 " + string.Join(",", datas));
+            socket.WriteLine("114 1 " + string.Join(":", datas));
         }
 
         public override void ReceivePortCheckResult(IClientContextForState context, CRLFSocket socket, Packet packet)
