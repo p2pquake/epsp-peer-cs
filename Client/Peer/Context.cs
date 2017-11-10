@@ -65,6 +65,8 @@ namespace Client.Peer
 
         public bool Listen(int port)
         {
+            EndListen();
+
             asyncListener = new AsyncListener(port);
             asyncListener.Accept += AsyncListener_Accept;
             asyncListener.Start();
