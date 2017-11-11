@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using Client.Common.General;
@@ -34,6 +35,12 @@ namespace Client.Peer.Manager
             echoTimer.Change(0, 300000);
         }
 
+        public void AddFromSocket(Socket socket)
+        {
+            // TODO: FIXME: 実装しましょう
+            throw new NotImplementedException();
+        }
+             
         public bool Connect(PeerData peerData)
         {
             Peer peer = new Peer(this);

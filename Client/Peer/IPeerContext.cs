@@ -110,6 +110,7 @@ namespace Client.Peer
     /// </summary>
     interface IPeerContext : IPeerConnector
     {
+        IPeerConfig PeerConfig { set; }
         IPeerStateForPeer PeerState { set; }
 
         /// <summary>
