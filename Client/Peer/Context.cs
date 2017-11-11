@@ -22,6 +22,7 @@ namespace Client.Peer
         public event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
         public event EventHandler<EventArgs> ConnectionsChanged;
 
+        public IPeerConfig PeerConfig { private get; set; }
         public IPeerStateForPeer PeerState { private get; set; }
         public int Connections { get { return peerManager.Connections; } }
 
@@ -76,8 +77,13 @@ namespace Client.Peer
 
         private void AsyncListener_Accept(object sender, AcceptEventArgs e)
         {
-            // TODO: FIXME: ここ実装しよう
-            throw new NotImplementedException();
+            if (Connections >= PeerConfig.MaxConnections)
+            {
+                e.Socket.Close();
+                return;
+            }
+
+            peerManager.AddFromSocket(e.Socket);
         }
 
         public int[] Connect(PeerData[] peers)

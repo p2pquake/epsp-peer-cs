@@ -60,7 +60,8 @@ namespace Client.App
             clientContext.PeerState = this;
             clientContext.StateChanged += ClientContext_StateChanged;
             clientContext.OperationCompleted += ClientContext_OperationCompleted;
-            
+
+            peerContext.PeerConfig = this;
             peerContext.PeerState = this;
             peerContext.ConnectionsChanged += (s,e) => { ConnectionsChanged(s, e); };
             peerContext.OnAreapeers += (s, e) => { OnAreapeers(s, e); };
