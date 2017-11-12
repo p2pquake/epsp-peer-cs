@@ -37,8 +37,18 @@ namespace Client.Peer.Manager
 
         public void AddFromSocket(Socket socket)
         {
-            // TODO: FIXME: 実装しましょう
-            throw new NotImplementedException();
+            CRLFSocket crlfSocket = new CRLFSocket(socket);
+            Peer peer = new Peer(this, crlfSocket);
+            peer.Closed += new EventHandler(peer_Closed);
+            peer.ReadLine += new EventHandler<ReadLineEventArgs>(peer_ReadLine);
+            peer.PeerId += () => { return PeerId(); };
+
+            peerList.Add(peer);
+            ConnectionsChanged(this, EventArgs.Empty);
+
+            peer.BeginReceive();
+
+            // TODO: FIXME: こちらからコミュニケーションを開始する必要がある. (Stateあるかな？)
         }
              
         public bool Connect(PeerData peerData)

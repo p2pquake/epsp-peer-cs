@@ -50,13 +50,15 @@ namespace Client.Common.Net
 
         // 非同期のシグナル
         private ManualResetEvent connectEvent = new ManualResetEvent(false);
-
-        public CRLFSocket()
+        
+        public CRLFSocket() : this(new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
         {
-            socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        }
+
+        public CRLFSocket(Socket socket)
+        {
+            this.socket = socket;
             buffer = new byte[0];
-            // client = new TcpClient(AddressFamily.InterNetwork);
-            // = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
 
         public ConnectionState State
@@ -122,10 +124,7 @@ namespace Client.Common.Net
                         socket.EndConnect(ar);
                         Logger.GetLog().Debug("接続しました: " + host + ":" + port);
 
-                        // Hook
-                        receiveBuffer = new byte[BUFFER_SIZE];
-                        socket.BeginReceive(receiveBuffer, 0, BUFFER_SIZE, SocketFlags.None, new AsyncCallback(receiveCallback), socket);
-
+                        BeginReceive();
                         return true;
                     }
                     else
@@ -148,6 +147,13 @@ namespace Client.Common.Net
 
                 return false;
             }
+        }
+
+        public void BeginReceive()
+        {
+            // Hook
+            receiveBuffer = new byte[BUFFER_SIZE];
+            socket.BeginReceive(receiveBuffer, 0, BUFFER_SIZE, SocketFlags.None, new AsyncCallback(receiveCallback), socket);
         }
 
         private void connectCallback(IAsyncResult ar)
