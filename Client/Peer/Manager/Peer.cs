@@ -26,16 +26,25 @@ namespace Client.Peer.Manager
         public event EventHandler Closed = (s,e)=>{};
         public event EventHandler<ReadLineEventArgs> ReadLine = (s, e) => { };
 
-        public Peer(PeerManager peerManager)
+        public Peer(PeerManager peerManager) : this(peerManager, new CRLFSocket())
+        {
+        }
+        
+        internal Peer(PeerManager peerManager, CRLFSocket socket)
         {
             this.peerManager = peerManager;
             this.state = new GeneralState();
-            this.socket = new CRLFSocket();
+            this.socket = socket;
 
             state.ReadLine += new EventHandler<ReadLineEventArgs>(state_ReadLine);
 
             socket.Closed += new EventHandler(socket_Closed);
             socket.ReadLine += new EventHandler<ReadLineEventArgs>(socket_ReadLine);
+        }
+
+        internal void BeginReceive()
+        {
+            socket.BeginReceive();
         }
 
         void state_ReadLine(object sender, ReadLineEventArgs e)
