@@ -13,7 +13,7 @@ namespace Client.Common.General
 
         public string Address { get { return address; } }
         public int Port { get { return port; } }
-        public int PeerId { get { return peerId; } }
+        public int PeerId { get { return peerId; } set { peerId = value; } }
 
         public PeerData(string address, int port, int peerId)
         {
