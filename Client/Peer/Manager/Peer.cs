@@ -17,8 +17,9 @@ namespace Client.Peer.Manager
     {
         PeerManager peerManager;
         CRLFSocket socket;
-        PeerData peerData;
         AbstractState state;
+
+        internal PeerData PeerData { get; set; }
 
         public Func<int> PeerId;
         public int GetPeerId() { return PeerId(); }
@@ -67,7 +68,7 @@ namespace Client.Peer.Manager
 
         void socket_Closed(object sender, EventArgs e)
         {
-            Logger.GetLog().Debug("ピアから切断されました: " + peerData.PeerId);
+            Logger.GetLog().Debug("ピアから切断されました: " + PeerData.PeerId);
             Closed(this, EventArgs.Empty);
         }
 
@@ -75,7 +76,7 @@ namespace Client.Peer.Manager
         {
             Logger.GetLog().Debug("次のピアに接続します: " + peerData.PeerId + "(" + peerData.Address + ":" + peerData.Port + ")");
 
-            this.peerData = peerData;
+            this.PeerData = peerData;
             bool result = socket.Connect(peerData.Address, peerData.Port);
 
             Logger.GetLog().Debug("接続結果: " + result);
