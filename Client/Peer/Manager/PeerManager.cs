@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -43,12 +44,19 @@ namespace Client.Peer.Manager
             peer.ReadLine += new EventHandler<ReadLineEventArgs>(peer_ReadLine);
             peer.PeerId += () => { return PeerId(); };
 
+            IPEndPoint remoteEndPoint = crlfSocket.RemoteEndPoint;
+            peer.PeerData = new PeerData(remoteEndPoint.Address.ToString(), remoteEndPoint.Port, -1);
+
             peerList.Add(peer);
             ConnectionsChanged(this, EventArgs.Empty);
 
             peer.BeginReceive();
 
-            // TODO: FIXME: こちらからコミュニケーションを開始する必要がある. (Stateあるかな？)
+            // 初期通信はAcceptした側から開始する
+            Packet packet = new Packet();
+            packet.Code = 614;
+            packet.Hop = 1;
+            peer.Send(packet);
         }
              
         public bool Connect(PeerData peerData)
