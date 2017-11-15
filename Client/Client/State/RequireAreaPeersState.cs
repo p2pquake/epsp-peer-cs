@@ -16,8 +16,7 @@ namespace Client.Client.State
 
         public override void NoticeAreaPeers(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
-            // FIXME: 地域ピア数の情報を捨ててる
-
+            context.PeerState.AreaPeerDictionary = packet.Data[0].Split(';').ToDictionary(v => v.Split(',')[0], v => int.Parse(v.Split(',')[1]));
             context.State = new RequireProtocolTimeState();
         }
     }
