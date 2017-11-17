@@ -117,7 +117,7 @@ namespace Client.Peer.Manager
             }
             if (packet.Code == Code.AREAPEERS)
             {
-                if (packet.Data == null || packet.Data.Length < 2)
+                if (packet.Data == null || packet.Data.Length < 3)
                 {
                     return;
                 }
