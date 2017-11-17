@@ -113,7 +113,47 @@ namespace Client.Peer.Manager
             }
             if (packet.Code == Code.TSUNAMI)
             {
+                if (packet.Data == null || packet.Data.Length < 3)
+                {
+                    return;
+                }
 
+                string[] datas = packet.Data[2].Split(',');
+                EPSPTsunamiEventArgs e = new EPSPTsunamiEventArgs();
+
+                if (datas[0] == "解除")
+                {
+                    e.IsCancelled = true;
+                    OnTsunami(this, e);
+                    return;
+                }
+
+                e.RegionList = new List<TsunamiForecastRegion>();
+                TsunamiCategory category = TsunamiCategory.Unknown;
+                foreach (string data in datas)
+                {
+                    if (data[0] == '-')
+                    {
+                        if (data.EndsWith("大津波警報")) { category = TsunamiCategory.MajorWarning; }
+                        if (data.EndsWith("津波警報")) { category = TsunamiCategory.Warning; }
+                        if (data.EndsWith("津波注意報")) { category = TsunamiCategory.Advisory; }
+                        continue;
+                    }
+
+                    if (data[0] != '*' && data[0] != '+')
+                    {
+                        continue;
+                    }
+
+                    TsunamiForecastRegion item = new TsunamiForecastRegion();
+                    item.Category = category;
+                    item.Region = data.Substring(1);
+                    if (data[0] == '*') { item.IsImmediately = true; }
+
+                    e.RegionList.Add(item);
+                }
+
+                OnTsunami(this, e);
             }
             if (packet.Code == Code.AREAPEERS)
             {
