@@ -18,7 +18,7 @@ namespace Client.Peer
         public bool IsExpired { get; set; } = false;
     }
 
-    enum DomesticTsunamiType
+    public enum DomesticTsunamiType
     {
         /// <summary>なし</summary>
         None,
@@ -30,7 +30,7 @@ namespace Client.Peer
         Unknown
     }
 
-    enum QuakeInformationType
+    public enum QuakeInformationType
     {
         /// <summary>震度速報</summary>
         ScalePrompt,
@@ -46,30 +46,30 @@ namespace Client.Peer
         Unknown
     }
 
-    class QuakeObservationPoint
+    public class QuakeObservationPoint
     {
-        string Prefecture { get; set; } = "";
-        string Scale { get; set; } = "";
-        string Name { get; set; } = "";
+        public string Prefecture { get; set; } = "";
+        public string Scale { get; set; } = "";
+        public string Name { get; set; } = "";
     }
 
     public class EPSPQuakeEventArgs : EPSPDataEventArgs
     {
-        string OccuredTime { get; set; } = "不明";
-        string Scale { get; set; } = "不明";
-        DomesticTsunamiType TsunamiType { get; set; } = DomesticTsunamiType.Unknown;
-        QuakeInformationType InformationType { get; set; } = QuakeInformationType.Unknown;
-        string Destination { get; set; } = "不明";
-        string Depth { get; set; } = "不明";
-        string Magnitude { get; set; } = "不明";
-        bool IsCorrection { get; set; } = false;
-        string Latitude { get; set; } = "不明";
-        string Longitude { get; set; } = "不明";
-        string IssueFrom { get; set; } = "不明";
-        IList<QuakeObservationPoint> PointList { get; set; } = null;
+        public string OccuredTime { get; set; } = "不明";
+        public string Scale { get; set; } = "不明";
+        public DomesticTsunamiType TsunamiType { get; set; } = DomesticTsunamiType.Unknown;
+        public QuakeInformationType InformationType { get; set; } = QuakeInformationType.Unknown;
+        public string Destination { get; set; } = "不明";
+        public string Depth { get; set; } = "不明";
+        public string Magnitude { get; set; } = "不明";
+        public bool IsCorrection { get; set; } = false;
+        public string Latitude { get; set; } = "不明";
+        public string Longitude { get; set; } = "不明";
+        public string IssueFrom { get; set; } = "不明";
+        public IList<QuakeObservationPoint> PointList { get; set; } = null;
     }
 
-    enum TsunamiCategory
+    public enum TsunamiCategory
     {
         /// <summary>津波注意報</summary>
         Advisory,
@@ -81,17 +81,17 @@ namespace Client.Peer
         Unknown
     }
 
-    class TsunamiForecastRegion
+    public class TsunamiForecastRegion
     {
-        TsunamiCategory Category { get; set; } = TsunamiCategory.Unknown;
-        string Region { get; set; } = "不明";
-        bool IsImmediately { get; set; } = false;
+        public TsunamiCategory Category { get; set; } = TsunamiCategory.Unknown;
+        public string Region { get; set; } = "不明";
+        public bool IsImmediately { get; set; } = false;
     }
 
     public class EPSPTsunamiEventArgs : EPSPDataEventArgs
     {
-        bool IsCancelled { get; set; } = false;
-        IList<TsunamiForecastRegion> RegionList { get; set; } = null;
+        public bool IsCancelled { get; set; } = false;
+        public IList<TsunamiForecastRegion> RegionList { get; set; } = null;
     }
 
     public class EPSPAreapeersEventArgs : EPSPDataEventArgs
