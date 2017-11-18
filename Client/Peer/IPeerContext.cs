@@ -21,27 +21,27 @@ namespace Client.Peer
     public enum DomesticTsunamiType
     {
         /// <summary>なし</summary>
-        None,
+        None = 0,
         /// <summary>あり</summary>
-        Effective,
+        Effective = 1,
         /// <summary>調査中</summary>
-        Checking,
+        Checking = 2,
         /// <summary>不明</summary>
-        Unknown
+        Unknown = 3
     }
 
     public enum QuakeInformationType
     {
         /// <summary>震度速報</summary>
-        ScalePrompt,
+        ScalePrompt = 1,
         /// <summary>震源に関する情報</summary>
-        Destination,
+        Destination = 2,
         /// <summary>震源・震度に関する情報</summary>
-        ScaleAndDestination,
+        ScaleAndDestination = 3,
         /// <summary>各地の震度に関する情報</summary>
-        Detail,
+        Detail = 4,
         /// <summary>遠地地震に関する情報</summary>
-        Foreign,
+        Foreign = 5,
         /// <summary>不明</summary>
         Unknown
     }
