@@ -106,10 +106,59 @@ namespace Client.Peer.Manager
         private void raiseDataEvent(Packet packet)
         {
             // TODO: 署名検証をしていない
-            // FIXME: 実装していない
             if (packet.Code == Code.EARTHQUAKE)
             {
+                if (packet.Data == null || packet.Data.Length < 4)
+                {
+                    return;
+                }
 
+                EPSPQuakeEventArgs e = new EPSPQuakeEventArgs();
+                // 地震概要の解析
+                string[] abstracts = packet.Data[2].Split(',');
+                e.OccuredTime = abstracts[0];
+                e.Scale = abstracts[1];
+                e.TsunamiType = (DomesticTsunamiType)int.Parse(abstracts[2]);
+                e.InformationType = (QuakeInformationType)int.Parse(abstracts[3]);
+                e.Destination = abstracts[4];
+                e.Depth = abstracts[5];
+                e.Magnitude = abstracts[6];
+                e.IsCorrection = abstracts[7] == "1";
+                e.Latitude = abstracts[8];
+                e.Longitude = abstracts[9];
+                e.IssueFrom = abstracts[10];
+
+                // 震度観測点の解析
+                e.PointList = new List<QuakeObservationPoint>();
+                string[] details = packet.Data[3].Split(',');
+                string prefecture = null;
+                string scale = null;
+                foreach (string detail in details)
+                {
+                    if (detail[0] == '-')
+                    {
+                        prefecture = detail;
+                        continue;
+                    }
+                    if (detail[0] == '+')
+                    {
+                        scale = detail;
+                        continue;
+                    }
+                    if (detail[0] != '*')
+                    {
+                        continue;
+                    }
+
+                    QuakeObservationPoint point = new QuakeObservationPoint();
+                    point.Prefecture = prefecture;
+                    point.Scale = scale;
+                    point.Name = detail;
+
+                    e.PointList.Add(point);
+                }
+
+                OnEarthquake(this, e);
             }
             if (packet.Code == Code.TSUNAMI)
             {
