@@ -9,9 +9,9 @@ namespace Client.Peer.Verifier
 {
     struct VerifyResult
     {
-        bool IsValid;
-        bool IsInvalidSignature;
-        bool IsExpired;
+        public bool IsValid;
+        public bool IsInvalidSignature;
+        public bool IsExpired;
     }
 
     interface IVerifyManager
