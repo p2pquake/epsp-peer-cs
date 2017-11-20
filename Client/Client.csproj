@@ -136,6 +136,7 @@
     <Compile Include="Peer\State\AbstractState.cs" />
     <Compile Include="Peer\State\GeneralState.cs" />
     <Compile Include="Peer\Verifier\IVerifyManager.cs" />
+    <Compile Include="Peer\Verifier\VerifyManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Client\State\AbstractState.cs" />
   </ItemGroup>
