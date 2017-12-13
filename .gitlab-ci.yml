@@ -1,5 +1,6 @@
 stages:
   - build
+  - test
 
 cache:
  key: "$CI_PIPELINE_ID"
@@ -21,3 +22,11 @@ build_epspwpf:
  script:
     - msbuild "Client/Client.csproj"
     - msbuild "EPSPWPFClient/EPSPWPFClient.csproj"
+ allow_failure: true
+
+test_client:
+ stage: test
+ script:
+    - msbuild "Client/Client.csproj"
+    - msbuild "ClientTest/ClientTest.csproj"
+    - nunit-console ClientTest/bin/Debug/ClientTest.dll
