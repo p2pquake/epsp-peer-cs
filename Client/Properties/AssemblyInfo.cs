@@ -38,3 +38,6 @@ using System.Runtime.InteropServices;
 
 // log4netを使用します
 [assembly: log4net.Config.XmlConfigurator(Watch=true)]
+
+// テストで参照可能にする
+[assembly: InternalsVisibleTo("ClientTest")]
