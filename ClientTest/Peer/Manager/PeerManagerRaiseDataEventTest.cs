@@ -13,6 +13,32 @@ namespace ClientTest.Peer.Manager
     [TestFixture]
     class PeerManagerRaiseDataEventTest
     {
+        private PeerManager peerManager;
+
+        [SetUp]
+        public void createPeerManager()
+        {
+            peerManager = new PeerManager();
+        }
+
+        [TearDown]
+        public void destroyPeerManager()
+        {
+            peerManager = null;
+        }
+
+        private void invokeRaiseDataEvent(string packetString)
+        {
+            var type = peerManager.GetType();
+            type.InvokeMember(
+                "raiseDataEvent",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.InvokeMethod,
+                null,
+                peerManager,
+                new object[] { Packet.Parse(packetString) }
+                );
+        }
+
         [TestCase]
         public void raiseDataEvent_AreapeersData_VerificationSucceeded()
         {
@@ -148,23 +174,14 @@ namespace ClientTest.Peer.Manager
                     { "901", 5 },
                     { "905", 4 }
                 };
-
-            PeerManager peerManager = new PeerManager();
+            
             bool called = false;
             peerManager.OnAreapeers += (s, e) =>
             {
                 Assert.AreEqual(expected, e.AreaPeerDictionary);
                 called = true;
             };
-
-            var type = peerManager.GetType();
-            type.InvokeMember(
-                "raiseDataEvent",
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.InvokeMethod,
-                null,
-                peerManager,
-                new object[] { Packet.Parse(retreive) }
-                );
+            invokeRaiseDataEvent(retreive);
 
             Assert.IsTrue(called);
         }
