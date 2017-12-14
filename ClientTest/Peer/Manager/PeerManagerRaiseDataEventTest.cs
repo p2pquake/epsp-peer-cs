@@ -205,9 +205,95 @@ namespace ClientTest.Peer.Manager
         }
 
         [TestCase]
-        public void raiseDataEvent_TsunamiData_RaiseOnTsunami()
+        public void raiseDataEvent_TsunamiData_RaiseOnTsunami_MajorWarning()
         {
             Assert.Ignore("Not Implemented");
+        }
+
+        [TestCase]
+        public void raiseDataEvent_TsunamiData_RaiseOnTsunami_Warning()
+        {
+            var retreive =
+                "552 9 e6hJ/b2CCzDlY7UUbLH+umg/NR5QFeZ3nTdlmXRwHVVFrtJK2NkrqCva3gL7sGmKyxksYeR423PYjSpjGJvdE2TrIu2tmB0+vQsxgUOiqiZqv89znioza2W6eZ9oy3+TlsU5s8ENYR92U3IgzIJp5YpvlaIsx/wGqqWdnbpV6Ns=:2016/11/22 08-14-33:-津波警報,+宮城県,+福島県,-津波注意報,+青森県太平洋沿岸,+岩手県,+茨城県,+千葉県九十九里・外房,+千葉県内房,+伊豆諸島";
+
+            bool called = false;
+            peerManager.OnTsunami += (s, e) =>
+            {
+                called = true;
+                Assert.IsFalse(e.IsCancelled);
+
+                object[,] expected =
+                {
+                    { TsunamiCategory.Warning, false, "宮城県" },
+                    { TsunamiCategory.Warning, false, "福島県" },
+                    { TsunamiCategory.Advisory, false, "青森県太平洋沿岸" },
+                    { TsunamiCategory.Advisory, false, "岩手県" },
+                    { TsunamiCategory.Advisory, false, "茨城県" },
+                    { TsunamiCategory.Advisory, false, "千葉県九十九里・外房" },
+                    { TsunamiCategory.Advisory, false, "千葉県内房" },
+                    { TsunamiCategory.Advisory, false, "伊豆諸島" }
+                };
+                Assert.AreEqual(expected.GetLength(0), e.RegionList.Count);
+
+                for (int i = 0; i < expected.GetLength(0); i++)
+                {
+                    Assert.AreEqual(expected[i, 0], e.RegionList[i].Category);
+                    Assert.AreEqual(expected[i, 1], e.RegionList[i].IsImmediately);
+                    Assert.AreEqual(expected[i, 2], e.RegionList[i].Region);
+                }
+            };
+            invokeRaiseDataEvent(retreive);
+
+            Assert.IsTrue(called);
+        }
+
+        [TestCase]
+        public void raiseDataEvent_TsunamiData_RaiseOnTsunami_Advisory()
+        {
+            var retreive =
+                "552 11 Oqqn36REt0RjpKqBibXn6A1woRon/xQ7ySYVmET24n3gxaKAEBE/e+eyQ9TUAAePDEkyUc/pGB+S3w8vyHE6gYRuCNx9ysC7gsdSNh/Bv4C3T3p0WDv2GtJq1jSETkcZNkKv9p5Ptny5+kHt9y5dPA/enZQ7yPCul5EezHsxM80=:2016/11/22 07-30-21:-津波注意報,*千葉県内房,*伊豆諸島";
+
+            bool called = false;
+            peerManager.OnTsunami += (s, e) =>
+            {
+                called = true;
+                Assert.IsFalse(e.IsCancelled);
+
+                object[,] expected =
+                {
+                    { TsunamiCategory.Advisory, true, "千葉県内房" },
+                    { TsunamiCategory.Advisory, true, "伊豆諸島" }
+                };
+                Assert.AreEqual(expected.GetLength(0), e.RegionList.Count);
+                
+                for (int i = 0; i < expected.GetLength(0); i++)
+                {
+                    Assert.AreEqual(expected[i,0], e.RegionList[i].Category);
+                    Assert.AreEqual(expected[i,1], e.RegionList[i].IsImmediately);
+                    Assert.AreEqual(expected[i,2], e.RegionList[i].Region);
+                }
+            };
+            invokeRaiseDataEvent(retreive);
+
+            Assert.IsTrue(called);
+        }
+
+        [TestCase]
+        public void raiseDataEvent_TsunamiData_RaiseOnTsunami_Cancelled()
+        {
+            var retreive =
+                "552 8 CU2Au7WAvqoiKXaAfmEEXS2W4vvePShT5W6cXXSsTpSfd9OA23Oc0GulQRr5D+mJ2t9mnOATVml5F7jwlGOMugMSFR49cmhFSIlLg3eDisotDvKIsNXpr//T3vcF9UiZA5JJzzcaXZuWg1591CXBN/xkWJf4C73LE3HmQewtR0w=:2016/11/22 12-53-43:解除";
+
+            bool called = false;
+            peerManager.OnTsunami += (s, e) =>
+            {
+                called = true;
+                Assert.IsTrue(e.IsCancelled);
+                Assert.IsTrue(e.RegionList == null || e.RegionList.Count == 0);
+            };
+            invokeRaiseDataEvent(retreive);
+
+            Assert.IsTrue(called);
         }
 
         [TestCase]
@@ -219,7 +305,18 @@ namespace ClientTest.Peer.Manager
         [TestCase]
         public void raiseDataEvent_UserquakeData_RaiseOnUserquake()
         {
-            Assert.Ignore("Not Implemented");
+            var retreive =
+                "555 7 IyZUbE0C5de3CrUYIN+LqhsG6C3+E1dNoxD1Ef02qiri4qW7lqPb5J2p1Fhe3rZs:2017/12/14 06-39-30:MEwwDQYJKoZIhvcNAQEBBQADOwAwOAIxAKK/e5GQjXQPWQRhsMxTmOfQ9ISxDKb747F5g80s9wlB4XIjH7Ig8bycZp90vz3WzQIDAQAB:j74KAyS6Yy5LrEzm33OGBMMkhXT14n6bKajP4FGzHHKXhz3qsE2Ddr4f5E75NRB1SXNdGerMSvLPsXReCxt3Z6VGg81l2WoJIkXpYcuS56dcaMyvwvahQVJBl4B4Q3pcSALBwx5qYMsLzpCt/H/pMywhFJTlcc86CplNBiioAQ8=:2017/12/14 08-38-30:9999920171214063830505,142";
+
+            bool called = false;
+            peerManager.OnUserquake += (s, e) =>
+            {
+                called = true;
+                Assert.AreEqual("142", e.AreaCode);
+            };
+            invokeRaiseDataEvent(retreive);
+
+            Assert.IsTrue(called);
         }
     }
 }
