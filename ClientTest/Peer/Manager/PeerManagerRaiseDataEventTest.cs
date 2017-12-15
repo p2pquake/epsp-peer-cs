@@ -207,7 +207,80 @@ namespace ClientTest.Peer.Manager
         [TestCase]
         public void raiseDataEvent_TsunamiData_RaiseOnTsunami_MajorWarning()
         {
-            Assert.Ignore("Not Implemented");
+            // ダミーデータ
+            var retreive =
+                "552 11 Oqqn36REt0RjpKqBibXn6A1woRon/xQ7ySYVmET24n3gxaKAEBE/e+eyQ9TUAAePDEkyUc/pGB+S3w8vyHE6gYRuCNx9ysC7gsdSNh/Bv4C3T3p0WDv2GtJq1jSETkcZNkKv9p5Ptny5+kHt9y5dPA/enZQ7yPCul5EezHsxM80=:2016/11/22 07-30-21:-大津波警報,+青森県太平洋沿岸,+岩手県,+宮城県,-津波警報,+北海道太平洋沿岸東部,+北海道太平洋沿岸中部,+北海道太平洋沿岸西部,+青森県日本海沿岸,+福島県,+茨城県,+千葉県九十九里・外房,+千葉県内房,+東京湾内湾,+伊豆諸島,+小笠原諸島,+相模湾・三浦半島,+静岡県,+愛知県外海,+伊勢・三河湾,+三重県南部,+淡路島南部,+和歌山県,+岡山県,+徳島県,+愛媛県宇和海沿岸,+高知県,+有明・八代海,+大分県瀬戸内海沿岸,+大分県豊後水道沿岸,+宮崎県,+鹿児島県東部,+種子島・屋久島地方,+奄美諸島・トカラ列島,+鹿児島県西部,+沖縄本島地方,+大東島地方,+宮古島・八重山地方,-津波注意報,+北海道日本海沿岸南部,+オホーツク海沿岸,+陸奥湾,+大阪府,+兵庫県瀬戸内海沿岸,+広島県,+香川県,+愛媛県瀬戸内海沿岸,+山口県瀬戸内海沿岸,+福岡県瀬戸内海沿岸,+福岡県日本海沿岸,+長崎県西方,+熊本県天草灘沿岸";
+
+            bool called = false;
+            peerManager.OnTsunami += (s, e) =>
+            {
+                called = true;
+                Assert.IsFalse(e.IsCancelled);
+
+                object[,] expected =
+                {
+                    { TsunamiCategory.MajorWarning, false, "青森県太平洋沿岸" },
+                    { TsunamiCategory.MajorWarning, false, "岩手県" },
+                    { TsunamiCategory.MajorWarning, false, "宮城県" },
+                    { TsunamiCategory.Warning, false, "北海道太平洋沿岸東部" },
+                    { TsunamiCategory.Warning, false, "北海道太平洋沿岸中部" },
+                    { TsunamiCategory.Warning, false, "北海道太平洋沿岸西部" },
+                    { TsunamiCategory.Warning, false, "青森県日本海沿岸" },
+                    { TsunamiCategory.Warning, false, "福島県" },
+                    { TsunamiCategory.Warning, false, "茨城県" },
+                    { TsunamiCategory.Warning, false, "千葉県九十九里・外房" },
+                    { TsunamiCategory.Warning, false, "千葉県内房" },
+                    { TsunamiCategory.Warning, false, "東京湾内湾" },
+                    { TsunamiCategory.Warning, false, "伊豆諸島" },
+                    { TsunamiCategory.Warning, false, "小笠原諸島" },
+                    { TsunamiCategory.Warning, false, "相模湾・三浦半島" },
+                    { TsunamiCategory.Warning, false, "静岡県" },
+                    { TsunamiCategory.Warning, false, "愛知県外海" },
+                    { TsunamiCategory.Warning, false, "伊勢・三河湾" },
+                    { TsunamiCategory.Warning, false, "三重県南部" },
+                    { TsunamiCategory.Warning, false, "淡路島南部" },
+                    { TsunamiCategory.Warning, false, "和歌山県" },
+                    { TsunamiCategory.Warning, false, "岡山県" },
+                    { TsunamiCategory.Warning, false, "徳島県" },
+                    { TsunamiCategory.Warning, false, "愛媛県宇和海沿岸" },
+                    { TsunamiCategory.Warning, false, "高知県" },
+                    { TsunamiCategory.Warning, false, "有明・八代海" },
+                    { TsunamiCategory.Warning, false, "大分県瀬戸内海沿岸" },
+                    { TsunamiCategory.Warning, false, "大分県豊後水道沿岸" },
+                    { TsunamiCategory.Warning, false, "宮崎県" },
+                    { TsunamiCategory.Warning, false, "鹿児島県東部" },
+                    { TsunamiCategory.Warning, false, "種子島・屋久島地方" },
+                    { TsunamiCategory.Warning, false, "奄美諸島・トカラ列島" },
+                    { TsunamiCategory.Warning, false, "鹿児島県西部" },
+                    { TsunamiCategory.Warning, false, "沖縄本島地方" },
+                    { TsunamiCategory.Warning, false, "大東島地方" },
+                    { TsunamiCategory.Warning, false, "宮古島・八重山地方" },
+                    { TsunamiCategory.Advisory, false, "北海道日本海沿岸南部" },
+                    { TsunamiCategory.Advisory, false, "オホーツク海沿岸" },
+                    { TsunamiCategory.Advisory, false, "陸奥湾" },
+                    { TsunamiCategory.Advisory, false, "大阪府" },
+                    { TsunamiCategory.Advisory, false, "兵庫県瀬戸内海沿岸" },
+                    { TsunamiCategory.Advisory, false, "広島県" },
+                    { TsunamiCategory.Advisory, false, "香川県" },
+                    { TsunamiCategory.Advisory, false, "愛媛県瀬戸内海沿岸" },
+                    { TsunamiCategory.Advisory, false, "山口県瀬戸内海沿岸" },
+                    { TsunamiCategory.Advisory, false, "福岡県瀬戸内海沿岸" },
+                    { TsunamiCategory.Advisory, false, "福岡県日本海沿岸" },
+                    { TsunamiCategory.Advisory, false, "長崎県西方" },
+                    { TsunamiCategory.Advisory, false, "熊本県天草灘沿岸" },
+                };
+                Assert.AreEqual(expected.GetLength(0), e.RegionList.Count);
+
+                for (int i = 0; i < expected.GetLength(0); i++)
+                {
+                    Assert.AreEqual(expected[i, 0], e.RegionList[i].Category);
+                    Assert.AreEqual(expected[i, 1], e.RegionList[i].IsImmediately);
+                    Assert.AreEqual(expected[i, 2], e.RegionList[i].Region);
+                }
+            };
+            invokeRaiseDataEvent(retreive);
+
+            Assert.IsTrue(called);
         }
 
         [TestCase]
