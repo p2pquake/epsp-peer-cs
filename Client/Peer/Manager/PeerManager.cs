@@ -183,9 +183,9 @@ namespace Client.Peer.Manager
                 {
                     if (data[0] == '-')
                     {
-                        if (data.EndsWith("大津波警報")) { category = TsunamiCategory.MajorWarning; }
-                        if (data.EndsWith("津波警報")) { category = TsunamiCategory.Warning; }
                         if (data.EndsWith("津波注意報")) { category = TsunamiCategory.Advisory; }
+                        if (data.EndsWith("津波警報")) { category = TsunamiCategory.Warning; }
+                        if (data.EndsWith("大津波警報")) { category = TsunamiCategory.MajorWarning; }
                         continue;
                     }
 
