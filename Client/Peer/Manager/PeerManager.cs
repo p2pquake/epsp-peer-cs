@@ -135,6 +135,11 @@ namespace Client.Peer.Manager
                 string scale = null;
                 foreach (string detail in details)
                 {
+                    if (detail.Length <= 0)
+                    {
+                        continue;
+                    }
+
                     if (detail[0] == '-')
                     {
                         prefecture = detail;
