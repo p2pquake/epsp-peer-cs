@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -440,6 +441,32 @@ namespace ClientTest.Peer.Manager
             invokeRaiseDataEvent(retreive);
 
             Assert.IsTrue(called);
+        }
+
+        [TestCase]
+        public void raiseDataEvent_Smoke()
+        {
+            var filename = @"TestData/Peer/Manager/PeerManagerRaiseDataEventTest_Smoke.txt";
+            StreamReader reader = new StreamReader(filename, Encoding.UTF8);
+
+            int lineCount = 0;
+            int eventCount = 0;
+
+            peerManager.OnAreapeers += (s, e) => { eventCount++; };
+            peerManager.OnEarthquake += (s, e) => { eventCount++; };
+            peerManager.OnTsunami += (s, e) => { eventCount++; };
+            peerManager.OnUserquake += (s, e) => { eventCount++; };
+
+            while (reader.Peek() >= 0)
+            {
+                lineCount++;
+                string line = reader.ReadLine();
+                invokeRaiseDataEvent(line);
+            }
+
+            reader.Close();
+
+            Assert.AreEqual(lineCount, eventCount);
         }
     }
 }
