@@ -193,7 +193,57 @@ namespace ClientTest.Peer.Manager
         }
 
         [TestCase]
-        public void raiseDataEvent_EarthquakeData_RaiseOnEarthquake()
+        public void raiseDataEvent_EarthquakeData_RaiseOnEarthquake_ScalePrompt()
+        {
+            Assert.Ignore("Not Implemented");
+        }
+
+        [TestCase]
+        public void raiseDataEvent_EarthquakeData_RaiseOnEarthquake_Destination()
+        {
+            var retreive =
+                "551 7 sDQ5pmqYKrDT67bTjuYGR/7bKtrsm+OOanNYLmI25wAKBuJ3L0WIRrVcnDvE160d4pMvh0FRyVUp+EQeiBMoGsY291I2Qghq7S1z3+dOaPnYFqiwRc0crn1ZnL0ggKQU9vDHVEKgKE5xGcV7UQbOv01unGNP3gKgvqA+quDPWog=:2017/12/16 06-04-20:16日05時57分,3以上,0,2,大阪湾,10km,3.6,0,N34.4,E134.9,:";
+
+            bool called = false;
+            peerManager.OnEarthquake += (s, e) =>
+            {
+                called = true;
+                Assert.AreEqual(QuakeInformationType.Destination, e.InformationType);
+                Assert.AreEqual("10km", e.Depth);
+                Assert.AreEqual("大阪湾", e.Destination);
+                Assert.AreEqual(false, e.IsCorrection);
+                Assert.AreEqual("N34.4", e.Latitude);
+                Assert.AreEqual("E134.9", e.Longitude);
+                Assert.AreEqual("3.6", e.Magnitude);
+                Assert.AreEqual("16日05時57分", e.OccuredTime);
+                Assert.AreEqual(DomesticTsunamiType.None, e.TsunamiType);
+                Assert.IsTrue(e.PointList == null || e.PointList.Count == 0);
+            };
+            invokeRaiseDataEvent(retreive);
+
+            Assert.IsTrue(called);
+        }
+
+        [TestCase]
+        public void raiseDataEvent_EarthquakeData_RaiseOnEarthquake_ScaleAndDestination()
+        {
+            Assert.Ignore("Not Implemented");
+        }
+
+        [TestCase]
+        public void raiseDataEvent_EarthquakeData_RaiseOnEarthquake_Detail()
+        {
+            Assert.Ignore("Not Implemented");
+        }
+
+        [TestCase]
+        public void raiseDataEvent_EarthquakeData_RaiseOnEarthquake_Foreign()
+        {
+            Assert.Ignore("Not Implemented");
+        }
+
+        [TestCase]
+        public void raiseDataEvent_EarthquakeData_RaiseOnEarthquake_Other()
         {
             Assert.Ignore("Not Implemented");
         }
