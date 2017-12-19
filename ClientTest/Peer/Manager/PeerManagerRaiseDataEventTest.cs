@@ -194,9 +194,79 @@ namespace ClientTest.Peer.Manager
         }
 
         [TestCase]
-        public void raiseDataEvent_EarthquakeData_RaiseOnEarthquake_ScalePrompt()
+        public void raiseDataEvent_EarthquakeData_RaiseOnEarthquake_ScalePrompt_Hokkaido()
         {
-            Assert.Ignore("Not Implemented");
+            var retreive =
+                "551 9 jMtE7OdLlOhBFTmE4JuWMXMan+GNBtV+69H5VHfP0JhRf/RqFro0Kz7KuTy6rlpBXQYiKgF3SC0bjIqkVVDBAeLOrXWm1IXm8/tNU9+ZiImWfSOSlI/bbhwyaajke2xdHlhLqJNzA7mpnyyDCc7GLL27LZ06XWKkf3jOmYUDutY=:2015/01/09 03-48-17:09日03時42分,4,2,1,,ごく浅い,-1.0,0,,,気象庁:+4,*釧路地方中南部,*根室地方中部,*根室地方南部,+3,*十勝地方中部,*十勝地方南部,*根室地方北部";
+
+            bool called = false;
+            peerManager.OnEarthquake += (s, e) =>
+            {
+                called = true;
+                Assert.AreEqual(QuakeInformationType.ScalePrompt, e.InformationType);
+                Assert.AreEqual(false, e.IsCorrection);
+                Assert.AreEqual("09日03時42分", e.OccuredTime);
+                Assert.AreEqual("4", e.Scale);
+                Assert.AreEqual(DomesticTsunamiType.Checking, e.TsunamiType);
+
+                object[,] expected =
+                {
+                    { null, "4", "釧路地方中南部" },
+                    { null, "4", "根室地方中部" },
+                    { null, "4", "根室地方南部" },
+                    { null, "3", "十勝地方中部" },
+                    { null, "3", "十勝地方南部" },
+                    { null, "3", "根室地方北部" },
+                };
+
+                Assert.AreEqual(expected.GetLength(0), e.PointList.Count);
+
+                for (int i = 0; i < expected.GetLength(0); i++)
+                {
+                    Assert.AreEqual(expected[i, 0], e.PointList[i].Prefecture);
+                    Assert.AreEqual(expected[i, 1], e.PointList[i].Scale);
+                    Assert.AreEqual(expected[i, 2], e.PointList[i].Name);
+                }
+            };
+            invokeRaiseDataEvent(retreive);
+
+            Assert.IsTrue(called);
+        }
+
+        [TestCase]
+        public void raiseDataEvent_EarthquakeData_RaiseOnEarthquake_ScalePrompt_Other()
+        {
+            var retreive =
+                "551 6 vI6WiN7W+iIa6r8a6pSrgOKJVjxWlssqRNWXiZKRfEjHAFciQwpS0PRPui4UqujClppPGHeiJ/dsrHa3sOhnyvZaFiiF0yI5UmjHksSYBmzSIE9RwgOzXwf9pbf6+roRr3bTM8SrRordXu5SFniqOIb4vlnMFwuLzJ8qy5V9n3Y=:2015/01/08 12-08-45:08日12時02分,3,2,1,,ごく浅い,-1.0,0,,,気象庁:-静岡県,+3,*静岡県西部,-愛知県,+3,*愛知県東部";
+
+            bool called = false;
+            peerManager.OnEarthquake += (s, e) =>
+            {
+                called = true;
+                Assert.AreEqual(QuakeInformationType.ScalePrompt, e.InformationType);
+                Assert.AreEqual(false, e.IsCorrection);
+                Assert.AreEqual("08日12時02分", e.OccuredTime);
+                Assert.AreEqual("3", e.Scale);
+                Assert.AreEqual(DomesticTsunamiType.Checking, e.TsunamiType);
+
+                object[,] expected =
+                {
+                    { "静岡県", "3", "静岡県西部" },
+                    { "愛知県", "3", "愛知県東部" },
+                };
+
+                Assert.AreEqual(expected.GetLength(0), e.PointList.Count);
+
+                for (int i = 0; i < expected.GetLength(0); i++)
+                {
+                    Assert.AreEqual(expected[i, 0], e.PointList[i].Prefecture);
+                    Assert.AreEqual(expected[i, 1], e.PointList[i].Scale);
+                    Assert.AreEqual(expected[i, 2], e.PointList[i].Name);
+                }
+            };
+            invokeRaiseDataEvent(retreive);
+
+            Assert.IsTrue(called);
         }
 
         [TestCase]
@@ -218,6 +288,7 @@ namespace ClientTest.Peer.Manager
                 Assert.AreEqual("3.6", e.Magnitude);
                 Assert.AreEqual("16日05時57分", e.OccuredTime);
                 Assert.AreEqual(DomesticTsunamiType.None, e.TsunamiType);
+
                 Assert.IsTrue(e.PointList == null || e.PointList.Count == 0);
             };
             invokeRaiseDataEvent(retreive);
@@ -228,25 +299,209 @@ namespace ClientTest.Peer.Manager
         [TestCase]
         public void raiseDataEvent_EarthquakeData_RaiseOnEarthquake_ScaleAndDestination()
         {
-            Assert.Ignore("Not Implemented");
+            var retreive =
+                "551 7 EgwaB8hT7yMf52JNYWpSwxn345g83P9nO/ImHq9Y5XidD4BqaNEogt17edT+IAO6haST96Rnef+2B6tKKEesDDxu3hx+xoYkSHZGw1Ln7GM9Eb2tfsnLBHJE1QrGtfLEoB4uNoEQsI8C5z9ykjjf8RoYXA1Xo4ul+ZXvGQxFsPE=:2015/01/23 18-19-44:23日18時11分,3,0,3,福島県沖,40km,4.2,0,N37.1,E141.1,気象庁:-福島県,+3,*福島県中通り";
+
+            bool called = false;
+            peerManager.OnEarthquake += (s, e) =>
+            {
+                called = true;
+                Assert.AreEqual(QuakeInformationType.ScaleAndDestination, e.InformationType);
+                Assert.AreEqual("40km", e.Depth);
+                Assert.AreEqual("福島県沖", e.Destination);
+                Assert.AreEqual(false, e.IsCorrection);
+                Assert.AreEqual("N37.1", e.Latitude);
+                Assert.AreEqual("E141.1", e.Longitude);
+                Assert.AreEqual("4.2", e.Magnitude);
+                Assert.AreEqual("23日18時11分", e.OccuredTime);
+                Assert.AreEqual("3", e.Scale);
+                Assert.AreEqual(DomesticTsunamiType.None, e.TsunamiType);
+
+                object[,] expected =
+                {
+                    { "福島県", "3", "福島県中通り" },
+                };
+
+                Assert.AreEqual(expected.GetLength(0), e.PointList.Count);
+
+                for (int i = 0; i < expected.GetLength(0); i++)
+                {
+                    Assert.AreEqual(expected[i, 0], e.PointList[i].Prefecture);
+                    Assert.AreEqual(expected[i, 1], e.PointList[i].Scale);
+                    Assert.AreEqual(expected[i, 2], e.PointList[i].Name);
+                }
+            };
+            invokeRaiseDataEvent(retreive);
+
+            Assert.IsTrue(called);
         }
 
         [TestCase]
         public void raiseDataEvent_EarthquakeData_RaiseOnEarthquake_Detail()
         {
-            Assert.Ignore("Not Implemented");
+            var retreive =
+                "551 5 H6p1hBYECBGllLEBh7f08mu7d5s4LzGQLJfFpXPjaTvRWs/vxJAPuKeO5FT00m4m5UuNIbmIsuGemAPzNeNlKxeuPsfFMFahGN0AVW95SzhLIrkHyJZkbuI0gf/3V9ciadfDEmw0qICfrUw+1JB1dXydgjxt40Qcg9TpN2JS3ks=:2014/08/15 12-28-24:15日12時20分,2,0,4,青森県東方沖,60km,4.2,0,N41.5,E142.6,:-北海道,+2,*函館市,+1,*千歳市,*新ひだか町,*浦河町,*様似町,*えりも町,-青森県,+2,*東通村,+1,*外ヶ浜町,*八戸市,*三沢市,*野辺地町,*七戸町,*東北町,*六ヶ所村,*五戸町,*青森南部町,*階上町,*むつ市,-岩手県,+1,*軽米町";
+
+            bool called = false;
+            peerManager.OnEarthquake += (s, e) =>
+            {
+                called = true;
+                Assert.AreEqual(QuakeInformationType.Detail, e.InformationType);
+                Assert.AreEqual("60km", e.Depth);
+                Assert.AreEqual("青森県東方沖", e.Destination);
+                Assert.AreEqual(false, e.IsCorrection);
+                Assert.AreEqual("N41.5", e.Latitude);
+                Assert.AreEqual("E142.6", e.Longitude);
+                Assert.AreEqual("4.2", e.Magnitude);
+                Assert.AreEqual("15日12時20分", e.OccuredTime);
+                Assert.AreEqual("2", e.Scale);
+                Assert.AreEqual(DomesticTsunamiType.None, e.TsunamiType);
+
+                object[,] expected =
+                {
+                    { "北海道", "2", "函館市" },
+                    { "北海道", "1", "千歳市" },
+                    { "北海道", "1", "新ひだか町" },
+                    { "北海道", "1", "浦河町" },
+                    { "北海道", "1", "様似町" },
+                    { "北海道", "1", "えりも町" },
+                    { "青森県", "2", "東通村" },
+                    { "青森県", "1", "外ヶ浜町" },
+                    { "青森県", "1", "八戸市" },
+                    { "青森県", "1", "三沢市" },
+                    { "青森県", "1", "野辺地町" },
+                    { "青森県", "1", "七戸町" },
+                    { "青森県", "1", "東北町" },
+                    { "青森県", "1", "六ヶ所村" },
+                    { "青森県", "1", "五戸町" },
+                    { "青森県", "1", "青森南部町" },
+                    { "青森県", "1", "階上町" },
+                    { "青森県", "1", "むつ市" },
+                    { "岩手県", "1", "軽米町" },
+                };
+
+                Assert.AreEqual(expected.GetLength(0), e.PointList.Count);
+
+                for (int i = 0; i < expected.GetLength(0); i++)
+                {
+                    Assert.AreEqual(expected[i, 0], e.PointList[i].Prefecture);
+                    Assert.AreEqual(expected[i, 1], e.PointList[i].Scale);
+                    Assert.AreEqual(expected[i, 2], e.PointList[i].Name);
+                }
+            };
+            invokeRaiseDataEvent(retreive);
+
+            Assert.IsTrue(called);
+        }
+
+        [TestCase]
+        public void raiseDataEvent_EarthquakeData_RaiseOnEarthquake_Detail_Correction()
+        {
+            var retreive =
+                "551 12 Z9gtkHsA/oykJ7JRBdg6ITlc+9CtMViY+9fZ5pDlB4ZiVGFu6agcnqJx4s7SVpA6/tHL0P6AEER4eLzAyFq1I3yjx9HvOET3cU05RJR2ywglQ1WIOxl75zOTXKJpexquNblGy1clOfUyBX6AnPh420fSL/XmLt68HJeP7TfwvNU=:2014/10/15 08-07-08:15日07時52分,3,0,4,沖縄本島近海,50km,5.1,1,N26.3,E127.4,:-沖縄県,+3,*粟国村,*渡嘉敷村,*渡名喜村,*八重瀬町,*久米島町,+2,*名護市,*国頭村,*今帰仁村,*恩納村,*宜野座村,*金武町,*那覇市,*那覇空港,*宜野湾市,*浦添市,*糸満市,*沖縄市,*読谷村,*北谷町,*北中城村,*中城村,*西原町,*豊見城市,*与那原町,*南風原町,*うるま市,*南城市,+1,*東村,*伊江村,*嘉手納町,-鹿児島県,+1,*与論町";
+
+            bool called = false;
+            peerManager.OnEarthquake += (s, e) =>
+            {
+                called = true;
+                Assert.AreEqual(QuakeInformationType.Detail, e.InformationType);
+                Assert.AreEqual("50km", e.Depth);
+                Assert.AreEqual("沖縄本島近海", e.Destination);
+                Assert.AreEqual(true, e.IsCorrection);
+                Assert.AreEqual("N26.3", e.Latitude);
+                Assert.AreEqual("E127.4", e.Longitude);
+                Assert.AreEqual("5.1", e.Magnitude);
+                Assert.AreEqual("15日07時52分", e.OccuredTime);
+                Assert.AreEqual("3", e.Scale);
+                Assert.AreEqual(DomesticTsunamiType.None, e.TsunamiType);
+            };
+            invokeRaiseDataEvent(retreive);
+
+            Assert.IsTrue(called);
+        }
+
+        [TestCase]
+        public void raiseDataEvent_EarthquakeData_RaiseOnEarthquake_Detail_Tsunami()
+        {
+            var retreive =
+                "551 6 MGjYR67hSGJ/Lv50PE9FmcG7YcPtyU8iqn+wId4v+ci4eW3EjQFx80yukGzK8LGD3GabIebDbgKFZuaoJcP5+3qeQyGmRrIpA3m5m670jqirODhrYe+MECq8erTQFkKnHizcZAYjk5M2dfgpfC5y0IT+tEZ3igfLJZTzrIZLwXc=:2015/04/20 11-01-34:20日10時49分,1,1,4,与那国島近海,20km,5.2,0,N24.3,E122.4,:-沖縄県,+1,*与那国町";
+
+            bool called = false;
+            peerManager.OnEarthquake += (s, e) =>
+            {
+                called = true;
+                Assert.AreEqual(QuakeInformationType.Detail, e.InformationType);
+                Assert.AreEqual("20km", e.Depth);
+                Assert.AreEqual("与那国島近海", e.Destination);
+                Assert.AreEqual(false, e.IsCorrection);
+                Assert.AreEqual("N24.3", e.Latitude);
+                Assert.AreEqual("E122.4", e.Longitude);
+                Assert.AreEqual("5.2", e.Magnitude);
+                Assert.AreEqual("20日10時49分", e.OccuredTime);
+                Assert.AreEqual("1", e.Scale);
+                Assert.AreEqual(DomesticTsunamiType.Effective, e.TsunamiType);
+
+                object[,] expected =
+                {
+                    { "沖縄県", "1", "与那国町" },
+                };
+
+                Assert.AreEqual(expected.GetLength(0), e.PointList.Count);
+
+                for (int i = 0; i < expected.GetLength(0); i++)
+                {
+                    Assert.AreEqual(expected[i, 0], e.PointList[i].Prefecture);
+                    Assert.AreEqual(expected[i, 1], e.PointList[i].Scale);
+                    Assert.AreEqual(expected[i, 2], e.PointList[i].Name);
+                }
+            };
+            invokeRaiseDataEvent(retreive);
+
+            Assert.IsTrue(called);
         }
 
         [TestCase]
         public void raiseDataEvent_EarthquakeData_RaiseOnEarthquake_Foreign()
         {
-            Assert.Ignore("Not Implemented");
+            var retreive =
+                "551 7 od6C+LthyfJ1Ha+vjDks17ZeeBfJaC2M2dGr053sQ8tTT1Axx9QUkZNqLg7RTIIjkY3OLlxAzXMn3sdLKe1if8Isv+f8vGv0H5xWhGp7ATR3ehzCcDeGokPRShGyFuj/83+2Iz+Tb/yAoWz224Snbjx7OX1zOfnzrN92oSiA97I=:2015/05/05 11-55-46:05日10時44分,0,0,5,パプアニューギニア、ニューブリテン,ごく浅い,7.5,0,S5.6,E152.1,気象庁:";
+
+            bool called = false;
+            peerManager.OnEarthquake += (s, e) =>
+            {
+                called = true;
+                Assert.AreEqual(QuakeInformationType.Foreign, e.InformationType);
+                Assert.AreEqual("ごく浅い", e.Depth);
+                Assert.AreEqual("パプアニューギニア、ニューブリテン", e.Destination);
+                Assert.AreEqual(false, e.IsCorrection);
+                Assert.AreEqual("S5.6", e.Latitude);
+                Assert.AreEqual("E152.1", e.Longitude);
+                Assert.AreEqual("7.5", e.Magnitude);
+                Assert.AreEqual("05日10時44分", e.OccuredTime);
+                Assert.AreEqual(DomesticTsunamiType.None, e.TsunamiType);
+
+                Assert.IsTrue(e.PointList == null || e.PointList.Count == 0);
+            };
+            invokeRaiseDataEvent(retreive);
+
+            Assert.IsTrue(called);
         }
 
         [TestCase]
         public void raiseDataEvent_EarthquakeData_RaiseOnEarthquake_Other()
         {
-            Assert.Ignore("Not Implemented");
+            var retreive =
+                "551 5 aFb8UWobsHdtSR2eW2zezd7kKXOIDt0L2eHqtJGXkcWCUmngFMQuNcof89QzFl+XaX4U+edN2AimCWdPVS2F7ANXkZjtf/XK0fLCrIPs2IcZbzIIC2cODwPNB245pjZr44iWWGbDnZqYiKcTXZgtuashyj0512Wz1Ceeq5TpP/w=:2015/02/17 09-56-36:01日00時00分,0,3,6,,ごく浅い,-1.0,1,,,気象庁:";
+
+            bool called = false;
+            peerManager.OnEarthquake += (s, e) =>
+            {
+                called = true;
+                Assert.AreEqual(QuakeInformationType.Unknown, e.InformationType);
+            };
+            invokeRaiseDataEvent(retreive);
+
+            Assert.IsTrue(called);
         }
 
         [TestCase]
