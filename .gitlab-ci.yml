@@ -2,6 +2,9 @@ stages:
   - build
   - test
 
+before_script:
+  - nuget restore
+
 cache:
  key: "$CI_PIPELINE_ID"
  untracked: true
