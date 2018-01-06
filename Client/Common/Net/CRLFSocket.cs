@@ -277,7 +277,7 @@ namespace Client.Common.Net
                 {
                     Logger.GetLog().Debug("送信データ: " + line);
 
-                    socket.Send(Encoding.UTF8.GetBytes(line + "\r\n"));
+                    socket.Send(Encoding.GetEncoding(932).GetBytes(line + "\r\n"));
                     return true;
                 }
                 catch (SocketException se)
