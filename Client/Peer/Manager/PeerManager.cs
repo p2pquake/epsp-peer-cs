@@ -56,6 +56,7 @@ namespace Client.Peer.Manager
             Packet packet = new Packet();
             packet.Code = 614;
             packet.Hop = 1;
+            packet.Data = new string[] { Const.PROTOCOL_VERSION, Const.SOFTWARE_NAME, Const.SOFTWARE_VERSION };
             peer.Send(packet);
         }
              
