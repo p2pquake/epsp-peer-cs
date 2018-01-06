@@ -77,7 +77,7 @@ namespace Client.Peer
 
         private void AsyncListener_Accept(object sender, AcceptEventArgs e)
         {
-            if (Connections >= PeerConfig.MaxConnections)
+            if (Connections >= PeerConfig.MaxConnections && !e.Socket.RemoteEndPoint.ToString().Contains("127.0.0.1"))
             {
                 e.Socket.Close();
                 return;
