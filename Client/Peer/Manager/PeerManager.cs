@@ -135,14 +135,19 @@ namespace Client.Peer.Manager
                 string scale = null;
                 foreach (string detail in details)
                 {
+                    if (detail.Length <= 0)
+                    {
+                        continue;
+                    }
+
                     if (detail[0] == '-')
                     {
-                        prefecture = detail;
+                        prefecture = detail.Substring(1);
                         continue;
                     }
                     if (detail[0] == '+')
                     {
-                        scale = detail;
+                        scale = detail.Substring(1);
                         continue;
                     }
                     if (detail[0] != '*')
@@ -153,7 +158,7 @@ namespace Client.Peer.Manager
                     QuakeObservationPoint point = new QuakeObservationPoint();
                     point.Prefecture = prefecture;
                     point.Scale = scale;
-                    point.Name = detail;
+                    point.Name = detail.Substring(1);
 
                     e.PointList.Add(point);
                 }
@@ -183,9 +188,9 @@ namespace Client.Peer.Manager
                 {
                     if (data[0] == '-')
                     {
-                        if (data.EndsWith("大津波警報")) { category = TsunamiCategory.MajorWarning; }
-                        if (data.EndsWith("津波警報")) { category = TsunamiCategory.Warning; }
                         if (data.EndsWith("津波注意報")) { category = TsunamiCategory.Advisory; }
+                        if (data.EndsWith("津波警報")) { category = TsunamiCategory.Warning; }
+                        if (data.EndsWith("大津波警報")) { category = TsunamiCategory.MajorWarning; }
                         continue;
                     }
 
