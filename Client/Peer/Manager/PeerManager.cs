@@ -23,6 +23,10 @@ namespace Client.Peer.Manager
         public event EventHandler<EPSPAreapeersEventArgs> OnAreapeers;
         public event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
 
+#if RAISE_RAW_DATA_EVENT
+        public event EventHandler<EPSPRawDataEventArgs> OnData;      
+#endif
+
         public Func<int> PeerId { get; set; }
 
         internal int Connections { get { return peerList.Count; } }
@@ -106,6 +110,13 @@ namespace Client.Peer.Manager
 
         private void raiseDataEvent(Packet packet)
         {
+            // オプションにより有効とする
+#if RAISE_RAW_DATA_EVENT
+            EPSPRawDataEventArgs raw = new EPSPRawDataEventArgs();
+            raw.Packet = packet.ToPacketString();
+            OnData(this, raw);  
+#endif
+
             // TODO: 署名検証をしていない
             if (packet.Code == Code.EARTHQUAKE)
             {
