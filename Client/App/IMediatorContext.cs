@@ -30,5 +30,8 @@ namespace Client.App
         /// <summary>地震感知情報イベント</summary>
         event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
 
+#if RAISE_RAW_DATA_EVENT
+        event EventHandler<EPSPRawDataEventArgs> OnData;
+#endif
     }
 }
