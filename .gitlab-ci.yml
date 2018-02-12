@@ -20,6 +20,11 @@ build_cui:
     - msbuild "Client/Client.csproj"
     - msbuild "CUIClient/CUIClient.csproj"
 
+build_bridge:
+ stage: build
+ script:
+    - msbuild "Client.sln" /p:Configuration=DebugWithRawEvent
+
 build_epspwpf:
  stage: build
  script:
