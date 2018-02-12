@@ -105,6 +105,11 @@ namespace Client.Peer
         public string PublicKey { get; set; } = "";
     }
 
+    public class EPSPRawDataEventArgs
+    {
+        public string Packet { get; set; } = "";
+    }
+
     /// <summary>
     /// 上位クラスへ見せるPeerContextインタフェース
     /// </summary>
@@ -132,6 +137,10 @@ namespace Client.Peer
         /// 地震感知情報イベント
         /// </summary>
         event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
+
+#if RAISE_RAW_DATA_EVENT
+        event EventHandler<EPSPRawDataEventArgs> OnData;
+#endif
 
         /// <summary>
         /// すべてのピア接続を切断します。
