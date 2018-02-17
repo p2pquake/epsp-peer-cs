@@ -22,19 +22,19 @@ namespace BridgeClient
         private static ILog logger = LogManager.GetLogger("MobileServer");
         private Thread thread;
 
-        public void start()
+        public void Start()
         {
             logger.Debug("HTTPサーバを開始します.");
-            thread = new Thread(run);
+            thread = new Thread(Run);
             thread.Start();
         }
 
-        public void stop()
+        public void Stop()
         {
             thread.Abort();
         }
 
-        private void run()
+        private void Run()
         {
             HttpListener listener = new HttpListener();
             listener.Prefixes.Add("http://localhost:6922/"); // プレフィックスの登録
