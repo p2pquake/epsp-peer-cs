@@ -7,6 +7,7 @@ using Client.App.State;
 using Client.Client;
 using Client.Client.General;
 using Client.Common.General;
+using Client.Common.Net;
 using Client.Peer;
 
 namespace Client.App
@@ -152,5 +153,12 @@ namespace Client.App
             }
             return DateTime.Now + TimeOffset;
         }
+
+#if MOBILE_SERVER
+        public void SendAll(Packet packet)
+        {
+            peerContext.SendAll(packet);
+        }
+#endif
     }
 }
