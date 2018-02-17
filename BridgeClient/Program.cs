@@ -18,6 +18,7 @@ namespace BridgeClient
         private static ILog dataLogger = LogManager.GetLogger("DataLogger");
 
         private static IMediatorContext mediatorContext;
+        private static MobileServer mobileServer;
         private static Stateprinter statePrinter = new Stateprinter();
 
         static void Main(string[] args)
@@ -39,9 +40,19 @@ namespace BridgeClient
             mediatorContext.IsPortOpen = true;
             mediatorContext.Port = 6999;
 
+            mobileServer = new MobileServer();
+            mobileServer.OnReceive += MobileServer_OnReceive;
+            mobileServer.Start();
+
             mediatorContext.Connect();
 
             Console.ReadLine();
+        }
+
+        private static void MobileServer_OnReceive(object sender, ReceiveEventArgs e)
+        {
+            logger.Debug("arrival from mobileserver: " + statePrinter.PrintObject(e));
+            mediatorContext.SendAll(e.Packet);
         }
 
         private static void MediatorContext_OnData(object sender, Client.Peer.EPSPRawDataEventArgs e)
