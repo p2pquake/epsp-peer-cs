@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Client.Common.Net
 {
-    class Packet
+    public class Packet
     {
         private int code;
         private int hop;

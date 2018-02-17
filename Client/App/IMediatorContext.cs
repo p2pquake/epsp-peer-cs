@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Client.App.State;
 using Client.Client;
+using Client.Common.Net;
 using Client.Peer;
 
 namespace Client.App
@@ -32,6 +33,9 @@ namespace Client.App
 
 #if RAISE_RAW_DATA_EVENT
         event EventHandler<EPSPRawDataEventArgs> OnData;
+#endif
+#if MOBILE_SERVER
+        void SendAll(Packet packet);
 #endif
     }
 }
