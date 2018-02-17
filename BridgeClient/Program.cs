@@ -11,7 +11,7 @@ using StatePrinting.OutputFormatters;
 
 namespace BridgeClient
 {
-#if RAISE_RAW_DATA_EVENT
+#if RAISE_RAW_DATA_EVENT || MOBILE_SERVER
     class Program
     {
         private static ILog logger = LogManager.GetLogger("BridgeClient");

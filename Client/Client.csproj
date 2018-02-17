@@ -85,7 +85,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithRawEvent|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\DebugWithRawEvent\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;MOBILE; RAISE_RAW_DATA_EVENT</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;RAISE_RAW_DATA_EVENT; MOBILE_SERVER</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
