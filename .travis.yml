@@ -1,0 +1,12 @@
+language: csharp
+solution: Client.sln
+install:
+  - nuget restore Client.sln
+  - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
+script:
+  - xbuild Client/Client.csproj
+  - xbuild CUIClient/CUIClient.csproj
+  - xbuild Client.sln /p:Configuration=DebugWithRawEvent
+  - xbuild ClientTest/ClientTest.csproj
+  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./ClientTest/bin/Debug/ClientTest.dll
+
