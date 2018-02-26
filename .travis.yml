@@ -9,4 +9,7 @@ script:
   - xbuild Client.sln /p:Configuration=DebugWithRawEvent
   - xbuild ClientTest/ClientTest.csproj
   - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./ClientTest/bin/Debug/ClientTest.dll
+  - xbuild PKCSPeerCrypto/PKCSPeerCrypto.csproj
+  - xbuild PKCSPeerCryptoTest/PKCSPeerCryptoTest.csproj
+  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./PKCSPeerCryptoTest/bin/Debug/PKCSPeerCryptoTest.dll
 
