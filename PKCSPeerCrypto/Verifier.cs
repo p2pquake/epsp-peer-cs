@@ -99,6 +99,7 @@ namespace PKCSPeerCrypto
         /// <param name="data">データ</param>
         /// <param name="expire">有効期限</param>
         /// <param name="signature">署名</param>
+        /// <param name="now">プロトコル日時</param>
         /// <returns></returns>
         public static VerifyResult VerifyServerData(string data, string expire, string signature, DateTime now)
         {
