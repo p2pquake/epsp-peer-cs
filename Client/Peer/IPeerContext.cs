@@ -13,9 +13,9 @@ namespace Client.Peer
     public abstract class EPSPDataEventArgs : EventArgs
     {
         /// <summary>署名の妥当性チェック結果</summary>
-        public bool IsValid { get; set; } = false;
-        public bool IsInvalidSignature { get; set; } = false;
-        public bool IsExpired { get; set; } = false;
+        public bool IsValid { get { return !IsInvalidSignature && !IsExpired; } }
+        public bool IsInvalidSignature { get; set; } = true;
+        public bool IsExpired { get; set; } = true;
     }
 
     public enum DomesticTsunamiType
