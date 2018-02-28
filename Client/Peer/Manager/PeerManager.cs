@@ -8,6 +8,7 @@ using System.Threading;
 using Client.Common.General;
 using Client.Common.Net;
 using Client.Peer.General;
+using PKCSPeerCrypto;
 
 namespace Client.Peer.Manager
 {
@@ -28,6 +29,7 @@ namespace Client.Peer.Manager
 #endif
 
         public Func<int> PeerId { get; set; }
+        public Func<DateTime> ProtocolTime { get; set; }
 
         internal int Connections { get { return peerList.Count; } }
 
@@ -116,8 +118,7 @@ namespace Client.Peer.Manager
             raw.Packet = packet.ToPacketString();
             OnData(this, raw);  
 #endif
-
-            // TODO: 署名検証をしていない
+            
             if (packet.Code == Code.EARTHQUAKE)
             {
                 if (packet.Data == null || packet.Data.Length < 4)
@@ -126,6 +127,10 @@ namespace Client.Peer.Manager
                 }
 
                 EPSPQuakeEventArgs e = new EPSPQuakeEventArgs();
+                Verifier.VerifyResult result = Verifier.VerifyServerData(packet.Data[2] + packet.Data[3], packet.Data[1], packet.Data[0], ProtocolTime());
+                e.IsExpired = result.isExpired;
+                e.IsInvalidSignature = !result.isValidSignature;
+
                 // 地震概要の解析
                 string[] abstracts = packet.Data[2].Split(',');
                 e.OccuredTime = abstracts[0];
@@ -186,6 +191,9 @@ namespace Client.Peer.Manager
 
                 string[] datas = packet.Data[2].Split(',');
                 EPSPTsunamiEventArgs e = new EPSPTsunamiEventArgs();
+                Verifier.VerifyResult result = Verifier.VerifyServerData(packet.Data[2], packet.Data[1], packet.Data[0], ProtocolTime());
+                e.IsExpired = result.isExpired;
+                e.IsInvalidSignature = !result.isValidSignature;
 
                 if (datas[0] == "解除")
                 {
@@ -230,6 +238,10 @@ namespace Client.Peer.Manager
 
                 string[] datas = packet.Data[2].Split(';');
                 EPSPAreapeersEventArgs e = new EPSPAreapeersEventArgs();
+                Verifier.VerifyResult result = Verifier.VerifyServerData(packet.Data[2], packet.Data[1], packet.Data[0], ProtocolTime());
+                e.IsExpired = result.isExpired;
+                e.IsInvalidSignature = !result.isValidSignature;
+
                 e.AreaPeerDictionary = datas.ToDictionary(data => data.Split(',')[0], data => int.Parse(data.Split(',')[1]));
                 OnAreapeers(this, e);
             }
@@ -247,6 +259,10 @@ namespace Client.Peer.Manager
                 }
 
                 EPSPUserquakeEventArgs e = new EPSPUserquakeEventArgs();
+                Verifier.VerifyResult result = Verifier.VerifyUserquake(packet.Data[5], packet.Data[1], packet.Data[0], packet.Data[2], packet.Data[3], packet.Data[4], ProtocolTime());
+                e.IsExpired = result.isExpired;
+                e.IsInvalidSignature = !result.isValidSignature;
+
                 e.PublicKey = packet.Data[2];
                 e.AreaCode = data[1];
                 OnUserquake(this, e);
