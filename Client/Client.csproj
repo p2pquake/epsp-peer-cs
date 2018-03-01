@@ -153,8 +153,6 @@
     <Compile Include="Peer\Manager\PeerManager.cs" />
     <Compile Include="Peer\State\AbstractState.cs" />
     <Compile Include="Peer\State\GeneralState.cs" />
-    <Compile Include="Peer\Verifier\IVerifyManager.cs" />
-    <Compile Include="Peer\Verifier\VerifyManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Client\State\AbstractState.cs" />
   </ItemGroup>
@@ -179,6 +177,12 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PKCSPeerCrypto\PKCSPeerCrypto.csproj">
+      <Project>{a4c721b3-c264-4b6d-a04a-dea041fd1fe6}</Project>
+      <Name>PKCSPeerCrypto</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
