@@ -28,6 +28,8 @@ namespace Client.App
         event EventHandler<EPSPTsunamiEventArgs> OnTsunami;
         /// <summary>地域ピア数イベント</summary>
         event EventHandler<EPSPAreapeersEventArgs> OnAreapeers;
+        /// <summary>緊急地震速報 配信試験(β)イベント</summary>
+        event EventHandler<EPSPEEWTestEventArgs> OnEEWTest;
         /// <summary>地震感知情報イベント</summary>
         event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
 

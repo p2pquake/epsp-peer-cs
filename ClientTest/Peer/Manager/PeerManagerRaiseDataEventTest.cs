@@ -243,6 +243,88 @@ namespace ClientTest.Peer.Manager
         }
 
         [TestCase]
+        public void raiseDataEvent_EEWData_VerificationSucceeded()
+        {
+            var retreive =
+                "561 12 S7PIyxJ9McMRmZsumTWZNVJGoh8sEsSxy0mc9nPpuI5ejNDjSJ7lhDpAZ6M+Hkj7c1kNlwMfFWfRr+7nx7j5wPuhAVFDmc40gT4d7Iap32auF3YFOv07PrWtFk5W1MwYc+HbJin6HDt64oZJS4jfYrFzdFPyKFmDINxQBuzouDg=:2018/03/01 22-45-51:010,67;015,7;025,1;030,4;035,9;040,1;045,4;050,5;055,10;060,1;065,8;070,7;075,2;100,27;105,27;106,1;110,8;111,3;115,33;120,32;125,57;130,22;135,11;140,6;141,2;142,14;143,5;150,35;151,8;152,7;200,38;205,51;210,4;215,51;220,9;225,50;230,36;231,202;232,4;240,18;241,145;242,8;250,641;255,1;270,253;275,60;300,3;301,9;302,12;305,1;310,8;315,5;325,20;330,3;335,2;340,3;345,9;350,21;351,17;355,12;400,2;405,40;410,2;411,43;415,36;416,22;420,26;425,96;430,25;435,3;440,2;445,7;455,34;460,79;465,41;470,3;475,56;480,15;490,13;495,3;500,3;505,7;510,8;515,1;520,3;525,19;530,4;535,22;541,3;545,4;550,7;555,2;560,20;570,8;575,11;576,4;580,1;581,11;600,27;601,12;602,3;605,6;610,1;615,3;620,2;625,6;641,10;646,2;650,4;651,7;656,2;660,1;665,4;670,9;675,5;685,1;700,1;701,4;900,102;901,6;905,5;950,0";
+
+            bool called = false;
+            peerManager.OnAreapeers += (s, e) => { };
+            peerManager.OnEEWTest += (s, e) =>
+            {
+                called = true;
+                Assert.IsTrue(e.IsValid);
+                Assert.IsFalse(e.IsExpired);
+                Assert.IsFalse(e.IsInvalidSignature);
+            };
+            peerManager.ProtocolTime += () => { return DateTime.Parse("2018/03/01 22:45:51"); };
+            invokeRaiseDataEvent(retreive);
+
+            Assert.IsTrue(called);
+        }
+
+        [TestCase]
+        public void raiseDataEvent_EEWData_VerificationExpired()
+        {
+            var retreive =
+                "561 12 S7PIyxJ9McMRmZsumTWZNVJGoh8sEsSxy0mc9nPpuI5ejNDjSJ7lhDpAZ6M+Hkj7c1kNlwMfFWfRr+7nx7j5wPuhAVFDmc40gT4d7Iap32auF3YFOv07PrWtFk5W1MwYc+HbJin6HDt64oZJS4jfYrFzdFPyKFmDINxQBuzouDg=:2018/03/01 22-45-51:010,67;015,7;025,1;030,4;035,9;040,1;045,4;050,5;055,10;060,1;065,8;070,7;075,2;100,27;105,27;106,1;110,8;111,3;115,33;120,32;125,57;130,22;135,11;140,6;141,2;142,14;143,5;150,35;151,8;152,7;200,38;205,51;210,4;215,51;220,9;225,50;230,36;231,202;232,4;240,18;241,145;242,8;250,641;255,1;270,253;275,60;300,3;301,9;302,12;305,1;310,8;315,5;325,20;330,3;335,2;340,3;345,9;350,21;351,17;355,12;400,2;405,40;410,2;411,43;415,36;416,22;420,26;425,96;430,25;435,3;440,2;445,7;455,34;460,79;465,41;470,3;475,56;480,15;490,13;495,3;500,3;505,7;510,8;515,1;520,3;525,19;530,4;535,22;541,3;545,4;550,7;555,2;560,20;570,8;575,11;576,4;580,1;581,11;600,27;601,12;602,3;605,6;610,1;615,3;620,2;625,6;641,10;646,2;650,4;651,7;656,2;660,1;665,4;670,9;675,5;685,1;700,1;701,4;900,102;901,6;905,5;950,0";
+
+            bool called = false;
+            peerManager.OnAreapeers += (s, e) => { };
+            peerManager.OnEEWTest += (s, e) =>
+            {
+                called = true;
+                Assert.IsFalse(e.IsValid);
+                Assert.IsTrue(e.IsExpired);
+                Assert.IsFalse(e.IsInvalidSignature);
+            };
+            peerManager.ProtocolTime += () => { return DateTime.Parse("2018/03/01 22:45:52"); };
+            invokeRaiseDataEvent(retreive);
+
+            Assert.IsTrue(called);
+        }
+
+        [TestCase]
+        public void raiseDataEvent_EEWData_VerificationInvalid()
+        {
+            var retreive =
+                "561 12 s7PIyxJ9McMRmZsumTWZNVJGoh8sEsSxy0mc9nPpuI5ejNDjSJ7lhDpAZ6M+Hkj7c1kNlwMfFWfRr+7nx7j5wPuhAVFDmc40gT4d7Iap32auF3YFOv07PrWtFk5W1MwYc+HbJin6HDt64oZJS4jfYrFzdFPyKFmDINxQBuzouDg=:2018/03/01 22-45-51:010,67;015,7;025,1;030,4;035,9;040,1;045,4;050,5;055,10;060,1;065,8;070,7;075,2;100,27;105,27;106,1;110,8;111,3;115,33;120,32;125,57;130,22;135,11;140,6;141,2;142,14;143,5;150,35;151,8;152,7;200,38;205,51;210,4;215,51;220,9;225,50;230,36;231,202;232,4;240,18;241,145;242,8;250,641;255,1;270,253;275,60;300,3;301,9;302,12;305,1;310,8;315,5;325,20;330,3;335,2;340,3;345,9;350,21;351,17;355,12;400,2;405,40;410,2;411,43;415,36;416,22;420,26;425,96;430,25;435,3;440,2;445,7;455,34;460,79;465,41;470,3;475,56;480,15;490,13;495,3;500,3;505,7;510,8;515,1;520,3;525,19;530,4;535,22;541,3;545,4;550,7;555,2;560,20;570,8;575,11;576,4;580,1;581,11;600,27;601,12;602,3;605,6;610,1;615,3;620,2;625,6;641,10;646,2;650,4;651,7;656,2;660,1;665,4;670,9;675,5;685,1;700,1;701,4;900,102;901,6;905,5;950,0";
+
+            bool called = false;
+            peerManager.OnAreapeers += (s, e) => { };
+            peerManager.OnEEWTest += (s, e) =>
+            {
+                called = true;
+                Assert.IsFalse(e.IsValid);
+                Assert.IsFalse(e.IsExpired);
+                Assert.IsTrue(e.IsInvalidSignature);
+            };
+            peerManager.ProtocolTime += () => { return DateTime.Parse("2018/03/01 22:45:51"); };
+            invokeRaiseDataEvent(retreive);
+
+            Assert.IsTrue(called);
+        }
+
+        [TestCase]
+        public void raiseDataEvent_EEWData_RaiseOnEEWTest()
+        {
+            var retreive =
+                "561 12 S7PIyxJ9McMRmZsumTWZNVJGoh8sEsSxy0mc9nPpuI5ejNDjSJ7lhDpAZ6M+Hkj7c1kNlwMfFWfRr+7nx7j5wPuhAVFDmc40gT4d7Iap32auF3YFOv07PrWtFk5W1MwYc+HbJin6HDt64oZJS4jfYrFzdFPyKFmDINxQBuzouDg=:2018/03/01 22-45-51:010,67;015,7;025,1;030,4;035,9;040,1;045,4;050,5;055,10;060,1;065,8;070,7;075,2;100,27;105,27;106,1;110,8;111,3;115,33;120,32;125,57;130,22;135,11;140,6;141,2;142,14;143,5;150,35;151,8;152,7;200,38;205,51;210,4;215,51;220,9;225,50;230,36;231,202;232,4;240,18;241,145;242,8;250,641;255,1;270,253;275,60;300,3;301,9;302,12;305,1;310,8;315,5;325,20;330,3;335,2;340,3;345,9;350,21;351,17;355,12;400,2;405,40;410,2;411,43;415,36;416,22;420,26;425,96;430,25;435,3;440,2;445,7;455,34;460,79;465,41;470,3;475,56;480,15;490,13;495,3;500,3;505,7;510,8;515,1;520,3;525,19;530,4;535,22;541,3;545,4;550,7;555,2;560,20;570,8;575,11;576,4;580,1;581,11;600,27;601,12;602,3;605,6;610,1;615,3;620,2;625,6;641,10;646,2;650,4;651,7;656,2;660,1;665,4;670,9;675,5;685,1;700,1;701,4;900,102;901,6;905,5;950,0";
+
+            bool called = false;
+            peerManager.OnAreapeers += (s, e) => { };
+            peerManager.OnEEWTest += (s, e) =>
+            {
+                called = true;
+                Assert.IsFalse(e.IsTest);
+            };
+            peerManager.ProtocolTime += () => { return DateTime.Parse("2018/03/01 22:45:51"); };
+            invokeRaiseDataEvent(retreive);
+
+            Assert.IsTrue(called);
+        }
+
+        [TestCase]
         public void raiseDataEvent_EarthquakeData_VerificationSucceeded()
         {
             var retreive =
