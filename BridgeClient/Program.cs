@@ -32,6 +32,7 @@ namespace BridgeClient
             mediatorContext.OnAreapeers += MediatorContext_OnAreapeers;
             mediatorContext.OnEarthquake += MediatorContext_OnEarthquake;
             mediatorContext.OnTsunami += MediatorContext_OnTsunami;
+            mediatorContext.OnEEWTest += MediatorContext_OnEEWTest;
             mediatorContext.OnUserquake += MediatorContext_OnUserquake;
             mediatorContext.OnData += MediatorContext_OnData;
             mediatorContext.StateChanged += MediatorContext_StateChanged;
@@ -88,6 +89,11 @@ namespace BridgeClient
         private static void MediatorContext_OnAreapeers(object sender, Client.Peer.EPSPAreapeersEventArgs e)
         {
             dataLogger.Info("Areapeers: " + JsonConvert.SerializeObject(e));
+        }
+
+        private static void MediatorContext_OnEEWTest(object sender, Client.Peer.EPSPEEWTestEventArgs e)
+        {
+            dataLogger.Info("EEWTest: " + JsonConvert.SerializeObject(e));
         }
 
         private static void MediatorContext_ConnectionsChanged(object sender, EventArgs e)

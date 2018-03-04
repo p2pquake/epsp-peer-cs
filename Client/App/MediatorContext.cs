@@ -24,6 +24,7 @@ namespace Client.App
         public event EventHandler<EPSPQuakeEventArgs> OnEarthquake;
         public event EventHandler<EPSPTsunamiEventArgs> OnTsunami;
         public event EventHandler<EPSPAreapeersEventArgs> OnAreapeers;
+        public event EventHandler<EPSPEEWTestEventArgs> OnEEWTest;
         public event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
 #if RAISE_RAW_DATA_EVENT
         public event EventHandler<EPSPRawDataEventArgs> OnData;
@@ -72,6 +73,7 @@ namespace Client.App
             peerContext.OnUserquake += (s, e) => { OnUserquake(s, e); };
             peerContext.OnTsunami += (s, e) => { OnTsunami(s, e); };
             peerContext.OnEarthquake += (s, e) => { OnEarthquake(s, e); };
+            peerContext.OnEEWTest += (s, e) => { OnEEWTest(s, e); };
 #if RAISE_RAW_DATA_EVENT
             peerContext.OnData += (s, e) => { OnData(s, e); };
 #endif

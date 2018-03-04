@@ -23,6 +23,7 @@ namespace CUIClient
             mediatorContext.OnAreapeers += MediatorContext_OnAreapeers;
             mediatorContext.OnEarthquake += MediatorContext_OnEarthquake;
             mediatorContext.OnTsunami += MediatorContext_OnTsunami;
+            mediatorContext.OnEEWTest += MediatorContext_OnEEWTest;
             mediatorContext.OnUserquake += MediatorContext_OnUserquake;
             mediatorContext.StateChanged += MediatorContext_StateChanged;
             mediatorContext.Completed += MediatorContext_Completed;
@@ -73,6 +74,13 @@ namespace CUIClient
         {
             // FIXME: 実装する
             Console.WriteLine("OnAreapeers");
+            Console.WriteLine(statePrinter.PrintObject(e));
+        }
+
+        private static void MediatorContext_OnEEWTest(object sender, Client.Peer.EPSPEEWTestEventArgs e)
+        {
+            // FIXME: 実装する
+            Console.WriteLine("OnEEWTest");
             Console.WriteLine(statePrinter.PrintObject(e));
         }
 
