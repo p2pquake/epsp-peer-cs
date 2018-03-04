@@ -99,6 +99,11 @@ namespace Client.Peer
         public IDictionary<string, int> AreaPeerDictionary { get; set; } = null;
     }
 
+    public class EPSPEEWTestEventArgs : EPSPDataEventArgs
+    {
+        public bool IsTest { get; set; } = false;
+    }
+
     public class EPSPUserquakeEventArgs : EPSPDataEventArgs
     {
         public string AreaCode { get; set; } = "";
@@ -132,6 +137,11 @@ namespace Client.Peer
         /// 地域ピア数イベント
         /// </summary>
         event EventHandler<EPSPAreapeersEventArgs> OnAreapeers;
+
+        /// <summary>
+        /// 緊急地震速報 配信試験(β)イベント
+        /// </summary>
+        event EventHandler<EPSPEEWTestEventArgs> OnEEWTest;
 
         /// <summary>
         /// 地震感知情報イベント
