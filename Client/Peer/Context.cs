@@ -19,6 +19,7 @@ namespace Client.Peer
         public event EventHandler<EPSPQuakeEventArgs> OnEarthquake;
         public event EventHandler<EPSPTsunamiEventArgs> OnTsunami;
         public event EventHandler<EPSPAreapeersEventArgs> OnAreapeers;
+        public event EventHandler<EPSPEEWTestEventArgs> OnEEWTest;
         public event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
 #if RAISE_RAW_DATA_EVENT
         public event EventHandler<EPSPRawDataEventArgs> OnData;
@@ -40,6 +41,7 @@ namespace Client.Peer
             peerManager.OnAreapeers += PeerManager_OnAreapeers;
             peerManager.OnEarthquake += PeerManager_OnEarthquake;
             peerManager.OnTsunami += PeerManager_OnTsunami;
+            peerManager.OnEEWTest += PeerManager_OnEEWTest;
             peerManager.OnUserquake += PeerManager_OnUserquake;
 #if RAISE_RAW_DATA_EVENT
             peerManager.OnData += PeerManager_OnData;
@@ -71,6 +73,11 @@ namespace Client.Peer
         private void PeerManager_OnAreapeers(object sender, EPSPAreapeersEventArgs e)
         {
             OnAreapeers(sender, e);
+        }
+
+        private void PeerManager_OnEEWTest(object sender, EPSPEEWTestEventArgs e)
+        {
+            OnEEWTest(sender, e);
         }
 
         private void PeerManager_ConnectionsChanged(object sender, EventArgs e)
