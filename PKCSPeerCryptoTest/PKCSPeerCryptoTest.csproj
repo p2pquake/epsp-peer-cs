@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Compile Include="SignerTest.cs" />
     <Compile Include="VerifierTest.cs" />
   </ItemGroup>
   <Choose>
