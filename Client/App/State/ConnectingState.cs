@@ -40,6 +40,17 @@ namespace Client.App.State
 
                 mediatorContext.State = new ConnectedState();
             }
+            else if (operationResult == ClientConst.OperationResult.Restartable)
+            {
+                Logger.GetLog().Info("IPアドレスが変化しているため、再接続します。");
+
+                peerContext.DisconnectAll();
+
+                Logger.GetLog().Info("ピア接続をすべて切断しました（接続数: " + peerContext.Connections + "）");
+
+                mediatorContext.State = new DisconnectedState();
+                mediatorContext.Connect();
+            }
             else if (operationResult == ClientConst.OperationResult.Retryable)
             {
                 // FIXME: 再試行すること。いまは放置プレイ
