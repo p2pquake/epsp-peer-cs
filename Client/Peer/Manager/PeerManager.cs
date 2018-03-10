@@ -54,6 +54,12 @@ namespace Client.Peer.Manager
             IPEndPoint remoteEndPoint = crlfSocket.RemoteEndPoint;
             peer.PeerData = new PeerData(remoteEndPoint.Address.ToString(), remoteEndPoint.Port, -1);
 
+            if (peerList.Any(e => e.PeerData.Address == peer.PeerData.Address))
+            {
+                peer.Disconnect();
+                return;
+            }
+
             peerList.Add(peer);
             ConnectionsChanged(this, EventArgs.Empty);
 
