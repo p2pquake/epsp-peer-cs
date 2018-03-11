@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Client.Client;
+using Client.Client.General;
+using Client.Peer;
 
 namespace Client.App.State
 {
@@ -23,6 +26,17 @@ namespace Client.App.State
         internal override bool CanMaintain
         {
             get { return false; }
+        }
+
+        internal override void Completed(MediatorContext mediatorContext, IClientContext clientContext, IPeerContext peerContext, OperationCompletedEventArgs oce)
+        {
+            if (oce.Result == ClientConst.OperationResult.Retryable)
+            {
+                mediatorContext.State = new ConnectedState();
+                return;
+            }
+
+            mediatorContext.State = new DisconnectedState();
         }
     }
 }
