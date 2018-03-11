@@ -59,7 +59,8 @@ namespace Client.Client
         /// <summary>
         /// 参加終了する
         /// </summary>
-        void Part();
+        /// <returns></returns>
+        bool Part();
 
         /// <summary>
         /// 接続を維持する

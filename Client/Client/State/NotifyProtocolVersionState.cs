@@ -44,7 +44,7 @@ namespace Client.Client.State
             }
             else if (processType == ClientConst.ProcessType.Part)
             {
-                throw new NotImplementedException();
+                context.State = new RequirePartState();
             }
             else
             {
