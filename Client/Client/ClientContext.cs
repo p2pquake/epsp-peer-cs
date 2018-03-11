@@ -75,9 +75,14 @@ namespace Client.Client
             return result;
         }
 
-        public void Part()
+        public bool Part()
         {
-            throw new NotImplementedException();
+            bool result = Connect(new ConnectedState(ClientConst.ProcessType.Part));
+
+            if (!result)
+                State = new FinishedState(ClientConst.OperationResult.Retryable, ClientConst.ErrorCode.CONNECTION_FAILED);
+
+            return result;
         }
 
 
