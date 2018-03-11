@@ -73,11 +73,26 @@ namespace Client.App
             }
             if (e.Result == Client.General.ClientConst.OperationResult.Retryable)
             {
-                if (isStopped || retryCount > 10)
+                if (isStopped)
+                {
+                    if (retryCount > 2)
+                    {
+                        mediatorContext.State = new DisconnectedState();
+                        return;
+                    }
+
+                    Task.Run(() =>
+                    {
+                        RequireDisconnect(this, EventArgs.Empty);
+                    });
+                    return;
+                }
+                
+                if (retryCount > 10)
                 {
                     return;
                 }
-
+                
                 // isStoppedでない: ConnectかMaintain なので絞りこめる
                 if (mediatorContext.State is ConnectedState)
                 {
