@@ -183,58 +183,7 @@ namespace Client.Common.Net
 
             if (receiveBytes > 0)
             {
-                // receive
-
-                // concat
-                Array.Resize(ref buffer, buffer.Length + receiveBytes);
-                Array.Copy(receiveBuffer, 0, buffer, buffer.Length - receiveBytes, receiveBytes);
-
-                // split
-                // \r\nがあればカット．
-                int start = buffer.Length - receiveBytes - 1;
-                if (start < 0)
-                    start = 0;
-                while (true)
-                {
-                    bool cont = false;
-                    for (int i = start; i < buffer.Length - 1; i++)
-                    {
-                        if (buffer[i] == 0x0D && buffer[i + 1] == 0x0A)
-                        {
-                            // extract.
-                            byte[] line = new byte[i];
-                            Array.Copy(buffer, line, i);
-
-                            string lineStr = Encoding.GetEncoding(932).GetString(line);
-                            ReadLineEventArgs readLineEventArgs = new ReadLineEventArgs();
-                            readLineEventArgs.line = lineStr;
-                            Logger.GetLog().Debug("受信データ: " + lineStr);
-
-                            try
-                            {
-                                readLineEventArgs.packet = Packet.Parse(lineStr);
-
-                                ReadLine(this, readLineEventArgs);
-                            }
-                            catch (FormatException fe)
-                            {
-                                if (lineStr != "")
-                                {
-                                    Logger.GetLog().Warn("パケット解析に失敗しました。処理をスキップします。");
-                                }
-                            }
-
-                            // truncate.
-                            byte[] newBuffer = new byte[buffer.Length - i - 2];
-                            Array.Copy(buffer, i + 2, newBuffer, 0, newBuffer.Length);
-                            buffer = newBuffer;
-
-                            cont = true;
-                        }
-                    }
-                    if (!cont)
-                        break;
-                }
+                processReceiveData(receiveBytes);
 
                 if (socket.Connected)
                     socket.BeginReceive(receiveBuffer, 0, BUFFER_SIZE, SocketFlags.None, new AsyncCallback(receiveCallback), socket);
@@ -266,6 +215,60 @@ namespace Client.Common.Net
 
                 //Close();
                 //Closed(this, EventArgs.Empty);
+            }
+        }
+
+        private void processReceiveData(int receiveBytes)
+        {
+            // concat
+            Array.Resize(ref buffer, buffer.Length + receiveBytes);
+            Array.Copy(receiveBuffer, 0, buffer, buffer.Length - receiveBytes, receiveBytes);
+
+            // split
+            // \r\nがあればカット．
+            int start = buffer.Length - receiveBytes - 1;
+            if (start < 0)
+                start = 0;
+            while (true)
+            {
+                bool cont = false;
+                for (int i = start; i < buffer.Length - 1; i++)
+                {
+                    if (buffer[i] == 0x0D && buffer[i + 1] == 0x0A)
+                    {
+                        // extract.
+                        byte[] line = new byte[i];
+                        Array.Copy(buffer, line, i);
+
+                        string lineStr = Encoding.GetEncoding(932).GetString(line);
+                        ReadLineEventArgs readLineEventArgs = new ReadLineEventArgs();
+                        readLineEventArgs.line = lineStr;
+                        Logger.GetLog().Debug("受信データ: " + lineStr);
+
+                        try
+                        {
+                            readLineEventArgs.packet = Packet.Parse(lineStr);
+
+                            ReadLine(this, readLineEventArgs);
+                        }
+                        catch (FormatException fe)
+                        {
+                            if (lineStr != "")
+                            {
+                                Logger.GetLog().Warn("パケット解析に失敗しました。処理をスキップします。");
+                            }
+                        }
+
+                        // truncate.
+                        byte[] newBuffer = new byte[buffer.Length - i - 2];
+                        Array.Copy(buffer, i + 2, newBuffer, 0, newBuffer.Length);
+                        buffer = newBuffer;
+
+                        cont = true;
+                    }
+                }
+                if (!cont)
+                    break;
             }
         }
 
