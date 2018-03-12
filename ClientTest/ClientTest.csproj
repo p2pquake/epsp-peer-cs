@@ -69,6 +69,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Common\Net\CRLFSocketParseTest.cs" />
     <Compile Include="Peer\Manager\PeerManagerRaiseDataEventTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleTest.cs" />
