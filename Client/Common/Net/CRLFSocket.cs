@@ -265,6 +265,7 @@ namespace Client.Common.Net
                         buffer = newBuffer;
 
                         cont = true;
+                        break;
                     }
                 }
                 if (!cont)
