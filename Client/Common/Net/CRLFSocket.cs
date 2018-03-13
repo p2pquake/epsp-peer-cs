@@ -284,7 +284,7 @@ namespace Client.Common.Net
                     socket.Send(Encoding.GetEncoding(932).GetBytes(line + "\r\n"));
                     return true;
                 }
-                catch (SocketException se)
+                catch (Exception e) when (e is SocketException || e is ObjectDisposedException)
                 {
                     return false;
                 }
