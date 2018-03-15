@@ -44,7 +44,7 @@ namespace Client.Common.Net
         private byte[] buffer;
 
         // ソケット
-        private Socket socket;
+        private ISocket socket;
         private byte[] receiveBuffer;
         private const int BUFFER_SIZE = 1024;
 
@@ -57,7 +57,7 @@ namespace Client.Common.Net
 
         public CRLFSocket(Socket socket)
         {
-            this.socket = socket;
+            this.socket = new SocketAdapter(socket);
             buffer = new byte[0];
         }
 
