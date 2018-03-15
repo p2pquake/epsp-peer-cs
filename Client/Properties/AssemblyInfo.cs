@@ -41,3 +41,4 @@ using System.Runtime.InteropServices;
 
 // テストで参照可能にする
 [assembly: InternalsVisibleTo("ClientTest")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
