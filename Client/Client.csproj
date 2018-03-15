@@ -143,7 +143,9 @@
     <Compile Include="Common\General\Logger.cs" />
     <Compile Include="Common\Net\AsyncListener.cs" />
     <Compile Include="Common\Net\CRLFSocket.cs" />
+    <Compile Include="Common\Net\ISocket.cs" />
     <Compile Include="Common\Net\Packet.cs" />
+    <Compile Include="Common\Net\SocketAdapter.cs" />
     <Compile Include="Peer\Context.cs" />
     <Compile Include="Peer\General\Code.cs" />
     <Compile Include="Peer\General\PeerConst.cs" />
