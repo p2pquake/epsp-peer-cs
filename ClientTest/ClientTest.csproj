@@ -78,6 +78,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="App\MediatorContextUserquakeTest.cs" />
     <Compile Include="Common\Net\CRLFSocketTest.cs" />
     <Compile Include="Common\Net\CRLFSocketParseTest.cs" />
     <Compile Include="Peer\Manager\PeerManagerRaiseDataEventTest.cs" />
@@ -93,6 +94,10 @@
     <ProjectReference Include="..\Client\Client.csproj">
       <Project>{5CE56D0D-E1E7-45C8-8323-865A431AA515}</Project>
       <Name>Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PKCSPeerCrypto\PKCSPeerCrypto.csproj">
+      <Project>{A4C721B3-C264-4B6D-A04A-DEA041FD1FE6}</Project>
+      <Name>PKCSPeerCrypto</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
