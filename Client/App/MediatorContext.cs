@@ -45,6 +45,7 @@ namespace Client.App
         public TimeSpan TimeOffset { get; set; }
 
         public int AreaCode { get; set; }
+        public string FormattedAreaCode { get { return AreaCode.ToString("D3"); } }
         public bool IsPortOpen { get; set; }
         public int Port { get; set; }
         public int MaxConnections { get; set; }
