@@ -9,6 +9,7 @@ namespace Client.App
     public interface IPeerConfig
     {
         int AreaCode { get; set; }
+        string FormattedAreaCode { get; }
 
         bool IsPortOpen { get; set; }
 
