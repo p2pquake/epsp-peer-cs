@@ -9,6 +9,8 @@ using Client.Client.General;
 using Client.Common.General;
 using Client.Common.Net;
 using Client.Peer;
+using Client.Peer.General;
+using PKCSPeerCrypto;
 
 namespace Client.App
 {
@@ -163,5 +165,45 @@ namespace Client.App
             peerContext.SendAll(packet);
         }
 #endif
+
+        public bool SendUserquake()
+        {
+            if (Key == null)
+            {
+                return false;
+            }
+            if (Key.PrivateKey == null)
+            {
+                return false;
+            }
+            if (Key.IsExpired(CalcNowProtocolTime()))
+            {
+                return false;
+            }
+            if (PeerId <= 0)
+            {
+                return false;
+            }
+            if (AreaCode < 0)
+            {
+                return false;
+            }
+
+            var result = Signer.SignUserquake(PeerId, Key.PrivateKey, FormattedAreaCode, CalcNowProtocolTime());
+            var packet = new Packet();
+            packet.Code = Code.USERQUAKE;
+            packet.Hop = 1;
+            packet.Data = new string[] {
+                result.signature,
+                result.expire.ToString("yyyy/MM/dd HH-mm-ss"),
+                Key.PublicKey,
+                Key.Signature,
+                Key.Expire.ToString("yyyy/MM/dd HH-mm-ss"),
+                result.data
+            };
+
+            peerContext.SendAll(packet);
+            return true;
+        }
     }
 }
