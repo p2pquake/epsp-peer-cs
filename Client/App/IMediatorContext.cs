@@ -39,5 +39,7 @@ namespace Client.App
 #if MOBILE_SERVER
         void SendAll(Packet packet);
 #endif
+
+        bool SendUserquake();
     }
 }
