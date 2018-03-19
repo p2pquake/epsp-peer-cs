@@ -19,7 +19,7 @@ namespace Client.Client.State
         public override void ReceiveProtocolTime(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
             DateTime protocolTime = DateTime.ParseExact(packet.Data[0], "yyyy/MM/dd HH-mm-ss", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None);
-            context.PeerState.TimeOffset = DateTime.Now - protocolTime;
+            context.PeerState.TimeOffset = protocolTime - DateTime.Now;
 
             context.State = new EndConnectionState(ClientConst.OperationResult.Successful, ClientConst.ErrorCode.SUCCESSFUL);
         }
