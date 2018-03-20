@@ -78,6 +78,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="App\MaintainTimerTest.cs" />
     <Compile Include="App\MediatorContextCalcProtocolTimeTest.cs" />
     <Compile Include="App\MediatorContextUserquakeTest.cs" />
     <Compile Include="Common\Net\CRLFSocketTest.cs" />
