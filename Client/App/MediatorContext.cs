@@ -84,6 +84,13 @@ namespace Client.App
             maintainTimer.RequireConnect += MaintainTimer_RequireConnect;
             maintainTimer.RequireMaintain += MaintainTimer_RequireMaintain;
             maintainTimer.RequireDisconnect += MaintainTimer_RequireDisconnect;
+            maintainTimer.RequireDisconnectAllPeers += MaintainTimer_RequireDisconnectAllPeers;
+        }
+
+        private void MaintainTimer_RequireDisconnectAllPeers(object sender, EventArgs e)
+        {
+            peerContext.EndListen();
+            peerContext.DisconnectAll();
         }
 
         private void MaintainTimer_RequireDisconnect(object sender, EventArgs e)
