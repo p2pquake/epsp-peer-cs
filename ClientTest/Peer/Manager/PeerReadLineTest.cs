@@ -12,17 +12,28 @@ namespace ClientTest.Peer.Manager
     [TestFixture]
     class PeerReadLineTest
     {
+        Client.Peer.Manager.PeerManager peerManager;
         Client.Peer.Manager.Peer peer;
 
         [SetUp]
         public void CreatePeer()
         {
-            peer = new Client.Peer.Manager.Peer(new Client.Peer.Manager.PeerManager());
+            peerManager = new Client.Peer.Manager.PeerManager();
+            peer = new Client.Peer.Manager.Peer(peerManager);
+            peer.ReadLine += Peer_ReadLine;
+        }
+
+        private void Peer_ReadLine(object sender, ReadLineEventArgs e)
+        {
+            var type = peerManager.GetType();
+            var method = type.GetMethod("peer_ReadLine", BindingFlags.NonPublic | BindingFlags.Instance);
+            method.Invoke(peerManager, new object[] { sender, e });
         }
 
         [TearDown]
         public void DestroyPeer()
         {
+            peerManager = null;
             peer = null;
         }
 
@@ -41,6 +52,39 @@ namespace ClientTest.Peer.Manager
             packet.Code = code;
             packet.Hop = code;
             Invoke(packet);
+        }
+
+        private static IEnumerable<TestCaseData> GenerateDataRange()
+        {
+            return new int[] {
+                551, 552, 555, 556, 561,
+                611, 612, 614, 615,
+                631, 632, 634, 635,
+                694, 698
+            }.ToList().Select(e => new TestCaseData(e));
+        }
+
+        [Test, TestCaseSource("GenerateDataRange")]
+        public void RandomDataTest(int code)
+        {
+            var random = new Random();
+            for (int i = 0; i < 100000; i++)
+            {
+                var packet = new Packet();
+                packet.Code = code;
+                packet.Hop = random.Next(100) + 1;
+
+                var numberOfData = random.Next(10);
+                if (numberOfData == 0)
+                {
+                    packet.Data = null;
+                } else
+                {
+                    packet.Data = new object[numberOfData].Select(e => Guid.NewGuid().ToString("N").Substring(0,4).Replace('f',';').Replace('e',',')).ToArray();
+                }
+
+                Invoke(packet);
+            }
         }
 
         private void Invoke(Packet packet)
