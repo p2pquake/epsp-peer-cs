@@ -30,7 +30,12 @@ namespace Client.Peer.General
                 { 698, "InvalidOperation" },
             };
 
-            return codeMap[code];
+            if (codeMap.ContainsKey(code))
+            {
+                return codeMap[code];
+            }
+
+            return null;
         }
     }
 }
