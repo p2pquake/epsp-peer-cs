@@ -21,6 +21,7 @@ namespace ClientTest.Peer.Manager
             peerManager = new Client.Peer.Manager.PeerManager();
             peer = new Client.Peer.Manager.Peer(peerManager);
             peer.ReadLine += Peer_ReadLine;
+            peer.PeerId = () => { return 1; };
         }
 
         private void Peer_ReadLine(object sender, ReadLineEventArgs e)
