@@ -19,8 +19,15 @@ namespace ClientTest.Peer.Manager
         public void CreatePeer()
         {
             peerManager = new Client.Peer.Manager.PeerManager();
+            peerManager.ProtocolTime = () => { return DateTime.Now; };
+            peerManager.OnAreapeers += (s, e) => { };
+            peerManager.OnEarthquake += (s, e) => { };
+            peerManager.OnEEWTest += (s, e) => { };
+            peerManager.OnTsunami += (s, e) => { };
+            peerManager.OnUserquake += (s, e) => { };
             peer = new Client.Peer.Manager.Peer(peerManager);
             peer.ReadLine += Peer_ReadLine;
+            peer.PeerData = new Client.Common.General.PeerData(null, 0, 0);
             peer.PeerId = () => { return 1; };
         }
 
