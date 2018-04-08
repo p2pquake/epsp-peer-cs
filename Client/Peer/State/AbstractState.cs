@@ -93,6 +93,18 @@ namespace Client.Peer.State
                 return;
             }
 
+            double version = 0.0;
+            if (!double.TryParse(packet.Data[0], out version)) {
+                return;
+            }
+
+            if (version < Const.ALLOW_PROTOCOL_VERSION)
+            {
+                socket.WriteLine("694 1 Protocol_version_incompatible");
+                socket.Close();
+                return;
+            }
+            
             string[] datas = { Const.PROTOCOL_VERSION, Const.SOFTWARE_NAME, Const.SOFTWARE_VERSION };
             socket.WriteLine("634 1 " + string.Join(":", datas));
         }
@@ -111,7 +123,13 @@ namespace Client.Peer.State
                 return;
             }
 
-            if (double.Parse(packet.Data[0]) < Const.ALLOW_PROTOCOL_VERSION)
+            double version = 0.0;
+            if (!double.TryParse(packet.Data[0], out version))
+            {
+                return;
+            }
+
+            if (version < Const.ALLOW_PROTOCOL_VERSION)
             {
                 socket.WriteLine("694 1 Protocol_version_incompatible");
                 socket.Close();
@@ -129,8 +147,14 @@ namespace Client.Peer.State
                 return;
             }
 
+            int peerId = 0;
+            if (!int.TryParse(packet.Data[0], out peerId))
+            {
+                return;
+            }
+
             // FIXME: 多重接続チェックしてない.
-            peer.PeerData.PeerId = int.Parse(packet.Data[0]);
+            peer.PeerData.PeerId = peerId;
         }
 
         public virtual void RequirePeerEcho(Manager.Peer peer, CRLFSocket socket, Packet packet)
