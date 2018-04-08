@@ -143,6 +143,16 @@ namespace Client.Peer.State
             // 何もしない。
         }
 
+        public virtual void InvalidProtocolVersion(Manager.Peer peer, CRLFSocket socket, Packet packet)
+        {
+            socket.Close();
+        }
+
+        public virtual void InvalidOperation(Manager.Peer peer, CRLFSocket socket, Packet packet)
+        {
+            socket.Close();
+        }
+
         private void Relay(Manager.Peer peer, CRLFSocket socket, Packet packet)
         {
             ReadLineEventArgs eventArgs = new ReadLineEventArgs();
