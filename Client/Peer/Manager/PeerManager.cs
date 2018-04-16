@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using Client.Common.General;
 using Client.Common.Net;
@@ -281,8 +282,9 @@ namespace Client.Peer.Manager
             }
 
             string[] datas = packet.Data[2].Split(';');
+            var dataPattern = new Regex("^[^,]*,\\d+$");
 
-            if (!datas.All(data => data.Contains(',')))
+            if (!datas.All(data => dataPattern.IsMatch(data)))
             {
                 return;
             }
