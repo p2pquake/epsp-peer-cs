@@ -40,6 +40,9 @@ namespace Client.App
         }
 
         public IDictionary<string, int> AreaPeerDictionary { get; set; }
+        public int PeerCount {
+            get { return AreaPeerDictionary == null ? 0 : AreaPeerDictionary.Sum(e => e.Value);  }
+        }
         public int Connections { get { return peerContext.Connections; } }
         public bool IsPortOpened { get; set; }
         public KeyData Key { get; set; }

@@ -32,6 +32,7 @@ namespace Client.Peer.Manager
 
         public Func<int> PeerId { get; set; }
         public Func<DateTime> ProtocolTime { get; set; }
+        public Func<int> PeerCount { get; set; }
 
         internal int Connections { get { return peerList.Count; } }
 
@@ -110,13 +111,21 @@ namespace Client.Peer.Manager
 
         void peer_ReadLine(object sender, ReadLineEventArgs e)
         {
-            if (!duplicateRemover.isDuplicate(e.packet))
+            if (duplicateRemover.isDuplicate(e.packet))
             {
-                raiseDataEvent(e.packet);
-
-                e.packet.Hop++;
-                Send(e.packet, (Peer)sender);
+                return;
             }
+
+            // ホップ数による破棄。VB6版P2P地震情報と同等
+            if (e.packet.Hop >= PeerCount() / 20 + 5)
+            {
+                return;
+            }
+
+            raiseDataEvent(e.packet);
+
+            e.packet.Hop++;
+            Send(e.packet, (Peer)sender);
         }
 
         private void raiseDataEvent(Packet packet)
