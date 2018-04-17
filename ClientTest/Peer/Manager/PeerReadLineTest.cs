@@ -20,6 +20,7 @@ namespace ClientTest.Peer.Manager
         {
             peerManager = new Client.Peer.Manager.PeerManager();
             peerManager.ProtocolTime = () => { return DateTime.Now; };
+            peerManager.PeerCount = () => { return 1000; };
             peerManager.OnAreapeers += (s, e) => { };
             peerManager.OnEarthquake += (s, e) => { };
             peerManager.OnEEWTest += (s, e) => { };
