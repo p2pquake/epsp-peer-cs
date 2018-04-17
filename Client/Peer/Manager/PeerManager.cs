@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using Client.Common.General;
 using Client.Common.Net;
@@ -155,6 +156,11 @@ namespace Client.Peer.Manager
 
             // 地震概要の解析
             string[] abstracts = packet.Data[2].Split(',');
+            if (abstracts.Length != 11)
+            {
+                return;
+            }
+
             e.OccuredTime = abstracts[0];
             e.Scale = abstracts[1];
             e.TsunamiType = (DomesticTsunamiType)int.Parse(abstracts[2]);
@@ -234,6 +240,11 @@ namespace Client.Peer.Manager
             TsunamiCategory category = TsunamiCategory.Unknown;
             foreach (string data in datas)
             {
+                if (data.Length <= 0)
+                {
+                    continue;
+                }
+
                 if (data[0] == '-')
                 {
                     if (data.EndsWith("津波注意報")) { category = TsunamiCategory.Advisory; }
@@ -271,6 +282,13 @@ namespace Client.Peer.Manager
             }
 
             string[] datas = packet.Data[2].Split(';');
+            var dataPattern = new Regex("^[^,]*,\\d+$");
+
+            if (!datas.All(data => dataPattern.IsMatch(data)))
+            {
+                return;
+            }
+
             EPSPAreapeersEventArgs e = new EPSPAreapeersEventArgs();
             Verifier.VerifyResult result = Verifier.VerifyServerData(packet.Data[2], packet.Data[1], packet.Data[0], ProtocolTime());
             e.IsExpired = result.isExpired;

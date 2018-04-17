@@ -58,6 +58,11 @@ namespace Client.Peer.Manager
             Packet packet = e.packet;
             string methodName = PeerConst.getCodeName(packet.Code);
 
+            if (methodName == null)
+            {
+                return;
+            }
+
             Type type = state.GetType();
             MethodInfo methodInfo = type.GetMethod(methodName);
 

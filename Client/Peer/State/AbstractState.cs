@@ -16,43 +16,95 @@ namespace Client.Peer.State
 
         public virtual void NotifyEarthquake(Manager.Peer peer, CRLFSocket socket, Packet packet)
         {
+            if (packet.Data == null || packet.Data.Length != 4)
+            {
+                return;
+            }
+
             Relay(peer, socket, packet);
         }
 
         public virtual void NotifyTsunami(Manager.Peer peer, CRLFSocket socket, Packet packet)
         {
+            if (packet.Data == null || packet.Data.Length != 4)
+            {
+                return;
+            }
+
             Relay(peer, socket, packet);
         }
 
         public virtual void NotifyUserQuake(Manager.Peer peer, CRLFSocket socket, Packet packet)
         {
+            if (packet.Data == null || packet.Data.Length != 6)
+            {
+                return;
+            }
+
             Relay(peer, socket, packet);
         }
 
         public virtual void NotifyBbs(Manager.Peer peer, CRLFSocket socket, Packet packet)
         {
+            if (packet.Data == null || packet.Data.Length != 6)
+            {
+                return;
+            }
+
             Relay(peer, socket, packet);
         }
 
         public virtual void NotifyAreaPeer(Manager.Peer peer, CRLFSocket socket, Packet packet)
         {
+            if (packet.Data == null || packet.Data.Length != 3)
+            {
+                return;
+            }
+
             Relay(peer, socket, packet);
         }
 
         public virtual void RequireInquiryEcho(Manager.Peer peer, CRLFSocket socket, Packet packet)
         {
+            if (packet.Data == null || packet.Data.Length != 2)
+            {
+                return;
+            }
+
             // FIXME: あとで実装する.
             Relay(peer, socket, packet);
         }
 
         public virtual void ReplyInquiryEcho(Manager.Peer peer, CRLFSocket socket, Packet packet)
         {
+            if (packet.Data == null || packet.Data.Length != 5)
+            {
+                return;
+            }
+
             Relay(peer, socket, packet);
         }
-
+        
         // 614 Server->Client
         public virtual void RequireProtocolVersion(Manager.Peer peer, CRLFSocket socket, Packet packet)
         {
+            if (packet.Data == null || packet.Data.Length != 3)
+            {
+                return;
+            }
+
+            double version = 0.0;
+            if (!double.TryParse(packet.Data[0], out version)) {
+                return;
+            }
+
+            if (version < Const.ALLOW_PROTOCOL_VERSION)
+            {
+                socket.WriteLine("694 1 Protocol_version_incompatible");
+                socket.Close();
+                return;
+            }
+            
             string[] datas = { Const.PROTOCOL_VERSION, Const.SOFTWARE_NAME, Const.SOFTWARE_VERSION };
             socket.WriteLine("634 1 " + string.Join(":", datas));
         }
@@ -66,7 +118,18 @@ namespace Client.Peer.State
         // 634 Client->Server
         public virtual void ReplyProtocolVersion(Manager.Peer peer, CRLFSocket socket, Packet packet)
         {
-            if (double.Parse(packet.Data[0]) < Const.ALLOW_PROTOCOL_VERSION)
+            if (packet.Data == null || packet.Data.Length != 3)
+            {
+                return;
+            }
+
+            double version = 0.0;
+            if (!double.TryParse(packet.Data[0], out version))
+            {
+                return;
+            }
+
+            if (version < Const.ALLOW_PROTOCOL_VERSION)
             {
                 socket.WriteLine("694 1 Protocol_version_incompatible");
                 socket.Close();
@@ -79,8 +142,19 @@ namespace Client.Peer.State
         // 632 Client->Server
         public virtual void ReplyPeerId(Manager.Peer peer, CRLFSocket socket, Packet packet)
         {
+            if (packet.Data == null || packet.Data.Length != 1)
+            {
+                return;
+            }
+
+            int peerId = 0;
+            if (!int.TryParse(packet.Data[0], out peerId))
+            {
+                return;
+            }
+
             // FIXME: 多重接続チェックしてない.
-            peer.PeerData.PeerId = int.Parse(packet.Data[0]);
+            peer.PeerData.PeerId = peerId;
         }
 
         public virtual void RequirePeerEcho(Manager.Peer peer, CRLFSocket socket, Packet packet)
@@ -91,6 +165,16 @@ namespace Client.Peer.State
         public virtual void ReplyPeerEcho(Manager.Peer peer, CRLFSocket socket, Packet packet)
         {
             // 何もしない。
+        }
+
+        public virtual void InvalidProtocolVersion(Manager.Peer peer, CRLFSocket socket, Packet packet)
+        {
+            socket.Close();
+        }
+
+        public virtual void InvalidOperation(Manager.Peer peer, CRLFSocket socket, Packet packet)
+        {
+            socket.Close();
         }
 
         private void Relay(Manager.Peer peer, CRLFSocket socket, Packet packet)
