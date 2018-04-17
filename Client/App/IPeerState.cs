@@ -22,6 +22,8 @@ namespace Client.App
 
         IDictionary<string, int> AreaPeerDictionary { get; }
 
+        int PeerCount { get; }
+
         DateTime CalcNowProtocolTime();
     }
 
@@ -39,6 +41,8 @@ namespace Client.App
 
         IDictionary<string, int> AreaPeerDictionary { get; set; }
 
+        int PeerCount { get; }
+
         DateTime CalcNowProtocolTime();
     }
 
@@ -51,6 +55,8 @@ namespace Client.App
         KeyData Key { get; }
 
         IDictionary<string, int> AreaPeerDictionary { get; set; }
+
+        int PeerCount { get; }
 
         DateTime CalcNowProtocolTime();
     }

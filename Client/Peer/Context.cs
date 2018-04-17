@@ -35,6 +35,7 @@ namespace Client.Peer
             peerManager = new PeerManager();
             peerManager.PeerId += () => { return PeerState.PeerId; };
             peerManager.ProtocolTime += () => { return PeerState.CalcNowProtocolTime(); };
+            peerManager.PeerCount += () => { return PeerState.PeerCount; };
 
             peerManager.ConnectionsChanged += PeerManager_ConnectionsChanged;
 
