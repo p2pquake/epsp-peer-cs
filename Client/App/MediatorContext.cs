@@ -65,6 +65,10 @@ namespace Client.App
             peerContext = new Context();
             maintainTimer = new MaintainTimer(this, clientContext);
             state = new DisconnectedState();
+
+            AreaCode = 901;
+            MaxConnections = 4;
+            IsPortOpen = false;
             
             clientContext.PeerConfig = this;
             clientContext.PeerConnector = peerContext;
