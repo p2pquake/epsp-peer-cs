@@ -19,17 +19,17 @@ namespace Client.App
         private IClientContext clientContext;
         private IPeerContext peerContext;
         private MaintainTimer maintainTimer;
-        
-        public event EventHandler StateChanged;
-        public event EventHandler<OperationCompletedEventArgs> Completed;
-        public event EventHandler ConnectionsChanged;
-        public event EventHandler<EPSPQuakeEventArgs> OnEarthquake;
-        public event EventHandler<EPSPTsunamiEventArgs> OnTsunami;
-        public event EventHandler<EPSPAreapeersEventArgs> OnAreapeers;
-        public event EventHandler<EPSPEEWTestEventArgs> OnEEWTest;
-        public event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
+
+        public event EventHandler StateChanged = (s, e) => { };
+        public event EventHandler<OperationCompletedEventArgs> Completed = (s, e) => { };
+        public event EventHandler ConnectionsChanged = (s, e) => { };
+        public event EventHandler<EPSPQuakeEventArgs> OnEarthquake = (s, e) => { };
+        public event EventHandler<EPSPTsunamiEventArgs> OnTsunami = (s, e) => { };
+        public event EventHandler<EPSPAreapeersEventArgs> OnAreapeers = (s, e) => { };
+        public event EventHandler<EPSPEEWTestEventArgs> OnEEWTest = (s, e) => { };
+        public event EventHandler<EPSPUserquakeEventArgs> OnUserquake = (s, e) => { };
 #if RAISE_RAW_DATA_EVENT
-        public event EventHandler<EPSPRawDataEventArgs> OnData;
+        public event EventHandler<EPSPRawDataEventArgs> OnData = (s, e) => { };
 #endif
 
         private AbstractState state;
