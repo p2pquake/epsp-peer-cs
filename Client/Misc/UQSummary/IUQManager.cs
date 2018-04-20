@@ -8,9 +8,9 @@ namespace Client.Misc.UQSummary
 {
     public class Userquake
     {
-        DateTime AbstractTime { get; set; }
-        TimeSpan RelativeTime { get; set; }
-        string AreaCode { get; set; }
+        public DateTime AbstractTime { get; set; }
+        public TimeSpan RelativeTime { get; set; }
+        public string AreaCode { get; set; }
     }
 
     public interface IUQManager
