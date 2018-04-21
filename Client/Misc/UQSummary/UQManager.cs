@@ -52,7 +52,7 @@ namespace Client.Misc.UQSummary
 
             userquakeList.Add(userquake);
 
-            if (!IsOnGoing && UQJudge.Judge(userquakeList))
+            if (!IsOnGoing && UQJudge.Judge(userquakeList, AreaPeerDictionary))
             {
                 isOnGoing = true;
                 Occurred(this, EventArgs.Empty);

@@ -8,6 +8,6 @@ namespace Client.Misc.UQSummary
 {
     public interface IUQJudge
     {
-        bool Judge(List<Userquake> userquakeList);
+        bool Judge(List<Userquake> userquakeList, Func<IDictionary<string, int>> areaPeerDictionary);
     }
 }
