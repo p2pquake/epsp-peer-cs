@@ -148,6 +148,7 @@
     <Compile Include="Common\Net\SocketAdapter.cs" />
     <Compile Include="Misc\UQSummary\IUQJudge.cs" />
     <Compile Include="Misc\UQSummary\IUQManager.cs" />
+    <Compile Include="Misc\UQSummary\SimpleUQJudge.cs" />
     <Compile Include="Misc\UQSummary\UQManager.cs" />
     <Compile Include="Peer\Context.cs" />
     <Compile Include="Peer\General\Code.cs" />
