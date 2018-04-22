@@ -11,6 +11,7 @@ namespace Client.Misc.UQSummary
         private const int Interval = 30;
 
         public event EventHandler Occurred = (s, e) => { };
+        public event EventHandler Updated = (s, e) => { };
 
         public Func<IDictionary<string, int>> AreaPeerDictionary { private get; set; }
         public Func<DateTime> ProtocolTime { private get; set; }
@@ -51,6 +52,11 @@ namespace Client.Misc.UQSummary
             }
 
             userquakeList.Add(userquake);
+
+            if (IsOnGoing)
+            {
+                Updated(this, EventArgs.Empty);
+            }
 
             if (!IsOnGoing && UQJudge.Judge(userquakeList, AreaPeerDictionary))
             {

@@ -16,6 +16,7 @@ namespace Client.Misc.UQSummary
     public interface IUQManager
     {
         event EventHandler Occurred;
+        event EventHandler Updated;
 
         Func<DateTime> ProtocolTime { set; }
         Func<IDictionary<string, int>> AreaPeerDictionary { set; }
