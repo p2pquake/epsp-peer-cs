@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Client.Misc.UQSummary
 {
-    class SimpleUQJudge : IUQJudge
+    public class SimpleUQJudge : IUQJudge
     {
         private int thresholdCount;
 
