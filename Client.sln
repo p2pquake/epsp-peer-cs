@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKCSPeerCrypto", "PKCSPeerC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKCSPeerCryptoTest", "PKCSPeerCryptoTest\PKCSPeerCryptoTest.csproj", "{AAC85014-94D8-4935-A395-FC7142D38FE7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CUIClientTest", "CUIClientTest\CUIClientTest.csproj", "{5BD6E7E8-FA94-4E53-A7CF-13E1704191C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,18 @@ Global
 		{AAC85014-94D8-4935-A395-FC7142D38FE7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AAC85014-94D8-4935-A395-FC7142D38FE7}.Release|x86.ActiveCfg = Release|Any CPU
 		{AAC85014-94D8-4935-A395-FC7142D38FE7}.Release|x86.Build.0 = Release|Any CPU
+		{5BD6E7E8-FA94-4E53-A7CF-13E1704191C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BD6E7E8-FA94-4E53-A7CF-13E1704191C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BD6E7E8-FA94-4E53-A7CF-13E1704191C6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5BD6E7E8-FA94-4E53-A7CF-13E1704191C6}.Debug|x86.Build.0 = Debug|Any CPU
+		{5BD6E7E8-FA94-4E53-A7CF-13E1704191C6}.DebugWithRawEvent|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BD6E7E8-FA94-4E53-A7CF-13E1704191C6}.DebugWithRawEvent|Any CPU.Build.0 = Debug|Any CPU
+		{5BD6E7E8-FA94-4E53-A7CF-13E1704191C6}.DebugWithRawEvent|x86.ActiveCfg = Debug|Any CPU
+		{5BD6E7E8-FA94-4E53-A7CF-13E1704191C6}.DebugWithRawEvent|x86.Build.0 = Debug|Any CPU
+		{5BD6E7E8-FA94-4E53-A7CF-13E1704191C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BD6E7E8-FA94-4E53-A7CF-13E1704191C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BD6E7E8-FA94-4E53-A7CF-13E1704191C6}.Release|x86.ActiveCfg = Release|Any CPU
+		{5BD6E7E8-FA94-4E53-A7CF-13E1704191C6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
