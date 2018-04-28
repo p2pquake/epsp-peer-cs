@@ -13,7 +13,7 @@ namespace CUIClient.Handler
         public string Prefecture { get; private set; }
         public string Region { get; private set; }
 
-        public Area(string areaCode, string name, string prefecture, string region)
+        public Area(string areaCode, string region, string prefecture, string name)
         {
             AreaCode = areaCode;
             Name = name;

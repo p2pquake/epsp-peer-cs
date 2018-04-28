@@ -9,7 +9,7 @@ using log4net;
 
 namespace CUIClient.Handler
 {
-    class EPSPHandler
+    public class EPSPHandler
     {
         private IUQManager uqManager;
 
