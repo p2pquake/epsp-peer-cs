@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientRunner.cs" />
     <Compile Include="Handler\AreaConverter.cs" />
     <Compile Include="Handler\EPSPHandler.cs" />
     <Compile Include="Program.cs" />
