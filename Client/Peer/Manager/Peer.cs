@@ -20,6 +20,7 @@ namespace Client.Peer.Manager
         AbstractState state;
 
         internal PeerData PeerData { get; set; }
+        public bool IsConnected { get { return socket.State == ConnectionState.Connected; } }
 
         public Func<int> PeerId;
         public int GetPeerId() { return PeerId(); }
