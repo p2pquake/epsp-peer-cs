@@ -71,7 +71,7 @@ namespace Client.Peer.State
                 return;
             }
 
-            // FIXME: あとで実装する.
+
             Relay(peer, socket, packet);
         }
 
