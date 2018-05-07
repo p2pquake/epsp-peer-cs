@@ -388,7 +388,8 @@ namespace Client.Peer.Manager
                 {
                     e.packet.Data[0],
                     e.packet.Data[1],
-                    string.Join(",", peerList.Select(peer => peer.GetPeerId())),
+                    PeerId().ToString(),
+                    string.Join(",", peerList.Select(peer => peer.PeerData.PeerId)),
                     (e.packet.Hop - 1).ToString()
                 };
                 ((Peer)sender).Send(packet);
