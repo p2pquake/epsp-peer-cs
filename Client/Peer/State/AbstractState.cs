@@ -112,7 +112,7 @@ namespace Client.Peer.State
         // 612 Server->Client
         public virtual void RequirePeerId(Manager.Peer peer, CRLFSocket socket, Packet packet)
         {
-            socket.WriteLine("632 1 " + peer.GetPeerId());
+            socket.WriteLine("632 1 " + peer.GetParentPeerId());
         }
 
         // 634 Client->Server
