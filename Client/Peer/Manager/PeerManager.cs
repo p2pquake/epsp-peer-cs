@@ -378,6 +378,11 @@ namespace Client.Peer.Manager
             // 調査エコー
             if (e.packet.Code == 615)
             {
+                if (e.packet.Data == null || e.packet.Data.Length < 2)
+                {
+                    return true;
+                }
+
                 Send(e.packet, (Peer)sender);
 
                 // リプライ送信
@@ -400,6 +405,11 @@ namespace Client.Peer.Manager
             // 調査エコーリプライ
             if (e.packet.Code == 635)
             {
+                if (e.packet.Data == null || e.packet.Data.Length < 5)
+                {
+                    return true;
+                }
+
                 var peer = networkInquiryManager.FindPeer(e.packet.Data[0], e.packet.Data[1]);
                 if (peer == null || !peer.IsConnected)
                 {
