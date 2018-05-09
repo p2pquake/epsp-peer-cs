@@ -157,6 +157,7 @@
     <Compile Include="Peer\IPeerConnector.cs" />
     <Compile Include="Peer\IPeerContext.cs" />
     <Compile Include="Peer\Manager\DuplicateRemover.cs" />
+    <Compile Include="Peer\Manager\NetworkInquiryManager.cs" />
     <Compile Include="Peer\Manager\Peer.cs" />
     <Compile Include="Peer\Manager\PeerManager.cs" />
     <Compile Include="Peer\State\AbstractState.cs" />

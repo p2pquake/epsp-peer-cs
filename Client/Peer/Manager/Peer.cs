@@ -20,9 +20,10 @@ namespace Client.Peer.Manager
         AbstractState state;
 
         internal PeerData PeerData { get; set; }
+        public bool IsConnected { get { return socket.State == ConnectionState.Connected; } }
 
         public Func<int> PeerId;
-        public int GetPeerId() { return PeerId(); }
+        public int GetParentPeerId() { return PeerId(); }
 
         public event EventHandler Closed = (s,e)=>{};
         public event EventHandler<ReadLineEventArgs> ReadLine = (s, e) => { };
