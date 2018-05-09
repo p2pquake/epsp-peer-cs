@@ -17,6 +17,7 @@ namespace Client.Peer.Manager
     {
         private List<Peer> peerList;
         private DuplicateRemover duplicateRemover;
+        private NetworkInquiryManager networkInquiryManager;
         private Timer echoTimer;
 
         public event EventHandler<EventArgs> ConnectionsChanged;
@@ -41,6 +42,7 @@ namespace Client.Peer.Manager
         {
             peerList = new List<Peer>();
             duplicateRemover = new DuplicateRemover();
+            networkInquiryManager = new Manager.NetworkInquiryManager();
             echoTimer = new Timer(EchoTimer_Tick);
             echoTimer.Change(0, 300000);
         }
@@ -125,6 +127,12 @@ namespace Client.Peer.Manager
             raiseDataEvent(e.packet);
 
             e.packet.Hop++;
+
+            if (ProcessNetworkInquiry(sender, e))
+            {
+                return;
+            }
+
             Send(e.packet, (Peer)sender);
         }
 
@@ -363,6 +371,57 @@ namespace Client.Peer.Manager
             e.PublicKey = packet.Data[2];
             e.AreaCode = data[1];
             OnUserquake(this, e);
+        }
+
+        private bool ProcessNetworkInquiry(object sender, ReadLineEventArgs e)
+        {
+            // 調査エコー
+            if (e.packet.Code == 615)
+            {
+                if (e.packet.Data == null || e.packet.Data.Length < 2)
+                {
+                    return true;
+                }
+
+                Send(e.packet, (Peer)sender);
+
+                // リプライ送信
+                var packet = new Packet();
+                packet.Code = 635;
+                packet.Hop = 1;
+                packet.Data = new string[]
+                {
+                    e.packet.Data[0],
+                    e.packet.Data[1],
+                    PeerId().ToString(),
+                    string.Join(",", peerList.Select(peer => peer.PeerData.PeerId)),
+                    (e.packet.Hop - 1).ToString()
+                };
+                ((Peer)sender).Send(packet);
+                
+                return true;
+            }
+
+            // 調査エコーリプライ
+            if (e.packet.Code == 635)
+            {
+                if (e.packet.Data == null || e.packet.Data.Length < 5)
+                {
+                    return true;
+                }
+
+                var peer = networkInquiryManager.FindPeer(e.packet.Data[0], e.packet.Data[1]);
+                if (peer == null || !peer.IsConnected)
+                {
+                    Send(e.packet, (Peer)sender);
+                } else
+                {
+                    peer.Send(e.packet);
+                }
+                return true;
+            }
+
+            return false;
         }
 
         void peer_Closed(object sender, EventArgs e)
