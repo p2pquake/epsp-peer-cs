@@ -10,27 +10,31 @@ using Client.Peer;
 
 namespace Client.App
 {
+    /// <summary>
+    /// EPSPピアとしての動作を制御するためのMediatorです。
+    /// </summary>
     public interface IMediatorContext : IOperatable, IPeerState, IPeerConfig
     {
-        /// <summary>状態</summary>
+        // XXX: 外部から接続状態を書き換えられる．
+        /// <summary>接続状態</summary>
         AbstractState State { get; set; }
 
-        /// <summary>接続状態の変化</summary>
+        /// <summary>接続状態が変化すると発生します。接続状態は <see cref="State"/> で取得できます。</summary>
         event EventHandler StateChanged;
-        /// <summary>完了状態への遷移</summary>
+        /// <summary>操作が終了すると発生します。</summary>
         event EventHandler<OperationCompletedEventArgs> Completed;
-        /// <summary>接続数の変化</summary>
+        /// <summary>接続数が変化すると発生します。接続数は <see cref="IPeerState.Connections"/> で取得できます。</summary>
         event EventHandler ConnectionsChanged;
 
-        /// <summary>地震情報イベント</summary>
+        /// <summary>地震情報を受信すると発生します。</summary>
         event EventHandler<EPSPQuakeEventArgs> OnEarthquake;
-        /// <summary>津波予報イベント</summary>
+        /// <summary>津波予報を受信すると発生します。</summary>
         event EventHandler<EPSPTsunamiEventArgs> OnTsunami;
-        /// <summary>地域ピア数イベント</summary>
+        /// <summary>地域ピア数を受信すると発生します。</summary>
         event EventHandler<EPSPAreapeersEventArgs> OnAreapeers;
-        /// <summary>緊急地震速報 配信試験(β)イベント</summary>
+        /// <summary>緊急地震速報 配信試験(β)を受信すると発生します。</summary>
         event EventHandler<EPSPEEWTestEventArgs> OnEEWTest;
-        /// <summary>地震感知情報イベント</summary>
+        /// <summary>地震感知情報を受信すると発生します。</summary>
         event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
 
 #if RAISE_RAW_DATA_EVENT
@@ -40,6 +44,8 @@ namespace Client.App
         void SendAll(Packet packet);
 #endif
 
+        /// <summary>地震感知情報を発信します。成功すると true が返ります。</summary>
+        /// <returns>発信に成功したかどうか</returns>
         bool SendUserquake();
     }
 }
