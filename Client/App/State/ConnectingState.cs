@@ -11,7 +11,7 @@ using Client.Peer;
 namespace Client.App.State
 {
     /// <summary>
-    /// 接続途中の状態
+    /// EPSPネットワークへの接続を試みている状態です。
     /// </summary>
     class ConnectingState : AbstractState
     {
