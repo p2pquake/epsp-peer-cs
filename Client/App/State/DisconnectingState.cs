@@ -9,7 +9,7 @@ using Client.Peer;
 namespace Client.App.State
 {
     /// <summary>
-    /// 切断途中の状態
+    /// EPSPネットワークからの切断を試みている状態です。
     /// </summary>
     class DisconnectingState : AbstractState
     {

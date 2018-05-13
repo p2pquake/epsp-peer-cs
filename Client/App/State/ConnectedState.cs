@@ -8,7 +8,7 @@ using Client.Peer;
 namespace Client.App.State
 {
     /// <summary>
-    /// 接続後の状態
+    /// EPSPネットワークに接続済みの状態です。
     /// </summary>
     class ConnectedState : AbstractState
     {

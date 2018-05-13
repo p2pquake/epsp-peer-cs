@@ -8,7 +8,7 @@ using Client.Peer;
 namespace Client.App.State
 {
     /// <summary>
-    /// 切断後の状態
+    /// EPSPネットワークから切断された状態です。
     /// </summary>
     class DisconnectedState : AbstractState
     {
