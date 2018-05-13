@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Client.Misc.UQSummary
 {
+    /// <summary>地震感知情報の表示判定を件数のみで行う<see cref="IUQJudge"/>実装です。</summary>
     public class SimpleUQJudge : IUQJudge
     {
         private int thresholdCount;
 
+        /// <param name="thresholdCount">表示しきい値となる件数</param>
         public SimpleUQJudge(int thresholdCount = 3)
         {
             this.thresholdCount = thresholdCount;
