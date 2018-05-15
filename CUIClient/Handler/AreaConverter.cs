@@ -6,11 +6,18 @@ using System.Threading.Tasks;
 
 namespace CUIClient.Handler
 {
+    /// <summary>
+    /// EPSPの地域を表すクラスです。
+    /// </summary>
     public class Area
     {
+        /// <summary>地域コード</summary>
         public string AreaCode { get; private set; }
+        /// <summary>地域名</summary>
         public string Name { get; private set; }
+        /// <summary>都道府県名</summary>
         public string Prefecture { get; private set; }
+        /// <summary>地方名</summary>
         public string Region { get; private set; }
 
         public Area(string areaCode, string region, string prefecture, string name)
@@ -22,6 +29,9 @@ namespace CUIClient.Handler
         }
     }
 
+    /// <summary>
+    /// EPSPの地域コードを地域(<see cref="Area"/>)に変換するクラスです。
+    /// </summary>
     class AreaConverter
     {
         private static IDictionary<string, Area> areaDictionary = new Dictionary<string, Area>()
@@ -169,6 +179,9 @@ namespace CUIClient.Handler
             { "705", new Area("705", "沖縄", "沖縄", "沖縄八重山") },
         };
 
+        /// <summary>
+        /// 地域コードを地域(<see cref="Area"/>)に変換します。存在しない場合はnullを返します。
+        /// </summary>
         public static Area GetArea(string areaCode)
         {
             if (!areaDictionary.ContainsKey(areaCode))
