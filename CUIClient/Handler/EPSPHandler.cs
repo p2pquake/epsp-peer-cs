@@ -9,10 +9,14 @@ using log4net;
 
 namespace CUIClient.Handler
 {
+    /// <summary>
+    /// EPSPの情報を処理するサンプルクラスです。
+    /// </summary>
     public class EPSPHandler
     {
         private IUQManager uqManager;
 
+        /// <param name="protocolTime">プロトコル日時</param>
         public EPSPHandler(Func<DateTime> protocolTime)
         {
             uqManager = new UQManager();
@@ -22,16 +26,31 @@ namespace CUIClient.Handler
             uqManager.Updated += UqManager_Updated;
         }
 
+        /// <summary>
+        /// 地震感知情報の更新イベント処理
+        /// 
+        /// <seealso cref="IUQManager.Updated"/>
+        /// </summary>
         private void UqManager_Updated(object sender, EventArgs e)
         {
             Console.WriteLine("{0} 地震感知情報が更新されました: {1}", GetDateTime(), GetSummarizedUserquake());
         }
 
+        /// <summary>
+        /// 地震感知情報の発生(表示しきい値超え)イベント処理
+        /// 
+        /// <seealso cref="IUQManager.Occurred"/>
+        /// </summary>
         private void UqManager_Occurred(object sender, EventArgs e)
         {
             Console.WriteLine("{0} 地震感知情報の受信しきい値を超えました: {1}", GetDateTime(), GetSummarizedUserquake());
         }
 
+        /// <summary>
+        /// 地震感知情報の簡易文字列化
+        /// 
+        /// <para>返却値は「ＸＸ北部(4)、ＸＸ南部(5)」のように、地域名と件数とを結合したものです。</para>
+        /// </summary>
         private string GetSummarizedUserquake()
         {
             var uqSummary = uqManager.GetCurrentSummary();
@@ -43,12 +62,18 @@ namespace CUIClient.Handler
                 );
         }
 
+        /// <summary>
+        /// 地震感知情報のイベント処理
+        /// </summary>
         public void MediatorContext_OnUserquake(object sender, Client.Peer.EPSPUserquakeEventArgs e)
         {
             if (!e.IsValid) { return; }
             uqManager.Add(e.AreaCode);
         }
         
+        /// <summary>
+        /// 津波予報のイベント処理
+        /// </summary>
         public void MediatorContext_OnTsunami(object sender, Client.Peer.EPSPTsunamiEventArgs e)
         {
             if (!e.IsValid) { return; }
@@ -59,6 +84,7 @@ namespace CUIClient.Handler
                 return;
             }
             
+            // 「[津波警報]ＸＸ県太平洋沿岸、[津波注意報]ＸＸ県、[津波注意報]ＸＸ県」のように出力します。
             Console.WriteLine(
                 "{0} 津波予報を受信しました: {1}", 
                 GetDateTime(),
@@ -66,6 +92,9 @@ namespace CUIClient.Handler
             );
         }
 
+        /// <summary>
+        /// 地震情報のイベント処理
+        /// </summary>
         public void MediatorContext_OnEarthquake(object sender, Client.Peer.EPSPQuakeEventArgs e)
         {
             if (!e.IsValid) { return; }
@@ -95,12 +124,18 @@ namespace CUIClient.Handler
             Console.WriteLine("{0} 地震情報を受信しました: {1}", GetDateTime(), sb.ToString());
         }
 
+        /// <summary>
+        /// 地域ピア数のイベント処理
+        /// </summary>
         public void MediatorContext_OnAreapeers(object sender, Client.Peer.EPSPAreapeersEventArgs e)
         {
             if (!e.IsValid) { return; }
             Console.WriteLine("{0} 地域ピア数の情報を受信しました: ピア数 {1}", GetDateTime(), e.AreaPeerDictionary.Sum(item => item.Value));
         }
 
+        /// <summary>
+        /// 緊急地震速報 配信試験（オープンβ）のイベント処理
+        /// </summary>
         public void MediatorContext_OnEEWTest(object sender, Client.Peer.EPSPEEWTestEventArgs e)
         {
             if (!e.IsValid) { return; }
@@ -114,6 +149,7 @@ namespace CUIClient.Handler
             return DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff");
         }
 
+        /// <summary>津波予報種類を日本語に変換します。</summary>
         private string GetTsunamiCategoryName(TsunamiCategory tsunamiCategory)
         {
             if (tsunamiCategory == TsunamiCategory.Advisory)
@@ -131,6 +167,7 @@ namespace CUIClient.Handler
             return "不明";
         }
 
+        /// <summary>津波の有無を日本語に変換します。</summary>
         private string GetDomesticTsunamiTypeName(DomesticTsunamiType type)
         {
             if (type == DomesticTsunamiType.Checking)

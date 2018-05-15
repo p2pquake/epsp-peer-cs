@@ -11,7 +11,7 @@ using Client.Peer;
 namespace Client.App.State
 {
     /// <summary>
-    /// 維持処理中の状態
+    /// EPSPネットワークに接続しており、接続維持のための通信をしている状態です。
     /// </summary>
     class MaintenanceState : AbstractState
     {

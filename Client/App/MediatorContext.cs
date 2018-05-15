@@ -14,6 +14,14 @@ using PKCSPeerCrypto;
 
 namespace Client.App
 {
+    /// <summary>
+    /// IMediatorContextの実装です。
+    /// 
+    /// <para><see cref="IOperatable.Connect"/> の接続処理は非同期で行われます。
+    /// 処理結果は <see cref="IMediatorContext.Completed"/> により通知しますが、接続に失敗しても一定間隔で再接続を試み続けます。</para>
+    /// <para><see cref="IOperatable.Disconnect"/> の切断処理は非同期で行われます。
+    /// 切断が完了すると、 <see cref="IMediatorContext.State"/> の値が <see cref="DisconnectedState"/> に変化します。</para>
+    /// </summary>
     public class MediatorContext : IMediatorContext, IOperatable, IPeerState, IPeerStateForClient, IPeerStateForPeer, IPeerConfig
     {
         private IClientContext clientContext;

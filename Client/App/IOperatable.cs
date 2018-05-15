@@ -5,28 +5,31 @@ using System.Text;
 
 namespace Client.App
 {
+    /// <summary>
+    /// 接続制御が行うためのインタフェースです。
+    /// </summary>
     public interface IOperatable
     {
         /// <summary>
-        /// 接続処理を実行できる状態かどうか
+        /// 接続処理を実行できる状態かどうかを表します。
         /// </summary>
         /// <returns></returns>
         bool CanConnect { get; }
 
         /// <summary>
-        /// 切断処理を実行できる状態かどうか
+        /// 切断処理を実行できる状態かどうかを表します。
         /// </summary>
         /// <returns></returns>
         bool CanDisconnect { get; }
 
         /// <summary>
-        /// 接続する
+        /// EPSPネットワークに接続します。
         /// </summary>
         /// <returns></returns>
         bool Connect();
 
         /// <summary>
-        /// 切断する
+        /// EPSPネットワークから切断します。
         /// </summary>
         /// <returns></returns>
         bool Disconnect();

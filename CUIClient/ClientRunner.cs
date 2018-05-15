@@ -10,10 +10,17 @@ using CUIClient.Handler;
 
 namespace CUIClient
 {
+    /// <summary>
+    /// EPSPピアの操作サンプルクラスです。
+    /// 
+    /// 各種情報の処理は <see cref="EPSPHandler"/> クラスが行います。
+    /// </summary>
     class ClientRunner
     {
         private IMediatorContext mediatorContext;
 
+        /// <summary>EPSPネットワークへの接続を開始します。<see cref="Stop"/>メソッドが実行されるまで接続を維持します。</summary>
+        /// <param name="port">接続受け入れポート (未指定時はポート非開放)</param>
         public void Start(int port = -1)
         {
             mediatorContext = new MediatorContext();
@@ -38,6 +45,10 @@ namespace CUIClient
             mediatorContext.Connect();
         }
 
+        /// <summary>
+        /// EPSPネットワークとの接続を切断します。
+        /// ただし、オペレーティングシステムのシャットダウン等を考慮し、切断処理が3秒を超えた場合は強制切断します。
+        /// </summary>
         public void Stop()
         {
             Task.Factory.StartNew(() => mediatorContext.Disconnect());
@@ -58,13 +69,25 @@ namespace CUIClient
             stopWatch.Stop();
         }
 
+        /// <summary>
+        /// 操作完了時のイベント処理
+        ///
+        /// <seealso cref="IMediatorContext.Completed"/>
+        /// </summary>
         private void MediatorContext_Completed(object sender, Client.Client.OperationCompletedEventArgs e)
         {
-
+            // 何もしない
         }
 
+        /// <summary>
+        /// 状態変化時のイベント処理
+        /// 
+        /// <seealso cref="IMediatorContext.StateChanged"/>
+        /// </summary>
         private void MediatorContext_StateChanged(object sender, EventArgs e)
         {
+            // 現在の状態を出力する
+
             var dictionary = new Dictionary<string, string>() {
                 { "ConnectedState",     "接続済み" },
                 { "ConnectingState",    "接続中" },
@@ -100,6 +123,11 @@ namespace CUIClient
             }
         }
 
+        /// <summary>
+        /// 接続数変化時のイベント処理
+        /// 
+        /// <seealso cref="IMediatorContext.ConnectionsChanged"/>
+        /// </summary>
         private void MediatorContext_ConnectionsChanged(object sender, EventArgs e)
         {
             Console.WriteLine("{0} 接続数: {1}", GetDateTime(), mediatorContext.Connections);
