@@ -10,14 +10,22 @@ using Client.Common.Net;
 
 namespace Client.Peer
 {
+    /// <summary>
+    /// EPSPの基底イベントデータクラスです。
+    /// </summary>
     public abstract class EPSPDataEventArgs : EventArgs
     {
-        /// <summary>署名の妥当性チェック結果</summary>
+        /// <summary>署名の期限・内容が妥当かどうかを表します。</summary>
         public bool IsValid { get { return !IsInvalidSignature && !IsExpired; } }
+        /// <summary>不正な署名であるかを表します。</summary>
         public bool IsInvalidSignature { get; set; } = true;
+        /// <summary>署名が期限切れであるかを表します。</summary>
         public bool IsExpired { get; set; } = true;
     }
 
+    /// <summary>
+    /// 日本への津波の心配を表す列挙型です。
+    /// </summary>
     public enum DomesticTsunamiType
     {
         /// <summary>なし</summary>
@@ -30,6 +38,7 @@ namespace Client.Peer
         Unknown = 3
     }
 
+    /// <summary>地震情報の種類を表す列挙型です。</summary>
     public enum QuakeInformationType
     {
         /// <summary>震度速報</summary>
@@ -46,29 +55,47 @@ namespace Client.Peer
         Unknown
     }
 
+    /// <summary>震度観測点の情報を表すクラスです。</summary>
     public class QuakeObservationPoint
     {
+        /// <summary>都道府県</summary>
         public string Prefecture { get; set; } = "";
+        /// <summary>震度</summary>
         public string Scale { get; set; } = "";
+        /// <summary>観測点名称</summary>
         public string Name { get; set; } = "";
     }
 
+    /// <summary>地震情報のイベントデータクラスです。</summary>
     public class EPSPQuakeEventArgs : EPSPDataEventArgs
     {
+        /// <summary>発生日時</summary>
         public string OccuredTime { get; set; } = "不明";
+        /// <summary>震度</summary>
         public string Scale { get; set; } = "不明";
+        /// <summary>津波の有無</summary>
         public DomesticTsunamiType TsunamiType { get; set; } = DomesticTsunamiType.Unknown;
+        /// <summary>地震情報種類</summary>
         public QuakeInformationType InformationType { get; set; } = QuakeInformationType.Unknown;
+        /// <summary>震源</summary>
         public string Destination { get; set; } = "不明";
+        /// <summary>深さ</summary>
         public string Depth { get; set; } = "不明";
+        /// <summary>マグニチュード</summary>
         public string Magnitude { get; set; } = "不明";
+        /// <summary>震度訂正かどうか</summary>
         public bool IsCorrection { get; set; } = false;
+        /// <summary>緯度</summary>
         public string Latitude { get; set; } = "不明";
+        /// <summary>経度</summary>
         public string Longitude { get; set; } = "不明";
+        /// <summary>発表管区</summary>
         public string IssueFrom { get; set; } = "不明";
+        /// <summary>地震情報詳細（震度観測点）</summary>
         public IList<QuakeObservationPoint> PointList { get; set; } = null;
     }
 
+    /// <summary>津波予報の種類を表す列挙型です。</summary>
     public enum TsunamiCategory
     {
         /// <summary>津波注意報</summary>
@@ -81,32 +108,46 @@ namespace Client.Peer
         Unknown
     }
 
+    /// <summary>予報区ごとの津波予報を表すクラスです。</summary>
     public class TsunamiForecastRegion
     {
+        /// <summary>津波予報種類</summary>
         public TsunamiCategory Category { get; set; } = TsunamiCategory.Unknown;
+        /// <summary>予報区名</summary>
         public string Region { get; set; } = "不明";
+        /// <summary>津波が直ちに来襲するか</summary>
         public bool IsImmediately { get; set; } = false;
     }
 
+    /// <summary>津波予報のイベントデータクラスです。</summary>
     public class EPSPTsunamiEventArgs : EPSPDataEventArgs
     {
+        /// <summary>津波予報の解除かどうか</summary>
         public bool IsCancelled { get; set; } = false;
+        /// <summary>津波予報詳細（予報区ごとの情報）</summary>
         public IList<TsunamiForecastRegion> RegionList { get; set; } = null;
     }
 
+    /// <summary>地域ピア数のイベントデータクラスです。</summary>
     public class EPSPAreapeersEventArgs : EPSPDataEventArgs
     {
+        /// <summary>地域ピア数 (キー: 地域コード、値: ピア数)</summary>
         public IDictionary<string, int> AreaPeerDictionary { get; set; } = null;
     }
 
+    /// <summary>緊急地震速報 配信試験（オープンβ）のイベントデータクラスです。</summary>
     public class EPSPEEWTestEventArgs : EPSPDataEventArgs
     {
+        /// <summary>テストかどうか</summary>
         public bool IsTest { get; set; } = false;
     }
 
+    /// <summary>地震感知情報のイベントデータクラスです。</summary>
     public class EPSPUserquakeEventArgs : EPSPDataEventArgs
     {
+        /// <summary>地域コード</summary>
         public string AreaCode { get; set; } = "";
+        /// <summary>公開鍵</summary>
         public string PublicKey { get; set; } = "";
     }
 
