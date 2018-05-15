@@ -149,6 +149,7 @@ namespace CUIClient.Handler
             return DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff");
         }
 
+        /// <summary>津波予報種類を日本語に変換します。</summary>
         private string GetTsunamiCategoryName(TsunamiCategory tsunamiCategory)
         {
             if (tsunamiCategory == TsunamiCategory.Advisory)
@@ -166,6 +167,7 @@ namespace CUIClient.Handler
             return "不明";
         }
 
+        /// <summary>津波の有無を日本語に変換します。</summary>
         private string GetDomesticTsunamiTypeName(DomesticTsunamiType type)
         {
             if (type == DomesticTsunamiType.Checking)
