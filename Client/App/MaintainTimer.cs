@@ -138,7 +138,6 @@ namespace Client.App
             {
                 processingCount = 0;
 
-                // FIXME: 接続数が少ない判定がClientのStateとバラバラになっていると思われる
                 if (echoElapsedCount > echoIntervalThreshold || (mediatorContext.Connections < 2 && echoElapsedCount > echoIntervalThresholdIfLackOfConnection))
                 {
                     RequireMaintain(this, EventArgs.Empty);
