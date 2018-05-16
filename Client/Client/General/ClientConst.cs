@@ -7,7 +7,7 @@ namespace Client.Client.General
 {
     public class ClientConst
     {
-        public static string getCodeName(int code)
+        public static string GetCodeName(int code)
         {
             Dictionary<int, string> codeMap = new Dictionary<int,string>()
             {

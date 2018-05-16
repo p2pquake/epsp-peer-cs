@@ -172,11 +172,11 @@ namespace Client.Common.Net
             {
                 receiveBytes = socket.EndReceive(ar);
             }
-            catch (SocketException se)
+            catch (SocketException)
             {
                 receiveBytes = 0;
             }
-            catch (ObjectDisposedException ode)
+            catch (ObjectDisposedException)
             {
                 return;
             }
@@ -251,7 +251,7 @@ namespace Client.Common.Net
 
                             ReadLine(this, readLineEventArgs);
                         }
-                        catch (FormatException fe)
+                        catch (FormatException)
                         {
                             if (lineStr != "")
                             {

@@ -51,8 +51,8 @@ namespace Client.Peer.Manager
         {
             CRLFSocket crlfSocket = new CRLFSocket(socket);
             Peer peer = new Peer(this, crlfSocket);
-            peer.Closed += new EventHandler(peer_Closed);
-            peer.ReadLine += new EventHandler<ReadLineEventArgs>(peer_ReadLine);
+            peer.Closed += new EventHandler(Peer_Closed);
+            peer.ReadLine += new EventHandler<ReadLineEventArgs>(Peer_ReadLine);
             peer.PeerId += () => { return PeerId(); };
 
             IPEndPoint remoteEndPoint = crlfSocket.RemoteEndPoint;
@@ -80,8 +80,8 @@ namespace Client.Peer.Manager
         public bool Connect(PeerData peerData)
         {
             Peer peer = new Peer(this);
-            peer.Closed += new EventHandler(peer_Closed);
-            peer.ReadLine += new EventHandler<ReadLineEventArgs>(peer_ReadLine);
+            peer.Closed += new EventHandler(Peer_Closed);
+            peer.ReadLine += new EventHandler<ReadLineEventArgs>(Peer_ReadLine);
             peer.PeerId += () => { return PeerId(); };
             
             bool result = peer.Connect(peerData);
@@ -111,7 +111,7 @@ namespace Client.Peer.Manager
             }
         }
 
-        void peer_ReadLine(object sender, ReadLineEventArgs e)
+        void Peer_ReadLine(object sender, ReadLineEventArgs e)
         {
             if (duplicateRemover.isDuplicate(e.packet))
             {
@@ -124,7 +124,7 @@ namespace Client.Peer.Manager
                 return;
             }
 
-            raiseDataEvent(e.packet);
+            RaiseDataEvent(e.packet);
 
             e.packet.Hop++;
 
@@ -136,7 +136,7 @@ namespace Client.Peer.Manager
             Send(e.packet, (Peer)sender);
         }
 
-        private void raiseDataEvent(Packet packet)
+        private void RaiseDataEvent(Packet packet)
         {
             // オプションにより有効とする
 #if RAISE_RAW_DATA_EVENT
@@ -145,14 +145,14 @@ namespace Client.Peer.Manager
             OnData(this, raw);  
 #endif
             
-            raiseEarthquakeEvent(packet);
-            raiseTsunamiEvent(packet);
-            raiseAreapeersEvent(packet);
-            raiseEEWTestEvent(packet);
-            raiseUserquakeEvent(packet);
+            RaiseEarthquakeEvent(packet);
+            RaiseTsunamiEvent(packet);
+            RaiseAreapeersEvent(packet);
+            RaiseEEWTestEvent(packet);
+            RaiseUserquakeEvent(packet);
         }
 
-        private void raiseEarthquakeEvent(Packet packet)
+        private void RaiseEarthquakeEvent(Packet packet)
         {
             if (packet.Code != Code.EARTHQUAKE)
             {
@@ -226,7 +226,7 @@ namespace Client.Peer.Manager
             OnEarthquake(this, e);
         }
 
-        private void raiseTsunamiEvent(Packet packet)
+        private void RaiseTsunamiEvent(Packet packet)
         {
             if (packet.Code != Code.TSUNAMI)
             {
@@ -284,7 +284,7 @@ namespace Client.Peer.Manager
             OnTsunami(this, e);
         }
 
-        private void raiseAreapeersEvent(Packet packet)
+        private void RaiseAreapeersEvent(Packet packet)
         {
             if (packet.Code != Code.AREAPEERS)
             {
@@ -313,7 +313,7 @@ namespace Client.Peer.Manager
             OnAreapeers(this, e);
         }
 
-        private void raiseEEWTestEvent(Packet packet)
+        private void RaiseEEWTestEvent(Packet packet)
         {
             if (packet.Code != Code.AREAPEERS)
             {
@@ -343,7 +343,7 @@ namespace Client.Peer.Manager
             OnEEWTest(this, e);
         }
 
-        private void raiseUserquakeEvent(Packet packet)
+        private void RaiseUserquakeEvent(Packet packet)
         {
             if (packet.Code != Code.USERQUAKE)
             {
@@ -422,7 +422,7 @@ namespace Client.Peer.Manager
             return false;
         }
 
-        void peer_Closed(object sender, EventArgs e)
+        void Peer_Closed(object sender, EventArgs e)
         {
             peerList.Remove((Peer)sender);
             ConnectionsChanged(this, EventArgs.Empty);

@@ -11,9 +11,9 @@ namespace Client.Client
 {
     interface IClientContextForState : IClientContext
     {
-        AbstractState State { set; }
-        IPeerConfig PeerConfig { get; }
-        IPeerStateForClient PeerState { get; }
-        IPeerConnector PeerConnector { get; }
+        new AbstractState State { set; }
+        new IPeerConfig PeerConfig { get; }
+        new IPeerStateForClient PeerState { get; }
+        new IPeerConnector PeerConnector { get; }
     }
 }

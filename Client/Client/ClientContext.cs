@@ -116,7 +116,7 @@ namespace Client.Client
 
             CRLFSocket socket = (CRLFSocket)sender;
             Packet packet = e.packet;
-            string methodName = ClientConst.getCodeName(packet.Code);
+            string methodName = ClientConst.GetCodeName(packet.Code);
 
             Logger.GetLog().Debug("実行するメソッド: " + methodName);
 
