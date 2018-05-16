@@ -138,8 +138,6 @@ namespace Client.Peer.Manager
 
         private void raiseDataEvent(Packet packet)
         {
-            // TODO: メソッドが長い。
-
             // オプションにより有効とする
 #if RAISE_RAW_DATA_EVENT
             EPSPRawDataEventArgs raw = new EPSPRawDataEventArgs();
