@@ -124,7 +124,6 @@
     <Compile Include="Client\IClientContextForState.cs" />
     <Compile Include="Client\State\RequirePartState.cs" />
     <Compile Include="Client\State\RequirePortScanState.cs" />
-    <Compile Include="Common\Config\Configuration.cs" />
     <Compile Include="Common\General\PeerData.cs" />
     <Compile Include="Client\State\IFinishedState.cs" />
     <Compile Include="Client\State\ConnectedState.cs" />
