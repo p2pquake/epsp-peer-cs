@@ -38,10 +38,10 @@ namespace Client.Peer.Manager
             this.state = new GeneralState();
             this.socket = socket;
 
-            state.ReadLine += new EventHandler<ReadLineEventArgs>(state_ReadLine);
+            state.ReadLine += new EventHandler<ReadLineEventArgs>(State_ReadLine);
 
-            socket.Closed += new EventHandler(socket_Closed);
-            socket.ReadLine += new EventHandler<ReadLineEventArgs>(socket_ReadLine);
+            socket.Closed += new EventHandler(Socket_Closed);
+            socket.ReadLine += new EventHandler<ReadLineEventArgs>(Socket_ReadLine);
         }
 
         internal void BeginReceive()
@@ -49,12 +49,12 @@ namespace Client.Peer.Manager
             socket.BeginReceive();
         }
 
-        void state_ReadLine(object sender, ReadLineEventArgs e)
+        void State_ReadLine(object sender, ReadLineEventArgs e)
         {
             ReadLine(this, e);
         }
 
-        void socket_ReadLine(object sender, ReadLineEventArgs e)
+        void Socket_ReadLine(object sender, ReadLineEventArgs e)
         {
             Packet packet = e.packet;
             string methodName = PeerConst.getCodeName(packet.Code);
@@ -72,7 +72,7 @@ namespace Client.Peer.Manager
             methodInfo.Invoke(state, args);
         }
 
-        void socket_Closed(object sender, EventArgs e)
+        void Socket_Closed(object sender, EventArgs e)
         {
             Logger.GetLog().Debug("ピアから切断されました: " + PeerData.PeerId);
             Closed(this, EventArgs.Empty);
