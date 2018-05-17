@@ -33,7 +33,7 @@ namespace ClientTest.Peer.Manager
         {
             var type = peerManager.GetType();
             type.InvokeMember(
-                "raiseDataEvent",
+                "RaiseDataEvent",
                 System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.InvokeMethod,
                 null,
                 peerManager,

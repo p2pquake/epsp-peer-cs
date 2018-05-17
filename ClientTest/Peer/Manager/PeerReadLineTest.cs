@@ -36,7 +36,7 @@ namespace ClientTest.Peer.Manager
         private void Peer_ReadLine(object sender, ReadLineEventArgs e)
         {
             var type = peerManager.GetType();
-            var method = type.GetMethod("peer_ReadLine", BindingFlags.NonPublic | BindingFlags.Instance);
+            var method = type.GetMethod("Peer_ReadLine", BindingFlags.NonPublic | BindingFlags.Instance);
             method.Invoke(peerManager, new object[] { sender, e });
         }
 
@@ -104,7 +104,7 @@ namespace ClientTest.Peer.Manager
 
             var type = peer.GetType();
             type.InvokeMember(
-                "socket_ReadLine",
+                "Socket_ReadLine",
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod,
                 null,
                 peer,
