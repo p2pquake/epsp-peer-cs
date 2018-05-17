@@ -40,7 +40,7 @@ namespace ClientTest.Peer.Manager
 
                     if (callCount == 2)
                     {
-                        var socketClose = peerManager.GetType().GetMethod("peer_Closed", BindingFlags.NonPublic | BindingFlags.Instance);
+                        var socketClose = peerManager.GetType().GetMethod("Peer_Closed", BindingFlags.NonPublic | BindingFlags.Instance);
                         socketClose.Invoke(peerManager, new object[] { peer, EventArgs.Empty });
                     }
                 });
@@ -118,7 +118,7 @@ namespace ClientTest.Peer.Manager
 
             var type = peerManager.GetType();
             type.InvokeMember(
-                "peer_ReadLine",
+                "Peer_ReadLine",
                 System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.InvokeMethod,
                 null,
                 peerManager,

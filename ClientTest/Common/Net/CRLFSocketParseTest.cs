@@ -192,7 +192,7 @@ namespace ClientTest.Common.Net
         private void Invoke(string data)
         {
             var field = crlfSocket.GetType().GetField("receiveBuffer", BindingFlags.SetField | BindingFlags.NonPublic | BindingFlags.Instance);
-            var method = crlfSocket.GetType().GetMethod("processReceiveData", BindingFlags.NonPublic | BindingFlags.Instance);
+            var method = crlfSocket.GetType().GetMethod("ProcessReceiveData", BindingFlags.NonPublic | BindingFlags.Instance);
 
             field.SetValue(crlfSocket, Encoding.GetEncoding(932).GetBytes(data));
             method.Invoke(crlfSocket, new object[] { Encoding.GetEncoding(932).GetBytes(data).Length });
