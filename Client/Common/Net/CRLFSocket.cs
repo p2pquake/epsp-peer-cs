@@ -116,7 +116,7 @@ namespace Client.Common.Net
                 try
                 {
                     connectEvent.Reset();
-                    IAsyncResult ar = socket.BeginConnect(host, port, new AsyncCallback(connectCallback), socket);
+                    IAsyncResult ar = socket.BeginConnect(host, port, new AsyncCallback(ConnectCallback), socket);
 
                     if (connectEvent.WaitOne(ConnectTimeout, true))
                     {
@@ -153,10 +153,10 @@ namespace Client.Common.Net
         {
             // Hook
             receiveBuffer = new byte[BUFFER_SIZE];
-            socket.BeginReceive(receiveBuffer, 0, BUFFER_SIZE, SocketFlags.None, new AsyncCallback(receiveCallback), socket);
+            socket.BeginReceive(receiveBuffer, 0, BUFFER_SIZE, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
         }
 
-        private void connectCallback(IAsyncResult ar)
+        private void ConnectCallback(IAsyncResult ar)
         {
             Socket socket = (Socket)ar.AsyncState;
 
@@ -164,7 +164,7 @@ namespace Client.Common.Net
                 connectEvent.Set();
         }
 
-        private void receiveCallback(IAsyncResult ar)
+        private void ReceiveCallback(IAsyncResult ar)
         {
             Socket socket = (Socket)ar.AsyncState;
             int receiveBytes = 0;
@@ -183,10 +183,10 @@ namespace Client.Common.Net
 
             if (receiveBytes > 0)
             {
-                processReceiveData(receiveBytes);
+                ProcessReceiveData(receiveBytes);
 
                 if (socket.Connected)
-                    socket.BeginReceive(receiveBuffer, 0, BUFFER_SIZE, SocketFlags.None, new AsyncCallback(receiveCallback), socket);
+                    socket.BeginReceive(receiveBuffer, 0, BUFFER_SIZE, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
             }
             else
             {
@@ -218,7 +218,7 @@ namespace Client.Common.Net
             }
         }
 
-        private void processReceiveData(int receiveBytes)
+        private void ProcessReceiveData(int receiveBytes)
         {
             // concat
             Array.Resize(ref buffer, buffer.Length + receiveBytes);
