@@ -66,7 +66,18 @@ namespace Client.App
         public bool CanConnect { get { return State is DisconnectedState; } }
         public bool CanDisconnect { get { return State is ConnectedState; } }
         private bool CanMaintain { get { return CanDisconnect; } }
-        
+
+        /// <summary>
+        /// インスタンスを初期化します。初期値はそれぞれ下記となります。
+        /// <list type="bullet">
+        ///   <item>
+        ///     <description><see cref="AreaCode"/> (地域コード): 900 (地域未設定)</description>
+        ///   </item>
+        ///   <item>
+        ///     <description><see cref="MaxConnections"/> (最大接続数): 4</description>
+        ///   </item>
+        /// </list>
+        /// </summary>
         public MediatorContext()
         {
             clientContext = new ClientContext();
@@ -74,7 +85,7 @@ namespace Client.App
             maintainTimer = new MaintainTimer(this, clientContext);
             state = new DisconnectedState();
 
-            AreaCode = 901;
+            AreaCode = 900;
             MaxConnections = 4;
             IsPortOpen = false;
             
