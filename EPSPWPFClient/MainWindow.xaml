@@ -6,22 +6,43 @@
         xmlns:local="clr-namespace:EPSPWPFClient"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="P2P地震情報 for Peer" Height="480" Width="640">
+                      
+        BorderBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="1"
+                      
+        GlowBrush="Black"
+                      
+        Title="P2P地震情報 for Peer" Height="416" Width="552">
     <Grid>
-        <ListBox x:Name="menuListBox" Margin="10,70,0,10" RenderTransformOrigin="1.153,0.624" HorizontalAlignment="Left" Width="150" SelectionChanged="menuListBox_SelectionChanged">
-            <ListBoxItem Content="情報履歴"/>
-            <ListBoxItem Content="分布図"/>
-            <ListBoxItem Content="設定"/>
-            <ListBoxItem Content="システム情報"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ListBox x:Name="menuListBox" Margin="10,50,0,10" RenderTransformOrigin="1.153,0.624" HorizontalAlignment="Left" Width="110" SelectionChanged="menuListBox_SelectionChanged">
+            <StackPanel Orientation="Horizontal" Margin="0,4">
+                <Image Source="Resources/Pictogram/history.png" Width="16" Margin="8,0" />
+                <TextBlock Text="履歴" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,4">
+                <Image Source="Resources/Pictogram/map.png" Width="16" Margin="8,0" />
+                <TextBlock Text="ピア分布図" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,4">
+                <Image Source="Resources/Pictogram/config.png" Width="16" Margin="8,0" />
+                <TextBlock Text="設定" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,4">
+                <Image Source="Resources/Pictogram/information.png" Width="16" Margin="8,0" />
+                <TextBlock Text="システム" />
+            </StackPanel>
         </ListBox>
-        <Grid HorizontalAlignment="Left" Height="55" Margin="10,10,0,0" VerticalAlignment="Top" Width="150">
-            <Image x:Name="statusIcon" HorizontalAlignment="Left" Height="55" VerticalAlignment="Top" Width="40"/>
-            <Border BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Left" Height="55" Margin="45,0,0,0" VerticalAlignment="Top" Width="105">
-                <TextBlock x:Name="statusText" TextWrapping="Wrap" VerticalAlignment="Center" Text="接続済み" FontSize="20" Margin="0,14.2" />
+        <Grid HorizontalAlignment="Left" Height="32" Margin="10,10,0,0" VerticalAlignment="Top" Width="110">
+            <Image x:Name="statusIcon" HorizontalAlignment="Left" Height="32" VerticalAlignment="Center" Width="40" Source="Resources/Pictogram/status_connecting.png"/>
+            <Border BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Left" Height="32" Margin="45,0,0,0" VerticalAlignment="Top" Width="65">
+                <TextBlock x:Name="statusText" TextWrapping="Wrap" VerticalAlignment="Center" Text="接続中…" FontSize="14" Margin="0,6" />
             </Border>
 
         </Grid>
-        <ContentControl x:Name="contentControl" Margin="165,10,10,10" />
+        <ContentControl x:Name="contentControl" Margin="130,10,10,10" />
 
     </Grid>
 </Controls:MetroWindow>
