@@ -27,7 +27,6 @@ namespace EPSPWPFClient
         private UserControl configControl = new ConfigControl();
         private UserControl statusControl = new StatusControl();
 
-
         public MainWindow()
         {
             InitializeComponent();
@@ -63,6 +62,11 @@ namespace EPSPWPFClient
             }
 
             contentControl.Content = control;
+        }
+
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow = this;
         }
     }
 }

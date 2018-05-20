@@ -74,6 +74,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>EPSPWPFClient.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
@@ -147,11 +150,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Mediator\EPSPMediator.cs" />
+    <Compile Include="ViewModel\StateConverter.cs" />
     <Compile Include="ViewModel\StatusViewModel.cs" />
-    <ApplicationDefinition Include="App.xaml">
+    <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </ApplicationDefinition>
+    </Page>
+    <Compile Include="Program.cs" />
     <Compile Include="Quake\QuakeDrawer.cs" />
     <Page Include="Controls\ConfigControl.xaml">
       <SubType>Designer</SubType>
