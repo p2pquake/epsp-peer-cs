@@ -150,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Mediator\EPSPMediator.cs" />
+    <Compile Include="ViewModel\BoolConverter.cs" />
     <Compile Include="ViewModel\StateConverter.cs" />
     <Compile Include="ViewModel\StatusViewModel.cs" />
     <Page Include="App.xaml">
