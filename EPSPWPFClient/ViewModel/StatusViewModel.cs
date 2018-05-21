@@ -10,6 +10,9 @@ namespace EPSPWPFClient.ViewModel
 {
     class StatusViewModel
     {
+        public ReactiveCommand ConnectCommand { get; } = new ReactiveCommand();
+        public AsyncReactiveCommand DisconnectCommand { get; } = new AsyncReactiveCommand();
+
         public ReactiveProperty<string> ConnectionStatus { get; } = new ReactiveProperty<string>("");
 
         public ReactiveProperty<int> Connections { get; } = new ReactiveProperty<int>(0);
