@@ -2,9 +2,11 @@
 using Client.Client;
 using EPSPWPFClient.Controls;
 using EPSPWPFClient.ViewModel;
+using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,11 +14,12 @@ namespace EPSPWPFClient.Mediator
 {
     class EPSPMediator
     {
-        IMediatorContext mediatorContext = new MediatorContext();
-        internal StatusViewModel StatusViewModel { get; } = new StatusViewModel();
+        IMediatorContext mediatorContext;
+        internal StatusViewModel StatusViewModel { get; private set; }
 
         public EPSPMediator()
         {
+            // Model => ViewModel
             mediatorContext = new MediatorContext();
             //var epspHandler = new EPSPHandler(mediatorContext.CalcNowProtocolTime);
 
@@ -29,6 +32,17 @@ namespace EPSPWPFClient.Mediator
             //mediatorContext.OnTsunami += epspHandler.MediatorContext_OnTsunami;
             //mediatorContext.OnEEWTest += epspHandler.MediatorContext_OnEEWTest;
             //mediatorContext.OnUserquake += epspHandler.MediatorContext_OnUserquake;
+
+            // ViewModel => Model
+            StatusViewModel = new StatusViewModel();
+            StatusViewModel.ConnectCommand.Subscribe(() =>
+            {
+                mediatorContext.Connect();
+            });
+            StatusViewModel.DisconnectCommand.Subscribe(async () =>
+            {
+                await Task.Run(() => mediatorContext.Disconnect());
+            });
         }
 
         private void MediatorContext_Completed(object sender, OperationCompletedEventArgs e)

@@ -63,7 +63,12 @@
                     </TextBlock.Text>
                 </TextBlock>
             </Border>
-
+            <Grid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="接続" Command="{Binding ConnectCommand}"/>
+                    <MenuItem Header="切断" Command="{Binding DisconnectCommand}"/>
+                </ContextMenu>
+            </Grid.ContextMenu>
         </Grid>
         <ContentControl x:Name="contentControl" Margin="130,10,10,10" />
 
