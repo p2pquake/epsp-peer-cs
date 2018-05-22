@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace EPSPWPFClient.Mediator
 {
@@ -35,6 +36,8 @@ namespace EPSPWPFClient.Mediator
 
             // ViewModel => Model
             StatusViewModel = new StatusViewModel();
+            StatusViewModel.CanConnect.Value = mediatorContext.CanConnect;
+            StatusViewModel.CanDisconnect.Value = mediatorContext.CanDisconnect;
             StatusViewModel.ConnectCommand.Subscribe(() =>
             {
                 mediatorContext.Connect();
@@ -56,6 +59,11 @@ namespace EPSPWPFClient.Mediator
         private void MediatorContext_StateChanged(object sender, EventArgs e)
         {
             StatusViewModel.ConnectionStatus.Value = mediatorContext.State.GetType().Name;
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                StatusViewModel.CanConnect.Value = mediatorContext.CanConnect;
+                StatusViewModel.CanDisconnect.Value = mediatorContext.CanDisconnect;
+            });
         }
 
         private void MediatorContext_ConnectionsChanged(object sender, EventArgs e)
