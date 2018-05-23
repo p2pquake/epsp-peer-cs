@@ -1,10 +1,11 @@
-﻿<Controls:MetroWindow x:Class="EPSPWPFClient.MainWindow"
+﻿<Controls:MetroWindow
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EPSPWPFClient"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:ViewModel="clr-namespace:EPSPWPFClient.ViewModel" x:Class="EPSPWPFClient.MainWindow"
         mc:Ignorable="d"
                       
         BorderBrush="{DynamicResource AccentColorBrush}"
@@ -12,7 +13,10 @@
                       
         GlowBrush="Black"
                       
-        Title="P2P地震情報 for Peer" Height="416" Width="552">
+        Title="P2P地震情報 for Peer" Height="416" Width="552" d:DataContext="{d:DesignInstance {x:Type ViewModel:StatusViewModel}}" Loaded="MetroWindow_Loaded">
+    <Controls:MetroWindow.Resources>
+        <ViewModel:StateConverter x:Key="StateConverter"/>
+    </Controls:MetroWindow.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -36,11 +40,35 @@
             </StackPanel>
         </ListBox>
         <Grid HorizontalAlignment="Left" Height="32" Margin="10,10,0,0" VerticalAlignment="Top" Width="110">
-            <Image x:Name="statusIcon" HorizontalAlignment="Left" Height="32" VerticalAlignment="Center" Width="40" Source="Resources/Pictogram/status_connecting.png"/>
+            <Image x:Name="statusIcon" HorizontalAlignment="Left" Height="32" VerticalAlignment="Center" Width="40">
+                <Image.Source>
+                    <MultiBinding Converter="{StaticResource StateConverter}">
+                        <MultiBinding.Bindings>
+                            <Binding Path="ConnectionStatus.Value"/>
+                            <Binding Path="Connections.Value"/>
+                        </MultiBinding.Bindings>
+                    </MultiBinding>
+                </Image.Source>
+            </Image>
+            
             <Border BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Left" Height="32" Margin="45,0,0,0" VerticalAlignment="Top" Width="65">
-                <TextBlock x:Name="statusText" TextWrapping="Wrap" VerticalAlignment="Center" Text="接続中…" FontSize="14" Margin="0,6" />
+                <TextBlock x:Name="statusText" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="14" Margin="0,6">
+                     <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource StateConverter}" >
+                            <MultiBinding.Bindings>
+                                <Binding Path="ConnectionStatus.Value"/>
+                                <Binding Path="Connections.Value"/>
+                            </MultiBinding.Bindings>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
             </Border>
-
+            <Grid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="接続" Command="{Binding ConnectCommand}"/>
+                    <MenuItem Header="切断" Command="{Binding DisconnectCommand}"/>
+                </ContextMenu>
+            </Grid.ContextMenu>
         </Grid>
         <ContentControl x:Name="contentControl" Margin="130,10,10,10" />
 
