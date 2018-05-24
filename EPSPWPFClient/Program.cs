@@ -13,13 +13,13 @@ namespace EPSPWPFClient
         public static void Main()
         {
             var mediator = new EPSPMediator();
-            mediator.Start();
 
             EPSPWPFClient.App app = new EPSPWPFClient.App();
             app.Activated += (s, e) => {
                 if (app.MainWindow.DataContext == null)
                 {
                     app.MainWindow.DataContext = mediator.StatusViewModel;
+                    mediator.Start();
                 }
             };
             app.InitializeComponent();
