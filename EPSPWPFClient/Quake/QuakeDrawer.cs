@@ -21,19 +21,11 @@ namespace EPSPWPFClient.Quake
 {
     class QuakeDrawer
     {
-        private SvgViewbox svg;
+        private Image img;
 
         public void Redraw(Canvas canvas)
         {
-            if (svg == null)
-            {
-                return;
-            }
-
-            svg.MaxHeight = canvas.ActualHeight;
-            svg.MaxWidth = canvas.ActualWidth;
-            svg.InvalidateMeasure();
-            svg.UpdateLayout();
+            Draw(canvas);
         }
 
         public void Draw(Canvas canvas)
@@ -41,28 +33,19 @@ namespace EPSPWPFClient.Quake
             canvas.Children.Clear();
 
             // ラスタ(ビットマップ)
-            //Image img = new Image();
-            //img.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/japan.png"));
-            //img.Width = canvas.ActualWidth;
-            //img.Height = canvas.ActualHeight;
-
-            // ベクタ
-            svg = new SvgViewbox();
-            svg.MaxHeight = canvas.ActualHeight;
-            svg.MaxWidth = canvas.ActualWidth;
-            svg.Source = new Uri("pack://application:,,,/Resources/japan_vector.svgz");
-
-            canvas.Children.Add(svg);
-
-            svg.InvalidateMeasure();
-            svg.UpdateLayout();
-
-            //svgCanvas.LoadDiagrams("Resources/japan_vector.svgz");
-
-            //canvas.Children.Add(image);
+            img = new Image();
+            img.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/japan.png"));
+            img.Width = canvas.ActualWidth;
+            img.Height = canvas.ActualHeight;
+            canvas.Children.Add(img);
+            img.InvalidateMeasure();
+            img.UpdateLayout();
 
             PointCalculator calculator = new PointCalculator(47, 23, 121, 150,
-                svg.ActualWidth, svg.ActualHeight);
+                img.ActualWidth, img.ActualHeight);
+
+            double offsetX = (canvas.ActualWidth - img.ActualWidth) / 2;
+            double offsetY = (canvas.ActualHeight - img.ActualHeight) / 2;
 
             string[] points =
             {
@@ -139,8 +122,8 @@ namespace EPSPWPFClient.Quake
                     Stroke = Brushes.Black,
                     StrokeThickness = 1
                 };
-                Canvas.SetLeft(rectangle, xy[0]);
-                Canvas.SetTop(rectangle, xy[1]);
+                Canvas.SetLeft(rectangle, xy[0] + offsetX);
+                Canvas.SetTop(rectangle, xy[1] + offsetY);
 
                 canvas.Children.Add(rectangle);
 
@@ -154,8 +137,8 @@ namespace EPSPWPFClient.Quake
                     Content = text
                 };
 
-                Canvas.SetLeft(control, xy[0]);
-                Canvas.SetTop(control, xy[1]);
+                Canvas.SetLeft(control, xy[0] + offsetX);
+                Canvas.SetTop(control, xy[1] + offsetY);
 
                 canvas.Children.Add(control);
             }
