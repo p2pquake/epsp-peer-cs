@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 using EPSPWPFClient.Controls;
 using System.Windows.Threading;
+using EPSPWPFClient.ViewModel;
 
 namespace EPSPWPFClient
 {
@@ -26,6 +27,8 @@ namespace EPSPWPFClient
         private UserControl peerMapControl = new PeerMapControl();
         private UserControl configControl = new ConfigControl();
         private UserControl statusControl = new StatusControl();
+
+        public HistoryViewModel HistoryViewModel { get; set; }
 
         public MainWindow()
         {
@@ -42,6 +45,7 @@ namespace EPSPWPFClient
             {
                 case 0:
                     control = historyControl;
+                    historyControl.DataContext = HistoryViewModel;
                     Dispatcher.BeginInvoke(new Action(
                         () =>
                         {
