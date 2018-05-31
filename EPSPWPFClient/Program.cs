@@ -19,6 +19,7 @@ namespace EPSPWPFClient
                 if (app.MainWindow.DataContext == null)
                 {
                     app.MainWindow.DataContext = mediator.StatusViewModel;
+                    ((MainWindow)app.MainWindow).HistoryViewModel = mediator.HistoryViewModel;
                     mediator.Start();
                 }
             };

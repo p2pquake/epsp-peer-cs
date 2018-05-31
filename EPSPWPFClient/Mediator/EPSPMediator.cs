@@ -17,6 +17,7 @@ namespace EPSPWPFClient.Mediator
     {
         IMediatorContext mediatorContext;
         internal StatusViewModel StatusViewModel { get; private set; }
+        internal HistoryViewModel HistoryViewModel { get; private set; }
 
         public EPSPMediator()
         {
@@ -46,6 +47,8 @@ namespace EPSPWPFClient.Mediator
             {
                 await Task.Run(() => mediatorContext.Disconnect());
             });
+
+            HistoryViewModel = new HistoryViewModel();
         }
 
         private void MediatorContext_Completed(object sender, OperationCompletedEventArgs e)
