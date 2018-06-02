@@ -260,6 +260,22 @@
       <Name>Client</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Scale\7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Scale\1.png" />
+    <Resource Include="Resources\Scale\2.png" />
+    <Resource Include="Resources\Scale\3.png" />
+    <Resource Include="Resources\Scale\4.png" />
+    <Resource Include="Resources\Scale\5l.png" />
+    <Resource Include="Resources\Scale\5u.png" />
+    <Resource Include="Resources\Scale\6l.png" />
+    <Resource Include="Resources\Scale\6u.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Scale\unknown.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
