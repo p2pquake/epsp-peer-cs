@@ -10,6 +10,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Client.Peer;
 using EPSPWPFClient.Properties;
 using Map.Map;
 using Map.Util;
@@ -21,19 +22,19 @@ namespace EPSPWPFClient.Quake
 {
     class QuakeDrawer
     {
-        private Image img;
-
+        public EPSPQuakeEventArgs QuakeEventArgs { private get; set; }
+        
         public void Redraw(Canvas canvas)
         {
             Draw(canvas);
         }
-
+        
         public void Draw(Canvas canvas)
         {
             canvas.Children.Clear();
 
-            // ラスタ(ビットマップ)
-            img = new Image();
+            // 地図描画
+            var img = new Image();
             img.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/japan.png"));
             img.Width = canvas.ActualWidth;
             img.Height = canvas.ActualHeight;
@@ -41,106 +42,71 @@ namespace EPSPWPFClient.Quake
             img.InvalidateMeasure();
             img.UpdateLayout();
 
-            PointCalculator calculator = new PointCalculator(47, 23, 121, 150,
+            // 震度観測点描画のための準備
+            var calculator = new PointCalculator(47, 23, 121, 150,
                 img.ActualWidth, img.ActualHeight);
 
-            double offsetX = (canvas.ActualWidth - img.ActualWidth) / 2;
-            double offsetY = (canvas.ActualHeight - img.ActualHeight) / 2;
+            var offsetX = (canvas.ActualWidth - img.ActualWidth) / 2;
+            var offsetY = (canvas.ActualHeight - img.ActualHeight) / 2;
 
-            string[] points =
+            var scaleImageList = new List<BitmapImage>()
             {
-                "日立市助川小学校",
-                "大子町池田",
-                "常陸大宮市上小瀬",
-                "水戸市金町",
-                "水戸市内原町",
-                "日立市役所",
-                "日立市十王町友部",
-                "常陸太田市町屋町",
-                "常陸太田市町田町",
-                "常陸太田市大中町",
-                "常陸太田市高柿町",
-                "高萩市安良川",
-                "高萩市下手綱",
-                "笠間市石井",
-                "笠間市中央",
-                "笠間市下郷",
-                "笠間市笠間",
-                "ひたちなか市南神敷台",
-                "ひたちなか市東石川",
-                "東海村東海",
-                "常陸大宮市中富町",
-                "常陸大宮市北町",
-                "常陸大宮市山方",
-                "常陸大宮市高部",
-                "常陸大宮市野口",
-                "那珂市福田",
-                "城里町徳蔵",
-                "城里町石塚",
-                "城里町阿波山",
-                "小美玉市小川",
-                "小美玉市堅倉",
-                "小美玉市上玉里",
-                "土浦市常名",
-                "石岡市柿岡",
-                "石岡市若宮",
-                "取手市寺田",
-                "牛久市城中町",
-                "つくば市天王台",
-                "つくば市研究学園",
-                "つくば市小茎",
-                "坂東市山",
-                "稲敷市江戸崎甲",
-                "筑西市舟生",
-                "筑西市海老ヶ島",
-                "筑西市門井",
-                "かすみがうら市上土田",
-                "かすみがうら市大和田",
-                "桜川市岩瀬",
-                "桜川市真壁",
-                "桜川市羽田",
-                "鉾田市汲上",
-                "常総市水海道諏訪町"
+                new BitmapImage(new Uri("pack://application:,,,/Resources/Scale/1.png")),
+                new BitmapImage(new Uri("pack://application:,,,/Resources/Scale/2.png")),
+                new BitmapImage(new Uri("pack://application:,,,/Resources/Scale/3.png")),
+                new BitmapImage(new Uri("pack://application:,,,/Resources/Scale/4.png")),
+                new BitmapImage(new Uri("pack://application:,,,/Resources/Scale/5l.png")),
+                new BitmapImage(new Uri("pack://application:,,,/Resources/Scale/5u.png")),
+                new BitmapImage(new Uri("pack://application:,,,/Resources/Scale/6l.png")),
+                new BitmapImage(new Uri("pack://application:,,,/Resources/Scale/6u.png")),
+                new BitmapImage(new Uri("pack://application:,,,/Resources/Scale/7.png")),
+                new BitmapImage(new Uri("pack://application:,,,/Resources/Scale/unknown.png"))
             };
 
-            foreach (string point in points)
+            var scaleMap = new Dictionary<string, int>()
             {
-                double[] latLong = PointName2LatLong.convert(point);
+                { "1", 0 },
+                { "2", 1 },
+                { "3", 2 },
+                { "4", 3 },
+                { "5弱", 4 },
+                { "5強", 5 },
+                { "6弱", 6 },
+                { "6強", 7 },
+                { "7", 8 }
+            };
+
+            // 震度観測点描画
+            if (QuakeEventArgs == null || QuakeEventArgs.PointList == null)
+            {
+                return;
+            }
+                 
+            foreach (var point in QuakeEventArgs.PointList)
+            {
+                var latLong = PointName2LatLong.convert(point.Name);
 
                 if (latLong == null)
                 {
                     continue;
                 }
 
-                double[] xy = calculator.calculate(latLong[0], latLong[1]);
+                var xy = calculator.calculate(latLong[0], latLong[1]);
 
-                Rectangle rectangle = new Rectangle()
+                var image = new Image();
+                if (scaleMap.ContainsKey(point.Scale))
                 {
-                    Width = 10,
-                    Height = 10,
-                    Fill = Brushes.Cyan,
-                    Stroke = Brushes.Black,
-                    StrokeThickness = 1
-                };
-                Canvas.SetLeft(rectangle, xy[0] + offsetX);
-                Canvas.SetTop(rectangle, xy[1] + offsetY);
-
-                canvas.Children.Add(rectangle);
-
-                TextBlock text = new TextBlock()
+                    image.Source = scaleImageList[scaleMap[point.Scale]];
+                } else
                 {
-                    Text = "1"
-                };
+                    image.Source = scaleImageList.Last();
+                }
+                image.Width = 16;
+                image.Height = 16;
 
-                ContentControl control = new ContentControl()
-                {
-                    Content = text
-                };
-
-                Canvas.SetLeft(control, xy[0] + offsetX);
-                Canvas.SetTop(control, xy[1] + offsetY);
-
-                canvas.Children.Add(control);
+                Canvas.SetLeft(image, xy[0] + offsetX - 8);
+                Canvas.SetTop(image, xy[1] + offsetY - 8);
+                canvas.Children.Add(image);
             }
         }
     }
