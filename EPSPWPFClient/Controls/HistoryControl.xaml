@@ -9,7 +9,7 @@
              MinWidth="400" MinHeight="360">
 
     <Grid>
-        <ComboBox x:Name="comboBox" Margin="10,10,10,0" VerticalAlignment="Top" d:DataContext="{d:DesignInstance {x:Type ViewModel:HistoryViewModel}}" ItemsSource="{Binding HistoryList.Value}" SelectedIndex="{Binding HistoryIndex.Value, Mode=OneWayToSource}">
+        <ComboBox x:Name="comboBox" Margin="10,10,10,0" VerticalAlignment="Top" d:DataContext="{d:DesignInstance {x:Type ViewModel:HistoryViewModel}}" ItemsSource="{Binding EventList}" SelectedIndex="{Binding EventIndex.Value, Mode=OneWayToSource}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Title}"/>
