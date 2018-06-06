@@ -152,6 +152,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mediator\EPSPHandler.cs" />
     <Compile Include="Mediator\EPSPMediator.cs" />
     <Compile Include="ViewModel\BoolConverter.cs" />
     <Compile Include="ViewModel\HistoryViewModel.cs" />
