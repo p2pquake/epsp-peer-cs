@@ -36,7 +36,7 @@ namespace EPSPWPFClient.Mediator
             //mediatorContext.OnEEWTest += epspHandler.MediatorContext_OnEEWTest;
             //mediatorContext.OnUserquake += epspHandler.MediatorContext_OnUserquake;
 
-            // ViewModel => Model
+            // ViewModel <=> Model
             StatusViewModel = new StatusViewModel();
             StatusViewModel.CanConnect.Value = mediatorContext.CanConnect;
             StatusViewModel.CanDisconnect.Value = mediatorContext.CanDisconnect;
@@ -49,7 +49,7 @@ namespace EPSPWPFClient.Mediator
                 await Task.Run(() => mediatorContext.Disconnect());
             });
 
-            HistoryViewModel = new HistoryViewModel();
+            HistoryViewModel = new HistoryViewModel(epspHandler);
         }
 
         private void MediatorContext_Completed(object sender, OperationCompletedEventArgs e)
