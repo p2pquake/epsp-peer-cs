@@ -21,6 +21,7 @@ namespace EPSPWPFClient
                 {
                     app.MainWindow.DataContext = mediator.StatusViewModel;
                     mediator.HistoryViewModel.SetScheduler(UIDispatcherScheduler.Default);
+                    mediator.HistoryViewModel.HistoryControl = ((MainWindow)app.MainWindow).HistoryControl;
                     ((MainWindow)app.MainWindow).HistoryViewModel = mediator.HistoryViewModel;
                     mediator.Start();
                 }

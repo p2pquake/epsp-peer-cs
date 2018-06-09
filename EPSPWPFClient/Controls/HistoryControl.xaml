@@ -6,8 +6,7 @@
              xmlns:local="clr-namespace:EPSPWPFClient.Controls"
              xmlns:ViewModel="clr-namespace:EPSPWPFClient.ViewModel" x:Class="EPSPWPFClient.Controls.HistoryControl"
              mc:Ignorable="d" 
-             MinWidth="400" MinHeight="360">
-
+             MinWidth="400" MinHeight="360" d:DataContext="{d:DesignInstance {x:Type ViewModel:HistoryViewModel}}">
     <Grid>
         <ComboBox x:Name="comboBox" Margin="10,10,10,0" VerticalAlignment="Top" d:DataContext="{d:DesignInstance {x:Type ViewModel:HistoryViewModel}}" ItemsSource="{Binding EventList}" SelectedIndex="{Binding EventIndex.Value, Mode=OneWayToSource}">
             <ComboBox.ItemTemplate>
@@ -17,7 +16,6 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <Canvas x:Name="canvas" Margin="10,41,10,10" SizeChanged="canvas_SizeChanged" />
-
+        <Canvas x:Name="canvas" Margin="10,41,10,10"/>
     </Grid>
 </UserControl>
