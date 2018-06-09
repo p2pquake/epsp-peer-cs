@@ -1,5 +1,7 @@
 ﻿using Client.Peer;
+using EPSPWPFClient.Controls;
 using EPSPWPFClient.Mediator;
+using EPSPWPFClient.Quake;
 using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
@@ -22,13 +24,31 @@ namespace EPSPWPFClient.ViewModel
         public ReactiveProperty<int> EventIndex { get; } = new ReactiveProperty<int>();
         private EPSPHandler epspHandler;
 
+        // FIXME: MVVMの法則が乱れている感あるので後で直したい。
+        public HistoryControl HistoryControl { private get; set; }
+        private QuakeDrawer drawer = new QuakeDrawer();
+
+        public HistoryViewModel() : this(null)
+        {
+
+        }
+
         public HistoryViewModel(EPSPHandler epspHandler)
         {
             this.epspHandler = epspHandler;
 
-            EventIndex.Subscribe(e =>
+            EventIndex.Subscribe((i) =>
             {
-                Console.WriteLine(EventIndex.Value);
+                if (EventIndex.Value < 0 || EventList == null || EventList.Count == 0)
+                {
+                    return;
+                }
+
+                if (EventList[EventIndex.Value].DataEventArgs is EPSPQuakeEventArgs)
+                {
+                    drawer.QuakeEventArgs = (EPSPQuakeEventArgs)EventList[EventIndex.Value].DataEventArgs;
+                    drawer.Draw(HistoryControl.canvas);
+                }
             });
         }
 
@@ -39,7 +59,6 @@ namespace EPSPWPFClient.ViewModel
                 e => new EventViewModel() { DataEventArgs = e },
                 scheduler
                 );
-
         }
     }
 }
