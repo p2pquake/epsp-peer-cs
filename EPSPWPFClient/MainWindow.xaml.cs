@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 using EPSPWPFClient.Controls;
 using System.Windows.Threading;
+using EPSPWPFClient.ViewModel;
 
 namespace EPSPWPFClient
 {
@@ -22,10 +23,12 @@ namespace EPSPWPFClient
     /// </summary>
     public partial class MainWindow
     {
-        private HistoryControl historyControl = new HistoryControl();
+        public HistoryControl HistoryControl { get; } = new HistoryControl();
         private UserControl peerMapControl = new PeerMapControl();
         private UserControl configControl = new ConfigControl();
         private UserControl statusControl = new StatusControl();
+
+        public HistoryViewModel HistoryViewModel { get; set; }
 
         public MainWindow()
         {
@@ -41,14 +44,15 @@ namespace EPSPWPFClient
             switch (selected)
             {
                 case 0:
-                    control = historyControl;
-                    Dispatcher.BeginInvoke(new Action(
-                        () =>
-                        {
-                            // MessageBox.Show("ControlActualWidth:" + contentControl.ActualWidth + ", CanvasActualWidth:" + historyControl.canvas.ActualWidth + ", HistoryControlActualWidth:" + historyControl.ActualWidth);
-                            historyControl.draw();
-                        }
-                        ), DispatcherPriority.Loaded);
+                    control = HistoryControl;
+                    HistoryControl.DataContext = HistoryViewModel;
+                    //Dispatcher.BeginInvoke(new Action(
+                    //    () =>
+                    //    {
+                    //        // MessageBox.Show("ControlActualWidth:" + contentControl.ActualWidth + ", CanvasActualWidth:" + historyControl.canvas.ActualWidth + ", HistoryControlActualWidth:" + historyControl.ActualWidth);
+                    //        historyControl.draw();
+                    //    }
+                    //    ), DispatcherPriority.Loaded);
                     break;
                 case 1:
                     control = peerMapControl;
