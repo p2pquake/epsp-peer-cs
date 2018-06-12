@@ -17,24 +17,26 @@ namespace EPSPWPFClient.Mediator
     {
         IMediatorContext mediatorContext;
         internal StatusViewModel StatusViewModel { get; private set; }
+        internal HistoryViewModel HistoryViewModel { get; private set; }
+        internal EPSPHandler epspHandler { get; private set; }
 
         public EPSPMediator()
         {
-            // Model => ViewModel
+            // Model
             mediatorContext = new MediatorContext();
-            //var epspHandler = new EPSPHandler(mediatorContext.CalcNowProtocolTime);
+            epspHandler = new EPSPHandler();
 
             mediatorContext.ConnectionsChanged += MediatorContext_ConnectionsChanged;
             mediatorContext.StateChanged += MediatorContext_StateChanged;
             mediatorContext.Completed += MediatorContext_Completed;
 
             //mediatorContext.OnAreapeers += epspHandler.MediatorContext_OnAreapeers;
-            //mediatorContext.OnEarthquake += epspHandler.MediatorContext_OnEarthquake;
+            mediatorContext.OnEarthquake += epspHandler.MediatorContext_OnEarthquake;
             //mediatorContext.OnTsunami += epspHandler.MediatorContext_OnTsunami;
             //mediatorContext.OnEEWTest += epspHandler.MediatorContext_OnEEWTest;
             //mediatorContext.OnUserquake += epspHandler.MediatorContext_OnUserquake;
 
-            // ViewModel => Model
+            // ViewModel <=> Model
             StatusViewModel = new StatusViewModel();
             StatusViewModel.CanConnect.Value = mediatorContext.CanConnect;
             StatusViewModel.CanDisconnect.Value = mediatorContext.CanDisconnect;
@@ -46,6 +48,8 @@ namespace EPSPWPFClient.Mediator
             {
                 await Task.Run(() => mediatorContext.Disconnect());
             });
+
+            HistoryViewModel = new HistoryViewModel(epspHandler);
         }
 
         private void MediatorContext_Completed(object sender, OperationCompletedEventArgs e)

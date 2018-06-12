@@ -1,4 +1,5 @@
 ﻿using EPSPWPFClient.Mediator;
+using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,9 @@ namespace EPSPWPFClient
                 if (app.MainWindow.DataContext == null)
                 {
                     app.MainWindow.DataContext = mediator.StatusViewModel;
+                    mediator.HistoryViewModel.SetScheduler(UIDispatcherScheduler.Default);
+                    mediator.HistoryViewModel.HistoryControl = ((MainWindow)app.MainWindow).HistoryControl;
+                    ((MainWindow)app.MainWindow).HistoryViewModel = mediator.HistoryViewModel;
                     mediator.Start();
                 }
             };

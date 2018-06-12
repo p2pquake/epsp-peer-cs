@@ -152,8 +152,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mediator\EPSPHandler.cs" />
     <Compile Include="Mediator\EPSPMediator.cs" />
     <Compile Include="ViewModel\BoolConverter.cs" />
+    <Compile Include="ViewModel\HistoryViewModel.cs" />
     <Compile Include="ViewModel\StateConverter.cs" />
     <Compile Include="ViewModel\StatusViewModel.cs" />
     <Page Include="App.xaml">
@@ -258,6 +260,22 @@
       <Project>{5ce56d0d-e1e7-45c8-8323-865a431aa515}</Project>
       <Name>Client</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Scale\7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Scale\1.png" />
+    <Resource Include="Resources\Scale\2.png" />
+    <Resource Include="Resources\Scale\3.png" />
+    <Resource Include="Resources\Scale\4.png" />
+    <Resource Include="Resources\Scale\5l.png" />
+    <Resource Include="Resources\Scale\5u.png" />
+    <Resource Include="Resources\Scale\6l.png" />
+    <Resource Include="Resources\Scale\6u.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Scale\unknown.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
