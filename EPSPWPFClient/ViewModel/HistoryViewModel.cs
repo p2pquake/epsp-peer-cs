@@ -56,7 +56,15 @@ namespace EPSPWPFClient.ViewModel
 
             RedrawCommand.Subscribe((e) =>
             {
-                drawer.Redraw(HistoryControl.canvas);
+                if (EventIndex.Value < 0 || EventList == null || EventList.Count == 0)
+                {
+                    return;
+                }
+
+                if (EventList[EventIndex.Value].DataEventArgs is EPSPQuakeEventArgs)
+                {
+                    drawer.Redraw(HistoryControl.canvas);
+                }
             });
         }
 
