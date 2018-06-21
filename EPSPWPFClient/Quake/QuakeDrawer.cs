@@ -108,6 +108,33 @@ namespace EPSPWPFClient.Quake
                 Canvas.SetTop(image, xy[1] + offsetY - 8);
                 canvas.Children.Add(image);
             }
+
+            // 文字描画
+            var textList = new List<string>();
+            textList.Add(string.Format("{1} （{0}）", CodeMapper.ToString(QuakeEventArgs.InformationType), QuakeEventArgs.OccuredTime));
+            textList.Add("");
+            if (QuakeEventArgs.InformationType == QuakeInformationType.Detail ||
+                QuakeEventArgs.InformationType == QuakeInformationType.ScaleAndDestination ||
+                QuakeEventArgs.InformationType == QuakeInformationType.ScalePrompt)
+            {
+                textList.Add("最大震度 " + QuakeEventArgs.Scale);
+            }
+            if (QuakeEventArgs.InformationType == QuakeInformationType.Destination ||
+                QuakeEventArgs.InformationType == QuakeInformationType.Detail ||
+                QuakeEventArgs.InformationType == QuakeInformationType.Foreign ||
+                QuakeEventArgs.InformationType == QuakeInformationType.ScaleAndDestination)
+            {
+                textList.Add("震源 " + QuakeEventArgs.Destination);
+                textList.Add("深さ " + QuakeEventArgs.Depth);
+                textList.Add("規模 M" + QuakeEventArgs.Magnitude);
+            }
+            textList.Add(CodeMapper.ToString(QuakeEventArgs.TsunamiType));
+
+            TextBlock text = new TextBlock() { Text = string.Join("\n", textList),  FontSize = 18 };
+            ContentControl control = new ContentControl() { Content = text };
+            Canvas.SetLeft(control, offsetX);
+            Canvas.SetTop(control, offsetY);
+            canvas.Children.Add(control);
         }
     }
 }
