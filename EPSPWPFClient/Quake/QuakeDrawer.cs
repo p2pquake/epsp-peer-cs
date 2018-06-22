@@ -111,7 +111,7 @@ namespace EPSPWPFClient.Quake
 
             // 文字描画
             var textList = new List<string>();
-            textList.Add(string.Format("{1} （{0}）", CodeMapper.ToString(QuakeEventArgs.InformationType), QuakeEventArgs.OccuredTime));
+            textList.Add(string.Format(" {1} （{0}）", CodeMapper.ToString(QuakeEventArgs.InformationType), QuakeEventArgs.OccuredTime));
             textList.Add("");
             if (QuakeEventArgs.InformationType == QuakeInformationType.Detail ||
                 QuakeEventArgs.InformationType == QuakeInformationType.ScaleAndDestination ||
@@ -130,11 +130,21 @@ namespace EPSPWPFClient.Quake
             }
             textList.Add(CodeMapper.ToString(QuakeEventArgs.TsunamiType));
 
-            TextBlock text = new TextBlock() { Text = string.Join("\n", textList),  FontSize = 18 };
-            ContentControl control = new ContentControl() { Content = text };
-            Canvas.SetLeft(control, offsetX);
-            Canvas.SetTop(control, offsetY);
-            canvas.Children.Add(control);
+            {
+                TextBlock text = new TextBlock() { Text = string.Join("\n ", textList), FontSize = 14, Foreground = Brushes.Black, Background = new SolidColorBrush(Color.FromArgb(128, 0, 0, 0)) };
+                ContentControl control = new ContentControl() { Content = text };
+                Canvas.SetLeft(control, offsetX + 0);
+                Canvas.SetTop(control, offsetY + 1);
+                canvas.Children.Add(control);
+            }
+
+            {
+                TextBlock text = new TextBlock() { Text = string.Join("\n ", textList), FontSize = 14, Foreground = Brushes.White };
+                ContentControl control = new ContentControl() { Content = text };
+                Canvas.SetLeft(control, offsetX - 1);
+                Canvas.SetTop(control, offsetY);
+                canvas.Children.Add(control);
+            }
         }
     }
 }
