@@ -14,7 +14,7 @@ namespace EPSPWPFClient.ViewModel
 {
     public class EventViewModel
     {
-        public string Title { get { return DataEventArgs.GetType().Name; } }
+        public string Title { get { return EPSPTitleConverter.GetTitle(DataEventArgs); } }
         public EPSPDataEventArgs DataEventArgs { get; set; }
     }
 

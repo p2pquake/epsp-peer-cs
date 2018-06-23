@@ -159,6 +159,7 @@
     <Compile Include="Mediator\EPSPMediator.cs" />
     <Compile Include="Quake\CodeMapper.cs" />
     <Compile Include="ViewModel\BoolConverter.cs" />
+    <Compile Include="ViewModel\EPSPTitleConverter.cs" />
     <Compile Include="ViewModel\HistoryViewModel.cs" />
     <Compile Include="ViewModel\StateConverter.cs" />
     <Compile Include="ViewModel\StatusViewModel.cs" />
