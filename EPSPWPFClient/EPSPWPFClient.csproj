@@ -88,6 +88,9 @@
     <Reference Include="Map">
       <HintPath>lib\Map.dll</HintPath>
     </Reference>
+    <Reference Include="Prism, Version=7.0.0.396, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.7.0.0.396\lib\net45\Prism.dll</HintPath>
+    </Reference>
     <Reference Include="ReactiveProperty, Version=4.0.0.0, Culture=neutral, PublicKeyToken=910d1732782c71cb, processorArchitecture=MSIL">
       <HintPath>..\packages\ReactiveProperty.4.2.2\lib\net46\ReactiveProperty.dll</HintPath>
     </Reference>
@@ -154,7 +157,9 @@
   <ItemGroup>
     <Compile Include="Mediator\EPSPHandler.cs" />
     <Compile Include="Mediator\EPSPMediator.cs" />
+    <Compile Include="Quake\CodeMapper.cs" />
     <Compile Include="ViewModel\BoolConverter.cs" />
+    <Compile Include="ViewModel\EPSPTitleConverter.cs" />
     <Compile Include="ViewModel\HistoryViewModel.cs" />
     <Compile Include="ViewModel\StateConverter.cs" />
     <Compile Include="ViewModel\StatusViewModel.cs" />
@@ -276,6 +281,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Scale\unknown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\hypocenter.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
