@@ -109,6 +109,28 @@ namespace EPSPWPFClient.Quake
                 canvas.Children.Add(image);
             }
 
+            // 震源を描画
+            if (QuakeEventArgs.InformationType == QuakeInformationType.Destination ||
+                QuakeEventArgs.InformationType == QuakeInformationType.Detail ||
+                QuakeEventArgs.InformationType == QuakeInformationType.Foreign ||
+                QuakeEventArgs.InformationType == QuakeInformationType.ScaleAndDestination)
+            {
+                var xy = calculator.calculate(
+                    double.Parse(QuakeEventArgs.Latitude.Replace("N", "").Replace("S", "-")),
+                    double.Parse(QuakeEventArgs.Longitude.Replace("E", "").Replace("W", "-"))
+                    );
+                var image = new Image()
+                {
+                    Source = new BitmapImage(new Uri("pack://application:,,,/Resources/hypocenter.png")),
+                };
+                image.Width = 16;
+                image.Height = 16;
+
+                Canvas.SetLeft(image, xy[0] + offsetX - 8);
+                Canvas.SetTop(image, xy[1] + offsetY - 8);
+                canvas.Children.Add(image);
+            }
+
             // 文字描画
             var textList = new List<string>();
             textList.Add(string.Format(" {1} （{0}）", CodeMapper.ToString(QuakeEventArgs.InformationType), QuakeEventArgs.OccuredTime));
