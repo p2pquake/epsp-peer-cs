@@ -18,20 +18,20 @@ namespace EPSPWPFClient.Mediator
         IMediatorContext mediatorContext;
         internal StatusViewModel StatusViewModel { get; private set; }
         internal HistoryViewModel HistoryViewModel { get; private set; }
-        internal EPSPHandler epspHandler { get; private set; }
+        internal EPSPHandler EPSPHandler { get; private set; }
 
         public EPSPMediator()
         {
             // Model
             mediatorContext = new MediatorContext();
-            epspHandler = new EPSPHandler();
+            EPSPHandler = new EPSPHandler();
 
             mediatorContext.ConnectionsChanged += MediatorContext_ConnectionsChanged;
             mediatorContext.StateChanged += MediatorContext_StateChanged;
             mediatorContext.Completed += MediatorContext_Completed;
 
             //mediatorContext.OnAreapeers += epspHandler.MediatorContext_OnAreapeers;
-            mediatorContext.OnEarthquake += epspHandler.MediatorContext_OnEarthquake;
+            mediatorContext.OnEarthquake += EPSPHandler.MediatorContext_OnEarthquake;
             //mediatorContext.OnTsunami += epspHandler.MediatorContext_OnTsunami;
             //mediatorContext.OnEEWTest += epspHandler.MediatorContext_OnEEWTest;
             //mediatorContext.OnUserquake += epspHandler.MediatorContext_OnUserquake;
@@ -49,7 +49,7 @@ namespace EPSPWPFClient.Mediator
                 await Task.Run(() => mediatorContext.Disconnect());
             });
 
-            HistoryViewModel = new HistoryViewModel(epspHandler);
+            HistoryViewModel = new HistoryViewModel(EPSPHandler);
         }
 
         private void MediatorContext_Completed(object sender, OperationCompletedEventArgs e)

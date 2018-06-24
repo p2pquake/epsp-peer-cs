@@ -108,6 +108,65 @@ namespace EPSPWPFClient.Quake
                 Canvas.SetTop(image, xy[1] + offsetY - 8);
                 canvas.Children.Add(image);
             }
+
+            // 震源を描画
+            if (QuakeEventArgs.InformationType == QuakeInformationType.Destination ||
+                QuakeEventArgs.InformationType == QuakeInformationType.Detail ||
+                QuakeEventArgs.InformationType == QuakeInformationType.Foreign ||
+                QuakeEventArgs.InformationType == QuakeInformationType.ScaleAndDestination)
+            {
+                var xy = calculator.calculate(
+                    double.Parse(QuakeEventArgs.Latitude.Replace("N", "").Replace("S", "-")),
+                    double.Parse(QuakeEventArgs.Longitude.Replace("E", "").Replace("W", "-"))
+                    );
+                var image = new Image()
+                {
+                    Source = new BitmapImage(new Uri("pack://application:,,,/Resources/hypocenter.png")),
+                };
+                image.Width = 16;
+                image.Height = 16;
+
+                Canvas.SetLeft(image, xy[0] + offsetX - 8);
+                Canvas.SetTop(image, xy[1] + offsetY - 8);
+                canvas.Children.Add(image);
+            }
+
+            // 文字描画
+            var textList = new List<string>();
+            textList.Add(string.Format(" {1} （{0}）", CodeMapper.ToString(QuakeEventArgs.InformationType), QuakeEventArgs.OccuredTime));
+            textList.Add("");
+            if (QuakeEventArgs.InformationType == QuakeInformationType.Detail ||
+                QuakeEventArgs.InformationType == QuakeInformationType.ScaleAndDestination ||
+                QuakeEventArgs.InformationType == QuakeInformationType.ScalePrompt)
+            {
+                textList.Add("最大震度 " + QuakeEventArgs.Scale);
+            }
+            if (QuakeEventArgs.InformationType == QuakeInformationType.Destination ||
+                QuakeEventArgs.InformationType == QuakeInformationType.Detail ||
+                QuakeEventArgs.InformationType == QuakeInformationType.Foreign ||
+                QuakeEventArgs.InformationType == QuakeInformationType.ScaleAndDestination)
+            {
+                textList.Add("震源 " + QuakeEventArgs.Destination);
+                textList.Add("深さ " + QuakeEventArgs.Depth);
+                textList.Add("規模 M" + QuakeEventArgs.Magnitude);
+            }
+            textList.Add(CodeMapper.ToString(QuakeEventArgs.TsunamiType));
+
+            {
+                TextBlock text = new TextBlock() { Text = string.Join("\n ", textList), FontSize = 14, Foreground = Brushes.Black, Background = new SolidColorBrush(Color.FromArgb(128, 0, 0, 0)) };
+                ContentControl control = new ContentControl() { Content = text };
+                Canvas.SetLeft(control, offsetX + 0);
+                Canvas.SetTop(control, offsetY + 1);
+                canvas.Children.Add(control);
+            }
+
+            {
+                TextBlock text = new TextBlock() { Text = string.Join("\n ", textList), FontSize = 14, Foreground = Brushes.White };
+                ContentControl control = new ContentControl() { Content = text };
+                Canvas.SetLeft(control, offsetX - 1);
+                Canvas.SetTop(control, offsetY);
+                canvas.Children.Add(control);
+            }
         }
     }
 }

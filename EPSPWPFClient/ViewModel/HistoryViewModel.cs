@@ -14,14 +14,17 @@ namespace EPSPWPFClient.ViewModel
 {
     public class EventViewModel
     {
-        public string Title { get { return DataEventArgs.GetType().Name; } }
+        public string Title { get { return EPSPTitleConverter.GetTitle(DataEventArgs); } }
         public EPSPDataEventArgs DataEventArgs { get; set; }
     }
 
     public class HistoryViewModel
     {
+        public ReactiveCommand RedrawCommand { get; private set; } = new ReactiveCommand();
+
         public ReadOnlyReactiveCollection<EventViewModel> EventList { get; private set; }
         public ReactiveProperty<int> EventIndex { get; } = new ReactiveProperty<int>();
+
         private EPSPHandler epspHandler;
 
         // FIXME: MVVMの法則が乱れている感あるので後で直したい。
@@ -48,6 +51,19 @@ namespace EPSPWPFClient.ViewModel
                 {
                     drawer.QuakeEventArgs = (EPSPQuakeEventArgs)EventList[EventIndex.Value].DataEventArgs;
                     drawer.Draw(HistoryControl.canvas);
+                }
+            });
+
+            RedrawCommand.Subscribe((e) =>
+            {
+                if (EventIndex.Value < 0 || EventList == null || EventList.Count == 0)
+                {
+                    return;
+                }
+
+                if (EventList[EventIndex.Value].DataEventArgs is EPSPQuakeEventArgs)
+                {
+                    drawer.Redraw(HistoryControl.canvas);
                 }
             });
         }
