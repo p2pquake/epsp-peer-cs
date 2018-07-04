@@ -33,9 +33,18 @@ namespace EPSPWPFClient.Quake
         {
             canvas.Children.Clear();
 
+            var uri = "pack://application:,,,/Resources/japan.png";
+            var latlong = new int[] { 47, 23, 121, 150 };
+
+            if (QuakeEventArgs.InformationType == QuakeInformationType.Foreign)
+            {
+                uri = "pack://application:,,,/Resources/world.png";
+                latlong = new int[] { 90, -90, 0, 360 };
+            }
+
             // 地図描画
             var img = new Image();
-            img.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/japan.png"));
+            img.Source = new BitmapImage(new Uri(uri));
             img.Width = canvas.ActualWidth;
             img.Height = canvas.ActualHeight;
             canvas.Children.Add(img);
@@ -43,7 +52,7 @@ namespace EPSPWPFClient.Quake
             img.UpdateLayout();
 
             // 震度観測点描画のための準備
-            var calculator = new PointCalculator(47, 23, 121, 150,
+            var calculator = new PointCalculator(latlong[0], latlong[1], latlong[2], latlong[3],
                 img.ActualWidth, img.ActualHeight);
 
             var offsetX = (canvas.ActualWidth - img.ActualWidth) / 2;
@@ -115,10 +124,19 @@ namespace EPSPWPFClient.Quake
                 QuakeEventArgs.InformationType == QuakeInformationType.Foreign ||
                 QuakeEventArgs.InformationType == QuakeInformationType.ScaleAndDestination)
             {
+                var longitude = double.Parse(QuakeEventArgs.Longitude.Replace("E", "").Replace("W", "-"));
+                // XXX: 経度のみPointCalculatorの不備を補正
+                if (longitude < 0)
+                {
+                    longitude = 360 - -longitude;
+                }
+
                 var xy = calculator.calculate(
                     double.Parse(QuakeEventArgs.Latitude.Replace("N", "").Replace("S", "-")),
-                    double.Parse(QuakeEventArgs.Longitude.Replace("E", "").Replace("W", "-"))
+                    longitude
                     );
+
+
                 var image = new Image()
                 {
                     Source = new BitmapImage(new Uri("pack://application:,,,/Resources/hypocenter.png")),
