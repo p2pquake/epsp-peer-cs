@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:local="clr-namespace:EPSPWPFClient"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:ViewModel="clr-namespace:EPSPWPFClient.ViewModel" x:Class="EPSPWPFClient.MainWindow"
@@ -72,5 +73,8 @@
         </Grid>
         <ContentControl x:Name="contentControl" Margin="130,10,10,10" />
 
+        <tb:TaskbarIcon x:Name="epspNotifyIcon"
+                    ToolTipText="P2P地震情報 for Peer">
+        </tb:TaskbarIcon>
     </Grid>
 </Controls:MetroWindow>
