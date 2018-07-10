@@ -73,8 +73,28 @@
         </Grid>
         <ContentControl x:Name="contentControl" Margin="130,10,10,10" />
 
-        <tb:TaskbarIcon x:Name="epspNotifyIcon"
-                    ToolTipText="P2P地震情報 for Peer">
+        <tb:TaskbarIcon x:Name="epspNotifyIcon">
+            <tb:TaskbarIcon.ToolTipText>
+                <MultiBinding Converter="{StaticResource StateConverter}">
+                    <MultiBinding.ConverterParameter>
+                        ToolTipText
+                    </MultiBinding.ConverterParameter>
+                    <MultiBinding.Bindings>
+                        <Binding Path="ConnectionStatus.Value"/>
+                        <Binding Path="Connections.Value"/>
+                        <Binding Path="NumberOfPeers.Value"/>
+                        <Binding Path="Connections.Value"/>
+                    </MultiBinding.Bindings>
+                    <MultiBinding.StringFormat>
+                        P2P地震情報 for Peer{0}
+                    </MultiBinding.StringFormat>
+                </MultiBinding>
+            </tb:TaskbarIcon.ToolTipText>
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="テスト" />
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
         </tb:TaskbarIcon>
     </Grid>
 </Controls:MetroWindow>
