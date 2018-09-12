@@ -15,6 +15,8 @@
         GlowBrush="Black"
                       
         Title="P2P地震情報 for Peer" Height="416" Width="552" d:DataContext="{d:DesignInstance {x:Type ViewModel:StatusViewModel}}" Loaded="MetroWindow_Loaded">
+
+    
     <Controls:MetroWindow.Resources>
         <ViewModel:StateConverter x:Key="StateConverter"/>
     </Controls:MetroWindow.Resources>
@@ -74,6 +76,7 @@
         <ContentControl x:Name="contentControl" Margin="130,10,10,10" />
 
         <tb:TaskbarIcon x:Name="epspNotifyIcon">
+            <tb:TaskbarIcon.IconSource>Resources/Icon/p2pquake.ico</tb:TaskbarIcon.IconSource>
             <tb:TaskbarIcon.ToolTipText>
                 <MultiBinding Converter="{StaticResource StateConverter}">
                     <MultiBinding.ConverterParameter>
