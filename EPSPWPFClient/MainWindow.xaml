@@ -14,7 +14,7 @@
                       
         GlowBrush="Black"
                       
-        Title="P2P地震情報 for Peer" Height="416" Width="552" d:DataContext="{d:DesignInstance {x:Type ViewModel:StatusViewModel}}" Loaded="MetroWindow_Loaded">
+        Title="P2P地震情報 for Peer" Height="416" Width="552" d:DataContext="{d:DesignInstance {x:Type ViewModel:StatusViewModel}}" Loaded="MetroWindow_Loaded" StateChanged="MetroWindow_StateChanged">
 
     
     <Controls:MetroWindow.Resources>
@@ -75,7 +75,10 @@
         </Grid>
         <ContentControl x:Name="contentControl" Margin="130,10,10,10" />
 
-        <tb:TaskbarIcon x:Name="epspNotifyIcon">
+        <tb:TaskbarIcon
+            x:Name="epspNotifyIcon"
+            DoubleClickCommand="{Binding ShowCommand}"
+                        >
             <tb:TaskbarIcon.IconSource>Resources/Icon/p2pquake.ico</tb:TaskbarIcon.IconSource>
             <tb:TaskbarIcon.ToolTipText>
                 <MultiBinding Converter="{StaticResource StateConverter}">
@@ -95,7 +98,8 @@
             </tb:TaskbarIcon.ToolTipText>
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="テスト" />
+                    <MenuItem Header="表示" Command="{Binding ShowCommand}" />
+                    <MenuItem Header="終了" Command="{Binding ExitCommand}" />
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
         </tb:TaskbarIcon>

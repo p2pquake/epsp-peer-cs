@@ -72,5 +72,13 @@ namespace EPSPWPFClient
         {
             Application.Current.MainWindow = this;
         }
+
+        private void MetroWindow_StateChanged(object sender, EventArgs e)
+        {
+            if (WindowState == WindowState.Minimized)
+            {
+                Hide();
+            }
+        }
     }
 }
