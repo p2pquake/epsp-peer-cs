@@ -12,6 +12,9 @@ namespace EPSPWPFClient.ViewModel
 {
     internal class StateConverter : IMultiValueConverter
     {
+        /// <summary>
+        /// 画像、テキスト、ツールチップテキストのいずれかを返却します。
+        /// </summary>
         public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null || value.Length < 2 || !(value[0] is string) || !(value[1] is int))
@@ -41,6 +44,12 @@ namespace EPSPWPFClient.ViewModel
             if (selectedValue[1] == "status_connected.png" && connections == 0)
             {
                 selectedValue = new string[] { selectedValue[0], "status_connecting.png" };
+            }
+
+            // XXX: どこかでリファクタリングしたい
+            if (parameter is string && (string)parameter == "ToolTipText")
+            {
+                return "\n" + selectedValue[0] + string.Format(" (総参加: {0}ピア, 接続: {1}ピア)", (int)value[2], (int)value[3]);
             }
 
             if (targetType.Name == "String")

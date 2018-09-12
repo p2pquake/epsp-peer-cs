@@ -15,6 +15,9 @@ namespace EPSPWPFClient.ViewModel
         public ReactiveCommand ConnectCommand { get; private set; } // = new ReactiveCommand();
         public AsyncReactiveCommand DisconnectCommand { get; private set; } // = new AsyncReactiveCommand();
 
+        public ReactiveCommand ShowCommand { get; private set; } = new ReactiveCommand();
+        public AsyncReactiveCommand ExitCommand { get; private set; } = new AsyncReactiveCommand();
+
         public ReactiveProperty<bool> CanConnect { get; } = new ReactiveProperty<bool>();
         public ReactiveProperty<bool> CanDisconnect { get; } = new ReactiveProperty<bool>();
 
@@ -30,6 +33,33 @@ namespace EPSPWPFClient.ViewModel
         {
             ConnectCommand = CanConnect.Select(x => x).ToReactiveCommand();
             DisconnectCommand = CanDisconnect.Select(x => x).ToAsyncReactiveCommand();
+
+            ShowCommand.Subscribe((e) =>
+            {
+                var window = Application.Current.MainWindow;
+                window.Show();
+                if (window.WindowState == WindowState.Minimized)
+                {
+                    window.WindowState = WindowState.Normal;
+                }
+            });
+
+            ExitCommand.Subscribe(async _ =>
+            {
+                if (CanDisconnect.Value)
+                {
+                    DisconnectCommand.Execute();
+                    foreach (var i in Enumerable.Range(0, 6))
+                    {
+                        await Task.Delay(1000);
+                        if (CanConnect.Value)
+                        {
+                            break;
+                        }
+                    }
+                }
+                Application.Current.Shutdown();
+            });
         }
     }
 }
