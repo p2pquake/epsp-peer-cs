@@ -2,6 +2,7 @@
 using EPSPWPFClient.Controls;
 using EPSPWPFClient.Mediator;
 using EPSPWPFClient.Quake;
+using EPSPWPFClient.Tsunami;
 using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,7 @@ namespace EPSPWPFClient.ViewModel
         // FIXME: MVVMの法則が乱れている感あるので後で直したい。
         public HistoryControl HistoryControl { private get; set; }
         private QuakeDrawer drawer = new QuakeDrawer();
+        private TsunamiDrawer tsunamiDrawer = new TsunamiDrawer();
 
         public HistoryViewModel() : this(null)
         {
@@ -46,11 +48,18 @@ namespace EPSPWPFClient.ViewModel
                 {
                     return;
                 }
-
-                if (EventList[EventIndex.Value].DataEventArgs is EPSPQuakeEventArgs)
+                
+                // XXX: リファクタリングできそう
+                var eventArgs = EventList[EventIndex.Value].DataEventArgs;
+                if (eventArgs is EPSPQuakeEventArgs)
                 {
-                    drawer.QuakeEventArgs = (EPSPQuakeEventArgs)EventList[EventIndex.Value].DataEventArgs;
+                    drawer.QuakeEventArgs = (EPSPQuakeEventArgs)eventArgs;
                     drawer.Draw(HistoryControl.canvas);
+                }
+                if (eventArgs is EPSPTsunamiEventArgs)
+                {
+                    tsunamiDrawer.EventArgs = (EPSPTsunamiEventArgs)eventArgs;
+                    tsunamiDrawer.Draw(HistoryControl.canvas);
                 }
             });
 
@@ -61,9 +70,14 @@ namespace EPSPWPFClient.ViewModel
                     return;
                 }
 
-                if (EventList[EventIndex.Value].DataEventArgs is EPSPQuakeEventArgs)
+                var eventArgs = EventList[EventIndex.Value].DataEventArgs;
+                if (eventArgs is EPSPQuakeEventArgs)
                 {
                     drawer.Redraw(HistoryControl.canvas);
+                }
+                if (eventArgs is EPSPTsunamiEventArgs)
+                {
+                    tsunamiDrawer.Redraw(HistoryControl.canvas);
                 }
             });
         }
