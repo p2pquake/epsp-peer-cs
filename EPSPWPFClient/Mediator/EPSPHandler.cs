@@ -33,5 +33,15 @@ namespace EPSPWPFClient.Mediator
 
             EventList.Add(e);
         }
+
+        /// <summary>
+        /// 津波予報のイベント処理
+        /// </summary>
+        public void MediatorContext_OnTsunami(object sender, Client.Peer.EPSPTsunamiEventArgs e)
+        {
+            if (!e.IsValid) { return; }
+
+            EventList.Add(e);
+        }
     }
 }
