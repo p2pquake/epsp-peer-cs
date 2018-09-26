@@ -43,5 +43,16 @@ namespace EPSPWPFClient.Mediator
 
             EventList.Add(e);
         }
+
+        /// <summary>
+        /// 緊急地震速報 配信試験のイベント処理
+        /// </summary>
+        internal void MediatorContext_OnEEWTest(object sender, EPSPEEWTestEventArgs e)
+        {
+            if (!e.IsValid) { return; }
+            if (e.IsTest) { return; }
+
+            EventList.Add(e);
+        }
     }
 }

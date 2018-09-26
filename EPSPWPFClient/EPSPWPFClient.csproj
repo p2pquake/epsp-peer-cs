@@ -162,6 +162,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EEWTest\EEWDrawer.cs" />
     <Compile Include="Mediator\EPSPHandler.cs" />
     <Compile Include="Mediator\EPSPMediator.cs" />
     <Compile Include="Quake\CodeMapper.cs" />
