@@ -16,7 +16,7 @@
    id="svg8"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
    sodipodi:docname="point.svg"
-   inkscape:export-filename="D:\Dropbox\Private\p2pq\epsp-peer-cs\EPSPWPFClient\Resources\Scale\unknown.png"
+   inkscape:export-filename="D:\Dropbox\Private\p2pq\epsp-peer-cs\EPSPWPFClient\Resources\Scale\hypocenter.png"
    inkscape:export-xdpi="24"
    inkscape:export-ydpi="24">
   <defs
@@ -28,11 +28,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="26.944631"
-     inkscape:cy="-56.502008"
+     inkscape:zoom="1.4"
+     inkscape:cx="152.48867"
+     inkscape:cy="11.527876"
      inkscape:document-units="mm"
-     inkscape:current-layer="g872"
+     inkscape:current-layer="layer3"
      showgrid="false"
      units="px"
      inkscape:window-width="1920"
@@ -64,7 +64,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="震度1"
-     style="display:inline">
+     style="display:none">
     <rect
        style="opacity:1;fill:#a0e0ff;fill-opacity:1;stroke:none;stroke-width:6.09568644;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
        id="rect5059"
@@ -74,7 +74,7 @@
        y="1.1298828e-005" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:45.15555556px;line-height:125%;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro, Semi-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#100000;stroke-width:5.29166651;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers;"
+       style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:45.15555573px;line-height:125%;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro, Semi-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#100000;stroke-width:5.29166651;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
        x="3.0789719"
        y="31.266159"
        id="text5092"><tspan
@@ -82,10 +82,10 @@
          id="tspan5090"
          x="3.0789719"
          y="31.266159"
-         style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:45.15555556px;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro, Semi-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#100000;stroke-width:5.29166651;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers;">1</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:45.15555573px;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro, Semi-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#100000;stroke-width:5.29166651;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers">1</tspan></text>
   </g>
   <g
-     style="display:inline"
+     style="display:none"
      inkscape:label="震度2"
      id="g5100"
      inkscape:groupmode="layer">
@@ -112,7 +112,7 @@
      inkscape:groupmode="layer"
      id="g5108"
      inkscape:label="震度3"
-     style="display:inline">
+     style="display:none">
     <rect
        style="opacity:1;fill:#b0c0ff;fill-opacity:1;stroke:none;stroke-width:6.09568644;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
        id="rect5102"
@@ -133,7 +133,7 @@
          style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:45.15555573px;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro, Semi-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#100000;stroke-width:5.29166651;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers">3</tspan></text>
   </g>
   <g
-     style="display:inline"
+     style="display:none"
      inkscape:label="震度4"
      id="g5116"
      inkscape:groupmode="layer">
@@ -157,7 +157,7 @@
          sodipodi:role="line">4</tspan></text>
   </g>
   <g
-     style="display:inline"
+     style="display:none"
      inkscape:label="震度5-"
      id="g5210"
      inkscape:groupmode="layer">
@@ -327,7 +327,7 @@
          style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:45.15555573px;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro, Semi-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#100000;stroke-width:5.29166651;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers">7</tspan></text>
   </g>
   <g
-     style="display:inline"
+     style="display:none"
      inkscape:label="震度不明"
      id="g872"
      inkscape:groupmode="layer">
@@ -344,7 +344,7 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-263.13332)"
-     style="display:inline">
+     style="display:none">
     <rect
        style="opacity:1;fill:none;fill-opacity:1;stroke:#100000;stroke-width:3.17499995;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
        id="rect1366"
@@ -352,5 +352,20 @@
        height="33.866642"
        x="1.110223e-015"
        y="263.13333" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="震源">
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 2.6458333,2.7214283 30.899552,30.975149"
+       id="path869"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 30.899552,2.721428 2.645834,30.975149"
+       id="path869-6"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>

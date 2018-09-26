@@ -26,7 +26,7 @@ namespace EPSPWPFClient.Mediator
         /// <summary>
         /// 地震情報のイベント処理
         /// </summary>
-        public void MediatorContext_OnEarthquake(object sender, Client.Peer.EPSPQuakeEventArgs e)
+        public void MediatorContext_OnEarthquake(object sender, EPSPQuakeEventArgs e)
         {
             if (!e.IsValid) { return; }
             if (e.InformationType == QuakeInformationType.Unknown) { return; }
@@ -37,7 +37,7 @@ namespace EPSPWPFClient.Mediator
         /// <summary>
         /// 津波予報のイベント処理
         /// </summary>
-        public void MediatorContext_OnTsunami(object sender, Client.Peer.EPSPTsunamiEventArgs e)
+        public void MediatorContext_OnTsunami(object sender, EPSPTsunamiEventArgs e)
         {
             if (!e.IsValid) { return; }
 
