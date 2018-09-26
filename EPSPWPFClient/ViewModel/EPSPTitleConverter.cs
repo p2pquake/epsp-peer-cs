@@ -34,6 +34,11 @@ namespace EPSPWPFClient.ViewModel
                 }
                 return builder.ToString();
             }
+            // TODO: 日時表示 (#80)
+            if (dataEventArgs is EPSPEEWTestEventArgs)
+            {
+                return "緊急地震速報 配信試験（β）";
+            }
 
             return "";
         }

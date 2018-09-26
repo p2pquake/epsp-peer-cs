@@ -1,5 +1,6 @@
 ﻿using Client.Peer;
 using EPSPWPFClient.Controls;
+using EPSPWPFClient.EEWTest;
 using EPSPWPFClient.Mediator;
 using EPSPWPFClient.Quake;
 using EPSPWPFClient.Tsunami;
@@ -32,6 +33,7 @@ namespace EPSPWPFClient.ViewModel
         public HistoryControl HistoryControl { private get; set; }
         private QuakeDrawer drawer = new QuakeDrawer();
         private TsunamiDrawer tsunamiDrawer = new TsunamiDrawer();
+        private EEWDrawer eewDrawer = new EEWDrawer();
 
         public HistoryViewModel() : this(null)
         {
@@ -61,6 +63,11 @@ namespace EPSPWPFClient.ViewModel
                     tsunamiDrawer.EventArgs = (EPSPTsunamiEventArgs)eventArgs;
                     tsunamiDrawer.Draw(HistoryControl.canvas);
                 }
+                if (eventArgs is EPSPEEWTestEventArgs)
+                {
+                    eewDrawer.EventArgs = (EPSPEEWTestEventArgs)eventArgs;
+                    eewDrawer.Draw(HistoryControl.canvas);
+                }
             });
 
             RedrawCommand.Subscribe((e) =>
@@ -78,6 +85,10 @@ namespace EPSPWPFClient.ViewModel
                 if (eventArgs is EPSPTsunamiEventArgs)
                 {
                     tsunamiDrawer.Redraw(HistoryControl.canvas);
+                }
+                if (eventArgs is EPSPEEWTestEventArgs)
+                {
+                    eewDrawer.Redraw(HistoryControl.canvas);
                 }
             });
         }
