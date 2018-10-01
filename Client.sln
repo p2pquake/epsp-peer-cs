@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2019
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{5CE56D0D-E1E7-45C8-8323-865A431AA515}"
 EndProject
@@ -56,7 +56,6 @@ Global
 		{892C417E-E8C9-4109-8033-D746B981EEC9}.DebugWithRawEvent|Any CPU.ActiveCfg = DebugWithRawEvent|Any CPU
 		{892C417E-E8C9-4109-8033-D746B981EEC9}.DebugWithRawEvent|Any CPU.Build.0 = DebugWithRawEvent|Any CPU
 		{892C417E-E8C9-4109-8033-D746B981EEC9}.DebugWPF|Any CPU.ActiveCfg = Debug|Any CPU
-		{892C417E-E8C9-4109-8033-D746B981EEC9}.DebugWPF|Any CPU.Build.0 = Debug|Any CPU
 		{892C417E-E8C9-4109-8033-D746B981EEC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{892C417E-E8C9-4109-8033-D746B981EEC9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{196D828F-A2EE-4B07-B00B-A67F6323BFFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -78,7 +77,6 @@ Global
 		{AAC85014-94D8-4935-A395-FC7142D38FE7}.DebugWithRawEvent|Any CPU.ActiveCfg = Debug|Any CPU
 		{AAC85014-94D8-4935-A395-FC7142D38FE7}.DebugWithRawEvent|Any CPU.Build.0 = Debug|Any CPU
 		{AAC85014-94D8-4935-A395-FC7142D38FE7}.DebugWPF|Any CPU.ActiveCfg = Debug|Any CPU
-		{AAC85014-94D8-4935-A395-FC7142D38FE7}.DebugWPF|Any CPU.Build.0 = Debug|Any CPU
 		{AAC85014-94D8-4935-A395-FC7142D38FE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AAC85014-94D8-4935-A395-FC7142D38FE7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5BD6E7E8-FA94-4E53-A7CF-13E1704191C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
