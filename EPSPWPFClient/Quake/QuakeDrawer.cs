@@ -90,8 +90,9 @@ namespace EPSPWPFClient.Quake
             {
                 return;
             }
-                 
-            foreach (var point in QuakeEventArgs.PointList)
+
+            var sortedPointList = QuakeEventArgs.PointList.OrderBy(e => (scaleMap.ContainsKey(e.Scale) ? scaleMap[e.Scale] : 0));
+            foreach (var point in sortedPointList)
             {
                 var latLong = PointName2LatLong.convert(point.Name);
 
