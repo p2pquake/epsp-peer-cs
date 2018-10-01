@@ -64,6 +64,7 @@ namespace EPSPWPFClient.Quake
                 new BitmapImage(new Uri("pack://application:,,,/Resources/Scale/2.png")),
                 new BitmapImage(new Uri("pack://application:,,,/Resources/Scale/3.png")),
                 new BitmapImage(new Uri("pack://application:,,,/Resources/Scale/4.png")),
+                new BitmapImage(new Uri("pack://application:,,,/Resources/Scale/unknown.png")),
                 new BitmapImage(new Uri("pack://application:,,,/Resources/Scale/5l.png")),
                 new BitmapImage(new Uri("pack://application:,,,/Resources/Scale/5u.png")),
                 new BitmapImage(new Uri("pack://application:,,,/Resources/Scale/6l.png")),
@@ -78,11 +79,12 @@ namespace EPSPWPFClient.Quake
                 { "2", 1 },
                 { "3", 2 },
                 { "4", 3 },
-                { "5弱", 4 },
-                { "5強", 5 },
-                { "6弱", 6 },
-                { "6強", 7 },
-                { "7", 8 }
+                { "5弱以上と推定", 4 },
+                { "5弱", 5 },
+                { "5強", 6 },
+                { "6弱", 7 },
+                { "6強", 8 },
+                { "7", 9 }
             };
 
             // 震度観測点描画
