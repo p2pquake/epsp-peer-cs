@@ -80,5 +80,11 @@ namespace EPSPWPFClient
                 Hide();
             }
         }
+
+        private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Hide();
+            e.Cancel = true;
+        }
     }
 }
