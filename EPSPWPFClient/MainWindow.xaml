@@ -16,7 +16,10 @@
     
         Icon="Resources/Icon/p2pquake.ico"
                       
-        Title="P2P地震情報 for Peer" Height="416" Width="552" d:DataContext="{d:DesignInstance {x:Type ViewModel:StatusViewModel}}" Loaded="MetroWindow_Loaded" StateChanged="MetroWindow_StateChanged">
+        Title="P2P地震情報 for Peer" Height="416" Width="552" d:DataContext="{d:DesignInstance {x:Type ViewModel:StatusViewModel}}"
+        Loaded="MetroWindow_Loaded" 
+        StateChanged="MetroWindow_StateChanged"
+        Closing="MetroWindow_Closing">
 
     
     <Controls:MetroWindow.Resources>
