@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Map", "Map\Map.csproj", "{E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapTest", "MapTest\MapTest.csproj", "{A8A0FE3E-0714-40F3-AECD-47DDC3769086}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserquakeSimulator", "UserquakeSimulator\UserquakeSimulator.csproj", "{617B23E5-6E96-48C1-A8DD-D65C379344A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -98,6 +100,12 @@ Global
 		{A8A0FE3E-0714-40F3-AECD-47DDC3769086}.DebugWPF|Any CPU.Build.0 = Debug|Any CPU
 		{A8A0FE3E-0714-40F3-AECD-47DDC3769086}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8A0FE3E-0714-40F3-AECD-47DDC3769086}.Release|Any CPU.Build.0 = Release|Any CPU
+		{617B23E5-6E96-48C1-A8DD-D65C379344A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{617B23E5-6E96-48C1-A8DD-D65C379344A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{617B23E5-6E96-48C1-A8DD-D65C379344A8}.DebugWithRawEvent|Any CPU.ActiveCfg = Debug|Any CPU
+		{617B23E5-6E96-48C1-A8DD-D65C379344A8}.DebugWPF|Any CPU.ActiveCfg = Debug|Any CPU
+		{617B23E5-6E96-48C1-A8DD-D65C379344A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{617B23E5-6E96-48C1-A8DD-D65C379344A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
