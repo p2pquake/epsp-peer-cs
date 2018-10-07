@@ -67,6 +67,7 @@
     <Compile Include="Reader\EPSPData.cs" />
     <Compile Include="Reader\IVerifier.cs" />
     <Compile Include="Reader\IReader.cs" />
+    <Compile Include="Reader\MongoDBReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
