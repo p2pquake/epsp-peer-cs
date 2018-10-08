@@ -15,6 +15,8 @@ namespace Client.Peer
     /// </summary>
     public abstract class EPSPDataEventArgs : EventArgs
     {
+        /// <summary>受信したプロトコル日時を表します。</summary>
+        public DateTime ReceivedAt { get; set; }
         /// <summary>署名の期限・内容が妥当かどうかを表します。</summary>
         public bool IsValid { get { return !IsInvalidSignature && !IsExpired; } }
         /// <summary>不正な署名であるかを表します。</summary>
