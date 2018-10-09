@@ -50,6 +50,7 @@ namespace ClientTest.Peer.Manager
             bool called = false;
             peerManager.OnAreapeers += (s, e) =>
             {
+                Assert.AreEqual(DateTime.Parse("2017/12/13 22:08:08"), e.ReceivedAt);
                 Assert.IsTrue(e.IsValid);
                 Assert.IsFalse(e.IsExpired);
                 Assert.IsFalse(e.IsInvalidSignature);
@@ -253,6 +254,7 @@ namespace ClientTest.Peer.Manager
             peerManager.OnEEWTest += (s, e) =>
             {
                 called = true;
+                Assert.AreEqual(DateTime.Parse("2018/03/01 22:45:51"), e.ReceivedAt);
                 Assert.IsTrue(e.IsValid);
                 Assert.IsFalse(e.IsExpired);
                 Assert.IsFalse(e.IsInvalidSignature);
@@ -334,6 +336,7 @@ namespace ClientTest.Peer.Manager
             peerManager.OnEarthquake += (s, e) =>
             {
                 called = true;
+                Assert.AreEqual(DateTime.Parse("2017/12/16 06:04:20"), e.ReceivedAt);
                 Assert.IsTrue(e.IsValid);
                 Assert.IsFalse(e.IsExpired);
                 Assert.IsFalse(e.IsInvalidSignature);
@@ -705,6 +708,7 @@ namespace ClientTest.Peer.Manager
             peerManager.OnTsunami += (s, e) =>
             {
                 called = true;
+                Assert.AreEqual(DateTime.Parse("2016/11/22 12:53:43"), e.ReceivedAt);
                 Assert.IsTrue(e.IsValid);
                 Assert.IsFalse(e.IsExpired);
                 Assert.IsFalse(e.IsInvalidSignature);
@@ -930,6 +934,7 @@ namespace ClientTest.Peer.Manager
             peerManager.OnUserquake += (s, e) =>
             {
                 called = true;
+                Assert.AreEqual(DateTime.Parse("2017/12/14 06:39:30"), e.ReceivedAt);
                 Assert.IsTrue(e.IsValid);
                 Assert.IsFalse(e.IsExpired);
                 Assert.IsFalse(e.IsInvalidSignature);
