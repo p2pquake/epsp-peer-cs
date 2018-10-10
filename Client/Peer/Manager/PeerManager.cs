@@ -164,7 +164,7 @@ namespace Client.Peer.Manager
                 return;
             }
 
-            EPSPQuakeEventArgs e = new EPSPQuakeEventArgs();
+            EPSPQuakeEventArgs e = new EPSPQuakeEventArgs() { ReceivedAt = ProtocolTime() };
             Verifier.VerifyResult result = Verifier.VerifyServerData(packet.Data[2] + packet.Data[3], packet.Data[1], packet.Data[0], ProtocolTime());
             e.IsExpired = result.isExpired;
             e.IsInvalidSignature = !result.isValidSignature;
@@ -239,7 +239,7 @@ namespace Client.Peer.Manager
             }
 
             string[] datas = packet.Data[2].Split(',');
-            EPSPTsunamiEventArgs e = new EPSPTsunamiEventArgs();
+            EPSPTsunamiEventArgs e = new EPSPTsunamiEventArgs() { ReceivedAt = ProtocolTime() };
             Verifier.VerifyResult result = Verifier.VerifyServerData(packet.Data[2], packet.Data[1], packet.Data[0], ProtocolTime());
             e.IsExpired = result.isExpired;
             e.IsInvalidSignature = !result.isValidSignature;
@@ -304,7 +304,7 @@ namespace Client.Peer.Manager
                 return;
             }
 
-            EPSPAreapeersEventArgs e = new EPSPAreapeersEventArgs();
+            EPSPAreapeersEventArgs e = new EPSPAreapeersEventArgs() { ReceivedAt = ProtocolTime() };
             Verifier.VerifyResult result = Verifier.VerifyServerData(packet.Data[2], packet.Data[1], packet.Data[0], ProtocolTime());
             e.IsExpired = result.isExpired;
             e.IsInvalidSignature = !result.isValidSignature;
@@ -334,7 +334,7 @@ namespace Client.Peer.Manager
                 return;
             }
             
-            EPSPEEWTestEventArgs e = new EPSPEEWTestEventArgs();
+            EPSPEEWTestEventArgs e = new EPSPEEWTestEventArgs() { ReceivedAt = ProtocolTime() };
             Verifier.VerifyResult result = Verifier.VerifyServerData(packet.Data[2], packet.Data[1], packet.Data[0], ProtocolTime());
             e.IsExpired = result.isExpired;
             e.IsInvalidSignature = !result.isValidSignature;
@@ -361,7 +361,7 @@ namespace Client.Peer.Manager
                 return;
             }
 
-            EPSPUserquakeEventArgs e = new EPSPUserquakeEventArgs();
+            EPSPUserquakeEventArgs e = new EPSPUserquakeEventArgs() { ReceivedAt = ProtocolTime() };
             Verifier.VerifyResult result = Verifier.VerifyUserquake(packet.Data[5], packet.Data[1], packet.Data[0], packet.Data[2], packet.Data[3], packet.Data[4], ProtocolTime());
             e.IsExpired = result.isExpired;
             e.IsInvalidSignature = !result.isValidSignature;

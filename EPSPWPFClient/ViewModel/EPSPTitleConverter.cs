@@ -34,10 +34,20 @@ namespace EPSPWPFClient.ViewModel
                 }
                 return builder.ToString();
             }
-            // TODO: 日時表示 (#80)
+            if (dataEventArgs is EPSPTsunamiEventArgs)
+            {
+                return
+                    dataEventArgs.ReceivedAt.ToString("dd日HH時mm分") +
+                    "受信 " +
+                    "津波予報" +
+                    (((EPSPTsunamiEventArgs)dataEventArgs).IsCancelled ? "（解除）" : "");
+            }
             if (dataEventArgs is EPSPEEWTestEventArgs)
             {
-                return "緊急地震速報 配信試験（β）";
+                return 
+                    dataEventArgs.ReceivedAt.ToString("dd日HH時mm分") +
+                    "受信 " +
+                    "緊急地震速報 配信試験（β）";
             }
 
             return "";
