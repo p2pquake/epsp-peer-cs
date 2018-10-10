@@ -34,6 +34,14 @@ namespace EPSPWPFClient.ViewModel
                 }
                 return builder.ToString();
             }
+            if (dataEventArgs is EPSPTsunamiEventArgs)
+            {
+                return
+                    dataEventArgs.ReceivedAt.ToString("dd日HH時mm分") +
+                    "受信 " +
+                    "津波予報" +
+                    (((EPSPTsunamiEventArgs)dataEventArgs).IsCancelled ? "（解除）" : "");
+            }
             if (dataEventArgs is EPSPEEWTestEventArgs)
             {
                 return 
