@@ -26,9 +26,25 @@ namespace UserquakeSimulator.Reader
 
             foreach (BsonDocument document in collection.Find(filter).ToEnumerable())
             {
-
+                var epspData = new EPSPData()
+                {
+                    DataType = (document["code"].AsInt32 == 555) ? DataType.Areapeer : DataType.Userquake,
+                    AreaCode = (document["code"].AsInt32 == 561) ? document["area"].AsInt32.ToString("D3") : "",
+                    ArrivalTime = DateTime.Parse(document["time"].AsString),
+                    PeerMap = (document["code"].AsInt32 == 555) ? ExtractPeerMap(document) : null
+                };
+                yield return epspData;
             }
-            throw new NotImplementedException();
+        }
+
+        private IDictionary<string, int> ExtractPeerMap(BsonDocument document)
+        {
+            var dic = new Dictionary<string, int>();
+            var areas = document["areas"].AsBsonArray;
+            return areas.ToDictionary(
+                area => area["id"].AsInt32.ToString("D3"),
+                area => area["peer"].AsInt32
+            );
         }
     }
 }
