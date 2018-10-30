@@ -12,13 +12,13 @@ namespace Client.Misc.UQSummary
     /// </summary>
     public class UQManager : IUQManager
     {
-        private const int Interval = 30;
+        protected int Interval { get; set; } = 30;
 
         public event EventHandler Occurred = (s, e) => { };
         public event EventHandler Updated = (s, e) => { };
 
-        public Func<IDictionary<string, int>> AreaPeerDictionary { private get; set; }
-        public Func<DateTime> ProtocolTime { private get; set; }
+        public Func<IDictionary<string, int>> AreaPeerDictionary { protected get; set; }
+        public Func<DateTime> ProtocolTime { protected get; set; }
 
         public bool IsOnGoing
         {
@@ -33,10 +33,10 @@ namespace Client.Misc.UQSummary
         }
         public IUQJudge UQJudge { private get; set; }
 
-        private List<Userquake> userquakeList = new List<Userquake>();
-        private bool isOnGoing = false;
+        protected List<Userquake> userquakeList = new List<Userquake>();
+        protected bool isOnGoing = false;
 
-        public void Add(string areaCode)
+        public virtual void Add(string areaCode)
         {
             var userquake = new Userquake();
             userquake.AreaCode = areaCode;
