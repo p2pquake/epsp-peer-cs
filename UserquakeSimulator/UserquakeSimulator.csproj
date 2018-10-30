@@ -65,6 +65,7 @@
     <Compile Include="Evaluator\IEvaluator.cs" />
     <Compile Include="Evaluator\IUQExtManager.cs" />
     <Compile Include="Evaluator\UQExtManager.cs" />
+    <Compile Include="Judge\OldJudge.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reader\EPSPData.cs" />
