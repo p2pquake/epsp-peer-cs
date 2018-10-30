@@ -10,13 +10,45 @@ namespace UserquakeSimulator.Evaluator
 {
     public class EvaluateResult
     {
-        double Accuracy { get; set; }
+        public int TP { get; set; }
+        public int FP { get; set; }
+        public int TN { get; set; }
+        public int FN { get; set; }
+
+        public double Accuracy
+        {
+            get { return (TP + TN) / (double)(TP + FP + FN + TN); }
+        }
+        public double ErrorRate
+        {
+            get { return 1 - Accuracy; }
+        }
+        public double Precision
+        {
+            get { return TP / (double)(TP + FP); }
+        }
+        public double Sensitivity
+        {
+            get { return TP / (double)(TP + FN); }
+        }
+        public double Specificity
+        {
+            get { return TN / (double)(TN + FP); }
+        }
+        public double FalsePositiveRate
+        {
+            get { return FP / (double)(TN + FP); }
+        }
+        public double FalseNegativeRate
+        {
+            get { return FN / (double)(TP + FN); }
+        }
     }
 
     public interface IEvaluator
     {
         IReader Reader { set; }
-        IUQManager UQManager { set; }
+        IUQExtManager UQExtManager { set; }
         IUQJudge UQJudge { set; }
         IVerifier Verifier { set; }
 

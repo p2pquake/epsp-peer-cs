@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Evaluator\Evaluator.cs" />
     <Compile Include="Evaluator\IEvaluator.cs" />
     <Compile Include="Evaluator\IUQExtManager.cs" />
     <Compile Include="Evaluator\UQExtManager.cs" />
@@ -81,5 +82,6 @@
       <Name>Client</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
