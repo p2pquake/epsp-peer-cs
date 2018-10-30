@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace UserquakeSimulator.Reader
 {
-    class MongoDBReader : IReader
+    class MongoDBReader : IReader, IVerifier
     {
         private MongoClient client;
         private IMongoCollection<BsonDocument> collection;
@@ -18,6 +18,8 @@ namespace UserquakeSimulator.Reader
             this.client = client;
             this.collection = collection;
         }
+
+        public int AccuracySeconds { private get; set; } = 120;
 
         public IEnumerable<EPSPData> GetAll()
         {
@@ -35,6 +37,17 @@ namespace UserquakeSimulator.Reader
                 };
                 yield return epspData;
             }
+        }
+
+        public bool HaveEarthquake(DateTime uqBegin, DateTime uqEnd, string[] prefecture)
+        {
+            var builder = Builders<BsonDocument>.Filter;
+            var filter = builder.Eq("code", 551) &
+                builder.Gte("earthquake.time", uqBegin.AddSeconds(-AccuracySeconds).ToString("yyyy/MM/dd HH:mm:ss")) &
+                builder.Lte("earthquake.time", uqEnd.AddSeconds(AccuracySeconds).ToString("yyyy/MM/dd HH:mm:ss")) &
+                builder.In("points.pref", prefecture);
+
+            return collection.Find(filter).CountDocuments() > 0;
         }
 
         private IDictionary<string, int> ExtractPeerMap(BsonDocument document)
