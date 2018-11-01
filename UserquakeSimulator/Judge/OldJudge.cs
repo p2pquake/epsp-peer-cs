@@ -18,6 +18,11 @@ namespace UserquakeSimulator.Judge
 
         public bool Judge(List<Userquake> userquakeList, Func<IDictionary<string, int>> areaPeerDictionary)
         {
+            if (userquakeList.Count < 3)
+            {
+                return false;
+            }
+
             var dictionary = areaPeerDictionary();
 
             var speed = 0.0;
