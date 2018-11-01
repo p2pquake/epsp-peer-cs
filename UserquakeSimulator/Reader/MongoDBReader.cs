@@ -24,7 +24,7 @@ namespace UserquakeSimulator.Reader
         public IEnumerable<EPSPData> GetAll()
         {
             var builder = Builders<BsonDocument>.Filter;
-            var filter = (builder.Eq("code", 555) | builder.Eq("code", 561)) & builder.Gte("time", "2018/09/01 00:00:00") & builder.Lte("time", "2018/10/01 00:00:00");
+            var filter = (builder.Eq("code", 555) | builder.Eq("code", 561)) & builder.Gte("time", "2017/10/01 00:00:00") & builder.Lt("time", "2018/10/01 00:00:00");
             var options = new FindOptions() { NoCursorTimeout = true };
 
             foreach (BsonDocument document in collection.Find(filter, options).ToEnumerable())
