@@ -45,19 +45,19 @@ namespace CUIClientTest.Handler
             // 無効な署名データ
             areapeers.IsExpired = true;
             epspHandler.MediatorContext_OnAreapeers(this, areapeers);
-            Assert.AreEqual(string.Join("\r\n", messageList), GetWriterOutput());
+            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
 
             // ゼロデータ
             areapeers.IsExpired = false;
             epspHandler.MediatorContext_OnAreapeers(this, areapeers);
             messageList.Add("地域ピア数の情報を受信しました: ピア数 0");
-            Assert.AreEqual(string.Join("\r\n", messageList), GetWriterOutput());
+            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
 
             // 有効データ
             areapeers.AreaPeerDictionary = new Dictionary<string, int>() { { "100", 5 }, { "105", 3 } };
             epspHandler.MediatorContext_OnAreapeers(this, areapeers);
             messageList.Add("地域ピア数の情報を受信しました: ピア数 8");
-            Assert.AreEqual(string.Join("\r\n", messageList), GetWriterOutput());
+            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
         }
 
         [TestCase]
@@ -71,7 +71,7 @@ namespace CUIClientTest.Handler
             quake.IsInvalidSignature = false;
             quake.IsExpired = true;
             epspHandler.MediatorContext_OnEarthquake(this, quake);
-            Assert.AreEqual(string.Join("\r\n", messageList), GetWriterOutput());
+            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
 
             // 共通データ
             quake = new EPSPQuakeEventArgs();
@@ -94,31 +94,31 @@ namespace CUIClientTest.Handler
             quake.InformationType = QuakeInformationType.ScalePrompt;
             epspHandler.MediatorContext_OnEarthquake(this, quake);
             messageList.Add("地震情報を受信しました: 1日2時3分 震度5弱 ");
-            Assert.AreEqual(string.Join("\r\n", messageList), GetWriterOutput());
+            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
 
             // 震源情報
             quake.InformationType = QuakeInformationType.Destination;
             epspHandler.MediatorContext_OnEarthquake(this, quake);
             messageList.Add("地震情報を受信しました: 1日2時3分 東京湾(10km, M5.8) 津波の心配なし");
-            Assert.AreEqual(string.Join("\r\n", messageList), GetWriterOutput());
+            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
 
             // 震度・震源情報
             quake.InformationType = QuakeInformationType.ScaleAndDestination;
             epspHandler.MediatorContext_OnEarthquake(this, quake);
             messageList.Add("地震情報を受信しました: 1日2時3分 震度5弱 東京湾(10km, M5.8) 津波の心配なし");
-            Assert.AreEqual(string.Join("\r\n", messageList), GetWriterOutput());
+            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
 
             // 各地の震度情報
             quake.InformationType = QuakeInformationType.Detail;
             epspHandler.MediatorContext_OnEarthquake(this, quake);
             messageList.Add("地震情報を受信しました: 1日2時3分 震度5弱 東京湾(10km, M5.8) 津波の心配なし");
-            Assert.AreEqual(string.Join("\r\n", messageList), GetWriterOutput());
+            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
 
             // 遠地地震情報
             quake.InformationType = QuakeInformationType.Foreign;
             epspHandler.MediatorContext_OnEarthquake(this, quake);
             messageList.Add("地震情報を受信しました: 1日2時3分 東京湾(10km, M5.8) 津波の心配なし");
-            Assert.AreEqual(string.Join("\r\n", messageList), GetWriterOutput());
+            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
         }
 
         [TestCase]
@@ -133,19 +133,19 @@ namespace CUIClientTest.Handler
             
             // 試験報
             epspHandler.MediatorContext_OnEEWTest(this, eew);
-            Assert.AreEqual(string.Join("\r\n", messageList), GetWriterOutput());
+            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
             
             // 無効な署名データ
             eew.IsTest = false;
             eew.IsInvalidSignature = true;
             epspHandler.MediatorContext_OnEEWTest(this, eew);
-            Assert.AreEqual(string.Join("\r\n", messageList), GetWriterOutput());
+            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
 
             // 有効データ
             eew.IsInvalidSignature = false;
             epspHandler.MediatorContext_OnEEWTest(this, eew);
             messageList.Add("緊急地震速報 配信試験（オープンβ）の情報を受信しました。");
-            Assert.AreEqual(string.Join("\r\n", messageList), GetWriterOutput());
+            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
         }
 
         [TestCase]
@@ -158,14 +158,14 @@ namespace CUIClientTest.Handler
             tsunami.IsExpired = true;
             tsunami.IsInvalidSignature = false;
             epspHandler.MediatorContext_OnTsunami(this, tsunami);
-            Assert.AreEqual(string.Join("\r\n", messageList), GetWriterOutput());
+            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
 
             // キャンセル報
             tsunami.IsExpired = false;
             tsunami.IsCancelled = true;
             epspHandler.MediatorContext_OnTsunami(this, tsunami);
             messageList.Add("津波予報は解除されました。");
-            Assert.AreEqual(string.Join("\r\n", messageList), GetWriterOutput());
+            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
 
             // 有効データ
             tsunami.IsCancelled = false;
@@ -182,7 +182,7 @@ namespace CUIClientTest.Handler
             tsunami.RegionList.Add(region2);
             epspHandler.MediatorContext_OnTsunami(this, tsunami);
             messageList.Add("津波予報を受信しました: [津波注意報]北海道太平洋沿岸東部、[大津波警報]北海道太平洋沿岸中部");
-            Assert.AreEqual(string.Join("\r\n", messageList), GetWriterOutput());
+            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
         }
 
         [TestCase]
@@ -198,33 +198,33 @@ namespace CUIClientTest.Handler
             userquake.IsExpired = true;
             dateTime = DateTime.Parse("2018/01/01 12:00:00");
             epspHandler.MediatorContext_OnUserquake(this, userquake);
-            Assert.AreEqual(string.Join("\r\n", messageList), GetWriterOutput());
+            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
 
             userquake.IsExpired = false;
             dateTime = DateTime.Parse("2018/01/01 12:00:00");
             epspHandler.MediatorContext_OnUserquake(this, userquake);
-            Assert.AreEqual(string.Join("\r\n", messageList), GetWriterOutput());
+            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
 
             dateTime = DateTime.Parse("2018/01/01 12:00:29");
             epspHandler.MediatorContext_OnUserquake(this, userquake);
-            Assert.AreEqual(string.Join("\r\n", messageList), GetWriterOutput());
+            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
 
             userquake.AreaCode = "011";
             dateTime = DateTime.Parse("2018/01/01 12:00:58");
             epspHandler.MediatorContext_OnUserquake(this, userquake);
             messageList.Add("地震感知情報の受信しきい値を超えました: 北海道 石狩(2)");
-            Assert.AreEqual(string.Join("\r\n", messageList), GetWriterOutput());
+            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
 
             dateTime = DateTime.Parse("2018/01/01 12:01:27");
             userquake.AreaCode = "460";
             epspHandler.MediatorContext_OnUserquake(this, userquake);
             messageList.Add("地震感知情報が更新されました: 北海道 石狩(2)、大阪北部(1)");
-            Assert.AreEqual(string.Join("\r\n", messageList), GetWriterOutput());
+            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
 
             dateTime = DateTime.Parse("2018/01/01 12:01:57");
             userquake.AreaCode = "460";
             epspHandler.MediatorContext_OnUserquake(this, userquake);
-            Assert.AreEqual(string.Join("\r\n", messageList), GetWriterOutput());
+            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
         }
 
 
