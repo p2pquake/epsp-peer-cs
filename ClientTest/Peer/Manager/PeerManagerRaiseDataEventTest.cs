@@ -8,6 +8,7 @@ using Client.Common.Net;
 using Client.Peer;
 using Client.Peer.Manager;
 using NUnit.Framework;
+using System.Reflection;
 
 namespace ClientTest.Peer.Manager
 {
@@ -1005,7 +1006,8 @@ namespace ClientTest.Peer.Manager
         [TestCase]
         public void raiseDataEvent_Smoke()
         {
-            var filename = @"TestData/Peer/Manager/PeerManagerRaiseDataEventTest_Smoke.txt";
+            var directory = System.AppDomain.CurrentDomain.BaseDirectory;
+            var filename = Path.Combine(directory, @"TestData/Peer/Manager/PeerManagerRaiseDataEventTest_Smoke.txt");
             StreamReader reader = new StreamReader(filename, Encoding.UTF8);
 
             int lineCount = 0;
