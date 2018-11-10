@@ -12,6 +12,7 @@ namespace UserquakeSimulator.Evaluator
         public IList<Userquake> List { get; set; }
         public IDictionary<string, int> Summary { get; set; }
         public bool IsSatisfied { get; set; }
+        public TimeSpan Elapsed { get; set; }
     }
 
     public interface IUQExtManager : IUQManager

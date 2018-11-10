@@ -10,10 +10,12 @@ namespace UserquakeSimulator.Evaluator
     public class UQExtManager : UQManager, IUQExtManager
     {
         public event EventHandler<UQDataEventArgs> Initialized;
+        private TimeSpan elapsed;
 
         public UQExtManager()
         {
             Interval = 40;
+            elapsed = TimeSpan.MinValue;
         }
 
         public override void Add(string areaCode)
@@ -25,12 +27,19 @@ namespace UserquakeSimulator.Evaluator
                 {
                     List = new List<Userquake>(userquakeList),
                     Summary = GetCurrentSummary(),
-                    IsSatisfied = isOnGoing
+                    IsSatisfied = isOnGoing,
+                    Elapsed = elapsed
                 };
                 Initialized(this, eventArgs);
+                elapsed = TimeSpan.MinValue;
             }
 
             base.Add(areaCode);
+
+            if (isOnGoing && elapsed == TimeSpan.MinValue)
+            {
+                elapsed = userquakeList.Last().RelativeTime;
+            }
         }
     }
 }

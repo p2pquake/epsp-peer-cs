@@ -14,6 +14,7 @@ namespace UserquakeSimulator.Evaluator
         public int FP { get; set; }
         public int TN { get; set; }
         public int FN { get; set; }
+        public TimeSpan AverageElapsed { get; set; }
 
         public double Accuracy
         {

@@ -19,6 +19,7 @@ namespace UserquakeSimulator.Evaluator
         private IDictionary<string, int> areapeers;
 
         private int tp, tn, fp, fn;
+        private TimeSpan elapsedSum;
 
         public EvaluateResult Evaluate()
         {
@@ -31,6 +32,7 @@ namespace UserquakeSimulator.Evaluator
             UQExtManager.Initialized += UQExtManager_Initialized;
 
             tp = tn = fp = fn = 0;
+            elapsedSum = TimeSpan.Zero;
 
             foreach (var data in Reader.GetAll())
             {
@@ -53,7 +55,8 @@ namespace UserquakeSimulator.Evaluator
                 TP = tp,
                 FP = fp,
                 TN = tn,
-                FN = fn
+                FN = fn,
+                AverageElapsed = TimeSpan.FromMilliseconds(elapsedSum.TotalMilliseconds / (tp + tn + fp + fn))
             };
 
             return result;
@@ -225,6 +228,8 @@ namespace UserquakeSimulator.Evaluator
             {
                 tn++;
             }
+
+            elapsedSum += e.Elapsed;
 
             //Console.WriteLine("----------------------------------------");
             //Console.WriteLine("IsSatisfied: " + e.IsSatisfied + ", haveEq:" + haveEq);
