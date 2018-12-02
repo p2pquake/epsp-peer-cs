@@ -72,6 +72,7 @@
     <Compile Include="App\MediatorContextUserquakeTest.cs" />
     <Compile Include="Common\Net\CRLFSocketTest.cs" />
     <Compile Include="Common\Net\CRLFSocketParseTest.cs" />
+    <Compile Include="Misc\UPnP\UPnPUtilTest.cs" />
     <Compile Include="Misc\UQSummary\UQJudgeTest.cs" />
     <Compile Include="Peer\Manager\NetworkInquiryManagerTest.cs" />
     <Compile Include="Peer\Manager\PeerManagerRaiseDataEventTest.cs" />
