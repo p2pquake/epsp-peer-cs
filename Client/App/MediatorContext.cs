@@ -8,6 +8,7 @@ using Client.Client;
 using Client.Client.General;
 using Client.Common.General;
 using Client.Common.Net;
+using Client.Misc.UPnP;
 using Client.Peer;
 using Client.Peer.General;
 using PKCSPeerCrypto;
@@ -61,6 +62,7 @@ namespace Client.App
         public string FormattedAreaCode { get { return AreaCode.ToString("D3"); } }
         public bool IsPortOpen { get; set; }
         public int Port { get; set; }
+        public bool UseUPnP { get; set; }
         public int MaxConnections { get; set; }
 
         public bool CanConnect { get { return State is DisconnectedState; } }
@@ -88,6 +90,7 @@ namespace Client.App
             AreaCode = 900;
             MaxConnections = 4;
             IsPortOpen = false;
+            UseUPnP = false;
             
             clientContext.PeerConfig = this;
             clientContext.PeerConnector = peerContext;
@@ -133,6 +136,10 @@ namespace Client.App
 
             if (IsPortOpen)
             {
+                if (UseUPnP)
+                {
+                    UPnPUtil.OpenPort(Port);
+                }
                 peerContext.Listen(Port);
             }
             State.Connect(this, clientContext, peerContext);
