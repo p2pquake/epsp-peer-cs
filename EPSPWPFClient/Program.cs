@@ -26,6 +26,11 @@ namespace EPSPWPFClient
                     mediator.Start();
                 }
             };
+            app.SessionEnding += (s, e) =>
+            {
+                mediator.Stop();
+            };
+
             app.InitializeComponent();
             app.Run();
         }
