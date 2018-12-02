@@ -148,6 +148,7 @@
     <Compile Include="Common\Net\ISocket.cs" />
     <Compile Include="Common\Net\Packet.cs" />
     <Compile Include="Common\Net\SocketAdapter.cs" />
+    <Compile Include="Misc\UPnP\UPnPUtil.cs" />
     <Compile Include="Misc\UQSummary\IUQJudge.cs" />
     <Compile Include="Misc\UQSummary\IUQManager.cs" />
     <Compile Include="Misc\UQSummary\SimpleUQJudge.cs" />
