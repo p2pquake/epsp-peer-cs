@@ -96,6 +96,9 @@
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Open.Nat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f22a6a4582336c76, processorArchitecture=MSIL">
+      <HintPath>..\packages\Open.NAT.2.1.0.0\lib\net45\Open.Nat.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -145,6 +148,7 @@
     <Compile Include="Common\Net\ISocket.cs" />
     <Compile Include="Common\Net\Packet.cs" />
     <Compile Include="Common\Net\SocketAdapter.cs" />
+    <Compile Include="Misc\UPnP\UPnPUtil.cs" />
     <Compile Include="Misc\UQSummary\IUQJudge.cs" />
     <Compile Include="Misc\UQSummary\IUQManager.cs" />
     <Compile Include="Misc\UQSummary\SimpleUQJudge.cs" />
