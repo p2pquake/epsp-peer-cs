@@ -205,23 +205,23 @@ namespace CUIClientTest.Handler
             epspHandler.MediatorContext_OnUserquake(this, userquake);
             Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
 
-            dateTime = DateTime.Parse("2018/01/01 12:00:29");
+            dateTime = DateTime.Parse("2018/01/01 12:00:39");
             epspHandler.MediatorContext_OnUserquake(this, userquake);
             Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
 
             userquake.AreaCode = "011";
-            dateTime = DateTime.Parse("2018/01/01 12:00:58");
+            dateTime = DateTime.Parse("2018/01/01 12:01:18");
             epspHandler.MediatorContext_OnUserquake(this, userquake);
             messageList.Add("地震感知情報の受信しきい値を超えました: 北海道 石狩(2)");
             Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
 
-            dateTime = DateTime.Parse("2018/01/01 12:01:27");
+            dateTime = DateTime.Parse("2018/01/01 12:01:57");
             userquake.AreaCode = "460";
             epspHandler.MediatorContext_OnUserquake(this, userquake);
             messageList.Add("地震感知情報が更新されました: 北海道 石狩(2)、大阪北部(1)");
             Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
 
-            dateTime = DateTime.Parse("2018/01/01 12:01:57");
+            dateTime = DateTime.Parse("2018/01/01 12:02:37");
             userquake.AreaCode = "460";
             epspHandler.MediatorContext_OnUserquake(this, userquake);
             Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
