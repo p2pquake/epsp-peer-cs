@@ -29,7 +29,7 @@ namespace ClientTest.Misc.UQSummary
         {
             Assert.IsFalse(uqManager.IsOnGoing);
 
-            protocolTime = DateTime.Parse("2017/12/31 23:59:30");
+            protocolTime = DateTime.Parse("2017/12/31 23:59:20");
             uqManager.Add("100");
             Assert.IsFalse(uqManager.IsOnGoing);
 
@@ -37,19 +37,19 @@ namespace ClientTest.Misc.UQSummary
             uqManager.Add("101");
             Assert.IsFalse(uqManager.IsOnGoing);
 
-            protocolTime = DateTime.Parse("2018/01/01 00:00:29");
+            protocolTime = DateTime.Parse("2018/01/01 00:00:39");
             uqManager.Add("102");
             Assert.IsFalse(uqManager.IsOnGoing);
 
-            protocolTime = DateTime.Parse("2018/01/01 00:00:58");
+            protocolTime = DateTime.Parse("2018/01/01 00:01:18");
             uqManager.Add("102");
             Assert.IsTrue(uqManager.IsOnGoing);
 
-            protocolTime = DateTime.Parse("2018/01/01 00:01:27");
+            protocolTime = DateTime.Parse("2018/01/01 00:01:57");
             uqManager.Add("103");
             Assert.IsTrue(uqManager.IsOnGoing);
 
-            protocolTime = DateTime.Parse("2018/01/01 00:01:57");
+            protocolTime = DateTime.Parse("2018/01/01 00:02:37");
             uqManager.Add("104");
             Assert.IsFalse(uqManager.IsOnGoing);
         }
@@ -59,7 +59,7 @@ namespace ClientTest.Misc.UQSummary
         {
             Assert.IsEmpty(uqManager.GetCurrentSummary());
 
-            protocolTime = DateTime.Parse("2017/12/31 23:59:30");
+            protocolTime = DateTime.Parse("2017/12/31 23:59:20");
             uqManager.Add("100");
             CollectionAssert.AreEqual(
                 new Dictionary<string, int> { { "100", 1 } },
@@ -73,28 +73,28 @@ namespace ClientTest.Misc.UQSummary
                 uqManager.GetCurrentSummary()
                 );
 
-            protocolTime = DateTime.Parse("2018/01/01 00:00:29");
+            protocolTime = DateTime.Parse("2018/01/01 00:00:39");
             uqManager.Add("102");
             CollectionAssert.AreEqual(
                 new Dictionary<string, int> { { "101", 1 }, { "102", 1 } },
                 uqManager.GetCurrentSummary()
                 );
 
-            protocolTime = DateTime.Parse("2018/01/01 00:00:58");
+            protocolTime = DateTime.Parse("2018/01/01 00:01:18");
             uqManager.Add("102");
             CollectionAssert.AreEqual(
                 new Dictionary<string, int> { { "101", 1 }, { "102", 2 } },
                 uqManager.GetCurrentSummary()
                 );
 
-            protocolTime = DateTime.Parse("2018/01/01 00:01:27");
+            protocolTime = DateTime.Parse("2018/01/01 00:01:57");
             uqManager.Add("103");
             CollectionAssert.AreEqual(
                 new Dictionary<string, int> { { "101", 1 }, { "102", 2 }, { "103", 1 } },
                 uqManager.GetCurrentSummary()
                 );
 
-            protocolTime = DateTime.Parse("2018/01/01 00:01:57");
+            protocolTime = DateTime.Parse("2018/01/01 00:02:37");
             uqManager.Add("104");
             CollectionAssert.AreEqual(
                 new Dictionary<string, int> { { "104", 1 } },
@@ -111,7 +111,7 @@ namespace ClientTest.Misc.UQSummary
             uqManager.Occurred += (s, e) => { occurred = true; };
             uqManager.Updated += (s, e) => { updated = true; };
 
-            protocolTime = DateTime.Parse("2017/12/31 23:59:30");
+            protocolTime = DateTime.Parse("2017/12/31 23:59:20");
             uqManager.Add("100");
             Assert.IsFalse(occurred);
             Assert.IsFalse(updated);
@@ -121,26 +121,26 @@ namespace ClientTest.Misc.UQSummary
             Assert.IsFalse(occurred);
             Assert.IsFalse(updated);
 
-            protocolTime = DateTime.Parse("2018/01/01 00:00:29");
+            protocolTime = DateTime.Parse("2018/01/01 00:00:39");
             uqManager.Add("102");
             Assert.IsFalse(occurred);
             Assert.IsFalse(updated);
 
-            protocolTime = DateTime.Parse("2018/01/01 00:00:58");
+            protocolTime = DateTime.Parse("2018/01/01 00:01:18");
             uqManager.Add("102");
             Assert.IsTrue(occurred);
             Assert.IsFalse(updated);
 
             occurred = false;
 
-            protocolTime = DateTime.Parse("2018/01/01 00:01:27");
+            protocolTime = DateTime.Parse("2018/01/01 00:01:57");
             uqManager.Add("103");
             Assert.IsFalse(occurred);
             Assert.IsTrue(updated);
 
             updated = false;
 
-            protocolTime = DateTime.Parse("2018/01/01 00:01:57");
+            protocolTime = DateTime.Parse("2018/01/01 00:02:37");
             uqManager.Add("104");
             Assert.IsFalse(occurred);
             Assert.IsFalse(occurred);
