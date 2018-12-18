@@ -8,15 +8,14 @@ namespace Client.Misc.UQSummary
 {
     /// <summary>
     /// 地震感知情報の管理を行う<see cref="IUQManager"/>実装です。
-    /// 本実装では、最後の地震感知情報から30秒経過すると別の地震感知情報とみなします。
+    /// 最後の地震感知情報から<see cref="Interval"/>で指定した秒数を経過すると別の地震感知情報とみなします。
     /// </summary>
     public class UQManager : IUQManager
     {
-        private const int Interval = 30;
-
         public event EventHandler Occurred = (s, e) => { };
         public event EventHandler Updated = (s, e) => { };
 
+        public int Interval { get; set; } = 40;
         public Func<IDictionary<string, int>> AreaPeerDictionary { private get; set; }
         public Func<DateTime> ProtocolTime { private get; set; }
 
