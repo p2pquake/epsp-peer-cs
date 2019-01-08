@@ -160,13 +160,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EEWTest\EEWDrawer.cs" />
+    <Compile Include="MapResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MapResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="Mediator\EPSPHandler.cs" />
     <Compile Include="Mediator\EPSPMediator.cs" />
+    <Compile Include="PeerMap\Drawer.cs" />
     <Compile Include="Quake\CodeMapper.cs" />
     <Compile Include="Tsunami\TsunamiDrawer.cs" />
     <Compile Include="ViewModel\BoolConverter.cs" />
     <Compile Include="ViewModel\EPSPTitleConverter.cs" />
     <Compile Include="ViewModel\HistoryViewModel.cs" />
+    <Compile Include="ViewModel\PeerMapViewModel.cs" />
     <Compile Include="ViewModel\StateConverter.cs" />
     <Compile Include="ViewModel\StatusViewModel.cs" />
     <Page Include="App.xaml">
@@ -233,6 +240,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Content Include="Resources\epsp-area.txt" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\japan.png" />
@@ -289,7 +297,12 @@
   <ItemGroup>
     <Resource Include="Resources\Icon\p2pquake.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="MapResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MapResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
