@@ -50,14 +50,27 @@ namespace EPSPWPFClient.PeerMap
 
                 var xy = calculator.calculate(point[0], point[1]);
 
+                var borderColor = Brushes.Gray;
+                var bgColor = new SolidColorBrush(Color.FromArgb(192, 128, 128, 128));
+                if (value > 0)
+                {
+                    borderColor = Brushes.Black;
+                    bgColor = new SolidColorBrush(Color.FromArgb(192, 224, 224, 255));
+                }
+
                 var control = new ContentControl()
                 {
-                    Content = new TextBlock()
+                    Content = new Border()
                     {
-                        Text = value.ToString(),
-                        FontSize = 14,
-                        Foreground = Brushes.Black,
-                        Background = new SolidColorBrush(Color.FromArgb(128, 255, 255, 255))
+                        BorderBrush = borderColor,
+                        BorderThickness = new System.Windows.Thickness(1),
+                        Child = new TextBlock()
+                        {
+                            Text = value.ToString(),
+                            FontSize = 12,
+                            Foreground = Brushes.Black,
+                            Background = bgColor,
+                        },
                     }
                 };
                 Canvas.SetLeft(control, xy[0] + offsetX - 8);
