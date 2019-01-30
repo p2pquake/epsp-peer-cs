@@ -19,6 +19,8 @@ namespace EPSPWPFClient
                     mediator.HistoryViewModel.SetScheduler(UIDispatcherScheduler.Default);
                     mediator.HistoryViewModel.HistoryControl = ((MainWindow)app.MainWindow).HistoryControl;
                     ((MainWindow)app.MainWindow).HistoryViewModel = mediator.HistoryViewModel;
+                    mediator.PeerMapViewModel.PeerMapControl = ((MainWindow)app.MainWindow).PeerMapControl;
+                    ((MainWindow)app.MainWindow).PeerMapViewModel = mediator.PeerMapViewModel;
                     mediator.Start();
                 }
             };

@@ -18,6 +18,7 @@ namespace EPSPWPFClient.Mediator
         IMediatorContext mediatorContext;
         internal StatusViewModel StatusViewModel { get; private set; }
         internal HistoryViewModel HistoryViewModel { get; private set; }
+        internal PeerMapViewModel PeerMapViewModel { get; private set; }
         internal EPSPHandler EPSPHandler { get; private set; }
 
         public EPSPMediator()
@@ -30,7 +31,7 @@ namespace EPSPWPFClient.Mediator
             mediatorContext.StateChanged += MediatorContext_StateChanged;
             mediatorContext.Completed += MediatorContext_Completed;
 
-            //mediatorContext.OnAreapeers += epspHandler.MediatorContext_OnAreapeers;
+            // mediatorContext.OnAreapeers += EPSPHandler.MediatorContext_OnAreapeers;
             mediatorContext.OnEarthquake += EPSPHandler.MediatorContext_OnEarthquake;
             mediatorContext.OnTsunami += EPSPHandler.MediatorContext_OnTsunami;
             mediatorContext.OnEEWTest += EPSPHandler.MediatorContext_OnEEWTest;
@@ -50,6 +51,10 @@ namespace EPSPWPFClient.Mediator
             });
 
             HistoryViewModel = new HistoryViewModel(EPSPHandler);
+            PeerMapViewModel = new PeerMapViewModel
+            {
+                AreaPeerDictionary = () => { return mediatorContext.AreaPeerDictionary; }
+            };
         }
 
         private void MediatorContext_Completed(object sender, OperationCompletedEventArgs e)
