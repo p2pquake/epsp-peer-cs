@@ -167,6 +167,7 @@
     </Compile>
     <Compile Include="Mediator\EPSPHandler.cs" />
     <Compile Include="Mediator\EPSPMediator.cs" />
+    <Compile Include="Mediator\EPSPUQSummaryEventArgs.cs" />
     <Compile Include="PeerMap\Drawer.cs" />
     <Compile Include="Quake\CodeMapper.cs" />
     <Compile Include="Tsunami\TsunamiDrawer.cs" />

@@ -17,10 +17,33 @@ namespace EPSPWPFClient.Mediator
     public class EPSPHandler
     {
         public ObservableCollection<EPSPDataEventArgs> EventList { get; } = new ObservableCollection<EPSPDataEventArgs>();
+        private IUQManager uqManager = new UQManager();
 
-        public EPSPHandler()
+        public EPSPHandler(Func<DateTime> protocolTimeFunc, Func<IDictionary<string, int>> areaPeerDictionaryFunc)
         {
             BindingOperations.EnableCollectionSynchronization(EventList, new object());
+
+            uqManager.UQJudge = new SimpleUQJudge(3);
+            uqManager.ProtocolTime = protocolTimeFunc;
+            uqManager.AreaPeerDictionary = areaPeerDictionaryFunc;
+            uqManager.Occurred += UqManager_Occurred;
+            uqManager.Updated += UqManager_Updated;
+        }
+
+        private void UqManager_Updated(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void UqManager_Occurred(object sender, EventArgs e)
+        {
+            var uqSummaryEventArgs = new EPSPUQSummaryEventArgs()
+            {
+                Summary = uqManager.GetCurrentSummary(),
+                IsExpired = false,
+                IsInvalidSignature = false
+            };
+            EventList.Add(uqSummaryEventArgs);
         }
 
         /// <summary>
@@ -53,6 +76,16 @@ namespace EPSPWPFClient.Mediator
             if (e.IsTest) { return; }
 
             EventList.Add(e);
+        }
+
+        /// <summary>
+        /// 地震感知情報のイベント処理
+        /// </summary>
+        internal void MediatorContext_OnUserquake(object sender, EPSPUserquakeEventArgs e)
+        {
+            if (!e.IsValid) { return; }
+
+            uqManager.Add(e.AreaCode);
         }
     }
 }

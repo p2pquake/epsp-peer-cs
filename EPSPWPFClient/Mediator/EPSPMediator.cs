@@ -25,7 +25,7 @@ namespace EPSPWPFClient.Mediator
         {
             // Model
             mediatorContext = new MediatorContext();
-            EPSPHandler = new EPSPHandler();
+            EPSPHandler = new EPSPHandler(null, null);
 
             mediatorContext.ConnectionsChanged += MediatorContext_ConnectionsChanged;
             mediatorContext.StateChanged += MediatorContext_StateChanged;
@@ -35,7 +35,7 @@ namespace EPSPWPFClient.Mediator
             mediatorContext.OnEarthquake += EPSPHandler.MediatorContext_OnEarthquake;
             mediatorContext.OnTsunami += EPSPHandler.MediatorContext_OnTsunami;
             mediatorContext.OnEEWTest += EPSPHandler.MediatorContext_OnEEWTest;
-            //mediatorContext.OnUserquake += epspHandler.MediatorContext_OnUserquake;
+            mediatorContext.OnUserquake += EPSPHandler.MediatorContext_OnUserquake;
 
             // ViewModel <=> Model
             StatusViewModel = new StatusViewModel();
