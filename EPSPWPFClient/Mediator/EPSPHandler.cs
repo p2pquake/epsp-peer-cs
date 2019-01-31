@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
-using Client.Misc.UQSummary;
+using ClientHelper.Misc.UQSummary;
 using Client.Peer;
 using log4net;
 

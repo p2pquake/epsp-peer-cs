@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Client.Misc.UQSummary
+namespace ClientHelper.Misc.UQSummary
 { 
     /// <summary>地震感知情報を表すクラスです。</summary>
     public class Userquake

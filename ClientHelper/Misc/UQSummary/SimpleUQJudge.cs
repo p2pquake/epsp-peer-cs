@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Client.Misc.UQSummary
+namespace ClientHelper.Misc.UQSummary
 {
     /// <summary>地震感知情報の表示判定を件数のみで行う<see cref="IUQJudge"/>実装です。</summary>
     public class SimpleUQJudge : IUQJudge

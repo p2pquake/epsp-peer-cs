@@ -8,7 +8,7 @@ using Client.Client;
 using Client.Client.General;
 using Client.Common.General;
 using Client.Common.Net;
-using Client.Misc.UPnP;
+using Client.Common.Net.UPnP;
 using Client.Peer;
 using Client.Peer.General;
 using PKCSPeerCrypto;

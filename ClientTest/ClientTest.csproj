@@ -72,14 +72,13 @@
     <Compile Include="App\MediatorContextUserquakeTest.cs" />
     <Compile Include="Common\Net\CRLFSocketTest.cs" />
     <Compile Include="Common\Net\CRLFSocketParseTest.cs" />
-    <Compile Include="Misc\UPnP\UPnPUtilTest.cs" />
-    <Compile Include="Misc\UQSummary\UQJudgeTest.cs" />
     <Compile Include="Peer\Manager\NetworkInquiryManagerTest.cs" />
     <Compile Include="Peer\Manager\PeerManagerRaiseDataEventTest.cs" />
     <Compile Include="Peer\Manager\PeerManagerTest.cs" />
     <Compile Include="Peer\Manager\PeerReadLineTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleTest.cs" />
+    <Compile Include="Common\Net\UPnP\UPnPUtilTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -100,6 +99,9 @@
     <Content Include="TestData\Peer\Manager\PeerManagerRaiseDataEventTest_Smoke.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common\Net\UPnP\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
