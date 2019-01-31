@@ -76,6 +76,10 @@
       <Project>{5CE56D0D-E1E7-45C8-8323-865A431AA515}</Project>
       <Name>Client</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ClientHelper\ClientHelper.csproj">
+      <Project>{C0EB03C6-66F7-46C2-B6C7-19889849F863}</Project>
+      <Name>ClientHelper</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

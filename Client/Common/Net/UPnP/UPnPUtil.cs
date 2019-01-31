@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Client.Misc.UPnP
+namespace Client.Common.Net.UPnP
 {
     public class UPnPUtil
     {

@@ -263,6 +263,10 @@
     <Resource Include="Resources\Pictogram\map.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClientHelper\ClientHelper.csproj">
+      <Project>{c0eb03c6-66f7-46c2-b6c7-19889849f863}</Project>
+      <Name>ClientHelper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Client\Client.csproj">
       <Project>{5ce56d0d-e1e7-45c8-8323-865a431aa515}</Project>
       <Name>Client</Name>

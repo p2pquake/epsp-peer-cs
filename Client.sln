@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapTest", "MapTest\MapTest.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientHelper", "ClientHelper\ClientHelper.csproj", "{C0EB03C6-66F7-46C2-B6C7-19889849F863}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientHelperTest", "ClientHelperTest\ClientHelperTest.csproj", "{15257C4F-74A9-4F65-9ECB-DC25DD05CD2D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +106,14 @@ Global
 		{C0EB03C6-66F7-46C2-B6C7-19889849F863}.DebugWPF|Any CPU.Build.0 = Debug|Any CPU
 		{C0EB03C6-66F7-46C2-B6C7-19889849F863}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0EB03C6-66F7-46C2-B6C7-19889849F863}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15257C4F-74A9-4F65-9ECB-DC25DD05CD2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15257C4F-74A9-4F65-9ECB-DC25DD05CD2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15257C4F-74A9-4F65-9ECB-DC25DD05CD2D}.DebugWithRawEvent|Any CPU.ActiveCfg = Debug|Any CPU
+		{15257C4F-74A9-4F65-9ECB-DC25DD05CD2D}.DebugWithRawEvent|Any CPU.Build.0 = Debug|Any CPU
+		{15257C4F-74A9-4F65-9ECB-DC25DD05CD2D}.DebugWPF|Any CPU.ActiveCfg = Debug|Any CPU
+		{15257C4F-74A9-4F65-9ECB-DC25DD05CD2D}.DebugWPF|Any CPU.Build.0 = Debug|Any CPU
+		{15257C4F-74A9-4F65-9ECB-DC25DD05CD2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15257C4F-74A9-4F65-9ECB-DC25DD05CD2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -148,11 +148,6 @@
     <Compile Include="Common\Net\ISocket.cs" />
     <Compile Include="Common\Net\Packet.cs" />
     <Compile Include="Common\Net\SocketAdapter.cs" />
-    <Compile Include="Misc\UPnP\UPnPUtil.cs" />
-    <Compile Include="Misc\UQSummary\IUQJudge.cs" />
-    <Compile Include="Misc\UQSummary\IUQManager.cs" />
-    <Compile Include="Misc\UQSummary\SimpleUQJudge.cs" />
-    <Compile Include="Misc\UQSummary\UQManager.cs" />
     <Compile Include="Peer\Context.cs" />
     <Compile Include="Peer\General\Code.cs" />
     <Compile Include="Peer\General\PeerConst.cs" />
@@ -167,6 +162,7 @@
     <Compile Include="Peer\State\GeneralState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Client\State\AbstractState.cs" />
+    <Compile Include="Common\Net\UPnP\UPnPUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -198,6 +194,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Common\Net\UPnP\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

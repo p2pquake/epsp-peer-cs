@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Client.Misc.UQSummary
+namespace ClientHelper.Misc.UQSummary
 {
     /// <summary>
     /// 地震感知情報の管理を行う<see cref="IUQManager"/>実装です。

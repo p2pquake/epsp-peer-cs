@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Client.Misc.UQSummary;
+using ClientHelper.Misc.UQSummary;
 using NUnit.Framework;
 
-namespace ClientTest.Misc.UQSummary
+namespace ClientHelperTest.Misc.UQSummary
 {
     [TestFixture]
     class UQJudgeTest

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Client.Misc.UPnP;
-using Client.Misc.UQSummary;
+using Client.Common.Net.UPnP;
 using NUnit.Framework;
 
-namespace ClientTest.Misc.UQSummary
+namespace ClientTest.Common.Net.UPnP
 {
     [TestFixture]
     class UPnPUtilTest
