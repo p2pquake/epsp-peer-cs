@@ -170,6 +170,7 @@
     <Compile Include="PeerMap\Drawer.cs" />
     <Compile Include="Quake\CodeMapper.cs" />
     <Compile Include="Tsunami\TsunamiDrawer.cs" />
+    <Compile Include="Userquake\EPSPUQSummaryEventArgs.cs" />
     <Compile Include="ViewModel\BoolConverter.cs" />
     <Compile Include="ViewModel\EPSPTitleConverter.cs" />
     <Compile Include="ViewModel\HistoryViewModel.cs" />
