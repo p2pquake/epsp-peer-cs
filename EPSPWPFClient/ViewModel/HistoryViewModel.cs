@@ -1,12 +1,14 @@
-﻿using Client.Peer;
+using Client.Peer;
 using EPSPWPFClient.Controls;
 using EPSPWPFClient.EEWTest;
 using EPSPWPFClient.Mediator;
 using EPSPWPFClient.Quake;
 using EPSPWPFClient.Tsunami;
+using EPSPWPFClient.Userquake;
 using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Text;
@@ -14,10 +16,19 @@ using System.Threading.Tasks;
 
 namespace EPSPWPFClient.ViewModel
 {
-    public class EventViewModel
+    public class EventViewModel : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private EPSPDataEventArgs _dataEventArgs;
+        public EPSPDataEventArgs DataEventArgs
+        {
+            get => _dataEventArgs;
+            // HACK: とりあえず動くが雑
+            set { _dataEventArgs = value; DataEventArgs.PropertyChanged += (s, e) => { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Title")); }; }
+        }
+
         public string Title { get { return EPSPTitleConverter.GetTitle(DataEventArgs); } }
-        public EPSPDataEventArgs DataEventArgs { get; set; }
     }
 
     public class HistoryViewModel
@@ -68,6 +79,11 @@ namespace EPSPWPFClient.ViewModel
                     eewDrawer.EventArgs = (EPSPEEWTestEventArgs)eventArgs;
                     eewDrawer.Draw(HistoryControl.canvas);
                 }
+                if (eventArgs is EPSPUQSummaryEventArgs)
+                {
+                    // TODO: FIXME: 情報更新時に再描画されない
+                    UQDrawer.Draw(HistoryControl.canvas, ((EPSPUQSummaryEventArgs)eventArgs).Summary);
+                }
             });
 
             RedrawCommand.Subscribe((e) =>
@@ -89,6 +105,10 @@ namespace EPSPWPFClient.ViewModel
                 if (eventArgs is EPSPEEWTestEventArgs)
                 {
                     eewDrawer.Redraw(HistoryControl.canvas);
+                }
+                if (eventArgs is EPSPUQSummaryEventArgs)
+                {
+                    UQDrawer.Draw(HistoryControl.canvas, ((EPSPUQSummaryEventArgs)eventArgs).Summary);
                 }
             });
         }

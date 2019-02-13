@@ -1,5 +1,6 @@
 ﻿using Client.Peer;
 using EPSPWPFClient.Quake;
+using EPSPWPFClient.Userquake;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +49,17 @@ namespace EPSPWPFClient.ViewModel
                     dataEventArgs.ReceivedAt.ToString("dd日HH時mm分") +
                     "受信 " +
                     "緊急地震速報 配信試験（β）";
+            }
+            if (dataEventArgs is EPSPUQSummaryEventArgs)
+            {
+                var uqSummary = (EPSPUQSummaryEventArgs)dataEventArgs;
+                return
+                    uqSummary.StartedAt.ToString("dd日HH時mm分ss秒") +
+                    "～" +
+                    uqSummary.UpdatedAt.ToString("dd日HH時mm分ss秒") +
+                    "受信 " +
+                    "地震感知情報 計" +
+                    uqSummary.Summary.Select(e => e.Value).Sum() + "件";
             }
 
             return "";

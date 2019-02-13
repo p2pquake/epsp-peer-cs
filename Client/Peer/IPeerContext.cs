@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace Client.Peer
     /// <summary>
     /// EPSPの基底イベントデータクラスです。
     /// </summary>
-    public abstract class EPSPDataEventArgs : EventArgs
+    public abstract class EPSPDataEventArgs : EventArgs, INotifyPropertyChanged
     {
         /// <summary>受信したプロトコル日時を表します。</summary>
         public DateTime ReceivedAt { get; set; }
@@ -23,6 +24,13 @@ namespace Client.Peer
         public bool IsInvalidSignature { get; set; } = true;
         /// <summary>署名が期限切れであるかを表します。</summary>
         public bool IsExpired { get; set; } = true;
+
+        // TODO: FIXME: 本来ここに置くべきではない気がする。役割がおかしい。
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void CallPropertyChanged(string propertyName = "ReceivedAt")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 
     /// <summary>
