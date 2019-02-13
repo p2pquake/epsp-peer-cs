@@ -44,7 +44,7 @@ namespace EPSPWPFClient.Mediator
             if (!e.IsValid) { return; }
             if (e.InformationType == QuakeInformationType.Unknown) { return; }
 
-            EventList.Add(e);
+            InsertEventList(e);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace EPSPWPFClient.Mediator
         {
             if (!e.IsValid) { return; }
 
-            EventList.Add(e);
+            InsertEventList(e);
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace EPSPWPFClient.Mediator
             if (!e.IsValid) { return; }
             if (e.IsTest) { return; }
 
-            EventList.Add(e);
+            InsertEventList(e);
         }
 
         /// <summary>
@@ -94,7 +94,16 @@ namespace EPSPWPFClient.Mediator
                 StartedAt = protocolTime(),
                 UpdatedAt = protocolTime()
             };
-            EventList.Add(headUQSummary);
+            InsertEventList(headUQSummary);
+        }
+
+        private void InsertEventList(EPSPDataEventArgs e)
+        {
+            EventList.Insert(0, e);
+            if (EventList.Count > 20)
+            {
+                EventList.RemoveAt(EventList.Count - 1);
+            }
         }
     }
 }
