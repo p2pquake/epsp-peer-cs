@@ -4,6 +4,7 @@ using EPSPWPFClient.EEWTest;
 using EPSPWPFClient.Mediator;
 using EPSPWPFClient.Quake;
 using EPSPWPFClient.Tsunami;
+using EPSPWPFClient.Userquake;
 using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
@@ -78,6 +79,11 @@ namespace EPSPWPFClient.ViewModel
                     eewDrawer.EventArgs = (EPSPEEWTestEventArgs)eventArgs;
                     eewDrawer.Draw(HistoryControl.canvas);
                 }
+                if (eventArgs is EPSPUQSummaryEventArgs)
+                {
+                    // TODO: FIXME: 情報更新時に再描画されない
+                    UQDrawer.Draw(HistoryControl.canvas, ((EPSPUQSummaryEventArgs)eventArgs).Summary);
+                }
             });
 
             RedrawCommand.Subscribe((e) =>
@@ -99,6 +105,10 @@ namespace EPSPWPFClient.ViewModel
                 if (eventArgs is EPSPEEWTestEventArgs)
                 {
                     eewDrawer.Redraw(HistoryControl.canvas);
+                }
+                if (eventArgs is EPSPUQSummaryEventArgs)
+                {
+                    UQDrawer.Draw(HistoryControl.canvas, ((EPSPUQSummaryEventArgs)eventArgs).Summary);
                 }
             });
         }
