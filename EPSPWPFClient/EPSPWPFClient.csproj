@@ -169,6 +169,7 @@
     <Compile Include="Mediator\EPSPHandlerFacade.cs" />
     <Compile Include="Mediator\EPSPMediator.cs" />
     <Compile Include="Mediator\IEPSPHandleable.cs" />
+    <Compile Include="Mediator\ShowHandler.cs" />
     <Compile Include="Mediator\NotifyHandler.cs" />
     <Compile Include="PeerMap\Drawer.cs" />
     <Compile Include="Quake\CodeMapper.cs" />
