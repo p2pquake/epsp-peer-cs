@@ -19,13 +19,13 @@ namespace EPSPWPFClient.Mediator
         internal StatusViewModel StatusViewModel { get; private set; }
         internal HistoryViewModel HistoryViewModel { get; private set; }
         internal PeerMapViewModel PeerMapViewModel { get; private set; }
-        internal EPSPHandler EPSPHandler { get; private set; }
+        internal EPSPHandlerFacade EPSPHandler { get; private set; }
 
         public EPSPMediator()
         {
             // Model
             mediatorContext = new MediatorContext();
-            EPSPHandler = new EPSPHandler(
+            EPSPHandler = new EPSPHandlerFacade(
                 () => mediatorContext.CalcNowProtocolTime(),
                 () => mediatorContext.AreaPeerDictionary
             );

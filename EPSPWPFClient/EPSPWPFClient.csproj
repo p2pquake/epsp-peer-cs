@@ -165,8 +165,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MapResource.resx</DependentUpon>
     </Compile>
-    <Compile Include="Mediator\EPSPHandler.cs" />
+    <Compile Include="Mediator\DataHandler.cs" />
+    <Compile Include="Mediator\EPSPHandlerFacade.cs" />
     <Compile Include="Mediator\EPSPMediator.cs" />
+    <Compile Include="Mediator\IEPSPHandleable.cs" />
+    <Compile Include="Mediator\NotifyHandler.cs" />
     <Compile Include="PeerMap\Drawer.cs" />
     <Compile Include="Quake\CodeMapper.cs" />
     <Compile Include="Tsunami\TsunamiDrawer.cs" />
