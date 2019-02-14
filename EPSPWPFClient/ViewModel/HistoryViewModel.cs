@@ -38,7 +38,7 @@ namespace EPSPWPFClient.ViewModel
         public ReadOnlyReactiveCollection<EventViewModel> EventList { get; private set; }
         public ReactiveProperty<int> EventIndex { get; } = new ReactiveProperty<int>();
 
-        private EPSPHandler epspHandler;
+        private EPSPHandlerFacade epspHandler;
 
         // FIXME: MVVMの法則が乱れている感あるので後で直したい。
         public HistoryControl HistoryControl { private get; set; }
@@ -51,7 +51,7 @@ namespace EPSPWPFClient.ViewModel
 
         }
 
-        public HistoryViewModel(EPSPHandler epspHandler)
+        public HistoryViewModel(EPSPHandlerFacade epspHandler)
         {
             this.epspHandler = epspHandler;
 

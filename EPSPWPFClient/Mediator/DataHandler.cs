@@ -1,21 +1,17 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
-using ClientHelper.Misc.UQSummary;
 using Client.Peer;
-using log4net;
+using ClientHelper.Misc.UQSummary;
 using EPSPWPFClient.Userquake;
 
 namespace EPSPWPFClient.Mediator
 {
-    /// <summary>
-    /// EPSPの情報を処理するサンプルクラスです。
-    /// </summary>
-    public class EPSPHandler
+    class DataHandler : IEPSPHandleable
     {
         public ObservableCollection<EPSPDataEventArgs> EventList { get; } = new ObservableCollection<EPSPDataEventArgs>();
 
@@ -24,7 +20,7 @@ namespace EPSPWPFClient.Mediator
         private EPSPUQSummaryEventArgs headUQSummary;
         private Func<DateTime> protocolTime;
 
-        public EPSPHandler(Func<DateTime> protocolTime, Func<IDictionary<string, int>> areaPeerDictionary)
+        public DataHandler(Func<DateTime> protocolTime, Func<IDictionary<string, int>> areaPeerDictionary)
         {
             this.protocolTime = protocolTime;
             uqManager.ProtocolTime = protocolTime;
@@ -36,10 +32,12 @@ namespace EPSPWPFClient.Mediator
             BindingOperations.EnableCollectionSynchronization(EventList, new object());
         }
 
-        /// <summary>
-        /// 地震情報のイベント処理
-        /// </summary>
-        public void MediatorContext_OnEarthquake(object sender, EPSPQuakeEventArgs e)
+        public void OnAreapeers(EPSPAreapeersEventArgs e)
+        {
+            // noop
+        }
+
+        public void OnEarthquake(EPSPQuakeEventArgs e)
         {
             if (!e.IsValid) { return; }
             if (e.InformationType == QuakeInformationType.Unknown) { return; }
@@ -47,20 +45,7 @@ namespace EPSPWPFClient.Mediator
             InsertEventList(e);
         }
 
-        /// <summary>
-        /// 津波予報のイベント処理
-        /// </summary>
-        public void MediatorContext_OnTsunami(object sender, EPSPTsunamiEventArgs e)
-        {
-            if (!e.IsValid) { return; }
-
-            InsertEventList(e);
-        }
-
-        /// <summary>
-        /// 緊急地震速報 配信試験のイベント処理
-        /// </summary>
-        internal void MediatorContext_OnEEWTest(object sender, EPSPEEWTestEventArgs e)
+        public void OnEEWTest(EPSPEEWTestEventArgs e)
         {
             if (!e.IsValid) { return; }
             if (e.IsTest) { return; }
@@ -68,10 +53,14 @@ namespace EPSPWPFClient.Mediator
             InsertEventList(e);
         }
 
-        /// <summary>
-        /// 地震感知情報のイベント処理
-        /// </summary>
-        internal void MediatorContext_OnUserquake(object sender, EPSPUserquakeEventArgs e)
+        public void OnTsunami(EPSPTsunamiEventArgs e)
+        {
+            if (!e.IsValid) { return; }
+
+            InsertEventList(e);
+        }
+
+        public void OnUserquake(EPSPUserquakeEventArgs e)
         {
             if (!e.IsValid) { return; }
 
