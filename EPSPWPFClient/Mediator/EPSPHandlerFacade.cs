@@ -23,9 +23,12 @@ namespace EPSPWPFClient.Mediator
         public EPSPHandlerFacade(Func<DateTime> protocolTime, Func<IDictionary<string, int>> areaPeerDictionary)
         {
             handleables = new List<IEPSPHandleable>();
+
             var dataHandler = new DataHandler(protocolTime, areaPeerDictionary);
             EventList = dataHandler.EventList;
             handleables.Add(dataHandler);
+
+            handleables.Add(new NotifyHandler());
         }
 
         /// <summary>
