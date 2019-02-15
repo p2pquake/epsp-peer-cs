@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Client.Peer;
+using EPSPWPFClient.Userquake;
 using EPSPWPFClient.ViewModel;
 
 namespace EPSPWPFClient.Mediator
@@ -43,7 +44,17 @@ namespace EPSPWPFClient.Mediator
 
         public void OnUserquake(EPSPUserquakeEventArgs e)
         {
+            // noop
+        }
+
+        public void OnUserquakeReached(EPSPUQSummaryEventArgs e)
+        {
             Notify(e);
+        }
+
+        public void OnUserquakeUpdated(EPSPUQSummaryEventArgs e)
+        {
+            // noop
         }
     }
 }
