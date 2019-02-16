@@ -13,6 +13,9 @@ namespace EPSPWPFClient.Mediator
 {
     class DataHandler : IEPSPHandleable
     {
+        public event EventHandler<EPSPUQSummaryEventArgs> UserquakeOccured;
+        public event EventHandler<EPSPUQSummaryEventArgs> UserquakeUpdated;
+
         public ObservableCollection<EPSPDataEventArgs> EventList { get; } = new ObservableCollection<EPSPDataEventArgs>();
 
         private IUQManager uqManager = new UQManager();
@@ -71,8 +74,7 @@ namespace EPSPWPFClient.Mediator
         {
             headUQSummary.UpdatedAt = protocolTime();
             headUQSummary.Summary = uqManager.GetCurrentSummary();
-
-            // FIXME: Notify EventList subscriber
+            UserquakeUpdated(this, headUQSummary);
         }
 
         private void UqManager_Occurred(object sender, EventArgs e)
@@ -84,6 +86,7 @@ namespace EPSPWPFClient.Mediator
                 UpdatedAt = protocolTime()
             };
             InsertEventList(headUQSummary);
+            UserquakeOccured(this, headUQSummary);
         }
 
         private void InsertEventList(EPSPDataEventArgs e)
@@ -93,6 +96,16 @@ namespace EPSPWPFClient.Mediator
             {
                 EventList.RemoveAt(EventList.Count - 1);
             }
+        }
+
+        public void OnUserquakeReached(EPSPUQSummaryEventArgs e)
+        {
+            // noop
+        }
+
+        public void OnUserquakeUpdated(EPSPUQSummaryEventArgs e)
+        {
+            // noop
         }
     }
 }

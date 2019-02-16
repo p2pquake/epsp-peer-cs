@@ -25,10 +25,29 @@ namespace EPSPWPFClient.Mediator
             handleables = new List<IEPSPHandleable>();
 
             var dataHandler = new DataHandler(protocolTime, areaPeerDictionary);
+            dataHandler.UserquakeOccured += DataHandler_UserquakeOccured;
+            dataHandler.UserquakeUpdated += DataHandler_UserquakeUpdated;
             EventList = dataHandler.EventList;
-            handleables.Add(dataHandler);
 
+            handleables.Add(dataHandler);
             handleables.Add(new NotifyHandler());
+            handleables.Add(new ShowHandler());
+        }
+
+        /// <summary>
+        /// 地震感知情報 表示しきい値を満たした場合
+        /// </summary>
+        private void DataHandler_UserquakeOccured(object sender, EPSPUQSummaryEventArgs e)
+        {
+            handleables.ForEach(h => h.OnUserquakeReached(e));
+        }
+
+        /// <summary>
+        /// 地震感知情報 表示しきい値を満たし更新された場合
+        /// </summary>
+        private void DataHandler_UserquakeUpdated(object sender, EPSPUQSummaryEventArgs e)
+        {
+            handleables.ForEach(h => h.OnUserquakeUpdated(e));
         }
 
         /// <summary>

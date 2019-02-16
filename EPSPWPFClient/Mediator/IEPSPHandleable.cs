@@ -1,4 +1,5 @@
 using Client.Peer;
+using EPSPWPFClient.Userquake;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,7 @@ namespace EPSPWPFClient.Mediator
         void OnUserquake(EPSPUserquakeEventArgs e);
         void OnEEWTest(EPSPEEWTestEventArgs e);
         void OnAreapeers(EPSPAreapeersEventArgs e);
+        void OnUserquakeReached(EPSPUQSummaryEventArgs e);
+        void OnUserquakeUpdated(EPSPUQSummaryEventArgs e);
     }
 }
