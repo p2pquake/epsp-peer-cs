@@ -18,8 +18,12 @@ namespace EPSPWPFClient.Mediator
                 var mainWindow = (MainWindow)App.Current.MainWindow;
                 if (mainWindow.Visibility != System.Windows.Visibility.Visible)
                 {
-                    // FIXME: 履歴の最新情報を表示してほしい。
                     mainWindow.Show();
+                    // XXX: あまり良い方法ではない
+                    mainWindow.menuListBox.SelectedIndex = -1;
+                    mainWindow.menuListBox.SelectedIndex = 0;
+                    mainWindow.HistoryControl.comboBox.SelectedIndex = -1;
+                    mainWindow.HistoryControl.comboBox.SelectedIndex = 0;
                 }
                 if (mainWindow.WindowState == System.Windows.WindowState.Minimized)
                 {
