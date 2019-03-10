@@ -83,6 +83,9 @@
         <tb:TaskbarIcon
             x:Name="epspNotifyIcon"
             DoubleClickCommand="{Binding ShowCommand}"
+            TrayMiddleMouseUp="EpspNotifyIcon_TrayMiddleMouseUp"
+            TrayRightMouseUp="EpspNotifyIcon_TrayRightMouseUp"
+            TrayLeftMouseUp="EpspNotifyIcon_TrayLeftMouseUp"
                         >
             <tb:TaskbarIcon.IconSource>Resources/Icon/p2pquake.ico</tb:TaskbarIcon.IconSource>
             <tb:TaskbarIcon.ToolTipText>

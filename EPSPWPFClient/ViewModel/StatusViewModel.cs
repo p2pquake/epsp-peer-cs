@@ -18,6 +18,9 @@ namespace EPSPWPFClient.ViewModel
         public ReactiveCommand ShowCommand { get; private set; } = new ReactiveCommand();
         public AsyncReactiveCommand ExitCommand { get; private set; } = new AsyncReactiveCommand();
 
+        public AsyncReactiveCommand RightDoubleClickCommand { get; private set; } = new AsyncReactiveCommand();
+        public AsyncReactiveCommand MiddleDoubleClickCommand { get; private set; } = new AsyncReactiveCommand();
+
         public ReactiveProperty<bool> CanConnect { get; } = new ReactiveProperty<bool>();
         public ReactiveProperty<bool> CanDisconnect { get; } = new ReactiveProperty<bool>();
 

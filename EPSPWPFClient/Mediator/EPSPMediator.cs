@@ -52,6 +52,14 @@ namespace EPSPWPFClient.Mediator
             {
                 await Task.Run(() => mediatorContext.Disconnect());
             });
+            StatusViewModel.MiddleDoubleClickCommand.Subscribe(async () =>
+            {
+                await Task.Run(() => mediatorContext.SendUserquake());
+            });
+            StatusViewModel.RightDoubleClickCommand.Subscribe(async () =>
+            {
+                await Task.Run(() => mediatorContext.SendUserquake());
+            });
 
             HistoryViewModel = new HistoryViewModel(EPSPHandler);
             PeerMapViewModel = new PeerMapViewModel
