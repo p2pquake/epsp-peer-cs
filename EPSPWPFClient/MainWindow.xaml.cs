@@ -88,5 +88,45 @@ namespace EPSPWPFClient
             Hide();
             e.Cancel = true;
         }
+
+        private DateTime middleTime = DateTime.MinValue;
+        private DateTime rightTime = DateTime.MinValue;
+        private const long CLICK_INTERVAL_MILLISECONDS = 500;
+
+        private void EpspNotifyIcon_TrayMiddleMouseUp(object sender, RoutedEventArgs e)
+        {
+            var time = DateTime.Now;
+            if ((time - middleTime).TotalMilliseconds < CLICK_INTERVAL_MILLISECONDS)
+            {
+                if (DataContext is StatusViewModel)
+                {
+                    ((StatusViewModel)DataContext).MiddleDoubleClickCommand.Execute();
+                }
+            }
+
+            middleTime = time;
+            rightTime = DateTime.MinValue;
+        }
+
+        private void EpspNotifyIcon_TrayRightMouseUp(object sender, RoutedEventArgs e)
+        {
+            var time = DateTime.Now;
+            if ((time - rightTime).TotalMilliseconds < CLICK_INTERVAL_MILLISECONDS)
+            {
+                if (DataContext is StatusViewModel)
+                {
+                    ((StatusViewModel)DataContext).RightDoubleClickCommand.Execute();
+                }
+            }
+
+            middleTime = DateTime.MinValue;
+            rightTime = time;
+        }
+
+        private void EpspNotifyIcon_TrayLeftMouseUp(object sender, RoutedEventArgs e)
+        {
+            middleTime = DateTime.MinValue;
+            rightTime = DateTime.MinValue;
+        }
     }
 }
