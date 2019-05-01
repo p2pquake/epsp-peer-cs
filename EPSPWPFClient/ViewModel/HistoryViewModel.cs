@@ -38,6 +38,8 @@ namespace EPSPWPFClient.ViewModel
         public ReadOnlyReactiveCollection<EventViewModel> EventList { get; private set; }
         public ReactiveProperty<int> EventIndex { get; } = new ReactiveProperty<int>();
 
+        public Func<IDictionary<string, int>> GetAreaPeerDictionary { private get; set; }
+
         private EPSPHandlerFacade epspHandler;
 
         // FIXME: MVVMの法則が乱れている感あるので後で直したい。
@@ -46,14 +48,15 @@ namespace EPSPWPFClient.ViewModel
         private TsunamiDrawer tsunamiDrawer = new TsunamiDrawer();
         private EEWDrawer eewDrawer = new EEWDrawer();
 
-        public HistoryViewModel() : this(null)
+        public HistoryViewModel() : this(null, null)
         {
 
         }
 
-        public HistoryViewModel(EPSPHandlerFacade epspHandler)
+        public HistoryViewModel(EPSPHandlerFacade epspHandler, Func<IDictionary<string, int>> getAreaPeerDictionary)
         {
             this.epspHandler = epspHandler;
+            this.GetAreaPeerDictionary = getAreaPeerDictionary;
 
             EventIndex.Subscribe((i) =>
             {
@@ -82,7 +85,7 @@ namespace EPSPWPFClient.ViewModel
                 if (eventArgs is EPSPUQSummaryEventArgs)
                 {
                     // TODO: FIXME: 情報更新時に再描画されない
-                    UQDrawer.Draw(HistoryControl.canvas, ((EPSPUQSummaryEventArgs)eventArgs).Summary);
+                    UQDrawer.Draw(HistoryControl.canvas, ((EPSPUQSummaryEventArgs)eventArgs).Summary, GetAreaPeerDictionary());
                 }
             });
 
@@ -108,7 +111,7 @@ namespace EPSPWPFClient.ViewModel
                 }
                 if (eventArgs is EPSPUQSummaryEventArgs)
                 {
-                    UQDrawer.Draw(HistoryControl.canvas, ((EPSPUQSummaryEventArgs)eventArgs).Summary);
+                    UQDrawer.Draw(HistoryControl.canvas, ((EPSPUQSummaryEventArgs)eventArgs).Summary, GetAreaPeerDictionary());
                 }
             });
         }

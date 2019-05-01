@@ -15,7 +15,7 @@ namespace EPSPWPFClient.Userquake
     {
         static Dictionary<string, double[]> areaPoints;
 
-        internal static void Draw(Canvas canvas, IDictionary<string, int> dictionary)
+        internal static void Draw(Canvas canvas, IDictionary<string, int> dictionary, IDictionary<string, int> peerDictionary)
         {
             canvas.Children.Clear();
 
@@ -58,8 +58,10 @@ namespace EPSPWPFClient.Userquake
 
                 var borderColor = Brushes.Black;
 
-                var radius = CalcRadiusRate(kv.Key, value, null, dictionary) * 64 + 5;
-                var bgColor = new SolidColorBrush(Color.FromArgb((byte)(128 + radius * 2), 230, 204, 255));
+                var rate = CalcRadiusRate(kv.Key, value, peerDictionary, dictionary);
+                var radius = rate * 48 + 5;
+
+                var bgColor = new SolidColorBrush(Color.FromArgb((byte)(32 + rate * 128), 255, (byte)(145 + (110 * (1-rate))), (byte)(55 + (200 * (1-rate)))));
 
                 var ellipse = new ContentControl()
                 {
@@ -106,10 +108,11 @@ namespace EPSPWPFClient.Userquake
 
         private static double CalcRadiusRate(string areaCode, int peer, IDictionary<string, int> peerMap, IDictionary<string, int> userquakeMap)
         {
-            return Math.Min(1.0, Math.Min(
-                1.0 * peer / 10,
-                1.0 //1.0 * peer / (peerMap.ContainsKey(areaCode) ? peerMap[areaCode] : 1) * 10
-                ));
+            return Math.Min(1.0,
+                (
+                    1.0 * peer / 10 +
+                    Math.Min(1.0, 1.0 * peer / (peerMap.ContainsKey(areaCode) ? peerMap[areaCode] : 1) * 10)
+                ) / 2);
         }
     }
 }
