@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace EPSPWPFClient.PeerMap
 {
@@ -38,6 +39,8 @@ namespace EPSPWPFClient.PeerMap
             var offsetX = (canvas.ActualWidth - img.ActualWidth) / 2;
             var offsetY = (canvas.ActualHeight - img.ActualHeight) / 2;
 
+            var totalPeer = dictionary?.Values?.Sum() ?? 0;
+
             foreach (var kv in areaPoints)
             {
                 var point = kv.Value;
@@ -51,30 +54,53 @@ namespace EPSPWPFClient.PeerMap
                 var xy = calculator.calculate(point[0], point[1]);
 
                 var borderColor = Brushes.Gray;
-                var bgColor = new SolidColorBrush(Color.FromArgb(192, 128, 128, 128));
+                var bgColor = new SolidColorBrush(Color.FromArgb(128, 128, 128, 128));
                 if (value > 0)
                 {
                     borderColor = Brushes.Black;
-                    bgColor = new SolidColorBrush(Color.FromArgb(192, 224, 224, 255));
+                    bgColor = new SolidColorBrush(Color.FromArgb(128, 192, 192, 255));
                 }
 
-                var control = new ContentControl()
+                var radius = Math.Min(Math.Max(0, (Math.Log10(1.0 * value / totalPeer * 20) + 1) / 2 * 128), 64);
+                var ellipse = new ContentControl()
                 {
-                    Content = new Border()
+                    Content = new Ellipse()
                     {
-                        BorderBrush = borderColor,
-                        BorderThickness = new System.Windows.Thickness(1),
-                        Child = new TextBlock()
-                        {
-                            Text = value.ToString(),
-                            FontSize = 12,
-                            Foreground = Brushes.Black,
-                            Background = bgColor,
-                        },
-                    }
+                        Fill = bgColor,
+                        Width = radius,
+                        Height = radius,
+                    },
                 };
-                Canvas.SetLeft(control, xy[0] + offsetX - 8);
-                Canvas.SetTop(control, xy[1] + offsetY - 8);
+                var textBlock = new TextBlock()
+                {
+                    Text = value.ToString(),
+                    FontSize = 12,
+                    Foreground = Brushes.Black
+                };
+                Canvas.SetLeft(ellipse, xy[0] + offsetX - radius/2);
+                Canvas.SetTop(ellipse, xy[1] + offsetY - radius/2);
+                Canvas.SetZIndex(ellipse, 3);
+                canvas.Children.Add(ellipse);
+                Canvas.SetLeft(textBlock, xy[0] + offsetX - 8);
+                Canvas.SetTop(textBlock, xy[1] + offsetY - 8);
+                Canvas.SetZIndex(textBlock, 4);
+                canvas.Children.Add(textBlock);
+            }
+
+            var totalLabel = "参加総数: " + totalPeer + "ピア";
+            {
+                TextBlock text = new TextBlock() { Text = totalLabel, FontSize = 14, Foreground = Brushes.Black, Background = new SolidColorBrush(Color.FromArgb(128, 0, 0, 0)) };
+                ContentControl control = new ContentControl() { Content = text };
+                Canvas.SetLeft(control, offsetX + 0);
+                Canvas.SetTop(control, offsetY + 1);
+                canvas.Children.Add(control);
+            }
+
+            {
+                TextBlock text = new TextBlock() { Text = totalLabel, FontSize = 14, Foreground = Brushes.White };
+                ContentControl control = new ContentControl() { Content = text };
+                Canvas.SetLeft(control, offsetX - 1);
+                Canvas.SetTop(control, offsetY);
                 canvas.Children.Add(control);
             }
         }
