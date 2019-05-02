@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace EPSPWPFClient.Userquake
 {
@@ -14,7 +15,7 @@ namespace EPSPWPFClient.Userquake
     {
         static Dictionary<string, double[]> areaPoints;
 
-        internal static void Draw(Canvas canvas, IDictionary<string, int> dictionary)
+        internal static void Draw(Canvas canvas, IDictionary<string, int> dictionary, IDictionary<string, int> peerDictionary)
         {
             canvas.Children.Clear();
 
@@ -56,26 +57,35 @@ namespace EPSPWPFClient.Userquake
                 var xy = calculator.calculate(point[0], point[1]);
 
                 var borderColor = Brushes.Black;
-                var bgColor = new SolidColorBrush(Color.FromArgb(255, 230, 204, 255));
 
-                var control = new ContentControl()
+                var rate = CalcRadiusRate(kv.Key, value, peerDictionary, dictionary);
+                var radius = rate * 48 + 5;
+
+                var bgColor = new SolidColorBrush(Color.FromArgb((byte)(32 + rate * 128), 255, (byte)(145 + (110 * (1-rate))), (byte)(55 + (200 * (1-rate)))));
+
+                var ellipse = new ContentControl()
                 {
-                    Content = new Border()
+                    Content = new Ellipse()
                     {
-                        BorderBrush = borderColor,
-                        BorderThickness = new System.Windows.Thickness(1),
-                        Child = new TextBlock()
-                        {
-                            Text = value.ToString(),
-                            FontSize = 12,
-                            Foreground = Brushes.Black,
-                            Background = bgColor,
-                        },
-                    }
+                        Fill = bgColor,
+                        Width = radius,
+                        Height = radius,
+                    },
                 };
-                Canvas.SetLeft(control, xy[0] + offsetX - 8);
-                Canvas.SetTop(control, xy[1] + offsetY - 8);
-                canvas.Children.Add(control);
+                var textBlock = new TextBlock()
+                {
+                    Text = value.ToString(),
+                    FontSize = 12,
+                    Foreground = Brushes.Black
+                };
+                Canvas.SetLeft(ellipse, xy[0] + offsetX - radius / 2);
+                Canvas.SetTop(ellipse, xy[1] + offsetY - radius / 2);
+                Canvas.SetZIndex(ellipse, 3);
+                canvas.Children.Add(ellipse);
+                Canvas.SetLeft(textBlock, xy[0] + offsetX - 8);
+                Canvas.SetTop(textBlock, xy[1] + offsetY - 8);
+                Canvas.SetZIndex(textBlock, 4);
+                canvas.Children.Add(textBlock);
             }
         }
 
@@ -94,6 +104,15 @@ namespace EPSPWPFClient.Userquake
                 var elements = line.Split(',');
                 areaPoints.Add(elements[0], new double[] { double.Parse(elements[4]), double.Parse(elements[5]) });
             }
+        }
+
+        private static double CalcRadiusRate(string areaCode, int peer, IDictionary<string, int> peerMap, IDictionary<string, int> userquakeMap)
+        {
+            return Math.Min(1.0,
+                (
+                    1.0 * peer / 10 +
+                    Math.Min(1.0, 1.0 * peer / (peerMap.ContainsKey(areaCode) ? peerMap[areaCode] : 1) * 10)
+                ) / 2);
         }
     }
 }

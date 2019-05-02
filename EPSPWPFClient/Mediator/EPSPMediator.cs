@@ -61,7 +61,7 @@ namespace EPSPWPFClient.Mediator
                 await Task.Run(() => mediatorContext.SendUserquake());
             });
 
-            HistoryViewModel = new HistoryViewModel(EPSPHandler);
+            HistoryViewModel = new HistoryViewModel(EPSPHandler, () => mediatorContext.AreaPeerDictionary);
             PeerMapViewModel = new PeerMapViewModel
             {
                 AreaPeerDictionary = () => { return mediatorContext.AreaPeerDictionary; }
