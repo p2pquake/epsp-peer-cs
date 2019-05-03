@@ -32,6 +32,7 @@ namespace EPSPWPFClient.Mediator
             handleables.Add(dataHandler);
             handleables.Add(new NotifyHandler());
             handleables.Add(new ShowHandler());
+            handleables.Add(new RedrawHandler());
         }
 
         /// <summary>
