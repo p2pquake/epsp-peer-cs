@@ -111,7 +111,7 @@ namespace EPSPWPFClient.Userquake
             return Math.Min(1.0,
                 (
                     1.0 * peer / 10 +
-                    Math.Min(1.0, 1.0 * peer / (peerMap.ContainsKey(areaCode) ? peerMap[areaCode] : 1) * 10)
+                    Math.Min(1.0, 1.0 * peer / ((peerMap?.ContainsKey(areaCode) ?? false) ? peerMap[areaCode] : 1) * 10)
                 ) / 2);
         }
     }
