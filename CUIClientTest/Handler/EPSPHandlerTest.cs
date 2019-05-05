@@ -16,12 +16,13 @@ namespace CUIClientTest.Handler
     {
         private EPSPHandler epspHandler;
         private DateTime dateTime;
+        private IDictionary<string, int> areaPeerDictionary;
         private StringWriter stringWriter;
 
         [SetUp]
         public void SetUp()
         {
-            epspHandler = new EPSPHandler(GetDateTime);
+            epspHandler = new EPSPHandler(GetDateTime, GetAreaPeerDictionary);
             stringWriter = new StringWriter();
             Console.SetOut(stringWriter);
         }
@@ -37,25 +38,15 @@ namespace CUIClientTest.Handler
         {
             var messageList = new List<string>();
 
-            var areapeers = new EPSPAreapeersEventArgs();
-            areapeers.IsInvalidSignature = false;
-            areapeers.IsExpired = false;
-            areapeers.AreaPeerDictionary = new Dictionary<string, int>();
-
-            // 無効な署名データ
-            areapeers.IsExpired = true;
-            epspHandler.MediatorContext_OnAreapeers(this, areapeers);
-            Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
-
             // ゼロデータ
-            areapeers.IsExpired = false;
-            epspHandler.MediatorContext_OnAreapeers(this, areapeers);
+            areaPeerDictionary = new Dictionary<string, int>();
+            epspHandler.MediatorContext_OnAreapeers(this, EventArgs.Empty);
             messageList.Add("地域ピア数の情報を受信しました: ピア数 0");
             Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
 
             // 有効データ
-            areapeers.AreaPeerDictionary = new Dictionary<string, int>() { { "100", 5 }, { "105", 3 } };
-            epspHandler.MediatorContext_OnAreapeers(this, areapeers);
+            areaPeerDictionary = new Dictionary<string, int>() { { "100", 5 }, { "105", 3 } };
+            epspHandler.MediatorContext_OnAreapeers(this, EventArgs.Empty);
             messageList.Add("地域ピア数の情報を受信しました: ピア数 8");
             Assert.AreEqual(string.Join(Environment.NewLine, messageList), GetWriterOutput());
         }
@@ -236,6 +227,11 @@ namespace CUIClientTest.Handler
         private string GetWriterOutput()
         {
             return Regex.Replace(stringWriter.ToString().TrimEnd('\r', '\n'), @"^\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}.\d{3} ", "", RegexOptions.Multiline);
+        }
+
+        private IDictionary<string, int> GetAreaPeerDictionary()
+        {
+            return areaPeerDictionary;
         }
     }
 }

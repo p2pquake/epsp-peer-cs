@@ -31,7 +31,7 @@ namespace Client.App
         /// <summary>津波予報を受信すると発生します。</summary>
         event EventHandler<EPSPTsunamiEventArgs> OnTsunami;
         /// <summary>地域ピア数を受信すると発生します。</summary>
-        event EventHandler<EPSPAreapeersEventArgs> OnAreapeers;
+        event EventHandler<EventArgs> OnAreapeers;
         /// <summary>緊急地震速報 配信試験(β)を受信すると発生します。</summary>
         event EventHandler<EPSPEEWTestEventArgs> OnEEWTest;
         /// <summary>地震感知情報を受信すると発生します。</summary>

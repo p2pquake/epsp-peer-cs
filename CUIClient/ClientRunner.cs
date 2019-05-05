@@ -24,7 +24,7 @@ namespace CUIClient
         public void Start(int port = -1)
         {
             mediatorContext = new MediatorContext();
-            var epspHandler = new EPSPHandler(mediatorContext.CalcNowProtocolTime);
+            var epspHandler = new EPSPHandler(mediatorContext.CalcNowProtocolTime, () => mediatorContext.AreaPeerDictionary);
 
             mediatorContext.ConnectionsChanged += MediatorContext_ConnectionsChanged;
             mediatorContext.StateChanged += MediatorContext_StateChanged;

@@ -34,7 +34,7 @@ namespace EPSPWPFClient.Mediator
             mediatorContext.StateChanged += MediatorContext_StateChanged;
             mediatorContext.Completed += MediatorContext_Completed;
 
-            // mediatorContext.OnAreapeers += EPSPHandler.MediatorContext_OnAreapeers;
+            mediatorContext.OnAreapeers += EPSPHandler.MediatorContext_OnAreapeers;
             mediatorContext.OnEarthquake += EPSPHandler.MediatorContext_OnEarthquake;
             mediatorContext.OnTsunami += EPSPHandler.MediatorContext_OnTsunami;
             mediatorContext.OnEEWTest += EPSPHandler.MediatorContext_OnEEWTest;

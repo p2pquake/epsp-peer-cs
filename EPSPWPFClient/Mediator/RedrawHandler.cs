@@ -11,9 +11,9 @@ namespace EPSPWPFClient.Mediator
 {
     class RedrawHandler : IEPSPHandleable
     {
-        public void OnAreapeers(EPSPAreapeersEventArgs e)
+        public void OnAreapeers(EventArgs e)
         {
-            // TODO: ピア分布図を更新
+            RedrawPeerMap();
         }
 
         public void OnEarthquake(EPSPQuakeEventArgs e)
@@ -38,15 +38,24 @@ namespace EPSPWPFClient.Mediator
 
         public void OnUserquakeReached(EPSPUQSummaryEventArgs e)
         {
-            Redraw();
+            RedrawHistory();
         }
 
         public void OnUserquakeUpdated(EPSPUQSummaryEventArgs e)
         {
-            Redraw();
+            RedrawHistory();
         }
 
-        private void Redraw()
+        private void RedrawPeerMap()
+        {
+            // XXX TODO: 依存の仕方がよくない
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                ((PeerMapViewModel)((MainWindow)App.Current.MainWindow).PeerMapControl.DataContext)?.RedrawCommand?.Execute();
+            });
+        }
+
+        private void RedrawHistory()
         {
             // XXX TODO: 依存の仕方がよくない
             App.Current.Dispatcher.Invoke(() =>

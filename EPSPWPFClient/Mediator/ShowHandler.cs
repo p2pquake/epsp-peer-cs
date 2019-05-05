@@ -32,9 +32,9 @@ namespace EPSPWPFClient.Mediator
             }); 
         }
 
-        public void OnAreapeers(EPSPAreapeersEventArgs e)
+        public void OnAreapeers(EventArgs e)
         {
-            Show(e);
+            // noop
         }
 
         public void OnEarthquake(EPSPQuakeEventArgs e)

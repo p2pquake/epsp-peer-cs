@@ -183,12 +183,7 @@ namespace Client.Peer
         /// 津波予報イベント
         /// </summary>
         event EventHandler<EPSPTsunamiEventArgs> OnTsunami;
-
-        /// <summary>
-        /// 地域ピア数イベント
-        /// </summary>
-        event EventHandler<EPSPAreapeersEventArgs> OnAreapeers;
-
+        
         /// <summary>
         /// 緊急地震速報 配信試験(β)イベント
         /// </summary>
