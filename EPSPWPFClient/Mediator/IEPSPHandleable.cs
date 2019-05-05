@@ -14,7 +14,7 @@ namespace EPSPWPFClient.Mediator
         void OnTsunami(EPSPTsunamiEventArgs e);
         void OnUserquake(EPSPUserquakeEventArgs e);
         void OnEEWTest(EPSPEEWTestEventArgs e);
-        void OnAreapeers(EPSPAreapeersEventArgs e);
+        void OnAreapeers(EventArgs e);
         void OnUserquakeReached(EPSPUQSummaryEventArgs e);
         void OnUserquakeUpdated(EPSPUQSummaryEventArgs e);
     }

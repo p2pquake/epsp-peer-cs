@@ -127,10 +127,11 @@ namespace CUIClient.Handler
         /// <summary>
         /// 地域ピア数のイベント処理
         /// </summary>
-        public void MediatorContext_OnAreapeers(object sender, Client.Peer.EPSPAreapeersEventArgs e)
+        public void MediatorContext_OnAreapeers(object sender, EventArgs e)
         {
-            if (!e.IsValid) { return; }
-            Console.WriteLine("{0} 地域ピア数の情報を受信しました: ピア数 {1}", GetDateTime(), e.AreaPeerDictionary.Sum(item => item.Value));
+            // FIXME
+            //if (!e.IsValid) { return; }
+            //Console.WriteLine("{0} 地域ピア数の情報を受信しました: ピア数 {1}", GetDateTime(), e.AreaPeerDictionary.Sum(item => item.Value));
         }
 
         /// <summary>

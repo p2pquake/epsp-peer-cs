@@ -34,7 +34,7 @@ namespace Client.App
         public event EventHandler ConnectionsChanged = (s, e) => { };
         public event EventHandler<EPSPQuakeEventArgs> OnEarthquake = (s, e) => { };
         public event EventHandler<EPSPTsunamiEventArgs> OnTsunami = (s, e) => { };
-        public event EventHandler<EPSPAreapeersEventArgs> OnAreapeers = (s, e) => { };
+        public event EventHandler<EventArgs> OnAreapeers = (s, e) => { };
         public event EventHandler<EPSPEEWTestEventArgs> OnEEWTest = (s, e) => { };
         public event EventHandler<EPSPUserquakeEventArgs> OnUserquake = (s, e) => { };
 #if RAISE_RAW_DATA_EVENT
@@ -48,7 +48,14 @@ namespace Client.App
             set { state = value; StateChanged(this, EventArgs.Empty);  }
         }
 
-        public IDictionary<string, int> AreaPeerDictionary { get; set; }
+        private IDictionary<string, int> areaPeerDictionary;
+        
+        public IDictionary<string, int> AreaPeerDictionary
+        {
+            get { return areaPeerDictionary; }
+            set { areaPeerDictionary = value; OnAreapeers(this, EventArgs.Empty); }
+        }
+
         public int PeerCount {
             get { return AreaPeerDictionary == null ? 0 : AreaPeerDictionary.Sum(e => e.Value);  }
         }
@@ -101,7 +108,6 @@ namespace Client.App
             peerContext.PeerConfig = this;
             peerContext.PeerState = this;
             peerContext.ConnectionsChanged += (s,e) => { ConnectionsChanged(s, e); };
-            peerContext.OnAreapeers += (s, e) => { OnAreapeers(s, e); };
             peerContext.OnUserquake += (s, e) => { OnUserquake(s, e); };
             peerContext.OnTsunami += (s, e) => { OnTsunami(s, e); };
             peerContext.OnEarthquake += (s, e) => { OnEarthquake(s, e); };

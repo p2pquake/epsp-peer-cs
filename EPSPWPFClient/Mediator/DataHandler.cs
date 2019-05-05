@@ -35,7 +35,7 @@ namespace EPSPWPFClient.Mediator
             BindingOperations.EnableCollectionSynchronization(EventList, new object());
         }
 
-        public void OnAreapeers(EPSPAreapeersEventArgs e)
+        public void OnAreapeers(EventArgs e)
         {
             // noop
         }

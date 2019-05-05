@@ -78,7 +78,7 @@ namespace EPSPWPFClient.Mediator
         /// <summary>
         /// 地域ピア数のイベント処理
         /// </summary>
-        internal void MediatorContext_OnAreapeers(object sender, EPSPAreapeersEventArgs e)
+        internal void MediatorContext_OnAreapeers(object sender, EventArgs e)
         {
             handleables.ForEach(h => h.OnAreapeers(e));
         }

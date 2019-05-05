@@ -11,7 +11,7 @@ namespace EPSPWPFClient.Mediator
 {
     class RedrawHandler : IEPSPHandleable
     {
-        public void OnAreapeers(EPSPAreapeersEventArgs e)
+        public void OnAreapeers(EventArgs e)
         {
             RedrawPeerMap();
         }
