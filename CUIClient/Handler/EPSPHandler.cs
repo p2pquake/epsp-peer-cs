@@ -15,15 +15,17 @@ namespace CUIClient.Handler
     public class EPSPHandler
     {
         private IUQManager uqManager;
+        private Func<IDictionary<string, int>> areaPeerDictionary;
 
         /// <param name="protocolTime">プロトコル日時</param>
-        public EPSPHandler(Func<DateTime> protocolTime)
+        public EPSPHandler(Func<DateTime> protocolTime, Func<IDictionary<string, int>> areaPeerDictionary)
         {
             uqManager = new UQManager();
             uqManager.UQJudge = new SimpleUQJudge(3);
             uqManager.ProtocolTime = protocolTime;
             uqManager.Occurred += UqManager_Occurred;
             uqManager.Updated += UqManager_Updated;
+            this.areaPeerDictionary = areaPeerDictionary;
         }
 
         /// <summary>
@@ -129,9 +131,7 @@ namespace CUIClient.Handler
         /// </summary>
         public void MediatorContext_OnAreapeers(object sender, EventArgs e)
         {
-            // FIXME
-            //if (!e.IsValid) { return; }
-            //Console.WriteLine("{0} 地域ピア数の情報を受信しました: ピア数 {1}", GetDateTime(), e.AreaPeerDictionary.Sum(item => item.Value));
+            Console.WriteLine("{0} 地域ピア数の情報を受信しました: ピア数 {1}", GetDateTime(), areaPeerDictionary().Sum(item => item.Value));
         }
 
         /// <summary>
