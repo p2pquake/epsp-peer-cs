@@ -13,6 +13,9 @@ namespace EPSPWPFClient.Mediator
     {
         private void Notify(EPSPDataEventArgs e)
         {
+            // TODO: そもそも通知を出すのかどうか未検討なので一旦無効化
+            return;
+
             var title = EPSPTitleConverter.GetTitle(e);
             if (title == "") { return; }
 

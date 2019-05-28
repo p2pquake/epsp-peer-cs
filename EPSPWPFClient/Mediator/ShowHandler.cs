@@ -100,8 +100,15 @@ namespace EPSPWPFClient.Mediator
         {
             var scaleDictionary = new Dictionary<string, int>()
             {
-                "1" => 10, "2" => 20, "3" => 30, "4" => 40,
-                "5弱" => 45, "5強" => 50, "6弱" => 55, "6強" => 60, "7" => 70
+                { "1", 10 },
+                { "2", 20 },
+                { "3", 30 },
+                { "4", 40 },
+                { "5弱", 45 },
+                { "5強", 50 },
+                { "6弱", 55 },
+                { "6強", 60 },
+                { "7", 70 }
             };
 
             if (scaleDictionary.ContainsKey(scale))
