@@ -42,7 +42,7 @@ namespace EPSPWPFClient.ViewModel
 
         private EPSPHandlerFacade epspHandler;
 
-        // FIXME: MVVMの法則が乱れている感あるので後で直したい。
+        // HACK: MVVMの法則が乱れている感あるので後で直したい。
         public HistoryControl HistoryControl { private get; set; }
         private QuakeDrawer drawer = new QuakeDrawer();
         private TsunamiDrawer tsunamiDrawer = new TsunamiDrawer();

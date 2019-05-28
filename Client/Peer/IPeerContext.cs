@@ -25,7 +25,7 @@ namespace Client.Peer
         /// <summary>署名が期限切れであるかを表します。</summary>
         public bool IsExpired { get; set; } = true;
 
-        // TODO: FIXME: 本来ここに置くべきではない気がする。役割がおかしい。
+        // HACK: 本来ここに置くべきではない気がする。役割がおかしい。
         public event PropertyChangedEventHandler PropertyChanged;
         protected void CallPropertyChanged(string propertyName = "ReceivedAt")
         {
