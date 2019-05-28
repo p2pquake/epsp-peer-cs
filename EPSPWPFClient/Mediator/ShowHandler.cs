@@ -46,7 +46,7 @@ namespace EPSPWPFClient.Mediator
 
         public void OnEarthquake(EPSPQuakeEventArgs e)
         {
-            if (!configuration.Show.IsEarthquake ||
+            if (!configuration.Show.IsEarthquake.Value ||
                  ConvertScale(e.Scale) < configuration.Show.EarthquakeSeismicScale)
             {
                 return;

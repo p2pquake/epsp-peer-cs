@@ -19,6 +19,7 @@ namespace EPSPWPFClient.Mediator
         internal StatusViewModel StatusViewModel { get; private set; }
         internal HistoryViewModel HistoryViewModel { get; private set; }
         internal PeerMapViewModel PeerMapViewModel { get; private set; }
+        internal ConfigViewModel ConfigViewModel { get; private set; }
         internal EPSPHandlerFacade EPSPHandler { get; private set; }
 
         public EPSPMediator()
@@ -66,6 +67,7 @@ namespace EPSPWPFClient.Mediator
             {
                 AreaPeerDictionary = () => { return mediatorContext.AreaPeerDictionary; }
             };
+            ConfigViewModel = new ConfigViewModel();
         }
 
         private void MediatorContext_Completed(object sender, OperationCompletedEventArgs e)

@@ -25,11 +25,12 @@ namespace EPSPWPFClient
     {
         public HistoryControl HistoryControl { get; } = new HistoryControl();
         public PeerMapControl PeerMapControl { get; } = new PeerMapControl();
-        private UserControl configControl = new ConfigControl();
+        public ConfigControl ConfigControl { get; } = new ConfigControl();
         private UserControl statusControl = new StatusControl();
 
         public HistoryViewModel HistoryViewModel { private get; set; }
         public PeerMapViewModel PeerMapViewModel { private get; set; }
+        public ConfigViewModel ConfigViewModel { private get; set; }
 
         public MainWindow()
         {
@@ -60,7 +61,8 @@ namespace EPSPWPFClient
                     PeerMapControl.DataContext = PeerMapViewModel;
                     break;
                 case 2:
-                    control = configControl;
+                    control = ConfigControl;
+                    ConfigControl.DataContext = ConfigViewModel;
                     break;
                 case 3:
                     control = statusControl;

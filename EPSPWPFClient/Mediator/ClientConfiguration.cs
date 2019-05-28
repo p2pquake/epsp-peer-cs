@@ -1,9 +1,10 @@
-﻿using System;
+using Reactive.Bindings;
+using System;
 namespace EPSPWPFClient.Mediator
 {
-    public struct Show
+    public class Show
     {
-        public bool IsEarthquake;
+        public ReactiveProperty<bool> IsEarthquake = new ReactiveProperty<bool>();
         public bool IsUserquake;
         public bool IsTsunami;
         public bool IsEEWTest;

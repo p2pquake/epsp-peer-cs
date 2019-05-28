@@ -21,6 +21,7 @@ namespace EPSPWPFClient
                     ((MainWindow)app.MainWindow).HistoryViewModel = mediator.HistoryViewModel;
                     mediator.PeerMapViewModel.PeerMapControl = ((MainWindow)app.MainWindow).PeerMapControl;
                     ((MainWindow)app.MainWindow).PeerMapViewModel = mediator.PeerMapViewModel;
+                    ((MainWindow)app.MainWindow).ConfigViewModel = mediator.ConfigViewModel;
                     mediator.Start();
                 }
             };
