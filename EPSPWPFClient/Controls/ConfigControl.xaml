@@ -22,7 +22,7 @@
         <CheckBox x:Name="checkBox1" Content="中クリック" HorizontalAlignment="Left" Margin="40,130,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="checkBox1_Copy" Content="中ダブルクリック" HorizontalAlignment="Left" Margin="40,155,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="checkBox1_Copy1" Content="右ダブルクリック" HorizontalAlignment="Left" Margin="40,180,0,0" VerticalAlignment="Top"/>
-        <TextBlock x:Name="appTitleText_Copy1" HorizontalAlignment="Left" Margin="205,10,0,0" TextWrapping="Wrap" Text="表示設定" VerticalAlignment="Top" RenderTransformOrigin="0.203,-0.313" FontSize="20"/>
+        <TextBlock x:Name="appTitleText_Copy1" HorizontalAlignment="Left" Margin="205,10,0,0" TextWrapping="Wrap" Text="通知対象設定" VerticalAlignment="Top" RenderTransformOrigin="0.203,-0.313" FontSize="20"/>
         <CheckBox x:Name="checkBox1_Copy2" Content="地震情報" HorizontalAlignment="Left" Margin="215,50,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="checkBox1_Copy3" Content="津波予報" HorizontalAlignment="Left" Margin="215,94,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="checkBox1_Copy4" Content="地震感知情報" HorizontalAlignment="Left" Margin="215,144,0,0" VerticalAlignment="Top"/>
@@ -31,7 +31,7 @@
         <Slider x:Name="slider_Copy" HorizontalAlignment="Left" Margin="295,167,0,0" VerticalAlignment="Top" Width="55" Minimum="1" Maximum="4" Value="4" />
         <TextBlock x:Name="textBlock_Copy2" HorizontalAlignment="Left" Margin="355,167,0,0" TextWrapping="Wrap" Text="高い" VerticalAlignment="Top" RenderTransformOrigin="0.367,-5.764"/>
         <TextBlock x:Name="textBlock_Copy5" HorizontalAlignment="Left" Margin="250,167,0,0" TextWrapping="Wrap" Text="信頼度" VerticalAlignment="Top"/>
-        <TextBlock x:Name="appTitleText_Copy2" HorizontalAlignment="Left" Margin="205,202,0,0" TextWrapping="Wrap" Text="表示設定" VerticalAlignment="Top" RenderTransformOrigin="0.203,-0.313" FontSize="20"/>
+        <TextBlock x:Name="appTitleText_Copy2" HorizontalAlignment="Left" Margin="205,202,0,0" TextWrapping="Wrap" Text="通知方法設定" VerticalAlignment="Top" RenderTransformOrigin="0.203,-0.313" FontSize="20"/>
         <CheckBox x:Name="checkBox1_Copy6" Content="音を鳴らす" HorizontalAlignment="Left" Margin="215,242,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="checkBox1_Copy7" Content="常に手前に表示" HorizontalAlignment="Left" Margin="215,317,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="checkBox1_Copy8" Content="フォーカスを奪わない" HorizontalAlignment="Left" Margin="215,292,0,0" VerticalAlignment="Top"/>

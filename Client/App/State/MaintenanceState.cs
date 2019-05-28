@@ -58,7 +58,7 @@ namespace Client.App.State
             }
             else if (operationResult == ClientConst.OperationResult.Retryable)
             {
-                // FIXME: 暫定。本当はすぐに再試行したい
+                // HACK: 暫定。本当はすぐに再試行したい
                 Logger.GetLog().Info("接続維持に失敗しました。再試行可能なエラーです。");
 
                 mediatorContext.State = new ConnectedState();
