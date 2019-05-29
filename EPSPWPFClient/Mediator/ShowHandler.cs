@@ -47,7 +47,7 @@ namespace EPSPWPFClient.Mediator
         public void OnEarthquake(EPSPQuakeEventArgs e)
         {
             if (!configuration.Show.IsEarthquake.Value ||
-                 ConvertScale(e.Scale) < configuration.Show.EarthquakeSeismicScale)
+                 ConvertScale(e.Scale) < configuration.Show.EarthquakeSeismicScale.Value)
             {
                 return;
             }
@@ -57,7 +57,7 @@ namespace EPSPWPFClient.Mediator
 
         public void OnEEWTest(EPSPEEWTestEventArgs e)
         {
-            if (!configuration.Show.IsEEWTest)
+            if (!configuration.Show.IsEEWTest.Value)
             {
                 return;
             }
@@ -67,7 +67,7 @@ namespace EPSPWPFClient.Mediator
 
         public void OnTsunami(EPSPTsunamiEventArgs e)
         {
-            if (!configuration.Show.IsTsunami)
+            if (!configuration.Show.IsTsunami.Value)
             {
                 return;
             }
@@ -83,7 +83,7 @@ namespace EPSPWPFClient.Mediator
         public void OnUserquakeReached(EPSPUQSummaryEventArgs e)
         {
             // TODO: 信頼度等のしきい値設定については未実装
-            if (!configuration.Show.IsUserquake)
+            if (!configuration.Show.IsUserquake.Value)
             {
                 return;
             }
