@@ -1,4 +1,5 @@
-﻿using Map.Properties;
+using Map.Properties;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +15,12 @@ namespace Map.Util
         {
             pointDictionary = new Dictionary<string, double[]>();
 
-            string pointText = Resource.ObservationPoints;
+            string pointText = Resource.ObservationPoints.Replace("\r", "");
             string[] points = pointText.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (string point in points)
             {
                 string[] items = point.Split(',');
-                if (pointDictionary.ContainsKey(items[1]))
-                {
-                    continue;
-                }
                 pointDictionary.Add(items[1], 
                     new double[] { double.Parse(items[2]), double.Parse(items[3]) });
             }

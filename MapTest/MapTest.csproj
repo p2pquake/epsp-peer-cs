@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Map\PointCalculatorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\PointName2LatLongTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Map\Map.csproj">
