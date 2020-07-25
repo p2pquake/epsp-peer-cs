@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -7,7 +7,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>ClientHelper</RootNamespace>
     <AssemblyName>ClientHelper</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,10 +37,7 @@
     <Compile Include="Misc\UQSummary\SimpleUQJudge.cs" />
     <Compile Include="Misc\UQSummary\UQManager.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Misc\" />
-    <Folder Include="Misc\UQSummary\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Client\Client.csproj">
       <Project>{5CE56D0D-E1E7-45C8-8323-865A431AA515}</Project>
