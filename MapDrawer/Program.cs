@@ -7,6 +7,8 @@ using System.Drawing.Imaging;
 using Map.Map;
 using Map.Util;
 using System.IO;
+using System.CommandLine;
+using MapDrawer.Cmd;
 
 namespace Map
 {
@@ -14,42 +16,49 @@ namespace Map
     {
         static void Main(string[] args)
         {
-            string inputPath = args[0];
-            double[] latitude = { double.Parse(args[2]), double.Parse(args[3]) };
-            double[] longitude = { double.Parse(args[4]), double.Parse(args[5]) };
-            bool is_mercator = (args.Length > 9 && args[9].Contains("mercator"));
-
-            MapDrawer mapDrawer = new MapDrawer(inputPath, latitude, longitude, is_mercator);
-
-            if (args.Length > 8)
+            var rootCommand = new RootCommand
             {
-                StreamReader reader = new StreamReader(args[8], Encoding.UTF8);
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    string[] items = line.Split(',');
-                    double[] point = PointName2LatLong.convert(items[0]);
+                 Quake.Generate()
+            };
 
-                    if (point == null)
-                    {
-                        continue;
-                    }
+            rootCommand.Invoke(args);
 
-                    mapDrawer.drawPoint(point[0], point[1], int.Parse(items[1]));
-                }
-            }
+            //string inputPath = args[0];
+            //double[] latitude = { double.Parse(args[2]), double.Parse(args[3]) };
+            //double[] longitude = { double.Parse(args[4]), double.Parse(args[5]) };
+            //bool is_mercator = (args.Length > 9 && args[9].Contains("mercator"));
 
-            mapDrawer.drawHypocenter(double.Parse(args[6]), double.Parse(args[7]));
+            //MapDrawer mapDrawer = new MapDrawer(inputPath, latitude, longitude, is_mercator);
 
-            var bitmap = mapDrawer.Bitmap;
+            //if (args.Length > 8)
+            //{
+            //    StreamReader reader = new StreamReader(args[8], Encoding.UTF8);
+            //    string line;
+            //    while ((line = reader.ReadLine()) != null)
+            //    {
+            //        string[] items = line.Split(',');
+            //        double[] point = PointName2LatLong.convert(items[0]);
 
-            if (args.Length > 9) {
-                if (args[9].Contains("trim")) {
-                    bitmap = mapDrawer.TrimmedBitmap;
-                }
-            }
+            //        if (point == null)
+            //        {
+            //            continue;
+            //        }
 
-            bitmap.Save(args[1], ImageFormat.Png);
+            //        mapDrawer.drawPoint(point[0], point[1], int.Parse(items[1]));
+            //    }
+            //}
+
+            //mapDrawer.drawHypocenter(double.Parse(args[6]), double.Parse(args[7]));
+
+            //var bitmap = mapDrawer.Bitmap;
+
+            //if (args.Length > 9) {
+            //    if (args[9].Contains("trim")) {
+            //        bitmap = mapDrawer.TrimmedBitmap;
+            //    }
+            //}
+
+            //bitmap.Save(args[1], ImageFormat.Png);
         }
     }
 }
