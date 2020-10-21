@@ -29,8 +29,8 @@ namespace MapDrawer.Cmd
             {
                 var drawer = new Map.Map.MapDrawer(
                     quakeOptions.Image,
-                    new double[] { quakeOptions.Left, quakeOptions.Right },
                     new double[] { quakeOptions.Top, quakeOptions.Bottom },
+                    new double[] { quakeOptions.Left, quakeOptions.Right },
                     quakeOptions.Mercator
                 );
 
