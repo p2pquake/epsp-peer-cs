@@ -1,0 +1,1 @@
+bin/DebugMap/netcoreapp3.1/MapDrawer.exe quake --image data/japan-gsi_4096.png --output render.png --points examples/570f978e843b732804000000.points.txt --left 121 --right 150 --top 47 --bottom 23 --latitude 32.7 --longitude 130.8 --trim --mercator
