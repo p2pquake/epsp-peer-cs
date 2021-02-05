@@ -18,7 +18,8 @@ namespace Map
         {
             var rootCommand = new RootCommand
             {
-                 Quake.Generate()
+                 Quake.Generate(),
+                 Userquake.Generate()
             };
 
             rootCommand.Invoke(args);
