@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace Map.Map
 {
@@ -115,6 +116,70 @@ namespace Map.Map
                 brush = brush70;
 
             drawPoint(latitude, longitude, brush, convertScale(scale));
+        }
+
+        public void drawArea(double latitude, double longitude, double confidence)
+        {
+            /*
+             * P2PQ_Client (VB6) の定義
+             * Const LOW_R = 255: Const LOW_G = 255: Const LOW_B = 255
+             * Const MID_R = 244: Const MID_G = 160: Const MID_B = 64
+             * Const HIGH_R = 240: Const HIGH_G = 128: Const HIGH_B = 0
+             */
+
+            Color color;
+            if (confidence >= 0.5)
+            {
+                var multiply = (confidence - 0.5) * 2;
+                color = Color.FromArgb(
+                    255,
+                    244 + (int)(multiply * -4),
+                    160 + (int)(multiply * -32),
+                    64 + (int)(multiply * -64)
+                    );
+            }
+            else
+            {
+                var multiply = confidence * 2;
+                color = Color.FromArgb(
+                    255,
+                    255 + (int)(multiply * -11),
+                    255 + (int)(multiply * -95),
+                    255 + (int)(multiply * -191)
+                    );
+            }
+
+            int drawSize = 32 + (int)(64 * confidence);
+            int[] point = pointCalculator.calculateInt(latitude, longitude);
+
+            GraphicsPath path = new GraphicsPath();
+            path.AddEllipse(point[0] - (drawSize / 2), point[1] - (drawSize / 2), drawSize, drawSize);
+            PathGradientBrush brush = new PathGradientBrush(path)
+            {
+                CenterColor = color,
+                SurroundColors = new Color[] { Color.FromArgb(0, color.R, color.G, color.B) }
+            };
+
+            g.FillEllipse(brush,
+                point[0] - (drawSize / 2), point[1] - (drawSize / 2),
+                drawSize, drawSize);
+
+            string drawString = "E";
+            if (confidence > 0.2) { drawString = "D"; }
+            if (confidence > 0.4) { drawString = "C"; }
+            if (confidence > 0.6) { drawString = "B"; }
+            if (confidence > 0.8) { drawString = "A"; }
+
+            for (int dx = -1; dx <= 1; dx++)
+            {
+                for (int dy = -1; dy <= 1; dy++)
+                {
+                    g.DrawString(drawString, font, Brushes.Black, point[0] - 4 + dx, point[1] - 4 + dy);
+                }
+            }
+            g.DrawString(drawString, font, Brushes.White, point[0] - 4, point[1] - 4);
+
+            UpdateBound(point[0], point[1]);
         }
 
         private string convertScale(int scale)
