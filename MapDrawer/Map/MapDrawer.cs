@@ -132,23 +132,24 @@ namespace Map.Map
             {
                 var multiply = (confidence - 0.5) * 2;
                 color = Color.FromArgb(
-                    192,
+                    255,
                     244 + (int)(multiply * -4),
                     160 + (int)(multiply * -32),
                     64 + (int)(multiply * -64)
                     );
-            } else
+            }
+            else
             {
                 var multiply = confidence * 2;
                 color = Color.FromArgb(
-                    192,
+                    255,
                     255 + (int)(multiply * -11),
                     255 + (int)(multiply * -95),
                     255 + (int)(multiply * -191)
                     );
             }
 
-            int drawSize = 16 + (int)(80 * confidence);
+            int drawSize = 32 + (int)(64 * confidence);
             int[] point = pointCalculator.calculateInt(latitude, longitude);
 
             GraphicsPath path = new GraphicsPath();
@@ -168,7 +169,15 @@ namespace Map.Map
             if (confidence > 0.4) { drawString = "C"; }
             if (confidence > 0.6) { drawString = "B"; }
             if (confidence > 0.8) { drawString = "A"; }
-            g.DrawString(drawString, font, Brushes.Black, point[0] - 4, point[1] - 4);
+
+            for (int dx = -1; dx <= 1; dx++)
+            {
+                for (int dy = -1; dy <= 1; dy++)
+                {
+                    g.DrawString(drawString, font, Brushes.Black, point[0] - 4 + dx, point[1] - 4 + dy);
+                }
+            }
+            g.DrawString(drawString, font, Brushes.White, point[0] - 4, point[1] - 4);
 
             UpdateBound(point[0], point[1]);
         }
