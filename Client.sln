@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKCSPeerCryptoTest", "PKCSP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CUIClientTest", "CUIClientTest\CUIClientTest.csproj", "{5BD6E7E8-FA94-4E53-A7CF-13E1704191C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Map", "Map\Map.csproj", "{ED5DEA4C-4712-48F6-8437-76944A5F7F8F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapTest", "MapTest\MapTest.csproj", "{A8A0FE3E-0714-40F3-AECD-47DDC3769086}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientHelper", "ClientHelper\ClientHelper.csproj", "{C0EB03C6-66F7-46C2-B6C7-19889849F863}"
@@ -28,6 +26,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientHelperTest", "ClientHelperTest\ClientHelperTest.csproj", "{15257C4F-74A9-4F65-9ECB-DC25DD05CD2D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapDrawer", "MapDrawer\MapDrawer.csproj", "{9B6DC06D-4748-477C-9453-EB357E24ABBA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Map", "Map\Map.csproj", "{B880FF74-090F-466A-B65B-E89531A0CFF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -98,15 +98,8 @@ Global
 		{5BD6E7E8-FA94-4E53-A7CF-13E1704191C6}.DebugWPF|Any CPU.ActiveCfg = Debug|Any CPU
 		{5BD6E7E8-FA94-4E53-A7CF-13E1704191C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BD6E7E8-FA94-4E53-A7CF-13E1704191C6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ED5DEA4C-4712-48F6-8437-76944A5F7F8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED5DEA4C-4712-48F6-8437-76944A5F7F8F}.DebugMap|Any CPU.ActiveCfg = DebugMap|Any CPU
-		{ED5DEA4C-4712-48F6-8437-76944A5F7F8F}.DebugMap|Any CPU.Build.0 = DebugMap|Any CPU
-		{ED5DEA4C-4712-48F6-8437-76944A5F7F8F}.DebugWithRawEvent|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED5DEA4C-4712-48F6-8437-76944A5F7F8F}.DebugWPF|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED5DEA4C-4712-48F6-8437-76944A5F7F8F}.DebugWPF|Any CPU.Build.0 = Debug|Any CPU
-		{ED5DEA4C-4712-48F6-8437-76944A5F7F8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED5DEA4C-4712-48F6-8437-76944A5F7F8F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A8A0FE3E-0714-40F3-AECD-47DDC3769086}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8A0FE3E-0714-40F3-AECD-47DDC3769086}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8A0FE3E-0714-40F3-AECD-47DDC3769086}.DebugMap|Any CPU.ActiveCfg = DebugMap|Any CPU
 		{A8A0FE3E-0714-40F3-AECD-47DDC3769086}.DebugMap|Any CPU.Build.0 = DebugMap|Any CPU
 		{A8A0FE3E-0714-40F3-AECD-47DDC3769086}.DebugWithRawEvent|Any CPU.ActiveCfg = Debug|Any CPU
@@ -138,6 +131,16 @@ Global
 		{9B6DC06D-4748-477C-9453-EB357E24ABBA}.DebugWPF|Any CPU.ActiveCfg = Debug|Any CPU
 		{9B6DC06D-4748-477C-9453-EB357E24ABBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B6DC06D-4748-477C-9453-EB357E24ABBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B880FF74-090F-466A-B65B-E89531A0CFF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B880FF74-090F-466A-B65B-E89531A0CFF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B880FF74-090F-466A-B65B-E89531A0CFF1}.DebugMap|Any CPU.ActiveCfg = Debug|Any CPU
+		{B880FF74-090F-466A-B65B-E89531A0CFF1}.DebugMap|Any CPU.Build.0 = Debug|Any CPU
+		{B880FF74-090F-466A-B65B-E89531A0CFF1}.DebugWithRawEvent|Any CPU.ActiveCfg = Debug|Any CPU
+		{B880FF74-090F-466A-B65B-E89531A0CFF1}.DebugWithRawEvent|Any CPU.Build.0 = Debug|Any CPU
+		{B880FF74-090F-466A-B65B-E89531A0CFF1}.DebugWPF|Any CPU.ActiveCfg = Debug|Any CPU
+		{B880FF74-090F-466A-B65B-E89531A0CFF1}.DebugWPF|Any CPU.Build.0 = Debug|Any CPU
+		{B880FF74-090F-466A-B65B-E89531A0CFF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B880FF74-090F-466A-B65B-E89531A0CFF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

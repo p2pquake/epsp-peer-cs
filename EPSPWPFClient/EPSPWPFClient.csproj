@@ -300,7 +300,7 @@
       <Name>Client</Name>
     </ProjectReference>
     <ProjectReference Include="..\Map\Map.csproj">
-      <Project>{ed5dea4c-4712-48f6-8437-76944a5f7f8f}</Project>
+      <Project>{b880ff74-090f-466a-b65b-e89531a0cff1}</Project>
       <Name>Map</Name>
     </ProjectReference>
   </ItemGroup>
