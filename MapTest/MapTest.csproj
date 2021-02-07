@@ -55,13 +55,13 @@
     <Compile Include="Util\PointName2LatLongTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Map\Map.csproj">
-      <Project>{ed5dea4c-4712-48f6-8437-76944a5f7f8f}</Project>
-      <Name>Map</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\Map\Map.csproj">
+      <Project>{b880ff74-090f-466a-b65b-e89531a0cff1}</Project>
+      <Name>Map</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
