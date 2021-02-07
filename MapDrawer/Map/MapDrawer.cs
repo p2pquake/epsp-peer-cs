@@ -1,6 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Text;
+using System.IO;
+using System.Reflection;
 
 namespace Map.Map
 {
@@ -54,13 +58,20 @@ namespace Map.Map
         Brush brush55 = new SolidBrush(Color.FromArgb(208, 112,   0));
         Brush brush60 = new SolidBrush(Color.FromArgb(224,  32,  32));
         Brush brush70 = new SolidBrush(Color.FromArgb(160,   0,  32));
-        Font font = new Font(FontFamily.GenericMonospace, 9);
+
+        PrivateFontCollection fontCollection = new PrivateFontCollection();
+        Font font;
 
         public MapDrawer(string fileName, double[] latitude_coverage, double[] longitude_coverage, bool is_mercator)
         {
             Bitmap = new Bitmap(Image.FromFile(fileName));
             g = Graphics.FromImage(Bitmap);
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+            // Note: Linux では ~/.fonts にコピーして fc-cache しないと使用できない可能性がある
+            // See: https://github.com/dotnet/runtime/issues/26460
+            fontCollection.AddFontFile(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "fonts", "RobotoMono-Medium.ttf"));
+            font = new Font(fontCollection.Families[0], 9);
 
             pointCalculator = new PointCalculator(
                 latitude_coverage[0], latitude_coverage[1],
@@ -203,17 +214,19 @@ namespace Map.Map
 
         private void drawPoint(double latitude, double longitude, Brush brush, string text)
         {
-            int drawSize = 12;
+            int xOffset = (text.Length > 1 ? 8 : 4);
+            int xDrawSize = (text.Length > 1 ? 16 : 12);
+            int yDrawSize = 12;
 
             int[] point = pointCalculator.calculateInt(latitude, longitude);
             g.FillRectangle(brush,
-                point[0] - (drawSize / 2), point[1] - (drawSize / 2),
-                drawSize, drawSize);
+                point[0] - (xDrawSize / 2), point[1] - (yDrawSize / 2),
+                xDrawSize, yDrawSize);
             g.DrawRectangle(Pens.Black,
-                point[0] - (drawSize / 2), point[1] - (drawSize / 2),
-                drawSize, drawSize);
+                point[0] - (xDrawSize / 2), point[1] - (yDrawSize / 2),
+                xDrawSize, yDrawSize);
 
-            g.DrawString(text, font, Brushes.Black, point[0]-4, point[1] + (drawSize / 2)-14);
+            g.DrawString(text, font, Brushes.Black, point[0] - xOffset, point[1] + (yDrawSize / 2) - 15);
 
             UpdateBound(point[0], point[1]);
         }

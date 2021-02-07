@@ -15,4 +15,10 @@
     <ProjectReference Include="..\Map\Map.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="fonts\RobotoMono-Medium.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
