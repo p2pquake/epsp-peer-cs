@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -86,9 +86,9 @@ namespace BridgeClient
             dataLogger.Info("Earthquake: " + JsonConvert.SerializeObject(e));
         }
 
-        private static void MediatorContext_OnAreapeers(object sender, Client.Peer.EPSPAreapeersEventArgs e)
+        private static void MediatorContext_OnAreapeers(object sender, EventArgs e)
         {
-            dataLogger.Info("Areapeers: " + JsonConvert.SerializeObject(e));
+            dataLogger.Info("Areapeers: " + JsonConvert.SerializeObject(mediatorContext.AreaPeerDictionary));
         }
 
         private static void MediatorContext_OnEEWTest(object sender, Client.Peer.EPSPEEWTestEventArgs e)
