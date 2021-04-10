@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PKCSPeerCrypto": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}

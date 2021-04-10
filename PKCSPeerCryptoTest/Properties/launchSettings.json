@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PKCSPeerCryptoTest": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}
