@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -46,8 +46,9 @@ namespace Client.Client
         public ClientContext()
         {
             state = new FinishedState(ClientConst.OperationResult.Successful, ClientConst.ErrorCode.SUCCESSFUL);
-            
-            string[] servers = ConfigurationManager.AppSettings["servers"].Split(',');
+
+            string[] servers = Application.Default.servers.Split(',');
+               // ConfigurationManager.AppSettings["servers"].Split(',');
             foreach (string server in servers)
             {
                 string[] items = server.Split(':');

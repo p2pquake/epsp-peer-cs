@@ -1,226 +1,33 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5CE56D0D-E1E7-45C8-8323-865A431AA515}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Client</RootNamespace>
-    <AssemblyName>Client</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;MOBILE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>RuleSet.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;MOBILE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithRawEvent|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\DebugWithRawEvent\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;MOBILE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>RuleSet.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithRawEvent|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\DebugWithRawEvent\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;RAISE_RAW_DATA_EVENT; MOBILE_SERVER</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>RuleSet.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugMap|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\DebugMap\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;MOBILE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>RuleSet.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugMap|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\DebugMap\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;MOBILE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Open.Nat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f22a6a4582336c76, processorArchitecture=MSIL">
-      <HintPath>..\packages\Open.NAT.2.1.0.0\lib\net45\Open.Nat.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="log4net" Version="2.0.12" />
+    <PackageReference Include="Open.Nat" Version="2.1.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="App\IMediatorContext.cs" />
-    <Compile Include="App\IOperatable.cs" />
-    <Compile Include="App\IPeerConfig.cs" />
-    <Compile Include="App\IPeerState.cs" />
-    <Compile Include="App\State\AbstractState.cs" />
-    <Compile Include="App\State\ConnectedState.cs" />
-    <Compile Include="App\State\ConnectingState.cs" />
-    <Compile Include="App\State\DisconnectedState.cs" />
-    <Compile Include="App\State\DisconnectingState.cs" />
-    <Compile Include="App\State\MaintenanceState.cs" />
-    <Compile Include="App\MediatorContext.cs" />
-    <Compile Include="App\MaintainTimer.cs" />
-    <Compile Include="Client\ClientContext.cs" />
-    <Compile Include="Client\General\ClientConst.cs" />
-    <Compile Include="Client\General\KeyData.cs" />
-    <Compile Include="Client\IClientContext.cs" />
-    <Compile Include="Client\IClientContextForState.cs" />
-    <Compile Include="Client\State\RequirePartState.cs" />
-    <Compile Include="Client\State\RequirePortScanState.cs" />
-    <Compile Include="Common\General\PeerData.cs" />
-    <Compile Include="Client\State\IFinishedState.cs" />
-    <Compile Include="Client\State\ConnectedState.cs" />
-    <Compile Include="Client\State\EndConnectionState.cs" />
-    <Compile Include="Client\State\FinishedState.cs" />
-    <Compile Include="Client\State\NotifyProtocolVersionState.cs" />
-    <Compile Include="Client\State\PeerEchoState.cs" />
-    <Compile Include="Client\State\RequireAllocateKeyState.cs" />
-    <Compile Include="Client\State\RequireAreaPeersState.cs" />
-    <Compile Include="Client\State\RequirePeerDataState.cs" />
-    <Compile Include="Client\State\RequirePeerIdState.cs" />
-    <Compile Include="Client\State\RequireProtocolTimeState.cs" />
-    <Compile Include="Client\State\RequireReallocateKeyState.cs" />
-    <Compile Include="Client\State\RequireTemporaryPeerIdState.cs" />
-    <Compile Include="Common\General\Const.cs" />
-    <Compile Include="Common\General\Logger.cs" />
-    <Compile Include="Common\Net\AsyncListener.cs" />
-    <Compile Include="Common\Net\CRLFSocket.cs" />
-    <Compile Include="Common\Net\ISocket.cs" />
-    <Compile Include="Common\Net\Packet.cs" />
-    <Compile Include="Common\Net\SocketAdapter.cs" />
-    <Compile Include="Peer\Context.cs" />
-    <Compile Include="Peer\General\Code.cs" />
-    <Compile Include="Peer\General\PeerConst.cs" />
-    <Compile Include="Client\General\ServerPoint.cs" />
-    <Compile Include="Peer\IPeerConnector.cs" />
-    <Compile Include="Peer\IPeerContext.cs" />
-    <Compile Include="Peer\Manager\DuplicateRemover.cs" />
-    <Compile Include="Peer\Manager\NetworkInquiryManager.cs" />
-    <Compile Include="Peer\Manager\Peer.cs" />
-    <Compile Include="Peer\Manager\PeerManager.cs" />
-    <Compile Include="Peer\State\AbstractState.cs" />
-    <Compile Include="Peer\State\GeneralState.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Client\State\AbstractState.cs" />
-    <Compile Include="Common\Net\UPnP\UPnPUtil.cs" />
+    <ProjectReference Include="..\PKCSPeerCrypto\PKCSPeerCrypto.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-      <Visible>False</Visible>
-      <ProductName>Windows インストーラー 3.1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
+    <Compile Update="application.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
+    <None Update="Application.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>application.Designer.cs</LastGenOutput>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\PKCSPeerCrypto\PKCSPeerCrypto.csproj">
-      <Project>{a4c721b3-c264-4b6d-a04a-dea041fd1fe6}</Project>
-      <Name>PKCSPeerCrypto</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

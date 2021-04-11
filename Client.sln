@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKCSPeerCrypto", "PKCSPeerC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKCSPeerCryptoTest", "PKCSPeerCryptoTest\PKCSPeerCryptoTest.csproj", "{BF82C0DA-382C-4D03-893F-FB64C8BABA8A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csproj", "{27E460E9-D8EF-4BA3-8D38-8FF2E2EB43D9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientTest", "ClientTest\ClientTest.csproj", "{7971FE1D-800C-4342-B6B4-10E53366251C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{BF82C0DA-382C-4D03-893F-FB64C8BABA8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF82C0DA-382C-4D03-893F-FB64C8BABA8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF82C0DA-382C-4D03-893F-FB64C8BABA8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27E460E9-D8EF-4BA3-8D38-8FF2E2EB43D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27E460E9-D8EF-4BA3-8D38-8FF2E2EB43D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27E460E9-D8EF-4BA3-8D38-8FF2E2EB43D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27E460E9-D8EF-4BA3-8D38-8FF2E2EB43D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7971FE1D-800C-4342-B6B4-10E53366251C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7971FE1D-800C-4342-B6B4-10E53366251C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7971FE1D-800C-4342-B6B4-10E53366251C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7971FE1D-800C-4342-B6B4-10E53366251C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

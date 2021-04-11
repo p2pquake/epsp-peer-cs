@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -57,6 +57,7 @@ namespace Client.Common.Net
 
         public CRLFSocket(Socket socket)
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             this.socket = new SocketAdapter(socket);
             buffer = new byte[0];
         }
