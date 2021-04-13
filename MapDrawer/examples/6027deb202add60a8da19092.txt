@@ -1,2 +1,0 @@
-bin/DebugMap/netcoreapp3.1/MapDrawer.exe quake --image data/japan-gsi_4096.png --output render.png --points examples/6027deb202add60a8da19092.points.txt --left 121 --right 150 --top 47 --bottom 23 --trim --mercator
-# bin/DebugMap/netcoreapp3.1/MapDrawer.exe quake --image data/japan-gsi_1024.png --output render.png --points examples/6027deb202add60a8da19092.points.txt --left 121 --right 150 --top 47 --bottom 23 --trim --mercator

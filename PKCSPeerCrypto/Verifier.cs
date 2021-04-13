@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -58,6 +58,7 @@ namespace PKCSPeerCrypto
             
             // TODO: VerifyServerDataとロジックほぼ重複
             // MD5導出
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             byte[] dataByteArray = Encoding.GetEncoding(932).GetBytes(data);
             MD5CryptoServiceProvider md5Provider = new MD5CryptoServiceProvider();
             byte[] dataMd5 = md5Provider.ComputeHash(dataByteArray);
@@ -104,6 +105,7 @@ namespace PKCSPeerCrypto
         public static VerifyResult VerifyServerData(string data, string expire, string signature, DateTime now)
         {
             // MD5導出
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             byte[] dataByteArray = Encoding.GetEncoding(932).GetBytes(data);
             MD5CryptoServiceProvider md5Provider = new MD5CryptoServiceProvider();
             byte[] dataMd5 = md5Provider.ComputeHash(dataByteArray);

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -68,6 +68,7 @@ namespace PKCSPeerCrypto
         private static string Sign(string privateKey, string data, DateTime expire)
         {
             // MD5導出
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             byte[] dataByteArray = Encoding.GetEncoding(932).GetBytes(data);
             MD5CryptoServiceProvider md5Provider = new MD5CryptoServiceProvider();
             byte[] dataMd5 = md5Provider.ComputeHash(dataByteArray);
