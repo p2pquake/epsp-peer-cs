@@ -1,1 +1,0 @@
-bin/DebugMap/netcoreapp3.1/MapDrawer.exe userquake --image data/japan-gsi_1024.png --output render.png --areas examples/6010f5eae09122ae92499986.areas.txt --left 121 --right 150 --top 47 --bottom 23 --trim --mercator
