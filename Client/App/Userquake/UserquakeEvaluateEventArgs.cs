@@ -70,10 +70,10 @@ namespace Client.App.Userquake
 
     public class UserquakeEvaluateEventArgs : EventArgs, IUserquakeEvaluation
     {
-        public DateTime StartedAt { get; private set; }
-        public DateTime UpdatedAt { get; private set; }
-        public int Count { get; private set; }
-        public double Confidence { get; private set; }
+        public DateTime StartedAt { get; init; }
+        public DateTime UpdatedAt { get; init; }
+        public int Count { get; init; }
+        public double Confidence { get; init; }
         public int ConfidenceLevel => Confidence switch
         {
             double x when x >= 0.9805 => 4,
@@ -82,23 +82,14 @@ namespace Client.App.Userquake
             double x when x >= 0.9677 => 2,
             _ => 0,
         };
-        public IReadOnlyDictionary<string, IUserquakeEvaluationArea> AreaConfidences { get; private set; }
-
-        public UserquakeEvaluateEventArgs(DateTime startedAt, DateTime updatedAt, int count, double confidence, IReadOnlyDictionary<string, IUserquakeEvaluationArea> areaConfidences)
-        {
-            StartedAt = startedAt;
-            UpdatedAt = updatedAt;
-            Count = count;
-            Confidence = confidence;
-            AreaConfidences = areaConfidences;
-        }
+        public IReadOnlyDictionary<string, IUserquakeEvaluationArea> AreaConfidences { get; init; }
     }
 
-    public class UserquakeEvaluationArea : IUserquakeEvaluationArea
+    public record UserquakeEvaluationArea : IUserquakeEvaluationArea
     {
-        public string AreaCode { get; private set; }
-        public int Count { get; private set; }
-        public double Confidence { get; private set; }
+        public string AreaCode { get; init; }
+        public int Count { get; init; }
+        public double Confidence { get; init; }
         public string ConfidenceLevel => Confidence switch
         {
             double x when x >= 0.8 => "A",

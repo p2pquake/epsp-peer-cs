@@ -25,13 +25,14 @@ namespace ClientTest.App.Userquake
             };
 
             foreach (var pattern in patterns) {
-                var e = new Client.App.Userquake.UserquakeEvaluateEventArgs(
-                    DateTime.MinValue,
-                    DateTime.MinValue,
-                    0,
-                    pattern.Key,
-                    null
-                );
+                var e = new Client.App.Userquake.UserquakeEvaluateEventArgs()
+                {
+                    StartedAt = DateTime.MinValue,
+                    UpdatedAt = DateTime.MinValue,
+                    Count = 0,
+                    Confidence = pattern.Key,
+                    AreaConfidences = null,
+                };
 
                 Assert.AreEqual(pattern.Value, e.ConfidenceLevel);
             }
