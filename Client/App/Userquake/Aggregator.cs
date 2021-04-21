@@ -44,13 +44,13 @@ namespace Client.App.Userquake
 
             // 評価
             var evaluation = Evaluate(userquakes, areaPeers);
+            Evaluation = evaluation;
             if (evaluation == null || evaluation.ConfidenceLevel < 3)
             {
                 return;
             }
 
             // 更新
-            Evaluation = evaluation;
             var e = new UserquakeEvaluateEventArgs()
             {
                 StartedAt = evaluation.StartedAt,
@@ -73,7 +73,7 @@ namespace Client.App.Userquake
 
         IUserquakeEvaluation Evaluate(ICollection<Userquake> userquakes, IReadOnlyDictionary<string, int> areaPeers)
         {
-            var confidence = Enumerable.Range(3, userquakes.Count - 2).Max(c =>
+            var confidence = Enumerable.Range(1, Math.Max(userquakes.Count - 2, 1)).Max(c =>
             {
                 var partialUserquakes = userquakes.Take(c);
                 return CalcConfidence(partialUserquakes, areaPeers);
