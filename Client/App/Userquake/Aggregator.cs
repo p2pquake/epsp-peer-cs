@@ -272,7 +272,7 @@ namespace Client.App.Userquake
                     c *= (double)uqByRegion[uqArea.Key[0]] / peerByRegion[uqArea.Key[0]] * 5 + 1;
                     c = Math.Max(0, Math.Min(c, 100.0));
 
-                    result[uqArea.Key] = new UserquakeEvaluationArea() { AreaCode = uqArea.Key, Count = uqArea.Value, Confidence = c };
+                    result[uqArea.Key] = new UserquakeEvaluationArea() { AreaCode = uqArea.Key, Count = uqArea.Value, Confidence = c / 100 };
                 }
             }
 
