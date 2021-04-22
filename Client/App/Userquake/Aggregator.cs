@@ -14,8 +14,8 @@ namespace Client.App.Userquake
 
     public class Aggregator
     {
-        public event EventHandler<UserquakeEvaluateEventArgs> OnNew;
-        public event EventHandler<UserquakeEvaluateEventArgs> OnUpdate;
+        public event EventHandler<UserquakeEvaluateEventArgs> OnNew = delegate { };
+        public event EventHandler<UserquakeEvaluateEventArgs> OnUpdate = delegate { };
         public IUserquakeEvaluation Evaluation { get; private set; }
         public bool IsDetecting { get; private set; }
 
@@ -73,11 +73,13 @@ namespace Client.App.Userquake
 
         IUserquakeEvaluation Evaluate(ICollection<Userquake> userquakes, IReadOnlyDictionary<string, int> areaPeers)
         {
-            var confidence = Enumerable.Range(1, Math.Max(userquakes.Count - 2, 1)).Max(c =>
+            var confidenceValue = new double[] { 0, 0.97015, 0.96774, 0.97024, 0.98052 };
+
+            var confidence = confidenceValue[Enumerable.Range(1, Math.Max(userquakes.Count, 1)).Max(c =>
             {
                 var partialUserquakes = userquakes.Take(c);
                 return CalcConfidence(partialUserquakes, areaPeers);
-            });
+            })];
 
             var areaConfidences = CalcAreaConfidences(userquakes, areaPeers);
 
@@ -96,43 +98,59 @@ namespace Client.App.Userquake
             return userquakes == null || at.Subtract(userquakes.Last().At).TotalSeconds > 40;
         }
 
-        private double CalcConfidence(IEnumerable<Userquake> userquakes, IReadOnlyDictionary<string, int> areaPeers)
+        private int CalcConfidence(IEnumerable<Userquake> userquakes, IReadOnlyDictionary<string, int> areaPeers)
         {
             if (userquakes.Count() < 3)
             {
-                return 0.0;
+                return 0;
             }
-
+            Console.WriteLine("count:" + userquakes.Count());
             var speed = userquakes.Count() / userquakes.Last().At.Subtract(userquakes.First().At).TotalSeconds;
+            Console.WriteLine("speed: " + speed);
             var rate = (double)userquakes.Count() / areaPeers.Values.Sum();
+            Console.WriteLine("rate: " + rate);
             var areaRate = CalcMaxAreaRate(userquakes, areaPeers);
+            Console.WriteLine("areaRate: " + areaRate);
             var regionRate = CalcMaxRegionRate(userquakes, areaPeers);
+            Console.WriteLine("regionRate: " + regionRate);
 
-            var factor = 1.2;
-            var confidence = 0.97024;
+            var pairs = new (double, int)[]
+            {
+                (1.4, 4),
+                (1.2, 3),
+                (1.0, 2),
+                (0.875, 1),
+            };
 
-            if (speed >= 0.25 * factor && areaRate >= 0.05 * factor)
+
+            foreach (var pair in pairs)
             {
-                return confidence;
-            }
-            if (speed >= 0.15 * factor && areaRate >= 0.3 * factor)
-            {
-                return confidence;
-            }
-            if (rate >= 0.01 * factor && areaRate >= 0.035 * factor)
-            {
-                return confidence;
-            }
-            if (rate >= 0.006 * factor && areaRate >= 0.04 * factor && regionRate >= new double[] { 1 * factor, 1.0 }.Min())
-            {
-                return confidence;
-            }
-            if (speed >= 0.18 * factor && areaRate >= 0.04 * factor && regionRate >= new double[] { 1 * factor, 1.0 }.Min())
-            {
-                return confidence;
+                var factor = pair.Item1;
+                var confidence = pair.Item2;
+
+                if (speed >= 0.25 * factor && areaRate >= 0.05 * factor)
+                {
+                    return confidence;
+                }
+                if (speed >= 0.15 * factor && areaRate >= 0.3 * factor)
+                {
+                    return confidence;
+                }
+                if (rate >= 0.01 * factor && areaRate >= 0.035 * factor)
+                {
+                    return confidence;
+                }
+                if (rate >= 0.006 * factor && areaRate >= 0.04 * factor && regionRate >= new double[] { 1 * factor, 1.0 }.Min())
+                {
+                    return confidence;
+                }
+                if (speed >= 0.18 * factor && areaRate >= 0.04 * factor && regionRate >= new double[] { 1 * factor, 1.0 }.Min())
+                {
+                    return confidence;
+                }
             }
 
-            return 0.0;
+            return 0;
         }
 
         private double CalcMaxAreaRate(IEnumerable<Userquake> userquakes, IReadOnlyDictionary<string, int> areaPeers)
