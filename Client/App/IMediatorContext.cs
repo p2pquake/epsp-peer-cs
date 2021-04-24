@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Client.App.State;
+using Client.App.Userquake;
 using Client.Client;
 using Client.Common.Net;
 using Client.Peer;
@@ -36,6 +37,10 @@ namespace Client.App
         event EventHandler<EPSPEEWTestEventArgs> OnEEWTest;
         /// <summary>地震感知情報を受信すると発生します。</summary>
         event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
+        /// <summary>地震感知情報を評価した結果、地震の可能性が高い場合に発生します。</summary>
+        event EventHandler<UserquakeEvaluateEventArgs> OnNewUserquakeEvaluation;
+        /// <summary>地震感知情報の評価結果が更新された場合に発生します。</summary>
+        event EventHandler<UserquakeEvaluateEventArgs> OnUpdateUserquakeEvaluation;
 
 #if RAISE_RAW_DATA_EVENT
         event EventHandler<EPSPRawDataEventArgs> OnData;

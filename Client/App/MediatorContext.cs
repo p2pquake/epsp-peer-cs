@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Client.App.State;
+using Client.App.Userquake;
 using Client.Client;
 using Client.Client.General;
 using Client.Common.General;
@@ -28,6 +29,7 @@ namespace Client.App
         private IClientContext clientContext;
         private IPeerContext peerContext;
         private MaintainTimer maintainTimer;
+        private Aggregator userquakeAggregator;
 
         public event EventHandler StateChanged = (s, e) => { };
         public event EventHandler<OperationCompletedEventArgs> Completed = (s, e) => { };
@@ -37,6 +39,8 @@ namespace Client.App
         public event EventHandler<EventArgs> OnAreapeers = (s, e) => { };
         public event EventHandler<EPSPEEWTestEventArgs> OnEEWTest = (s, e) => { };
         public event EventHandler<EPSPUserquakeEventArgs> OnUserquake = (s, e) => { };
+        public event EventHandler<UserquakeEvaluateEventArgs> OnNewUserquakeEvaluation = delegate { };
+        public event EventHandler<UserquakeEvaluateEventArgs> OnUpdateUserquakeEvaluation = delegate { };
 #if RAISE_RAW_DATA_EVENT
         public event EventHandler<EPSPRawDataEventArgs> OnData = (s, e) => { };
 #endif
@@ -92,6 +96,7 @@ namespace Client.App
             clientContext = new ClientContext();
             peerContext = new Context();
             maintainTimer = new MaintainTimer(this, clientContext);
+            userquakeAggregator = new Aggregator();
             state = new DisconnectedState();
 
             AreaCode = 900;
@@ -120,6 +125,13 @@ namespace Client.App
             maintainTimer.RequireMaintain += MaintainTimer_RequireMaintain;
             maintainTimer.RequireDisconnect += MaintainTimer_RequireDisconnect;
             maintainTimer.RequireDisconnectAllPeers += MaintainTimer_RequireDisconnectAllPeers;
+
+            OnUserquake += (s, e) => {
+                if (areaPeerDictionary != null)
+                    userquakeAggregator.AddUserquake(e.ReceivedAt, e.AreaCode, new Dictionary<string, int>(areaPeerDictionary));
+            };
+            userquakeAggregator.OnNew += (s, e) => { OnNewUserquakeEvaluation(this, e); };
+            userquakeAggregator.OnUpdate += (s, e) => { OnUpdateUserquakeEvaluation(this, e); };
         }
 
         private void MaintainTimer_RequireDisconnectAllPeers(object sender, EventArgs e)
