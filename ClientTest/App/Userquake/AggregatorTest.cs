@@ -74,6 +74,85 @@ namespace ClientTest.App.Userquake
         };
 
         [TestCase]
+        public void RaiseEventTest()
+        {
+            List<UserquakeEvaluateEventArgs> newEvents = new();
+            List<UserquakeEvaluateEventArgs> updateEvents = new();
+
+            aggregator.OnNew += (sender, e) => newEvents.Add(e);
+            aggregator.OnUpdate += (sender, e) => updateEvents.Add(e);
+
+            // Event 1
+            (DateTime, string)[] userquakes = new[]
+            {
+                (DateTime.Today.AddSeconds(0), "101"),
+                (DateTime.Today.AddSeconds(18), "201"),
+                (DateTime.Today.AddSeconds(20), "101"),
+                (DateTime.Today.AddSeconds(20), "101"),
+                (DateTime.Today.AddSeconds(20), "101"),
+            };
+            foreach (var userquake in userquakes) { aggregator.AddUserquake(userquake.Item1, userquake.Item2, areaPeers); }
+            Assert.That(newEvents, Is.Empty);
+            Assert.That(updateEvents, Is.Empty);
+
+            // Event 2
+            userquakes = new[]
+            {
+                (DateTime.Today.AddSeconds(100), "101"),
+                (DateTime.Today.AddSeconds(120), "201"),
+                (DateTime.Today.AddSeconds(123), "101"),
+                (DateTime.Today.AddSeconds(123), "101"),
+                (DateTime.Today.AddSeconds(123), "101"),
+                (DateTime.Today.AddSeconds(123), "101"),
+                (DateTime.Today.AddSeconds(123), "101"),
+            };
+            foreach (var userquake in userquakes) { aggregator.AddUserquake(userquake.Item1, userquake.Item2, areaPeers); }
+
+            Assert.That(newEvents, Has.Count.EqualTo(1));
+            Assert.That(newEvents[0].Count, Is.EqualTo(7));
+            Assert.That(newEvents[0].StartedAt, Is.EqualTo(DateTime.Today.AddSeconds(100)));
+            Assert.That(newEvents[0].UpdatedAt, Is.EqualTo(DateTime.Today.AddSeconds(123)));
+            Assert.That(newEvents[0].ConfidenceLevel, Is.EqualTo(3));
+            Assert.That(newEvents[0].AreaConfidences, Has.Count.EqualTo(2));
+            Assert.That(newEvents[0].AreaConfidences["101"].ConfidenceLevel, Is.EqualTo("E"));
+            Assert.That(newEvents[0].AreaConfidences["101"].Count, Is.EqualTo(6));
+            Assert.That(newEvents[0].AreaConfidences["201"].ConfidenceLevel, Is.EqualTo("E"));
+            Assert.That(newEvents[0].AreaConfidences["201"].Count, Is.EqualTo(1));
+            Assert.That(updateEvents, Is.Empty);
+
+            aggregator.AddUserquake(DateTime.Today.AddSeconds(124), "101", areaPeers);
+            aggregator.AddUserquake(DateTime.Today.AddSeconds(125), "101", areaPeers);
+
+            Assert.That(newEvents, Has.Count.EqualTo(1));
+            Assert.That(updateEvents, Has.Count.EqualTo(2));
+            Assert.That(updateEvents.Last().Count, Is.EqualTo(9));
+            Assert.That(updateEvents.Last().StartedAt, Is.EqualTo(newEvents[0].StartedAt));
+            Assert.That(updateEvents.Last().UpdatedAt, Is.EqualTo(DateTime.Today.AddSeconds(125)));
+            Assert.That(updateEvents.Last().Confidence, Is.GreaterThan(newEvents[0].Confidence));
+            Assert.That(updateEvents.Last().AreaConfidences["101"].Confidence, Is.GreaterThan(newEvents[0].AreaConfidences["101"].Confidence));
+            Assert.That(updateEvents.Last().AreaConfidences["101"].Count, Is.GreaterThan(newEvents[0].AreaConfidences["101"].Count));
+            Assert.That(updateEvents.Last().AreaConfidences["201"].Confidence, Is.EqualTo(newEvents[0].AreaConfidences["201"].Confidence));
+            Assert.That(updateEvents.Last().AreaConfidences["201"].Count, Is.EqualTo(newEvents[0].AreaConfidences["201"].Count));
+
+            // Event 3
+            userquakes = new[]
+            {
+                (DateTime.Today.AddSeconds(200), "101"),
+                (DateTime.Today.AddSeconds(220), "201"),
+                (DateTime.Today.AddSeconds(223), "101"),
+                (DateTime.Today.AddSeconds(223), "101"),
+                (DateTime.Today.AddSeconds(223), "101"),
+                (DateTime.Today.AddSeconds(223), "101"),
+                (DateTime.Today.AddSeconds(223), "101"),
+            };
+            foreach (var userquake in userquakes) { aggregator.AddUserquake(userquake.Item1, userquake.Item2, areaPeers); }
+            Assert.That(newEvents, Has.Count.EqualTo(2));
+            Assert.That(newEvents.Last().Count, Is.EqualTo(7));
+            Assert.That(newEvents.Last().StartedAt, Is.EqualTo(DateTime.Today.AddSeconds(200)));
+            Assert.That(newEvents.Last().UpdatedAt, Is.EqualTo(DateTime.Today.AddSeconds(223)));
+        }
+
+        [TestCase]
         public void EvaluateNotTrulyTest()
         {
             evaluateNotTruly(new[] {

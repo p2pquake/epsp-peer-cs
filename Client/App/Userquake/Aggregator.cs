@@ -104,15 +104,10 @@ namespace Client.App.Userquake
             {
                 return 0;
             }
-            Console.WriteLine("count:" + userquakes.Count());
             var speed = userquakes.Count() / userquakes.Last().At.Subtract(userquakes.First().At).TotalSeconds;
-            Console.WriteLine("speed: " + speed);
             var rate = (double)userquakes.Count() / areaPeers.Values.Sum();
-            Console.WriteLine("rate: " + rate);
             var areaRate = CalcMaxAreaRate(userquakes, areaPeers);
-            Console.WriteLine("areaRate: " + areaRate);
             var regionRate = CalcMaxRegionRate(userquakes, areaPeers);
-            Console.WriteLine("regionRate: " + regionRate);
 
             var pairs = new (double, int)[]
             {
