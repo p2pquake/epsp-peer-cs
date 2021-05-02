@@ -1,4 +1,4 @@
-﻿using CLI.Receiver;
+﻿using CLI.Observers;
 
 using Client.App;
 
@@ -15,8 +15,9 @@ namespace CLI
             BasicConfigurator.Configure();
 
             var mc = new MediatorContext();
-            var dr = ReceiverFactory.CreateReceiver(ReceiverType.Dummy, mc);
-            var pr = ReceiverFactory.CreateReceiver(ReceiverType.Print, mc);
+            var dr = ObserverFactory.CreateReceiver(ObserverType.Dummy, mc);
+            var pr = ObserverFactory.CreateReceiver(ObserverType.Print, mc);
+            var gr = ObserverFactory.CreateReceiver(ObserverType.Grpc, mc);
             mc.Connect();
 
             Console.ReadLine();

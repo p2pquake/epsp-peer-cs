@@ -6,18 +6,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CLI.Receiver
+namespace CLI.Observers
 {
-    public enum ReceiverType
+    public enum ObserverType
     {
         Dummy,
         Print,
+        Grpc,
     }
 
-    public static class ReceiverFactory
+    public static class ObserverFactory
     {
 
-        public static IReceiver CreateReceiver(ReceiverType type, MediatorContext m)
+        public static IObserver CreateReceiver(ObserverType type, MediatorContext m)
         {
             var r = GenerateReceiver(type, m);
             m.StateChanged += r.StateChanged;
@@ -34,12 +35,13 @@ namespace CLI.Receiver
             return r;
         }
 
-        private static IReceiver GenerateReceiver(ReceiverType type, MediatorContext m)
+        private static IObserver GenerateReceiver(ObserverType type, MediatorContext m)
         {
             return type switch
             {
-                ReceiverType.Dummy => new DummyReceiver() { MediatorContext = m },
-                ReceiverType.Print => new PrintReceiver() { MediatorContext = m },
+                ObserverType.Dummy => new DummyObserver() { MediatorContext = m },
+                ObserverType.Print => new PrintObserver() { MediatorContext = m },
+                ObserverType.Grpc => new GrpcObserver() { MediatorContext = m },
                 _ => throw new ArgumentException($"Unknown receiver type: {type}"),
             };
         }

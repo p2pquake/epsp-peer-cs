@@ -9,9 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CLI.Receiver
+namespace CLI.Observers
 {
-    public interface IReceiver
+    public interface IObserver
     {
         MediatorContext MediatorContext { init; }
 
