@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+option csharp_namespace = "CLI";
+
+package client;
+import "google/protobuf/empty.proto";
+
+service Operator {
+  rpc GetConfiguration (GetConfigurationRequest) returns (GetConfigurationResponse);
+  rpc SetConfiguration (SetConfigurationRequest) returns (SetConfigurationResponse);
+
+  rpc GetState (GetStateRequest) returns (GetStateResponse);
+
+  rpc Connect (google.protobuf.Empty) returns (BoolResponse);
+  rpc Disconnect (google.protobuf.Empty) returns (BoolResponse);
+  rpc SendUserquake (google.protobuf.Empty) returns (BoolResponse);
+}
+
+message BoolResponse {
+  bool result = 1;
+}
+
+message GetConfigurationRequest {}
+message GetConfigurationResponse {
+  ApplicationConfig config = 1;
+}
+message SetConfigurationRequest {
+  ApplicationConfig config = 1;
+}
+message SetConfigurationResponse {
+  bool result = 1;
+}
+
+message ApplicationConfig {
+  int32 area_code = 1;
+  bool  port_open = 2;
+  int32 port = 3;
+  bool  use_upnp = 4;
+  int32 max_connections = 5;
+}
+
+message GetStateRequest {}
+message GetStateResponse {
+  State state = 1;
+}
+
+message State {
+  AppState app_state = 1;
+  map<string, int32> areapeers = 2;
+  int32 connections = 3;
+  bool  is_port_opened = 4;
+  int32 peer_id = 5;
+  bool has_key = 6;
+  bool can_connect = 10;
+  bool can_disconnect = 11;
+  enum AppState {
+    UNKNOWN = 0;
+    DISCONNECTED = 1;
+    CONNECTING = 2;
+    CONNECTED = 3;
+    MAINTENANCE = 4;
+    DISCONNECTING = 5;
+  }
+}
