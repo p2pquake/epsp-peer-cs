@@ -1,20 +1,24 @@
+﻿
+using Client.App;
+using Client.App.Userquake;
+using Client.Client;
+using Client.Peer;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
+using System;
+
 namespace CLI.Observers
 {
-    class GrpcObserver : DummyObserver, IObserver
+    /// <summary>
+    /// gRPC サーバを建てるためのダミー Observer
+    /// </summary>
+    public class GrpcObserver : DummyObserver, IObserver
     {
-        public GrpcObserver()
+        public void Build()
         {
-            // Additional configuration is required to successfully run gRPC on macOS.
-            // For instructions on how to configure Kestrel and gRPC clients on macOS, visit https://go.microsoft.com/fwlink/?linkid=2099682
-            Host.CreateDefaultBuilder(null)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                }).Build().RunAsync();
+            _ = new Grpc.Server(MediatorContext);
         }
     }
 }
