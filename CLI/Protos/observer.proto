@@ -1,0 +1,151 @@
+syntax = "proto3";
+
+option csharp_namespace = "CLI";
+
+package client;
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service Observer {
+  rpc WatchState (google.protobuf.Empty) returns (stream StateChangedResponse);
+  rpc WatchData (google.protobuf.Empty) returns (stream DataArrivedResponse);
+}
+
+message StateChangedResponse {
+  enum EventType {
+    UNKNOWN_EVENT = 0;
+    STATE_CHANGED = 1;
+    COMPLETED = 2;
+    CONNECTIONS_CHANGED = 3;
+  }
+  enum OperationResult {
+    UNKNOWN_RESULT = 0;
+    SUCCESSFUL = 1;
+    RETRYABLE = 2;
+    RESTARTABLE = 3;
+    FATAL = 15;
+  }
+  enum ErrorCode {
+    UNKNOWN_ERROR = 0;
+    NO_ERROR = 1;
+    CONNECTION_FAILED = 2;
+    TIMED_OUT = 3;
+    RETURNED_ADDRESS_CHANGED = 9;
+    RETURNED_INCOMPATIBLE_SERVER = 10;
+    RETURNED_UNKNOWN = 11;
+    RETURNED_INCOMPATIBLE_CLIENT = 12;
+    RETURNED_INVALID_REQUEST = 13;
+    RETURNED_MAINTENANCE = 14;
+    RETURNED_DIFF_SPEC = 15;
+  }
+
+  EventType type = 1;
+  OperationResult operation_result = 10;
+  ErrorCode error_code = 11;
+}
+
+message DataArrivedResponse {
+  enum EventType {
+    UNKNOWN = 0;
+    EARTHQUAKE = 1;
+    TSUNAMI = 2;
+    AREAPEERS = 6;
+    EEW_TEST = 7;
+    USERQUAKE = 10;
+    NEW_USERQUAKE_EVALUATION = 11;
+    UPDATE_USERQUAKE_EVALUATION = 12;
+  }
+
+  EventType type = 1;
+  google.protobuf.Timestamp received_at = 2;
+  bool is_invalid_signature = 3;
+  bool is_expired = 4;
+
+  oneof body {
+    Quake quake = 10;
+    Tsunami tsunami = 11;
+    EEWTest eew_test = 12;
+    Userquake userquake = 13;
+    UserquakeEvaluation userquake_evaluation = 14;
+    google.protobuf.Empty empty = 15;
+  }
+}
+
+message Quake {
+  enum DomesticTsunamiType {
+    UNKNOWN_TSUNAMI_TYPE = 0;
+    NONE = 1;
+    EFFECTIVE = 2;
+    CHECKING = 3;
+  }
+  enum QuakeInformationType {
+    UNKNOWN_INFORMATION_TYPE = 0;
+    SCALE_PROMPT = 1;
+    DESTINATION = 2;
+    SCALE_AND_DESTINATION = 3;
+    DETAIL = 4;
+    FOREIGN = 5;
+  }
+
+  string occured_time = 1;
+  string scale = 2;
+  DomesticTsunamiType tsunami_type = 3;
+  QuakeInformationType information_type = 4;
+  string destination = 5;
+  string depth = 6;
+  string magnitude = 7;
+  bool is_correction = 8;
+  string latitude = 9;
+  string longitude = 10;
+  string issue_from = 11;
+  repeated QuakeObservationPoint points = 12;
+}
+
+message QuakeObservationPoint {
+  string prefecture = 1;
+  string scale = 2;
+  string name = 3;
+}
+
+message Tsunami {
+  bool is_cancelled = 1;
+  repeated TsunamiForecastRegion region_list = 2;
+}
+
+message TsunamiForecastRegion {
+  enum TsunamiCategory {
+    UNKNOWN = 0;
+    ADVISORY = 1;
+    WARNING = 2;
+    MAJOR_WARNING = 3;
+  }
+
+  TsunamiCategory category = 1;
+  string region = 2;
+  bool is_immediately = 3;
+}
+
+message EEWTest {
+  bool is_test = 1;
+}
+
+message Userquake {
+  string area_code = 1;
+  string public_key = 2;
+}
+
+message UserquakeEvaluation {
+  google.protobuf.Timestamp started_at = 1;
+  google.protobuf.Timestamp updated_at = 2;
+  int32 count = 3;
+  double confidence = 4;
+  int32 confidence_level = 5;
+  map<string, UserquakeEvaluationArea> area_confidences = 11;
+}
+
+message UserquakeEvaluationArea {
+  string area_code = 1;
+  int32 count = 2;
+  double confidence = 3;
+  string confidence_level = 4;
+}
