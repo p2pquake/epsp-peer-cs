@@ -18,7 +18,6 @@ namespace CLI
             var dr = ObserverFactory.CreateObserver(ObserverType.Dummy, mc);
             var pr = ObserverFactory.CreateObserver(ObserverType.Print, mc);
             var gr = ObserverFactory.CreateObserver(ObserverType.Grpc, mc);
-            mc.Connect();
 
             Console.ReadLine();
         }

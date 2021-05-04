@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "CLI";
+option csharp_namespace = "CLI.Grpc.Services";
 
 package client;
 import "google/protobuf/empty.proto";

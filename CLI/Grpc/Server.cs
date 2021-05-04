@@ -1,4 +1,6 @@
-﻿using Client.App;
+﻿using CLI.Grpc.Services;
+
+using Client.App;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,6 +41,7 @@ namespace CLI.Grpc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
+            services.AddSingleton(MediatorContext);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,7 +56,7 @@ namespace CLI.Grpc
 
             app.UseEndpoints(endpoints =>
             {
-                // endpoints.MapGrpcService<XXXService>();
+                endpoints.MapGrpcService<OperatorService>();
 
                 endpoints.MapGet("/", async context =>
                 {
