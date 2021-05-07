@@ -14,4 +14,28 @@
     <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta11" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="FontResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FontResource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="ImageResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ImageResource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="FontResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FontResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ImageResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ImageResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>
