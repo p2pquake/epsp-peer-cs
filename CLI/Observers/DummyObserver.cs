@@ -13,7 +13,7 @@ namespace CLI.Observers
 {
     public class DummyObserver : IObserver
     {
-        public MediatorContext MediatorContext { private get; init; }
+        public MediatorContext MediatorContext { protected get; init; }
 
         public void Completed(object sender, OperationCompletedEventArgs e)
         {

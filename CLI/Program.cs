@@ -15,10 +15,9 @@ namespace CLI
             BasicConfigurator.Configure();
 
             var mc = new MediatorContext();
-            var dr = ObserverFactory.CreateReceiver(ObserverType.Dummy, mc);
-            var pr = ObserverFactory.CreateReceiver(ObserverType.Print, mc);
-            var gr = ObserverFactory.CreateReceiver(ObserverType.Grpc, mc);
-            mc.Connect();
+            var dr = ObserverFactory.CreateObserver(ObserverType.Dummy, mc);
+            var pr = ObserverFactory.CreateObserver(ObserverType.Print, mc);
+            var gr = ObserverFactory.CreateObserver(ObserverType.Grpc, mc);
 
             Console.ReadLine();
         }

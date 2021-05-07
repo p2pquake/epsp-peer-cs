@@ -18,9 +18,9 @@ namespace CLI.Observers
     public static class ObserverFactory
     {
 
-        public static IObserver CreateReceiver(ObserverType type, MediatorContext m)
+        public static IObserver CreateObserver(ObserverType type, MediatorContext m)
         {
-            var r = GenerateReceiver(type, m);
+            var r = GenerateObserver(type, m);
             m.StateChanged += r.StateChanged;
             m.Completed += r.Completed;
             m.ConnectionsChanged += r.ConnectionsChanged;
@@ -35,15 +35,23 @@ namespace CLI.Observers
             return r;
         }
 
-        private static IObserver GenerateReceiver(ObserverType type, MediatorContext m)
+        private static IObserver GenerateObserver(ObserverType type, MediatorContext m)
         {
             return type switch
             {
                 ObserverType.Dummy => new DummyObserver() { MediatorContext = m },
                 ObserverType.Print => new PrintObserver() { MediatorContext = m },
-                ObserverType.Grpc => new GrpcObserver() { MediatorContext = m },
+                ObserverType.Grpc => GenerateGrpcObserver(m),
                 _ => throw new ArgumentException($"Unknown receiver type: {type}"),
             };
+        }
+
+        // Note. 他の Observer でも似たようなことをしはじめたら IObserver に組み入れる
+        private static GrpcObserver GenerateGrpcObserver(MediatorContext m)
+        {
+            var v = new GrpcObserver() { MediatorContext = m };
+            v.Build();
+            return v;
         }
     }
 }
