@@ -17,7 +17,8 @@ namespace Map
         {
             var drawer = new MapDrawer
             {
-                MapType = Model.MapType.JAPAN_1024
+                MapType = Model.MapType.JAPAN_4096,
+                Hypocenter = new Model.GeoCoordinate(36.1, 140),
             };
 
             using var png = drawer.DrawAsPng();

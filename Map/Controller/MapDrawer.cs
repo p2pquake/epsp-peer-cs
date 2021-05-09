@@ -8,17 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Png;
 
 namespace Map.Controller
 {
-    public record Coordinate(double Latitude, double Longitude);
-
     public class MapDrawer
     {
         public bool Trim { get; set; }
         public MapType MapType { get; set; }
-        public Coordinate Hypocenter { get; set; }
+        public GeoCoordinate Hypocenter { get; set; }
         public IList<ObservationPoint> ObservationPoints { get; init; }
         public IList<UserquakePoint> UserquakePoints { get; init; }
 
@@ -37,6 +34,18 @@ namespace Map.Controller
             // 描画対象を準備 ----
             var drawers = new List<AbstractDrawer>();
 
+            //   震度
+            if (ObservationPoints != null && ObservationPoints.Any())
+            {
+                drawers.Add(new ObservationPointsDrawer
+                {
+                    Image = image,
+                    IsMercator = mapData.IsMercator,
+                    LTRB = mapData.LTRBCoordinate,
+                    ObservationPoints = ObservationPoints,
+                });
+            }
+
             //   震源
             if (Hypocenter != null)
             {
@@ -49,20 +58,8 @@ namespace Map.Controller
                 });
             }
 
-            //   震度
-            if (ObservationPoints != null)
-            {
-                drawers.Add(new ObservationPointsDrawer
-                {
-                    Image = image,
-                    IsMercator = mapData.IsMercator,
-                    LTRB = mapData.LTRBCoordinate,
-                    ObservationPoints = ObservationPoints,
-                });
-            }
-
             //   地震感知情報
-            if (UserquakePoints != null)
+            if (UserquakePoints != null && UserquakePoints.Any())
             {
                 drawers.Add(new UserquakeDrawer
                 {
@@ -72,6 +69,9 @@ namespace Map.Controller
                     UserquakePoints = UserquakePoints,
                 });
             }
+
+            // 描画処理
+            drawers.ForEach(x => x.Draw());
 
             // トリム処理
             if (MapType != MapType.WORLD)

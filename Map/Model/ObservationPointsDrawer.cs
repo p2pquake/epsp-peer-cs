@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using SixLabors.ImageSharp.Drawing;
+
 namespace Map.Model
 {
     public record ObservationPoint(string Prefecture, string Name, int Scale);
