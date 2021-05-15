@@ -25,6 +25,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ImageResource.resx</DependentUpon>
     </Compile>
+    <Compile Update="PointResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PointResource.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +40,10 @@
     <EmbeddedResource Update="ImageResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ImageResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PointResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PointResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
