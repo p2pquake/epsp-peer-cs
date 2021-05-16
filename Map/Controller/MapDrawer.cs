@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace Map.Controller
 {
@@ -82,7 +83,8 @@ namespace Map.Controller
             // 地理院タイルの出典
             if (MapType != MapType.WORLD)
             {
-
+                using var desc = Image.Load(new MemoryStream(Map.ImageResource.description));
+                image.Mutate(x => x.DrawImage(desc, new Point(0, image.Height - desc.Height), 1));
             }
 
             // PNG 出力
