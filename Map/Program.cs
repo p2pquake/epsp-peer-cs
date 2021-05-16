@@ -8,6 +8,7 @@ using System.IO;
 using System.Diagnostics;
 using Map.Controller;
 using System.Collections.Generic;
+using Map.Model;
 
 namespace Map
 {
@@ -15,10 +16,28 @@ namespace Map
     {
         static void Main(string[] args)
         {
+            Console.WriteLine(UserquakeAreas.Instance.ContainsKey("250"));
+            Console.WriteLine(UserquakeAreas.Instance.Get("250"));
+
+            Console.WriteLine(Stations.Instance.GetArea("東京都２３区"));
+            Console.WriteLine(Stations.Instance.GetPoint("東京新宿区"));
+            Console.WriteLine(Stations.Instance.GetPoint("東京新宿区", "東京都"));
+            Console.WriteLine(Stations.Instance.GetPoint("東京新宿区西新宿"));
+            Console.WriteLine(Stations.Instance.GetPoint("東京新宿区西新宿", "東京都"));
+            Console.WriteLine(Stations.Instance.GetPoint("東京新宿区存在しない地名", "東京都"));
+
             var drawer = new MapDrawer
             {
-                MapType = Model.MapType.JAPAN_4096,
+                MapType = Model.MapType.JAPAN_1024,
                 Hypocenter = new Model.GeoCoordinate(36.1, 140),
+                ObservationPoints = new List<ObservationPoint>
+                {
+                    new ObservationPoint("千葉県", "大網白里市大網", 30),
+                    new ObservationPoint("千葉県", "東金市東新宿", 20),
+                    new ObservationPoint("茨城県", "茨城鹿嶋市鉢形", 10),
+                    new ObservationPoint("神奈川県", "横浜鶴見区末広町", 10),
+                    new ObservationPoint("東京都", "東京品川区平塚", 10),
+                }
             };
 
             using var png = drawer.DrawAsPng();
