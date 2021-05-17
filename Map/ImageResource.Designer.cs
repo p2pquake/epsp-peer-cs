@@ -103,6 +103,16 @@ namespace Map {
         /// <summary>
         ///   型 System.Byte[] のローカライズされたリソースを検索します。
         /// </summary>
+        internal static byte[] QuakeNote {
+            get {
+                object obj = ResourceManager.GetObject("QuakeNote", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
         internal static byte[] Scale10 {
             get {
                 object obj = ResourceManager.GetObject("Scale10", resourceCulture);
@@ -196,6 +206,16 @@ namespace Map {
         internal static byte[] Scale70 {
             get {
                 object obj = ResourceManager.GetObject("Scale70", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static byte[] UserquakeNote {
+            get {
+                object obj = ResourceManager.GetObject("UserquakeNote", resourceCulture);
                 return ((byte[])(obj));
             }
         }

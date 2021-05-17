@@ -130,6 +130,9 @@
   <data name="japan_gsi_8192" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Maps\japan-gsi_8192-8bit.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="QuakeNote" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Images\quake_note.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Scale10" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Images\scale_10.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -159,6 +162,9 @@
   </data>
   <data name="Scale70" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Images\scale_70.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="UserquakeNote" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Images\userquake_note.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="world_1024" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Maps\world_1024.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

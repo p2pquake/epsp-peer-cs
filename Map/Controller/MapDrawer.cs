@@ -87,6 +87,22 @@ namespace Map.Controller
                 image.Mutate(x => x.DrawImage(desc, new Point(0, image.Height - desc.Height), 1));
             }
 
+            // 地震感知情報の凡例
+            if (UserquakePoints != null && UserquakePoints.Any())
+            {
+                using var uqNote = Image.Load(new MemoryStream(Map.ImageResource.UserquakeNote));
+                uqNote.Mutate(x => x.Resize(uqNote.Width / 4, uqNote.Height / 4));
+                image.Mutate(x => x.DrawImage(uqNote, new Point(image.Width - uqNote.Width - 8, image.Height - uqNote.Height - 8), 1));
+            }
+
+            // 地震情報の凡例
+            if (Hypocenter != null)
+            {
+                using var qNote = Image.Load(new MemoryStream(Map.ImageResource.QuakeNote));
+                qNote.Mutate(x => x.Resize(qNote.Width / 4, qNote.Height / 4));
+                image.Mutate(x => x.DrawImage(qNote, new Point(image.Width - qNote.Width - 8, image.Height - qNote.Height - 8), 1));
+            }
+
             // PNG 出力
             var stream = new MemoryStream();
             image.SaveAsPng(stream);

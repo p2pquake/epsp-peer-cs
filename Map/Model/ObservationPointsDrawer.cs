@@ -16,7 +16,7 @@ namespace Map.Model
     class ObservationPointsDrawer : AbstractDrawer
     {
         public IList<ObservationPoint> ObservationPoints { get; init; }
-        private const int drawSize = 16;
+        private const int drawSize = 12;
 
         public override LTRBCoordinate CalcDrawLTRB()
         {
