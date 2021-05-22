@@ -47,20 +47,19 @@ namespace Map.Model
 
             foreach (var point in UserquakePoints.OrderBy(e => e.Confidence))
             {
-                var coordinate = uqAreas.Get(point.Areacode);
-                if (coordinate == null)
+                if (!uqAreas.ContainsKey(point.Areacode))
                 {
                     continue;
                 }
-
+                var coordinate = uqAreas.Get(point.Areacode);
                 var pos = trans.Geo2Pixel(coordinate);
                 var rect = new Rectangle(pos.X - (drawSize / 2 + 1), pos.Y - (drawSize / 2 + 1), drawSize + 2, drawSize + 2);
-                Image.Mutate(x => x.Fill(convConfidenceColor(point.Confidence), rect));
-                Image.Mutate(x => x.DrawImage(uqImages[convConfidence(point.Confidence)], new Point(pos.X - (drawSize / 2), pos.Y - (drawSize / 2)), 1));
+                Image.Mutate(x => x.Fill(ConvConfidenceColor(point.Confidence), rect));
+                Image.Mutate(x => x.DrawImage(uqImages[ConvConfidence(point.Confidence)], new Point(pos.X - (drawSize / 2), pos.Y - (drawSize / 2)), 1));
             }
         }
 
-        private string convConfidence(double confidence)
+        private string ConvConfidence(double confidence)
         {
             return confidence switch
             {
@@ -73,7 +72,7 @@ namespace Map.Model
             };
         }
 
-        private Color convConfidenceColor(double confidence)
+        private Color ConvConfidenceColor(double confidence)
         {
             if (confidence < 0)
             {
