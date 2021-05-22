@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Drawing;
+using SixLabors.ImageSharp.Drawing.Processing;
 
 namespace Map.Controller
 {
@@ -105,7 +107,12 @@ namespace Map.Controller
 
             // PNG 出力
             var stream = new MemoryStream();
-            image.SaveAsPng(stream);
+            image.SaveAsPng(stream, new SixLabors.ImageSharp.Formats.Png.PngEncoder
+            {
+                ColorType = SixLabors.ImageSharp.Formats.Png.PngColorType.Rgb,
+                CompressionLevel = SixLabors.ImageSharp.Formats.Png.PngCompressionLevel.BestSpeed,
+                FilterMethod = SixLabors.ImageSharp.Formats.Png.PngFilterMethod.None
+            });
             stream.Seek(0, SeekOrigin.Begin);
             return stream;
         }
