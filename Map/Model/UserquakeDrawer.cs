@@ -45,7 +45,7 @@ namespace Map.Model
                 LTRBCoordinate = LTRB,
             };
 
-            foreach (var point in UserquakePoints)
+            foreach (var point in UserquakePoints.OrderBy(e => e.Confidence))
             {
                 var coordinate = uqAreas.Get(point.Areacode);
                 if (coordinate == null)
@@ -95,8 +95,8 @@ namespace Map.Model
                 var multiply = confidence * 2;
                 return Color.FromRgba(
                         (byte)(255 + (multiply * -11)),
-                        (byte)(255 + (multiply * -95)),
-                        (byte)(255 + (multiply * -191)),
+                        (byte)(248 + (multiply * -88)),
+                        (byte)(240 + (multiply * -176)),
                         192
                     );
             }
