@@ -63,6 +63,66 @@ namespace Map {
         /// <summary>
         ///   型 System.Byte[] のローカライズされたリソースを検索します。
         /// </summary>
+        internal static byte[] ConfidenceA {
+            get {
+                object obj = ResourceManager.GetObject("ConfidenceA", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static byte[] ConfidenceB {
+            get {
+                object obj = ResourceManager.GetObject("ConfidenceB", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static byte[] ConfidenceC {
+            get {
+                object obj = ResourceManager.GetObject("ConfidenceC", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static byte[] ConfidenceD {
+            get {
+                object obj = ResourceManager.GetObject("ConfidenceD", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static byte[] ConfidenceE {
+            get {
+                object obj = ResourceManager.GetObject("ConfidenceE", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static byte[] ConfidenceF {
+            get {
+                object obj = ResourceManager.GetObject("ConfidenceF", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
         internal static byte[] description {
             get {
                 object obj = ResourceManager.GetObject("description", resourceCulture);

@@ -118,6 +118,24 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ConfidenceA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Images\confidence_A.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ConfidenceB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Images\confidence_B.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ConfidenceC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Images\confidence_C.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ConfidenceD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Images\confidence_D.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ConfidenceE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Images\confidence_E.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ConfidenceF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Images\confidence_F.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="description" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Images\description.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
