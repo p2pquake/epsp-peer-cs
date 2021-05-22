@@ -20,7 +20,22 @@ namespace Map.Model
 
         public override LTRBCoordinate CalcDrawLTRB()
         {
-            throw new NotImplementedException();
+            if (ObservationPoints == null || ObservationPoints.Count == 0)
+            {
+                return null;
+            }
+
+            var stations = Stations.Instance;
+            var coordinates = ObservationPoints
+                .Select(e => stations.GetPoint(e.Name, e.Prefecture))
+                .Where(e => e != null);
+
+            return new LTRBCoordinate(
+                coordinates.Select(e => e.Longitude).Min(),
+                coordinates.Select(e => e.Latitude).Max(),
+                coordinates.Select(e => e.Longitude).Max(),
+                coordinates.Select(e => e.Latitude).Min()
+            );
         }
 
         public override void Draw()

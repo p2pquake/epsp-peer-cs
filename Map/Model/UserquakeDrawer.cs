@@ -20,7 +20,22 @@ namespace Map.Model
 
         public override LTRBCoordinate CalcDrawLTRB()
         {
-            throw new NotImplementedException();
+            if (UserquakePoints == null || UserquakePoints.Count == 0)
+            {
+                return null;
+            }
+
+            var uqAreas = UserquakeAreas.Instance;
+            var coordinates = UserquakePoints
+                .Where(e => uqAreas.ContainsKey(e.Areacode))
+                .Select(e => uqAreas.Get(e.Areacode));
+
+            return new LTRBCoordinate(
+                coordinates.Select(e => e.Longitude).Min(),
+                coordinates.Select(e => e.Latitude).Max(),
+                coordinates.Select(e => e.Longitude).Max(),
+                coordinates.Select(e => e.Latitude).Min()
+            );
         }
 
         public override void Draw()

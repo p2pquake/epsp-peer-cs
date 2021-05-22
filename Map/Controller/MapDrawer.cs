@@ -79,7 +79,29 @@ namespace Map.Controller
             // トリム処理
             if (MapType != MapType.WORLD)
             {
+                var trans = new Transformation
+                {
+                    ImageWidth = image.Width,
+                    ImageHeight = image.Height,
+                    IsMercator = mapData.IsMercator,
+                    LTRBCoordinate = mapData.LTRBCoordinate
+                };
+                var coordinates = drawers.Select(e => e.CalcDrawLTRB()).Where(e => e != null);
+                var lt = trans.Geo2Pixel(new GeoCoordinate(
+                    coordinates.Select(e => e.TopLatitude).Max() + 1.5,
+                    coordinates.Select(e => e.LeftLongitude).Min() - 1.5
+                ));
+                var rb = trans.Geo2Pixel(new GeoCoordinate(
+                    coordinates.Select(e => e.BottomLatitude).Min() - 1.5,
+                    coordinates.Select(e => e.RightLongitude).Max() + 1.5
+                ));
 
+                var l = new int[] { 0, new int[] { lt.X, rb.X - 240 }.Min() }.Max();
+                var t = new int[] { 0, new int[] { lt.Y, rb.Y - 240 }.Min() }.Max();
+                var r = new int[] { image.Width, new int[] { rb.X, lt.X + 240 }.Max() }.Min();
+                var b = new int[] { image.Height, new int[] { rb.Y, lt.Y + 240 }.Max() }.Min();
+
+                image.Mutate(x => x.Crop(new Rectangle(l, t, r - l, b - t)));
             }
 
             // 地理院タイルの出典
