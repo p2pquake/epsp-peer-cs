@@ -77,7 +77,7 @@ namespace Map.Controller
             drawers.ForEach(x => x.Draw());
 
             // トリム処理
-            if (MapType != MapType.WORLD)
+            if (MapType != MapType.WORLD && Trim)
             {
                 var trans = new Transformation
                 {
