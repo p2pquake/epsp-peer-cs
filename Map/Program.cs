@@ -5,6 +5,7 @@ using SixLabors.Fonts;
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Diagnostics;
 using Map.Controller;
 using System.Collections.Generic;
@@ -12,10 +13,16 @@ using Map.Model;
 
 namespace Map
 {
+    /// <summary>
+    /// 単体実行サンプル
+    /// </summary>
     class Program
     {
         static void Main(string[] args)
         {
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+
             Console.WriteLine(UserquakeAreas.Instance.ContainsKey("250"));
             Console.WriteLine(UserquakeAreas.Instance.Get("250"));
 
@@ -25,6 +32,8 @@ namespace Map
             Console.WriteLine(Stations.Instance.GetPoint("東京新宿区西新宿"));
             Console.WriteLine(Stations.Instance.GetPoint("東京新宿区西新宿", "東京都"));
             Console.WriteLine(Stations.Instance.GetPoint("東京新宿区存在しない地名", "東京都"));
+
+            Console.WriteLine($"--- {sw.ElapsedMilliseconds} ms");
 
             var drawer = new MapDrawer
             {
@@ -40,10 +49,31 @@ namespace Map
                 }
             };
 
+            Console.WriteLine($"--- init {sw.ElapsedMilliseconds} ms");
+
             using var png = drawer.DrawAsPng();
+            
+            Console.WriteLine($"--- draw {sw.ElapsedMilliseconds} ms");
+
             using var file = File.Open(@"..\..\..\output.png", FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
             png.CopyTo(file);
             file.Close();
+
+            Console.WriteLine($"--- write {sw.ElapsedMilliseconds} ms");
+
+            var r = new Random();
+            var points = Map.PointResource.UserquakeAreas.Split('\n').Skip(1).Where((line) => line.Length > 0).Select((line) => line.Split(',')[0]).Where((areaCode) => areaCode.StartsWith("1")).Select((areaCode) => new UserquakePoint(areaCode, r.NextDouble() - 0.1)).ToList();
+            var draw2 = new MapDrawer
+            {
+                MapType = Model.MapType.JAPAN_1024,
+                UserquakePoints = points
+            };
+            using var png2 = draw2.DrawAsPng();
+            using var file2 = File.Open(@"..\..\..\output2.png", FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+            png2.CopyTo(file2);
+            file2.Close();
+
+            Console.WriteLine($"--- write {sw.ElapsedMilliseconds} ms");
 
             //var sw = new Stopwatch();
             //sw.Start();
