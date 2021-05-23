@@ -115,7 +115,7 @@ namespace Map.Controller
             if (UserquakePoints != null && UserquakePoints.Any())
             {
                 using var uqNote = Image.Load(new MemoryStream(Map.ImageResource.UserquakeNote));
-                uqNote.Mutate(x => x.Resize(uqNote.Width / 4, uqNote.Height / 4));
+                uqNote.Mutate(x => x.Resize(uqNote.Width / 5, uqNote.Height / 5));
                 image.Mutate(x => x.DrawImage(uqNote, new Point(image.Width - uqNote.Width - 8, image.Height - uqNote.Height - 8), 1));
             }
 
