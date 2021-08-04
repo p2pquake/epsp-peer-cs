@@ -118,8 +118,14 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="AreaGeoJsons" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Points\earthquake.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="Areas" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Points\Areas.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="EarthquakeAreaCodes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Points\EarthquakeAreaCodes.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Stations" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Points\Stations.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>

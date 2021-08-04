@@ -40,6 +40,13 @@ namespace Map.Controller
             //   震度
             if (ObservationPoints != null && ObservationPoints.Any())
             {
+                drawers.Add(new ObservationAreasDrawer
+                {
+                    Image = image,
+                    IsMercator = mapData.IsMercator,
+                    LTRB = mapData.LTRBCoordinate,
+                    ObservationPoints = ObservationPoints,
+                });
                 drawers.Add(new ObservationPointsDrawer
                 {
                     Image = image,
