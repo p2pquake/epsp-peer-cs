@@ -62,7 +62,7 @@ namespace Map.Model
                 foreach (var coordinates in area.Coordinates)
                 {
                     var path = new PathBuilder().AddLines(coordinates.Select(e => {
-                        var pos = trans.Geo2Pixel(e);
+                        var pos = trans.Geo2FloatPixel(e);
                         return new SixLabors.ImageSharp.PointF(pos.X, pos.Y);
                     })).Build();
                     Image.Mutate(x => x.Fill(colorMap[point.Scale].WithAlpha(0.7f), path));
