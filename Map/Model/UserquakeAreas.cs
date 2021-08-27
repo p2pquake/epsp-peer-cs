@@ -61,14 +61,25 @@ namespace Map.Model
             }
         }
 
-        public bool ContainsKey(string AreaCode)
+        public bool ContainsKey(string areaCode)
         {
-            return areas.ContainsKey(AreaCode);
+            return areas.ContainsKey(areaCode);
         }
 
-        public GeoCoordinate Get(string AreaCode)
+        public GeoCoordinate Get(string areaCode)
         {
-            return new GeoCoordinate(areas[AreaCode].Latitude, areas[AreaCode].Longitude);
+            return new GeoCoordinate(areas[areaCode].Latitude, areas[areaCode].Longitude);
+        }
+
+        // XXX: ContainsKey と役割があいまい。
+        public bool ContainsMultiPolygonKey(string areaCode)
+        {
+            return areaGeoCoordinates.ContainsKey(areaCode);
+        }
+
+        public GeoCoordinate[][] GetMultiPolygon(string areaCode)
+        {
+            return areaGeoCoordinates[areaCode];
         }
     }
 }
