@@ -93,7 +93,7 @@ namespace Map.Model
                         return new SixLabors.ImageSharp.PointF(pos.X, pos.Y);
                     })).Build();
 
-                    Image.Mutate(x => x.Fill(ConvConfidenceColor(point.Confidence).WithAlpha(1.0f), path));
+                    Image.Mutate(x => x.Fill(ConvConfidenceColor(point.Confidence).WithAlpha(0.95f), path));
                 }
             }
 
@@ -107,7 +107,6 @@ namespace Map.Model
                 var coordinate = uqAreas.Get(point.Areacode);
                 var pos = trans.Geo2Pixel(coordinate);
                 var rect = new Rectangle(pos.X - (drawSize / 2 + 1), pos.Y - (drawSize / 2 + 1), drawSize + 2, drawSize + 2);
-                // Image.Mutate(x => x.Fill(ConvConfidenceColor(point.Confidence), rect));
                 Image.Mutate(x => x.DrawImage(uqImages[ConvConfidence(point.Confidence)], new Point(pos.X - (drawSize / 2), pos.Y - (drawSize / 2)), 1));
             }
         }
