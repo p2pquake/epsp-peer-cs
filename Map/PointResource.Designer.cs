@@ -61,7 +61,25 @@ namespace Map {
         }
         
         /// <summary>
-        ///   {&quot;type&quot;:&quot;FeatureCollection&quot;,&quot;features&quot;:[{&quot;type&quot;:&quot;Feature&quot;,&quot;geometry&quot;:{&quot;type&quot;:&quot;MultiPolygon&quot;,&quot;coordinates&quot;:[[[[141.4039,43.7378],[141.4173,43.7112],[141.4906,43.6844],[141.5833,43.6099],[141.5949,43.5838],[141.6001,43.5846],[141.6182,43.5779],[141.6235,43.5419],[141.6514,43.5138],[141.7278,43.4714],[141.7223,43.4596],[141.5976,43.3848],[141.5811,43.3527],[141.62,43.2835],[141.6543,43.2861],[141.6546,43.2837],[141.6462,43.2694],[141.673,43.2281],[141.654,43.2208],[141.6489,43.1895],[141.6104,43.1686],[141.623 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///   {
+        ///  &quot;type&quot;: &quot;FeatureCollection&quot;,
+        ///  &quot;features&quot;: [
+        ///    {
+        ///      &quot;type&quot;: &quot;Feature&quot;,
+        ///      &quot;geometry&quot;: {
+        ///        &quot;type&quot;: &quot;MultiPolygon&quot;,
+        ///        &quot;coordinates&quot;: [
+        ///          [
+        ///            [
+        ///              [ 141.4039, 43.7378 ],
+        ///              [ 141.4173, 43.7112 ],
+        ///              [ 141.4906, 43.6844 ],
+        ///              [ 141.5833, 43.6099 ],
+        ///              [ 141.5949, 43.5838 ],
+        ///              [ 141.6001, 43.5846 ],
+        ///              [ 141.6182, 43.5779 ],
+        ///              [ 141.6235, 43.5419 ],
+        ///              [ [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string AreaGeoJsons {
             get {
@@ -174,6 +192,18 @@ namespace Map {
         }
         
         /// <summary>
+        ///   {
+        ///&quot;type&quot;: &quot;FeatureCollection&quot;,
+        ///&quot;features&quot;: [
+        ///{ &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: { &quot;code&quot;: &quot;12201&quot; }, &quot;geometry&quot;: { &quot;type&quot;: &quot;MultiPolygon&quot;, &quot;coordinates&quot;: [ [ [ [ 141.6243, 38.8854 ], [ 141.6343, 38.8674 ], [ 141.6224, 38.8514 ], [ 141.6377, 38.8409 ], [ 141.6244, 38.8302 ], [ 141.6017, 38.8738 ], [ 141.6243, 38.8854 ] ] ], [ [ [ 141.5108, 39.0024 ], [ 141.6317, 38.9707 ], [ 141.6319, 38.9707 ], [ 141.6483, 38.9425 ], [ 141.6342, 38.9302 ], [ 141.6532, 38.9191 ], [ 141.6747, 38.8583 ], [ 141.637, 38.8852  [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string UserquakeAreaGeoJsons {
+            get {
+                return ResourceManager.GetString("UserquakeAreaGeoJsons", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   地域コード,地方名,都道府県名,地域名,緯度,経度
         ///010,北海道,北海道,北海道 石狩,43.062,141.354
         ///015,北海道,北海道,北海道 渡島,41.820,140.753
@@ -193,6 +223,55 @@ namespace Map {
         internal static string UserquakeAreas {
             get {
                 return ResourceManager.GetString("UserquakeAreas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   地域コード,区域コード1,区域コード2,区域コード3
+        ///010,100,101,102
+        ///015,105,106,107
+        ///020,110,119
+        ///025,116,117
+        ///030,120,121,122
+        ///035,125,126,127
+        ///040,130,131
+        ///045,135,136,139
+        ///050,140,141,142
+        ///055,145,146
+        ///065,155,156,157
+        ///060,150,151,152
+        ///070,160,161
+        ///075,165,166,167
+        ///100,200,201
+        ///105,202
+        ///106,203
+        ///110,210
+        ///111,211
+        ///115,212,213
+        ///120,220,12201,12202
+        ///125,221,12211,12212
+        ///130,230,231
+        ///135,232,233
+        ///140,240
+        ///141,241
+        ///142,242
+        ///143,243
+        ///150,250
+        ///151,251
+        ///152,252
+        ///200,300
+        ///205,301
+        ///210,310
+        ///215,311
+        ///220,320
+        ///225,321
+        ///230,330
+        ///231,331
+        ///2 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string UserquakeAreas2EarthquakeAreaCodes {
+            get {
+                return ResourceManager.GetString("UserquakeAreas2EarthquakeAreaCodes", resourceCulture);
             }
         }
     }

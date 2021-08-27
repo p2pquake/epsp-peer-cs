@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SixLabors.ImageSharp.Drawing;
 
 namespace Map.Model
 {
@@ -16,7 +17,7 @@ namespace Map.Model
     class UserquakeDrawer : AbstractDrawer
     {
         public IList<UserquakePoint> UserquakePoints { get; init; }
-        private const int drawSize = 16;
+        private const int drawSize = 12;
 
         public override LTRBCoordinate CalcDrawLTRB()
         {
@@ -60,6 +61,43 @@ namespace Map.Model
                 LTRBCoordinate = LTRB,
             };
 
+            // TODO: 処理が若干冗長。。
+            // 塗りつぶし
+            foreach (var point in UserquakePoints.OrderBy(e => e.Confidence))
+            {
+                if (!uqAreas.ContainsMultiPolygonKey(point.Areacode))
+                {
+                    continue;
+                }
+
+                var coordinatesArray = uqAreas.GetMultiPolygon(point.Areacode);
+
+                // 輪郭線
+                foreach (var coordinates in coordinatesArray)
+                {
+                    var path = new PathBuilder().AddLines(coordinates.Select(e =>
+                    {
+                        var pos = trans.Geo2FloatPixel(e);
+                        return new SixLabors.ImageSharp.PointF(pos.X, pos.Y);
+                    })).Build();
+
+                    Image.Mutate(x => x.Draw(new Pen(Color.Gray.WithAlpha(0.5f), 2), path));
+                }
+
+                // 塗りつぶし
+                foreach (var coordinates in coordinatesArray)
+                {
+                    var path = new PathBuilder().AddLines(coordinates.Select(e =>
+                    {
+                        var pos = trans.Geo2FloatPixel(e);
+                        return new SixLabors.ImageSharp.PointF(pos.X, pos.Y);
+                    })).Build();
+
+                    Image.Mutate(x => x.Fill(ConvConfidenceColor(point.Confidence).WithAlpha(0.95f), path));
+                }
+            }
+
+            // 文字描画
             foreach (var point in UserquakePoints.OrderBy(e => e.Confidence))
             {
                 if (!uqAreas.ContainsKey(point.Areacode))
@@ -69,7 +107,6 @@ namespace Map.Model
                 var coordinate = uqAreas.Get(point.Areacode);
                 var pos = trans.Geo2Pixel(coordinate);
                 var rect = new Rectangle(pos.X - (drawSize / 2 + 1), pos.Y - (drawSize / 2 + 1), drawSize + 2, drawSize + 2);
-                Image.Mutate(x => x.Fill(ConvConfidenceColor(point.Confidence), rect));
                 Image.Mutate(x => x.DrawImage(uqImages[ConvConfidence(point.Confidence)], new Point(pos.X - (drawSize / 2), pos.Y - (drawSize / 2)), 1));
             }
         }
@@ -101,7 +138,7 @@ namespace Map.Model
                     (byte)(244 + (multiply * -4)),
                     (byte)(160 + (multiply * -32)),
                     (byte)(64 + (multiply * -64)),
-                    224
+                    255
                     );
             }
             else
