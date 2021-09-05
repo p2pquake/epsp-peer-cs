@@ -5,12 +5,30 @@ using Client.App;
 using log4net.Config;
 
 using System;
+using System.CommandLine;
+using System.CommandLine.Invocation;
 
 namespace CLI
 {
     class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
+        {
+            var root = new RootCommand()
+            {
+                new System.CommandLine.Command("legacy", "これまでの Observers CLI を起動します")
+                {
+                    Handler = CommandHandler.Create(() =>
+                    {
+                        GrcpMain();
+                    })
+                },
+            };
+
+            return root.InvokeAsync(args).Result;
+        }
+
+       static void GrcpMain()
         {
             BasicConfigurator.Configure();
 
