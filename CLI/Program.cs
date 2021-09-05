@@ -1,4 +1,6 @@
-﻿using CLI.Observers;
+﻿using CLI.Command;
+using CLI.Command;
+using CLI.Observers;
 
 using Client.App;
 
@@ -16,6 +18,7 @@ namespace CLI
         {
             var root = new RootCommand()
             {
+                MapCommand.Build(),
                 new System.CommandLine.Command("legacy", "これまでの Observers CLI を起動します")
                 {
                     Handler = CommandHandler.Create(() =>
