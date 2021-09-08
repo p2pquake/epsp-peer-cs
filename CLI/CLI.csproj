@@ -12,10 +12,12 @@
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.34.0" />
     <PackageReference Include="ObjectDumper.NET" Version="3.0.20251.1" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Client\Client.csproj" />
+    <ProjectReference Include="..\Map\Map.csproj" />
   </ItemGroup>
 
   <ItemGroup>
