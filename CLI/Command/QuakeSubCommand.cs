@@ -55,6 +55,18 @@ namespace CLI.Command
                 return;
             }
 
+            if (options.Latitude.HasValue != options.Longitude.HasValue)
+            {
+                Console.Error.WriteLine("Latitude (--latitude) and Longitude (--longitude) must be specified at the same time.");
+                return;
+            }
+
+            if (!options.Latitude.HasValue && options.Prefecture.Length <= 0)
+            {
+                Console.Error.WriteLine("Please specify the hypocenter (--latitude and --longitude) or observation points (-p, -n and -s).");
+                return;
+            }
+
             var hypocenter = (options.Latitude.HasValue && options.Longitude.HasValue) ? new GeoCoordinate(options.Latitude.Value, options.Longitude.Value) : null;
             var observationPoints = options.Prefecture.Select((prefecture, index) => new ObservationPoint(prefecture, options.Name[index], options.Scale[index])).ToArray();
 
