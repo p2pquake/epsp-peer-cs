@@ -23,8 +23,8 @@ namespace CLI.Command
                 new Option<string>("--output", () => "output.png"),
                 new Option<bool>("--trim", () => true),
                 new Option<MapType>("--map-type", () => MapType.JAPAN_1024),
-                new Option<string[]>("--areacode") { IsRequired = true },
-                new Option<double[]>("--confidence") { IsRequired = true },
+                new Option<string[]>(new[]{ "-a", "--areacode" }) { IsRequired = true },
+                new Option<double[]>(new[]{ "-c", "--confidence" }) { IsRequired = true },
             };
 
             command.Handler = CommandHandler.Create<UserquakeOptions>(UserquakeHandler);
