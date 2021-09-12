@@ -11,7 +11,8 @@ namespace Map.Model
 {
     public enum MapType
     {
-        WORLD,
+        WORLD_512,
+        WORLD_1024,
         JAPAN_1024,
         JAPAN_4096,
         JAPAN_8192,
@@ -42,21 +43,23 @@ namespace Map.Model
         {
             byte[] img = type switch
             {
-                MapType.WORLD => Map.ImageResource.world_1024,
+                MapType.WORLD_512 => Map.ImageResource.world_512,
+                MapType.WORLD_1024 => Map.ImageResource.world_1024,
                 MapType.JAPAN_1024 => Map.ImageResource.japan_gsi_1024,
                 MapType.JAPAN_4096 => Map.ImageResource.japan_gsi_4096,
                 MapType.JAPAN_8192 => Map.ImageResource.japan_gsi_8192,
                 _ => Map.ImageResource.japan_gsi_1024,
             };
             using var imgStream = new MemoryStream(img);
-            return (Image.Load(imgStream), type != MapType.WORLD);
+            return (Image.Load(imgStream), type != MapType.WORLD_512 && type != MapType.WORLD_1024);
         }
 
         private static LTRBCoordinate LTRB(MapType type)
         {
             return type switch
             {
-                MapType.WORLD => new LTRBCoordinate(0, 90, 360, -90),
+                MapType.WORLD_512 => new LTRBCoordinate(0, 90, 360, -90),
+                MapType.WORLD_1024 => new LTRBCoordinate(0, 90, 360, -90),
                 _ => new LTRBCoordinate(121, 47, 150, 23),
             };
         }

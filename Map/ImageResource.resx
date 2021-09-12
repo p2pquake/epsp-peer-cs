@@ -187,4 +187,7 @@
   <data name="world_1024" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Maps\world_1024.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="world_512" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Maps\world_512.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
