@@ -84,7 +84,7 @@ namespace Map.Controller
             drawers.ForEach(x => x.Draw());
 
             // トリム処理
-            if (MapType != MapType.WORLD && Trim)
+            if (MapType != MapType.WORLD_512 && MapType != MapType.WORLD_1024 && Trim)
             {
                 var trans = new Transformation
                 {
@@ -112,7 +112,7 @@ namespace Map.Controller
             }
 
             // 地理院タイルの出典
-            if (MapType != MapType.WORLD)
+            if (MapType != MapType.WORLD_512 && MapType != MapType.WORLD_1024)
             {
                 using var desc = Image.Load(new MemoryStream(Map.ImageResource.description));
                 image.Mutate(x => x.DrawImage(desc, new Point(0, image.Height - desc.Height), 1));
@@ -127,10 +127,16 @@ namespace Map.Controller
             }
 
             // 地震情報の凡例
-            if (Hypocenter != null)
+            if (MapType != MapType.WORLD_512 && MapType != MapType.WORLD_1024 && Hypocenter != null)
             {
                 using var qNote = Image.Load(new MemoryStream(Map.ImageResource.QuakeNote));
-                qNote.Mutate(x => x.Resize(qNote.Width / 4, qNote.Height / 4));
+                if (MapType == MapType.JAPAN_1024)
+                {
+                    qNote.Mutate(x => x.Resize(qNote.Width / 6, qNote.Height / 6));
+                } else
+                {
+                    qNote.Mutate(x => x.Resize(qNote.Width / 5, qNote.Height / 5));
+                }
                 image.Mutate(x => x.DrawImage(qNote, new Point(image.Width - qNote.Width - 8, image.Height - qNote.Height - 8), 1));
             }
 

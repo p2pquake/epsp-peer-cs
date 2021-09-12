@@ -289,5 +289,15 @@ namespace Map {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static byte[] world_512 {
+            get {
+                object obj = ResourceManager.GetObject("world_512", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }
