@@ -28,6 +28,7 @@ namespace CLI.Command
                 new Option<string[]>(new[]{ "-p", "--pref", "--prefecture" }, () => Array.Empty<string>()),
                 new Option<string[]>(new[]{ "-n", "--name" }, () => Array.Empty<string>()),
                 new Option<int[]>(new[]{ "-s", "--scale" }, () => Array.Empty<int>()),
+                new Option<string>("--points-file"),
             };
 
             command.Handler = CommandHandler.Create<QuakeOptions>(QuakeHandler);
@@ -45,6 +46,7 @@ namespace CLI.Command
             public string[] Prefecture { get; set; }
             public string[] Name { get; set; }
             public int[] Scale { get; set; }
+            public string PointsFile { get; set; }
         }
 
         private static void QuakeHandler(QuakeOptions options)
@@ -61,14 +63,19 @@ namespace CLI.Command
                 return;
             }
 
-            if (!options.Latitude.HasValue && options.Prefecture.Length <= 0)
+            if (!options.Latitude.HasValue && options.Prefecture.Length <= 0 && options.PointsFile == null)
             {
                 Console.Error.WriteLine("Please specify the hypocenter (--latitude and --longitude) or observation points (-p, -n and -s).");
                 return;
             }
 
             var hypocenter = (options.Latitude.HasValue && options.Longitude.HasValue) ? new GeoCoordinate(options.Latitude.Value, options.Longitude.Value) : null;
+
             var observationPoints = options.Prefecture.Select((prefecture, index) => new ObservationPoint(prefecture, options.Name[index], options.Scale[index])).ToArray();
+            if (options.PointsFile != null)
+            {
+                observationPoints = File.ReadAllLines(options.PointsFile).Select((line) => line.Split(',')).Select((items) => new ObservationPoint(items[0], items[1], int.Parse(items[2]))).ToArray();
+            }
 
             var drawer = new MapDrawer()
             {

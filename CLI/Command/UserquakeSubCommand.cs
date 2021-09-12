@@ -23,8 +23,9 @@ namespace CLI.Command
                 new Option<string>("--output", () => "output.png"),
                 new Option<bool>("--trim", () => true),
                 new Option<MapType>("--map-type", () => MapType.JAPAN_1024),
-                new Option<string[]>(new[]{ "-a", "--areacode" }) { IsRequired = true },
-                new Option<double[]>(new[]{ "-c", "--confidence" }) { IsRequired = true },
+                new Option<string[]>(new[]{ "-a", "--areacode" }, () => Array.Empty<string>()),
+                new Option<double[]>(new[]{ "-c", "--confidence" }, () => Array.Empty<double>()),
+                new Option<string>("--confidences-file"),
             };
 
             command.Handler = CommandHandler.Create<UserquakeOptions>(UserquakeHandler);
@@ -39,6 +40,7 @@ namespace CLI.Command
             public MapType MapType { get; set; }
             public string[] Areacode { get; set; }
             public double[] Confidence { get; set; }
+            public string ConfidencesFile { get; set; }
         }
 
         private static void UserquakeHandler(UserquakeOptions options)
@@ -50,6 +52,10 @@ namespace CLI.Command
             }
 
             var userquakePoints = options.Areacode.Select((areacode, index) => new UserquakePoint(areacode, options.Confidence[index])).ToArray();
+            if (options.ConfidencesFile != null)
+            {
+                userquakePoints = File.ReadAllLines(options.ConfidencesFile).Select((line) => line.Split(',')).Select((items) => new UserquakePoint(items[0], double.Parse(items[1]))).ToArray();
+            }
 
             var drawer = new MapDrawer()
             {
