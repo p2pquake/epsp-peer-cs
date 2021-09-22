@@ -4,62 +4,85 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="http://schemas.modernwpf.com/2019"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
         ui:WindowHelper.UseModernWindowStyle="True"
         xmlns:local="clr-namespace:WpfClient"
         mc:Ignorable="d"
         Title="P2P地震情報" Height="480" Width="800">
     <Grid>
         <ui:SimpleStackPanel>
-            <ui:NavigationView PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" IsSettingsVisible="False" >
+            <ui:NavigationView PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" IsSettingsVisible="False">
                 <ui:NavigationView.MenuItems>
-                    <ui:NavigationViewItem Content="情報" Icon="Clock" />
+                    <ui:NavigationViewItem Content="情報">
+                        <ui:NavigationViewItem.Icon>
+                            <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE946;" />
+                        </ui:NavigationViewItem.Icon>
+                    </ui:NavigationViewItem>
                     <ui:NavigationViewItem Content="設定" Icon="Setting" />
-                    <ui:NavigationViewItem Content="接続済み" Icon="MapDrive" />
+                    <ui:NavigationViewItem Content="接続済み">
+                        <ui:NavigationViewItem.Icon>
+                            <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xEC27;" />
+                        </ui:NavigationViewItem.Icon>
+                    </ui:NavigationViewItem>
                 </ui:NavigationView.MenuItems>
                 <ui:NavigationView.PaneFooter>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="4">
-                        <TextBlock Text="津波警報が発表されています" Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}" Margin="4" />
-                        <TextBlock Text="ポート: 未開放" Margin="4" />
-                        <TextBlock Text="2,345 ピア" Margin="4" />
+                    <ui:SimpleStackPanel Orientation="Horizontal" Margin="4" Spacing="8">
+                        <ui:SimpleStackPanel Orientation="Horizontal">
+                            <svgc:SvgViewbox UriSource="/Resources/Icons/tsunami.svg" Width="24" Height="24" />
+                            <TextBlock Text="津波警報発表中"
+                                   Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
+                                   VerticalAlignment="Center" />
+                        </ui:SimpleStackPanel>
+                        <TextBlock Text="ポート: 未開放" VerticalAlignment="Center" />
+                        <TextBlock Text="2,345 ピア" VerticalAlignment="Center" />
                         <Button Content="揺れた！" Style="{DynamicResource AccentButtonStyle}" />
-                    </StackPanel>
+                    </ui:SimpleStackPanel>
                 </ui:NavigationView.PaneFooter>
             </ui:NavigationView>
             <ui:SimpleStackPanel x:Name="Information" Orientation="Horizontal">
-                <ui:ListView Width="176">
+                <ui:ListView Width="176" Margin="4">
+                    <ui:ListView.Resources>
+                        <Style TargetType="{x:Type ui:ListViewItem}">
+                            <Setter Property="Padding" Value="4" />
+                        </Style>
+                    </ui:ListView.Resources>
                     <ui:ListViewHeaderItem>
                         <TextBlock Text="情報" />
                     </ui:ListViewHeaderItem>
                     <ui:ListViewItem>
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Width="32" Orientation="Vertical" VerticalAlignment="Center">
-                                <Label Content="震度" HorizontalAlignment="Center" />
-                                <Label Content="5弱" HorizontalAlignment="Center" />
+                                <TextBlock Text="震度" HorizontalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}" />
+                                <TextBlock Text="5弱" HorizontalAlignment="Center"
+                                           Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
+                                           Style="{StaticResource BodyTextBlockStyle}" />
                             </StackPanel>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="12/29 23:45" />
                                 <TextBlock Text="山梨県東部・富士五湖"
                                            TextWrapping="WrapWithOverflow"
-                                           MaxWidth="128"/>
+                                           HorizontalAlignment="Stretch"
+                                           />
                             </StackPanel>
                         </StackPanel>
                     </ui:ListViewItem>
                     <ui:ListViewItem>
-                        <StackPanel Orientation="Horizontal">
-                            <ui:SymbolIcon Symbol="World" Width="32" Height="24" />
-                            <StackPanel Orientation="Vertical">
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MinWidth="32" />
+                                <ColumnDefinition Width="136" />
+                            </Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Symbol="World" Width="32" Height="24" Grid.Column="0" />
+                            <StackPanel Orientation="Vertical" Grid.Column="1">
                                 <TextBlock Text="12/29 23:45" />
                                 <TextBlock Text="ニューメキシコ州（米国）／チワワ州（メキシコ）境"
-                                           TextWrapping="WrapWithOverflow"
-                                           MaxWidth="128" />
+                                           TextWrapping="WrapWithOverflow" />
                             </StackPanel>
-                        </StackPanel>
+                        </Grid>
                     </ui:ListViewItem>
                     <ui:ListViewItem>
                         <StackPanel Orientation="Horizontal">
-                            <ui:SymbolIcon Symbol="Important"
-                                           Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
-                                           Width="32" Height="24" />
+                            <svgc:SvgViewbox UriSource="/Resources/Icons/tsunami.svg" Width="32" Height="24" />
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="12/29 23:45" />
                                 <TextBlock Text="津波警報" />
@@ -69,9 +92,9 @@
                 </ui:ListView>
                 <Border x:Name="Earthquake">
                     <Canvas Width="620" Height="420">
-                        <Image Source="Resources/Examples/japan_1024.png" Width="620" />
-                        <Image Source="Resources/MapOverlays/quake_note.png" Width="40" Canvas.Bottom="8" Canvas.Right="8"/>
-                        <Image Source="Resources/MapOverlays/description.png" Canvas.Bottom="0" Canvas.Left="0" />
+                        <Image Source="/Resources/Examples/japan_1024.png" Width="620" />
+                        <Image Source="/Resources/MapOverlays/quake_note.png" Width="40" Canvas.Bottom="8" Canvas.Right="8"/>
+                        <Image Source="/Resources/MapOverlays/description.png" Canvas.Bottom="0" Canvas.Left="0" />
                         <Canvas Height="40" Width="620" Background="#B2FFFFFF">
                             <ui:SimpleStackPanel Orientation="Horizontal" Spacing="16" Margin="4">
                                 <ui:SimpleStackPanel Orientation="Vertical">
@@ -96,9 +119,11 @@
                                 </ui:SimpleStackPanel>
                             </ui:SimpleStackPanel>
                         </Canvas>
-                        <Expander ExpandDirection="Left" IsExpanded="True" Header="詳細" Height="376" Canvas.Bottom="0" Canvas.Right="0">
+                        <Expander ExpandDirection="Left"
+                                  Background="#B2FFFFFF"
+                                  IsExpanded="True" Header="詳細" Height="376" Canvas.Bottom="0" Canvas.Right="0">
                             <ScrollViewer>
-                                <ui:SimpleStackPanel Background="#B2FFFFFF" Width="160" Spacing="4">
+                                <ui:SimpleStackPanel Width="160" Spacing="4">
                                     <TextBlock Text="各地の震度" Style="{StaticResource SubtitleTextBlockStyle}" />
                                     <TextBlock Text="宮城県" Style="{StaticResource BaseTextBlockStyle}" />
                                     <TextBlock Text="震度3" Style="{StaticResource BaseTextBlockStyle}" />

@@ -7,11 +7,28 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ModernWpfUI" Version="0.9.4" />
+    <None Remove="Resources\Examples\japan_1024.png" />
+    <None Remove="Resources\Icons\icon.png" />
+    <None Remove="Resources\Icons\tsunami.svg" />
+    <None Remove="Resources\MapOverlays\description.png" />
+    <None Remove="Resources\MapOverlays\quake_note.png" />
+    <None Remove="Resources\MapOverlays\userquake_note.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\Icons\" />
+    <Resource Include="Resources\Examples\japan_1024.png" />
+    <Resource Include="Resources\MapOverlays\description.png" />
+    <Resource Include="Resources\MapOverlays\quake_note.png" />
+    <Resource Include="Resources\MapOverlays\userquake_note.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ModernWpfUI" Version="0.9.4" />
+    <PackageReference Include="SharpVectors" Version="1.7.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Icons\tsunami.svg" />
   </ItemGroup>
 
 </Project>
