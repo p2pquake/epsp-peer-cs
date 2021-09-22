@@ -9,8 +9,11 @@
         xmlns:local="clr-namespace:WpfClient"
         mc:Ignorable="d"
         Title="P2P地震情報" Height="480" Width="800">
-        <ui:SimpleStackPanel>
-            <ui:NavigationView PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" IsSettingsVisible="False">
+    <Window.DataContext>
+        <local:ViewModel/>
+    </Window.DataContext>
+    <ui:SimpleStackPanel>
+            <ui:NavigationView SelectionChanged="NavigationView_SelectionChanged" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" IsSettingsVisible="False">
                 <ui:NavigationView.MenuItems>
                     <ui:NavigationViewItem Content="情報">
                         <ui:NavigationViewItem.Icon>
@@ -38,8 +41,8 @@
                     </ui:SimpleStackPanel>
                 </ui:NavigationView.PaneFooter>
             </ui:NavigationView>
-        <Canvas d:IsHidden="True">
-            <ui:SimpleStackPanel x:Name="情報" Orientation="Horizontal" d:IsHidden="True">
+        <Canvas>
+            <ui:SimpleStackPanel x:Name="情報" Orientation="Horizontal" Visibility="{Binding ShowInfo}">
                 <ui:ListView Width="176" Margin="4">
                     <ui:ListView.Resources>
                         <Style TargetType="{x:Type ui:ListViewItem}">
@@ -173,7 +176,7 @@
                     </Border>
                 </Canvas>
             </ui:SimpleStackPanel>
-            <Grid x:Name="接続済み" Margin="0,0,0,36" d:IsHidden="True">
+            <Grid x:Name="接続済み" Margin="0,0,0,36" Visibility="{Binding ShowStatus}" d:IsHidden="True">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*" />
                     <ColumnDefinition Width="2*" />
@@ -236,7 +239,7 @@
                     </Canvas>
                 </ui:SimpleStackPanel>
             </Grid>
-            <ui:SimpleStackPanel x:Name="設定" Orientation="Horizontal" d:IsHidden="True">
+            <ui:SimpleStackPanel x:Name="設定" Orientation="Horizontal" Visibility="{Binding ShowSetting}" d:IsHidden="True">
                 <ui:ListView Width="176">
                     <ui:ListViewHeaderItem>
                         <TextBlock Text="設定" />

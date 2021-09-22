@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ModernWpf.Controls;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,34 @@ namespace WpfClient
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void NavigationView_SelectionChanged(ModernWpf.Controls.NavigationView sender, ModernWpf.Controls.NavigationViewSelectionChangedEventArgs args)
+        {
+            Visibility info = Visibility.Hidden;
+            Visibility setting = Visibility.Hidden;
+            Visibility status = Visibility.Hidden;
+
+            if (args.SelectedItem is NavigationViewItem item)
+            {
+                switch (item.Content)
+                {
+                    case "情報":
+                        info = Visibility.Visible;
+                        break;
+                    case "設定":
+                        setting = Visibility.Visible;
+                        break;
+                    default:
+                        status = Visibility.Visible;
+                        break;
+                }
+            }
+
+            var context = (ViewModel)this.DataContext;
+            context.ShowInfo = info;
+            context.ShowSetting = setting;
+            context.ShowStatus = status;
         }
     }
 }
