@@ -10,4 +10,8 @@
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resources\Icons\" />
+  </ItemGroup>
+
 </Project>
