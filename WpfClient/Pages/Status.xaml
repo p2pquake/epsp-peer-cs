@@ -1,0 +1,74 @@
+﻿<Page x:Class="WpfClient.Pages.Status"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:ui="http://schemas.modernwpf.com/2019"
+      xmlns:local="clr-namespace:WpfClient.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="416" d:DesignWidth="800"
+      Title="Status">
+    <Grid Margin="0,0,0,36">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <ui:SimpleStackPanel Grid.Column="0" Orientation="Vertical" Spacing="12" Margin="16,16,16,16">
+            <TextBlock Text="正常に接続されています。" Style="{StaticResource SubtitleTextBlockStyle}" />
+            <TextBlock Text="P2Pネットワークに接続しており、最新の情報をリアルタイムに受信できる状態です。"
+                               TextWrapping="WrapWithOverflow" />
+            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8">
+                <ui:SimpleStackPanel Orientation="Vertical" Spacing="8">
+                    <Label Content="接続総数:" />
+                    <Label Content="自ピアとの接続数:" />
+                    <Label Content="ポート:" />
+                    <Label Content="鍵の状態:" />
+                </ui:SimpleStackPanel>
+                <ui:SimpleStackPanel Orientation="Vertical" Spacing="8">
+                    <Label Content="2,016 ピア" />
+                    <Label Content="12 ピア" />
+                    <Label Content="未開放" />
+                    <Label Content="有効" />
+                </ui:SimpleStackPanel>
+            </ui:SimpleStackPanel>
+            <TextBlock Text="P2P地震情報 Beta4(Rev01)" Style="{StaticResource SubtitleTextBlockStyle}" />
+            <Grid>
+                <Grid.Resources>
+                    <Style TargetType="{x:Type Label}">
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                    </Style>
+                </Grid.Resources>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Content="Webサイト:" Grid.Column="0" Grid.Row="0" />
+                <Label Content="サービス提供状況:" Grid.Column="0" Grid.Row="1" />
+                <Label Content="サーバー稼働状況:" Grid.Column="0" Grid.Row="2" />
+                <Label Content="プライバシーポリシー:" Grid.Column="0" Grid.Row="3" />
+                <Label Content="ライセンス:" Grid.Column="0" Grid.Row="4" />
+
+                <ui:HyperlinkButton Content="https://www.p2pquake.net/" NavigateUri="https://www.p2pquake.net/" Grid.Column="1" />
+                <ui:HyperlinkButton Content="https://twitter.com/p2pquake__takuya" NavigateUri="https://twitter.com/p2pquake_takuya" Grid.Column="1" Grid.Row="1" />
+                <ui:HyperlinkButton Content="https://www.p2pquake.net/privacy_policy/" NavigateUri="https://stats.uptimerobot.com/JR0Qt8QGy" Grid.Column="1" Grid.Row="2" />
+                <ui:HyperlinkButton Content="https://www.p2pquake.net/privacy__policy/"
+                            NavigateUri="https://www.p2pquake.net/privacy_policy/" Grid.Column="1" Grid.Row="3"/>
+                <ui:HyperlinkButton Content="ライセンスを表示" NavigateUri="https://example.com" Grid.Column="1" Grid.Row="4" />
+            </Grid>
+        </ui:SimpleStackPanel>
+        <ui:SimpleStackPanel Grid.Column="1">
+            <Canvas>
+                <Image Source="Resources/Examples/japan_1024.png" Width="520" />
+            </Canvas>
+        </ui:SimpleStackPanel>
+    </Grid>
+</Page>

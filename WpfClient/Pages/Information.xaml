@@ -1,0 +1,146 @@
+﻿<Page x:Class="WpfClient.Pages.Information"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:ui="http://schemas.modernwpf.com/2019"
+      xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+      xmlns:local="clr-namespace:WpfClient.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Information">
+    <ui:SimpleStackPanel Orientation="Horizontal">
+        <ui:ListView Width="176" Margin="4">
+            <ui:ListView.Resources>
+                <Style TargetType="{x:Type ui:ListViewItem}">
+                    <Setter Property="Padding" Value="4" />
+                </Style>
+            </ui:ListView.Resources>
+            <ui:ListViewHeaderItem>
+                <TextBlock Text="情報" />
+            </ui:ListViewHeaderItem>
+            <ui:ListViewItem>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Width="32" Orientation="Vertical" VerticalAlignment="Center">
+                        <TextBlock Text="震度" HorizontalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}" />
+                        <TextBlock Text="5弱" HorizontalAlignment="Center"
+                                           Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
+                                           Style="{StaticResource BodyTextBlockStyle}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="12/29 23:45" />
+                        <TextBlock Text="山梨県東部・富士五湖"
+                                           TextWrapping="WrapWithOverflow"
+                                           HorizontalAlignment="Stretch"
+                                           />
+                    </StackPanel>
+                </StackPanel>
+            </ui:ListViewItem>
+            <ui:ListViewItem>
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition MinWidth="32" />
+                        <ColumnDefinition Width="136" />
+                    </Grid.ColumnDefinitions>
+                    <ui:SymbolIcon Symbol="World" Width="32" Height="24" Grid.Column="0" />
+                    <StackPanel Orientation="Vertical" Grid.Column="1">
+                        <TextBlock Text="12/29 23:45" />
+                        <TextBlock Text="ニューメキシコ州（米国）／チワワ州（メキシコ）境"
+                                           TextWrapping="WrapWithOverflow" />
+                    </StackPanel>
+                </Grid>
+            </ui:ListViewItem>
+            <ui:ListViewItem>
+                <StackPanel Orientation="Horizontal">
+                    <svgc:SvgViewbox UriSource="/Resources/Icons/tsunami.svg" Width="32" Height="24" />
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="12/29 23:45" />
+                        <TextBlock Text="津波警報" />
+                    </StackPanel>
+                </StackPanel>
+            </ui:ListViewItem>
+        </ui:ListView>
+        <Canvas>
+            <Border x:Name="Earthquake">
+                <Canvas Width="620" Height="420">
+                    <Image Source="/Resources/Examples/japan_1024.png" Width="620" />
+                    <Image Source="/Resources/MapOverlays/quake_note.png" Width="40" Canvas.Bottom="8" Canvas.Right="8"/>
+                    <Image Source="/Resources/MapOverlays/description.png" Canvas.Bottom="0" Canvas.Left="0" />
+                    <Canvas Height="40" Width="620" Background="#B2FFFFFF">
+                        <ui:SimpleStackPanel Orientation="Horizontal" Spacing="16" Margin="4">
+                            <ui:SimpleStackPanel Orientation="Vertical">
+                                <TextBlock Text="日時" Style="{StaticResource CaptionTextBlockStyle}" />
+                                <Label Content="11月22日12時34分頃" FontWeight="Bold" />
+                            </ui:SimpleStackPanel>
+                            <ui:SimpleStackPanel Orientation="Vertical">
+                                <TextBlock Text="震源" Style="{StaticResource CaptionTextBlockStyle}" />
+                                <Label Content="山梨県東部・富士五湖" FontWeight="Bold" />
+                            </ui:SimpleStackPanel>
+                            <ui:SimpleStackPanel Orientation="Vertical">
+                                <TextBlock Text="深さ" Style="{StaticResource CaptionTextBlockStyle}" />
+                                <Label Content="ごく浅い" FontWeight="Bold" />
+                            </ui:SimpleStackPanel>
+                            <ui:SimpleStackPanel Orientation="Vertical">
+                                <TextBlock Text="M" Style="{StaticResource CaptionTextBlockStyle}" />
+                                <Label Content="0.0" FontWeight="Bold" />
+                            </ui:SimpleStackPanel>
+                            <ui:SimpleStackPanel Orientation="Vertical">
+                                <TextBlock Text="津波" Style="{StaticResource CaptionTextBlockStyle}" />
+                                <Label Content="被害の心配なし（若干の海面変動）" FontWeight="Bold" />
+                            </ui:SimpleStackPanel>
+                        </ui:SimpleStackPanel>
+                    </Canvas>
+                    <Expander ExpandDirection="Left"
+                                  Background="#B2FFFFFF"
+                                  IsExpanded="True" Header="詳細" Height="376" Canvas.Bottom="0" Canvas.Right="0">
+                        <ScrollViewer>
+                            <ui:SimpleStackPanel Width="160" Spacing="4">
+                                <TextBlock Text="各地の震度" Style="{StaticResource SubtitleTextBlockStyle}" />
+                                <TextBlock Text="宮城県" Style="{StaticResource BaseTextBlockStyle}" />
+                                <TextBlock Text="震度3" Style="{StaticResource BaseTextBlockStyle}" />
+                                <TextBlock Text="石巻市" TextWrapping="WrapWithOverflow" Style="{StaticResource CaptionTextBlockStyle}" />
+                                <TextBlock Text="震度2" Style="{StaticResource BaseTextBlockStyle}" />
+                                <TextBlock Text="仙台泉区、東松島市、松島町、七ヶ浜町、女川町、気仙沼市、登米市、大崎市、涌谷町、宮城美里町、南三陸町"
+                                           TextWrapping="WrapWithOverflow"
+                                           Style="{StaticResource CaptionTextBlockStyle}" />
+                                <TextBlock Text="震度1" Style="{StaticResource BaseTextBlockStyle}" />
+                                <TextBlock Text="仙台青葉区、仙台宮城野区、仙台若林区、仙台太白区、塩竈市、多賀城市、利府町、大和町、大郷町、大衡村、栗原市、色麻町、宮城加美町、仙台空港、名取市、角田市、岩沼市、大河原町、柴田町、宮城川崎町、亘理町、山元町"
+                                           TextWrapping="WrapWithOverflow"
+                                           Style="{StaticResource CaptionTextBlockStyle}" />
+                                <TextBlock Text="岩手県" Style="{StaticResource BaseTextBlockStyle}" />
+                                <TextBlock Text="震度2" Style="{StaticResource BaseTextBlockStyle}" />
+                                <TextBlock Text="大船渡市、住田町、一関市"
+                                           TextWrapping="WrapWithOverflow"
+                                           Style="{StaticResource CaptionTextBlockStyle}" />
+                            </ui:SimpleStackPanel>
+                        </ScrollViewer>
+                    </Expander>
+                </Canvas>
+            </Border>
+            <Border x:Name="Userquake" d:IsHidden="True">
+                <Canvas Width="620" Height="420">
+                    <Image Source="Resources/Examples/japan_1024.png" Width="620" />
+                    <Image Source="Resources/MapOverlays/userquake_note.png" Width="40" Canvas.Bottom="8" Canvas.Right="8"/>
+                    <Image Source="Resources/MapOverlays/description.png" Canvas.Bottom="0" Canvas.Left="0" />
+                    <Canvas Height="40" Width="620" Background="#B2FFFFFF">
+                        <ui:SimpleStackPanel Orientation="Horizontal" Spacing="16" Margin="4">
+                            <ui:SimpleStackPanel Orientation="Vertical">
+                                <TextBlock Text="日時" Style="{StaticResource CaptionTextBlockStyle}" />
+                                <Label Content="11月22日12時34分56秒～現在" FontWeight="Bold" />
+                            </ui:SimpleStackPanel>
+                            <ui:SimpleStackPanel Orientation="Vertical">
+                                <TextBlock Text="件数" Style="{StaticResource CaptionTextBlockStyle}" />
+                                <Label Content="123" FontWeight="Bold" />
+                            </ui:SimpleStackPanel>
+                            <Label Content="受信中"
+                                       FontWeight="Bold"
+                                       Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
+                                       Background="#FDE7E9"
+                                       VerticalAlignment="Center" />
+                        </ui:SimpleStackPanel>
+                    </Canvas>
+                </Canvas>
+            </Border>
+        </Canvas>
+    </ui:SimpleStackPanel>
+</Page>
