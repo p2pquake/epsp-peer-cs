@@ -1,19 +1,23 @@
-﻿<Page x:Class="WpfClient.Pages.Status"
+﻿<Page
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:ui="http://schemas.modernwpf.com/2019"
       xmlns:local="clr-namespace:WpfClient.Pages"
+      xmlns:WpfClient="clr-namespace:WpfClient" x:Class="WpfClient.Pages.Status"
       mc:Ignorable="d" 
       d:DesignHeight="416" d:DesignWidth="800"
       Title="Status">
+    <Page.DataContext>
+        <WpfClient:StatusViewModel />
+    </Page.DataContext>
     <DockPanel LastChildFill="True">
         <ScrollViewer DockPanel.Dock="Left">
             <ui:SimpleStackPanel Grid.Column="0" Orientation="Vertical" Spacing="12" Margin="16,16,16,16">
 
-                <TextBlock Text="正常に接続されています。" Style="{StaticResource SubtitleTextBlockStyle}" />
-                <TextBlock Text="P2Pネットワークに接続しており、最新の情報をリアルタイムに受信できる状態です。"
+                <TextBlock Text="{Binding StatusTitle}" d:Text="正常に接続されています。" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <TextBlock Text="{Binding StatusDescription}" d:Text="P2Pネットワークに接続しており、最新の情報をリアルタイムに受信できる状態です。"
                                TextWrapping="WrapWithOverflow" />
                 <Grid>
                     <Grid.Resources>
@@ -38,10 +42,10 @@
                     <Label Content="ポート:" Grid.Column="0" Grid.Row="2" />
                     <Label Content="鍵の状態:" Grid.Column="0" Grid.Row="3" />
 
-                    <Label Content="2,016 ピア" Grid.Column="1" Grid.Row="0" />
-                    <Label Content="12 ピア" Grid.Column="1" Grid.Row="1" />
-                    <Label Content="未開放" Grid.Column="1" Grid.Row="2" />
-                    <Label Content="有効" Grid.Column="1" Grid.Row="3" />
+                    <Label Content="{Binding NumberOfPeers}" d:Content="2,345 ピア" Grid.Column="1" Grid.Row="0" />
+                    <Label Content="{Binding Connections}" d:Content="4 / 12 ピア" Grid.Column="1" Grid.Row="1" />
+                    <Label Content="{Binding PortStatus}" d:Content="未開放" Grid.Column="1" Grid.Row="2" />
+                    <Label Content="{Binding KeyStatus}" d:Content="有効" Grid.Column="1" Grid.Row="3" />
                 </Grid>
                 <TextBlock Text="P2P地震情報 Beta4(Rev01)" Style="{StaticResource SubtitleTextBlockStyle}" />
                 <Grid>
@@ -69,15 +73,18 @@
                     <Label Content="プライバシーポリシー:" Grid.Column="0" Grid.Row="3" />
                     <Label Content="ライセンス:" Grid.Column="0" Grid.Row="4" />
 
-                    <ui:HyperlinkButton Content="https://www.p2pquake.net/" NavigateUri="https://www.p2pquake.net/" Grid.Column="1" />
+                    <ui:HyperlinkButton Content="https://www.p2pquake.net/" NavigateUri="https://www.p2pquake.net/" Grid.Column="1" Cursor="Hand" />
                     <ui:HyperlinkButton Content="https://twitter.com/p2pquake__takuya" NavigateUri="https://twitter.com/p2pquake_takuya" Grid.Column="1" Grid.Row="1" />
                     <ui:HyperlinkButton Content="https://stats.uptimerobot.com/JR0Qt8QGy" NavigateUri="https://stats.uptimerobot.com/JR0Qt8QGy" Grid.Column="1" Grid.Row="2" Cursor="Hand" />
                     <ui:HyperlinkButton Content="https://www.p2pquake.net/privacy__policy/"
                             NavigateUri="https://www.p2pquake.net/privacy_policy/" Grid.Column="1" Grid.Row="3"/>
                     <ui:HyperlinkButton Content="ライセンスを表示" NavigateUri="https://example.com" Grid.Column="1" Grid.Row="4" />
                 </Grid>
-        </ui:SimpleStackPanel>
+            </ui:SimpleStackPanel>
         </ScrollViewer>
-        <Image Source="/Resources/Examples/japan_1024.png" />
+        <Grid>
+            <Image Source="/Resources/Examples/japan_1024.png" />
+            <TextBlock Text="{Binding AreapeerText}" TextWrapping="WrapWithOverflow" />
+        </Grid>
     </DockPanel>
 </Page>

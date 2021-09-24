@@ -1,4 +1,4 @@
-﻿<Page x:Class="WpfClient.Pages.Information"
+﻿<Page
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,60 +6,78 @@
       xmlns:ui="http://schemas.modernwpf.com/2019"
       xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
       xmlns:local="clr-namespace:WpfClient.Pages"
+      xmlns:WpfClient="clr-namespace:WpfClient" x:Class="WpfClient.Pages.Information"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Information">
-    <ui:SimpleStackPanel Orientation="Horizontal">
-        <ui:ListView Width="176" Margin="4">
-            <ui:ListView.Resources>
-                <Style TargetType="{x:Type ui:ListViewItem}">
-                    <Setter Property="Padding" Value="4" />
-                </Style>
-            </ui:ListView.Resources>
-            <ui:ListViewHeaderItem>
-                <TextBlock Text="情報" />
-            </ui:ListViewHeaderItem>
-            <ui:ListViewItem>
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel Width="32" Orientation="Vertical" VerticalAlignment="Center">
-                        <TextBlock Text="震度" HorizontalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}" />
-                        <TextBlock Text="5弱" HorizontalAlignment="Center"
-                                           Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
+    <Page.Resources>
+        <local:InformationTemplateSelector x:Key="listItemTemplateSelector" />
+        
+        <DataTemplate x:Key="SampleItemDataTemplate">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Width="32" Orientation="Vertical" VerticalAlignment="Center">
+                    <TextBlock Text="震度" HorizontalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}" />
+                    <TextBlock Text="{Binding MaxScale}" HorizontalAlignment="Center"
                                            Style="{StaticResource BodyTextBlockStyle}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="12/29 23:45" />
-                        <TextBlock Text="山梨県東部・富士五湖"
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding OccuredTime}" />
+                    <TextBlock Text="{Binding Destination}"
                                            TextWrapping="WrapWithOverflow"
                                            HorizontalAlignment="Stretch"
                                            />
-                    </StackPanel>
                 </StackPanel>
-            </ui:ListViewItem>
-            <ui:ListViewItem>
-                <Grid HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition MinWidth="32" />
-                        <ColumnDefinition Width="136" />
-                    </Grid.ColumnDefinitions>
-                    <ui:SymbolIcon Symbol="World" Width="32" Height="24" Grid.Column="0" />
-                    <StackPanel Orientation="Vertical" Grid.Column="1">
-                        <TextBlock Text="12/29 23:45" />
-                        <TextBlock Text="ニューメキシコ州（米国）／チワワ州（メキシコ）境"
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="SampleItemAnotherDataTemplate">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Width="32" Orientation="Vertical" VerticalAlignment="Center">
+                    <TextBlock Text="震度" HorizontalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}" />
+                    <TextBlock Text="{Binding MaxScale}" HorizontalAlignment="Center"
+                                           Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
+                                           Style="{StaticResource BodyTextBlockStyle}" />
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding OccuredTime}" />
+                    <TextBlock Text="{Binding Destination}"
+                                           TextWrapping="WrapWithOverflow"
+                                           HorizontalAlignment="Stretch"
+                                           />
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ForeignItemDataTemplate">
+            <Grid HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="32" />
+                    <ColumnDefinition Width="136" />
+                </Grid.ColumnDefinitions>
+                <ui:SymbolIcon Symbol="World" Width="32" Height="24" Grid.Column="0" />
+                <StackPanel Orientation="Vertical" Grid.Column="1">
+                    <TextBlock Text="{Binding OccuredTime}" />
+                    <TextBlock Text="{Binding Destination}"
+                                           MaxWidth="136"
                                            TextWrapping="WrapWithOverflow" />
-                    </StackPanel>
-                </Grid>
-            </ui:ListViewItem>
-            <ui:ListViewItem>
-                <StackPanel Orientation="Horizontal">
-                    <svgc:SvgViewbox UriSource="/Resources/Icons/tsunami.svg" Width="32" Height="24" />
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="12/29 23:45" />
-                        <TextBlock Text="津波警報" />
-                    </StackPanel>
                 </StackPanel>
-            </ui:ListViewItem>
-        </ui:ListView>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+    <Page.DataContext>
+        <WpfClient:InformationViewModel/>
+    </Page.DataContext>
+    <ui:SimpleStackPanel Orientation="Horizontal">
+        <ui:SimpleStackPanel Orientation="Vertical">
+            <!-- FIXME: ふつうに HeaderItem 使うようにする -->
+            <!-- FIXME: 横幅が期待通りになってない。遠地地震の震源名が切れてる -->
+            <TextBlock Text="情報" Style="{StaticResource SubtitleTextBlockStyle}" Margin="8" />
+            <ui:ListView
+            Width="176"
+            Margin="4"
+            ItemTemplateSelector="{StaticResource listItemTemplateSelector}"
+            ItemsSource="{Binding SampleItems}"
+            >
+            </ui:ListView>
+        </ui:SimpleStackPanel>
         <Canvas>
             <Border x:Name="Earthquake">
                 <Canvas Width="620" Height="420">

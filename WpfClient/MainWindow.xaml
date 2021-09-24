@@ -9,35 +9,40 @@
         xmlns:local="clr-namespace:WpfClient"
         mc:Ignorable="d"
         Title="P2P地震情報" Height="480" Width="800">
+    <Window.DataContext>
+        <local:RootViewModel/>
+    </Window.DataContext>
     <DockPanel LastChildFill="True">
-        <ui:NavigationView PaneDisplayMode="Top" DockPanel.Dock="Top" IsBackButtonVisible="Collapsed" IsSettingsVisible="False">
+        <ui:NavigationView SelectionChanged="NavigationView_SelectionChanged" PaneDisplayMode="Top" DockPanel.Dock="Top" IsBackButtonVisible="Collapsed" IsSettingsVisible="False">
             <ui:NavigationView.MenuItems>
-                <ui:NavigationViewItem Content="情報">
+                <ui:NavigationViewItem Content="情報" Tag="Information">
                     <ui:NavigationViewItem.Icon>
                         <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE946;" />
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-                <ui:NavigationViewItem Content="設定" Icon="Setting" />
-                <ui:NavigationViewItem Content="接続済み">
+                <ui:NavigationViewItem IsSelected="True" Content="設定" Tag="Setting" Icon="Setting" />
+                <ui:NavigationViewItem Content="{Binding Status}" d:Content="接続済み" Tag="Status">
                     <ui:NavigationViewItem.Icon>
-                        <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xEC27;" />
+                        <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{Binding StatusIconGlyph}" d:Glyph="&#xEC27;" />
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
             </ui:NavigationView.MenuItems>
             <ui:NavigationView.PaneFooter>
                 <ui:SimpleStackPanel Orientation="Horizontal" Margin="4" Spacing="8">
-                    <ui:SimpleStackPanel Orientation="Horizontal">
+                    <!--
+                    <ui:SimpleStackPanel Orientation="Horizontal" Visibility="Hidden">
                         <svgc:SvgViewbox UriSource="/Resources/Icons/tsunami.svg" Width="24" Height="24" />
                         <TextBlock Text="津波警報発表中"
                                    Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
                                    VerticalAlignment="Center" />
                     </ui:SimpleStackPanel>
-                    <TextBlock Text="ポート: 未開放" VerticalAlignment="Center" />
-                    <TextBlock Text="2,345 ピア" VerticalAlignment="Center" />
-                    <Button Content="揺れた！" Style="{DynamicResource AccentButtonStyle}" />
+                    -->
+                    <TextBlock Text="{Binding PortStatus}" d:Text="ポート: 未開放" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding NumberOfPeersLabel}" d:Text="2,345 ピア"  VerticalAlignment="Center" />
+                    <Button Content="揺れた！" Click="Button_Click" IsEnabled="{Binding CanSendUserquake}" d:IsEnabled="True" Style="{DynamicResource AccentButtonStyle}" />
                 </ui:SimpleStackPanel>
             </ui:NavigationView.PaneFooter>
         </ui:NavigationView>
-        <Frame Source="Pages/Status.xaml" />
+        <Frame NavigationUIVisibility="Hidden" Source="{Binding PageFileName}" Navigated="Frame_Navigated" />
     </DockPanel>
 </Window>

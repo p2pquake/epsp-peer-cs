@@ -4,7 +4,12 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows10.0.18362.0</TargetFramework>
     <UseWPF>true</UseWPF>
+    <StartupObject></StartupObject>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ApplicationDefinition Remove="App.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Resources\Examples\japan_1024.png" />
@@ -25,6 +30,16 @@
   <ItemGroup>
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
     <PackageReference Include="SharpVectors" Version="1.7.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Client\Client.csproj" />
   </ItemGroup>
 
   <ItemGroup>
