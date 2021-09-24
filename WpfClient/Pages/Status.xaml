@@ -6,6 +6,8 @@
       xmlns:ui="http://schemas.modernwpf.com/2019"
       xmlns:local="clr-namespace:WpfClient.Pages"
       xmlns:WpfClient="clr-namespace:WpfClient" x:Class="WpfClient.Pages.Status"
+      Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
+      Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
       mc:Ignorable="d" 
       d:DesignHeight="416" d:DesignWidth="800"
       Title="Status">
@@ -15,17 +17,15 @@
     <DockPanel LastChildFill="True">
         <ScrollViewer DockPanel.Dock="Left">
             <ui:SimpleStackPanel Grid.Column="0" Orientation="Vertical" Spacing="12" Margin="16,16,16,16">
-
                 <TextBlock Text="{Binding StatusTitle}" d:Text="正常に接続されています。" Style="{StaticResource SubtitleTextBlockStyle}" />
                 <TextBlock Text="{Binding StatusDescription}" d:Text="P2Pネットワークに接続しており、最新の情報をリアルタイムに受信できる状態です。"
                                TextWrapping="WrapWithOverflow" />
                 <Grid>
                     <Grid.Resources>
-                        <Style TargetType="{x:Type Label}">
-                            <Setter Property="Margin" Value="0,4,4,0" />
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Margin" Value="4" />
                         </Style>
                     </Grid.Resources>
-
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
@@ -37,21 +37,24 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <Label Content="接続総数:" Grid.Column="0" Grid.Row="0" />
-                    <Label Content="自ピアとの接続数:" Grid.Column="0" Grid.Row="1" />
-                    <Label Content="ポート:" Grid.Column="0" Grid.Row="2" />
-                    <Label Content="鍵の状態:" Grid.Column="0" Grid.Row="3" />
+                    <TextBlock Text="接続総数:" Grid.Column="0" Grid.Row="0" />
+                    <TextBlock Text="自ピアとの接続数:" Grid.Column="0" Grid.Row="1" />
+                    <TextBlock Text="ポート:" Grid.Column="0" Grid.Row="2" />
+                    <TextBlock Text="鍵の状態:" Grid.Column="0" Grid.Row="3" />
 
-                    <Label Content="{Binding NumberOfPeers}" d:Content="2,345 ピア" Grid.Column="1" Grid.Row="0" />
-                    <Label Content="{Binding Connections}" d:Content="4 / 12 ピア" Grid.Column="1" Grid.Row="1" />
-                    <Label Content="{Binding PortStatus}" d:Content="未開放" Grid.Column="1" Grid.Row="2" />
-                    <Label Content="{Binding KeyStatus}" d:Content="有効" Grid.Column="1" Grid.Row="3" />
+                    <TextBlock Text="{Binding NumberOfPeers}" d:Text="2,345 ピア" Grid.Column="1" Grid.Row="0" />
+                    <TextBlock Text="{Binding Connections}" d:Text="4 / 12 ピア" Grid.Column="1" Grid.Row="1" />
+                    <TextBlock Text="{Binding PortStatus}" d:Text="未開放" Grid.Column="1" Grid.Row="2" />
+                    <TextBlock Text="{Binding KeyStatus}" d:Text="有効" Grid.Column="1" Grid.Row="3" />
                 </Grid>
                 <TextBlock Text="P2P地震情報 Beta4(Rev01)" Style="{StaticResource SubtitleTextBlockStyle}" />
                 <Grid>
                     <Grid.Resources>
-                        <Style TargetType="{x:Type Label}">
+                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
                             <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                        <Style TargetType="ui:HyperlinkButton">
+                            <Setter Property="Margin" Value="4,-4,0,-4" />
                         </Style>
                     </Grid.Resources>
 
@@ -67,11 +70,11 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <Label Content="Webサイト:" Grid.Column="0" Grid.Row="0" />
-                    <Label Content="サービス提供状況:" Grid.Column="0" Grid.Row="1" />
-                    <Label Content="サーバー稼働状況:" Grid.Column="0" Grid.Row="2" />
-                    <Label Content="プライバシーポリシー:" Grid.Column="0" Grid.Row="3" />
-                    <Label Content="ライセンス:" Grid.Column="0" Grid.Row="4" />
+                    <TextBlock Text="Webサイト:" Grid.Column="0" Grid.Row="0" />
+                    <TextBlock Text="サービス提供状況:" Grid.Column="0" Grid.Row="1" />
+                    <TextBlock Text="サーバー稼働状況:" Grid.Column="0" Grid.Row="2" />
+                    <TextBlock Text="プライバシーポリシー:" Grid.Column="0" Grid.Row="3" />
+                    <TextBlock Text="ライセンス:" Grid.Column="0" Grid.Row="4" />
 
                     <ui:HyperlinkButton Content="https://www.p2pquake.net/" NavigateUri="https://www.p2pquake.net/" Grid.Column="1" Cursor="Hand" />
                     <ui:HyperlinkButton Content="https://twitter.com/p2pquake__takuya" NavigateUri="https://twitter.com/p2pquake_takuya" Grid.Column="1" Grid.Row="1" />

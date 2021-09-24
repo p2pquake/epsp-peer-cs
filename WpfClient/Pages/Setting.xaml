@@ -6,6 +6,8 @@
       xmlns:ui="http://schemas.modernwpf.com/2019"
       xmlns:local="clr-namespace:WpfClient.Pages"
       xmlns:WpfClient="clr-namespace:WpfClient" x:Class="WpfClient.Pages.Setting"
+      Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
+      Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
       mc:Ignorable="d" 
       d:DesignHeight="416" d:DesignWidth="800"
       Title="Setting">
@@ -97,9 +99,8 @@
                                TextWrapping="WrapWithOverflow" />
                     <Grid>
                         <Grid.Resources>
-                            <Style TargetType="{x:Type Label}">
-                                <Setter Property="VerticalAlignment" Value="Top" />
-                                <Setter Property="Padding" Value="8" />
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource BodyTextBlockStyle}">
+                                <Setter Property="Margin" Value="4" />
                             </Style>
                         </Grid.Resources>
                         <Grid.ColumnDefinitions>
@@ -117,15 +118,15 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
 
-                        <Label Content="地震情報" Grid.Column="1" Grid.Row="0" />
-                        <Label Content="地震感知情報" Grid.Column="2" Grid.Row="0" />
-                        <Label Content="津波予報" Grid.Column="3" Grid.Row="0" />
-                        <Label Content="緊急地震速報&#xA;配信試験（β）" Grid.Column="4" Grid.Row="0" />
+                        <TextBlock Text="地震情報" Grid.Column="1" Grid.Row="0" />
+                        <TextBlock Text="地震感知情報" Grid.Column="2" Grid.Row="0" />
+                        <TextBlock Text="津波予報" Grid.Column="3" Grid.Row="0" />
+                        <TextBlock Text="緊急地震速報&#xA;配信試験（β）" Grid.Column="4" Grid.Row="0" />
 
-                        <Label Content="有効無効" Grid.Row="1" Grid.Column="0" />
-                        <Label Content="ウィンドウを表示" Grid.Row="2" Grid.Column="0" />
-                        <Label Content="通知を表示" Grid.Row="3" Grid.Column="0" />
-                        <Label Content="音を鳴らす" Grid.Row="4" Grid.Column="0" />
+                        <TextBlock Text="有効無効" Grid.Row="1" Grid.Column="0" />
+                        <TextBlock Text="ウィンドウを表示" Grid.Row="2" Grid.Column="0" />
+                        <TextBlock Text="通知を表示" Grid.Row="3" Grid.Column="0" />
+                        <TextBlock Text="音を鳴らす" Grid.Row="4" Grid.Column="0" />
 
                         <ui:SimpleStackPanel Grid.Row="1" Grid.Column="1">
                             <ui:ToggleSwitch />
