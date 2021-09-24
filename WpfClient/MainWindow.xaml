@@ -9,8 +9,8 @@
         xmlns:local="clr-namespace:WpfClient"
         mc:Ignorable="d"
         Title="P2P地震情報" Height="480" Width="800">
-    <ui:SimpleStackPanel>
-        <ui:NavigationView PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" IsSettingsVisible="False">
+    <DockPanel LastChildFill="True">
+        <ui:NavigationView PaneDisplayMode="Top" DockPanel.Dock="Top" IsBackButtonVisible="Collapsed" IsSettingsVisible="False">
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem Content="情報">
                     <ui:NavigationViewItem.Icon>
@@ -39,5 +39,5 @@
             </ui:NavigationView.PaneFooter>
         </ui:NavigationView>
         <Frame Source="Pages/Status.xaml" />
-    </ui:SimpleStackPanel>
+    </DockPanel>
 </Window>

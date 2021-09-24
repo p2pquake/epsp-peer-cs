@@ -8,129 +8,145 @@
       mc:Ignorable="d" 
       d:DesignHeight="416" d:DesignWidth="800"
       Title="Setting">
-    <ui:SimpleStackPanel Orientation="Horizontal">
-        <ui:ListView Width="176">
-            <ui:ListViewHeaderItem>
-                <TextBlock Text="設定" />
-            </ui:ListViewHeaderItem>
-            <ui:ListViewItem>
-                <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8">
-                    <ui:SymbolIcon Symbol="SetLockScreen" />
-                    <TextBlock Text="起動" />
-                </ui:SimpleStackPanel>
-            </ui:ListViewItem>
-            <ui:ListViewItem>
-                <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8">
-                    <ui:SymbolIcon Symbol="MapDrive" />
-                    <TextBlock Text="接続" />
-                </ui:SimpleStackPanel>
-            </ui:ListViewItem>
-            <ui:ListViewItem>
-                <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8">
-                    <ui:SymbolIcon Symbol="OtherUser" />
-                    <TextBlock Text="「揺れた！」" />
-                </ui:SimpleStackPanel>
-            </ui:ListViewItem>
-            <ui:ListViewItem>
-                <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8">
-                    <ui:SymbolIcon Symbol="Message" />
-                    <TextBlock Text="表示・通知" />
-                </ui:SimpleStackPanel>
-            </ui:ListViewItem>
-        </ui:ListView>
-        <Canvas>
-            <ui:SimpleStackPanel x:Name="起動" Spacing="16" Margin="16" d:IsHidden="True">
-                <TextBlock Text="起動" Style="{StaticResource SubtitleTextBlockStyle}" />
-                <Label Content="Windows 起動時に P2P地震情報を開始する" />
-                <ui:ToggleSwitch IsOn="True" />
-                <Label Content="起動時に最小化する" />
-                <ui:ToggleSwitch IsOn="True" />
-                <Label Content="自動更新する" />
-                <ui:ToggleSwitch IsEnabled="False" />
-            </ui:SimpleStackPanel>
-            <ui:SimpleStackPanel x:Name="接続" Spacing="16" Margin="16">
-                <TextBlock Text="接続" Style="{StaticResource SubtitleTextBlockStyle}" />
-                <TextBlock Text="P2Pネットワークの構築には、ポートを開放したピアが必要です。" />
-                <Label Content="ポートを開放する" />
-                <ui:ToggleSwitch IsOn="True" />
-                <CheckBox Content="UPnP 機能を使用する" IsChecked="True" />
-                <ui:SimpleStackPanel Orientation="Horizontal" Spacing="16">
-                    <Label Content="ポート番号" VerticalAlignment="Center" />
-                    <TextBox Text="6911" Width="60" TextAlignment="Right" />
-                </ui:SimpleStackPanel>
-            </ui:SimpleStackPanel>
-            <ui:SimpleStackPanel x:Name="揺れた" Spacing="16" Margin="16" d:IsHidden="True">
-                <TextBlock Text="「揺れた！」" Style="{StaticResource SubtitleTextBlockStyle}" />
-                <Label Content="あなたの発信地域" />
-                <ComboBox SelectedIndex="0">
-                    <ComboBoxItem Content="東京" />
-                </ComboBox>
-                <Label Content="発信方法" />
-                <ui:SimpleStackPanel>
-                    <CheckBox Content="ウィンドウ右上「揺れた！」ボタン" IsEnabled="False" IsChecked="True" />
-                    <CheckBox Content="トレイアイコン 中ダブルクリック" />
-                    <CheckBox Content="トレイアイコン 右ダブルクリック" />
-                </ui:SimpleStackPanel>
-            </ui:SimpleStackPanel>
-            <ui:SimpleStackPanel x:Name="通知設定" Spacing="16" Margin="16" MaxWidth="640" d:IsHidden="True">
-                <TextBlock Text="通知設定" Style="{StaticResource SubtitleTextBlockStyle}" />
-                <TextBlock Text="ウィンドウを表示しているときに通知条件を満たした場合、表示が通知対象の情報に切り替わります。"
-                               TextWrapping="WrapWithOverflow" />
-                <Grid>
-                    <Grid.Resources>
-                        <Style TargetType="{x:Type Label}">
-                            <Setter Property="VerticalAlignment" Value="Top" />
-                            <Setter Property="Padding" Value="8" />
-                        </Style>
-                    </Grid.Resources>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-
-                    <Label Content="地震情報" Grid.Column="1" Grid.Row="0" />
-                    <Label Content="地震感知情報" Grid.Column="2" Grid.Row="0" />
-                    <Label Content="津波予報" Grid.Column="3" Grid.Row="0" />
-                    <Label Content="緊急地震速報&#xA;配信試験（β）" Grid.Column="4" Grid.Row="0" />
-
-                    <Label Content="有効無効" Grid.Row="1" Grid.Column="0" />
-                    <Label Content="ウィンドウを表示" Grid.Row="2" Grid.Column="0" />
-                    <Label Content="通知を表示" Grid.Row="3" Grid.Column="0" />
-                    <Label Content="音を鳴らす" Grid.Row="4" Grid.Column="0" />
-
-                    <ui:SimpleStackPanel Grid.Row="1" Grid.Column="1">
-                        <ui:ToggleSwitch />
-                        <ComboBox SelectedIndex="0">
-                            <ComboBoxItem Content="震度 1 以上" />
-                        </ComboBox>
+    <DockPanel LastChildFill="True">
+        <ui:NavigationView Width="180" DockPanel.Dock="Left" PaneDisplayMode="Left" IsPaneToggleButtonVisible="False" IsBackButtonVisible="Collapsed" IsSettingsVisible="False">
+            <ui:NavigationView.PaneHeader>
+                <TextBlock VerticalAlignment="Center" Text="設定" Style="{StaticResource SubtitleTextBlockStyle}" Margin="12" />
+            </ui:NavigationView.PaneHeader>
+            <ui:NavigationView.Resources>
+                <Style TargetType="ui:SimpleStackPanel">
+                    <Setter Property="Orientation" Value="Horizontal" />
+                    <Setter Property="Spacing" Value="8" />
+                </Style>
+            </ui:NavigationView.Resources>
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem>
+                    <ui:SimpleStackPanel>
+                        <ui:SymbolIcon Symbol="SetLockScreen" />
+                        <TextBlock Text="起動" />
                     </ui:SimpleStackPanel>
-                    <ui:ToggleSwitch Grid.Row="2" Grid.Column="1" />
-                    <ui:ToggleSwitch Grid.Row="3" Grid.Column="1" />
-                    <ui:ToggleSwitch Grid.Row="4" Grid.Column="1" />
-                    <ui:ToggleSwitch Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" />
-                    <ui:ToggleSwitch Grid.Row="2" Grid.Column="2" />
-                    <ui:ToggleSwitch Grid.Row="3" Grid.Column="2" />
-                    <ui:ToggleSwitch Grid.Row="4" Grid.Column="2" />
-                    <ui:ToggleSwitch Grid.Row="1" Grid.Column="3" VerticalAlignment="Top" />
-                    <ui:ToggleSwitch Grid.Row="2" Grid.Column="3" />
-                    <ui:ToggleSwitch Grid.Row="3" Grid.Column="3" />
-                    <ui:ToggleSwitch Grid.Row="4" Grid.Column="3" />
-                    <ui:ToggleSwitch Grid.Row="1" Grid.Column="4" VerticalAlignment="Top" />
-                    <ui:ToggleSwitch Grid.Row="2" Grid.Column="4" />
-                    <ui:ToggleSwitch Grid.Row="3" Grid.Column="4" />
-                    <ui:ToggleSwitch Grid.Row="4" Grid.Column="4" />
-                </Grid>
-            </ui:SimpleStackPanel>
-        </Canvas>
-    </ui:SimpleStackPanel>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem>
+                    <ui:SimpleStackPanel>
+                        <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xEC27;" />
+                        <TextBlock Text="接続" />
+                    </ui:SimpleStackPanel>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem>
+                    <ui:SimpleStackPanel>
+                        <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xED15;" />
+                        <TextBlock Text="「揺れた！」" />
+                    </ui:SimpleStackPanel>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem>
+                    <ui:SimpleStackPanel>
+                        <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xEC42;" />
+                        <TextBlock Text="表示・通知" />
+                    </ui:SimpleStackPanel>
+                </ui:NavigationViewItem>
+            </ui:NavigationView.MenuItems>
+        </ui:NavigationView>
+        <Grid>
+            <ScrollViewer>
+                <ui:SimpleStackPanel x:Name="起動" Spacing="16" Margin="16">
+                    <TextBlock Text="起動" Style="{StaticResource SubtitleTextBlockStyle}" />
+                    <Label Content="Windows 起動時に P2P地震情報を開始する" />
+                    <ui:ToggleSwitch IsOn="True" />
+                    <Label Content="起動時に最小化する" />
+                    <ui:ToggleSwitch IsOn="True" />
+                    <Label Content="自動更新する （未実装）" IsEnabled="False" />
+                    <ui:ToggleSwitch IsEnabled="False" />
+                </ui:SimpleStackPanel>
+            </ScrollViewer>
+            <ScrollViewer Visibility="Hidden">
+                <ui:SimpleStackPanel x:Name="接続" Spacing="16" Margin="16">
+                    <TextBlock Text="接続" Style="{StaticResource SubtitleTextBlockStyle}" />
+                    <TextBlock Text="P2Pネットワークの構築には、ポートを開放したピアが必要です。" />
+                    <Label Content="ポートを開放する" />
+                    <ui:ToggleSwitch IsOn="True" />
+                    <CheckBox Content="UPnP 機能を使用する" IsChecked="True" />
+                    <ui:SimpleStackPanel Orientation="Horizontal" Spacing="16">
+                        <Label Content="ポート番号" VerticalAlignment="Center" />
+                        <TextBox Text="6911" Width="120" TextAlignment="Right" />
+                    </ui:SimpleStackPanel>
+                </ui:SimpleStackPanel>
+            </ScrollViewer>
+            <ScrollViewer Visibility="Hidden">
+                <ui:SimpleStackPanel x:Name="揺れた" Spacing="16" Margin="16">
+                    <TextBlock Text="「揺れた！」" Style="{StaticResource SubtitleTextBlockStyle}" />
+                    <Label Content="あなたの発信地域" />
+                    <ComboBox SelectedIndex="0">
+                        <ComboBoxItem Content="東京" />
+                    </ComboBox>
+                    <Label Content="発信方法" />
+                    <ui:SimpleStackPanel>
+                        <CheckBox Content="ウィンドウ右上「揺れた！」ボタン" IsEnabled="False" IsChecked="True" />
+                        <CheckBox Content="トレイアイコン 中ダブルクリック" />
+                        <CheckBox Content="トレイアイコン 右ダブルクリック" />
+                    </ui:SimpleStackPanel>
+                </ui:SimpleStackPanel>
+            </ScrollViewer>
+            <ScrollViewer Visibility="Hidden">
+                <ui:SimpleStackPanel x:Name="通知設定" Spacing="16" Margin="16" MaxWidth="640" HorizontalAlignment="Left">
+                    <TextBlock Text="通知設定" Style="{StaticResource SubtitleTextBlockStyle}" />
+                    <TextBlock Text="ウィンドウを表示しているときに通知条件を満たした場合、表示が通知対象の情報に切り替わります。"
+                               TextWrapping="WrapWithOverflow" />
+                    <Grid>
+                        <Grid.Resources>
+                            <Style TargetType="Label">
+                                <Setter Property="VerticalAlignment" Value="Top" />
+                                <Setter Property="Padding" Value="8" />
+                            </Style>
+                        </Grid.Resources>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Label Content="地震情報" Grid.Column="1" Grid.Row="0" />
+                        <Label Content="地震感知情報" Grid.Column="2" Grid.Row="0" />
+                        <Label Content="津波予報" Grid.Column="3" Grid.Row="0" />
+                        <Label Content="緊急地震速報&#xA;配信試験（β）" Grid.Column="4" Grid.Row="0" />
+
+                        <Label Content="有効無効" Grid.Row="1" Grid.Column="0" />
+                        <Label Content="ウィンドウを表示" Grid.Row="2" Grid.Column="0" />
+                        <Label Content="通知を表示" Grid.Row="3" Grid.Column="0" />
+                        <Label Content="音を鳴らす" Grid.Row="4" Grid.Column="0" />
+
+                        <ui:SimpleStackPanel Grid.Row="1" Grid.Column="1">
+                            <ui:ToggleSwitch />
+                            <ComboBox SelectedIndex="0">
+                                <ComboBoxItem Content="震度 1 以上" />
+                            </ComboBox>
+                        </ui:SimpleStackPanel>
+                        <ui:ToggleSwitch Grid.Row="2" Grid.Column="1" />
+                        <ui:ToggleSwitch Grid.Row="3" Grid.Column="1" />
+                        <ui:ToggleSwitch Grid.Row="4" Grid.Column="1" />
+                        <ui:ToggleSwitch Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" />
+                        <ui:ToggleSwitch Grid.Row="2" Grid.Column="2" />
+                        <ui:ToggleSwitch Grid.Row="3" Grid.Column="2" />
+                        <ui:ToggleSwitch Grid.Row="4" Grid.Column="2" />
+                        <ui:ToggleSwitch Grid.Row="1" Grid.Column="3" VerticalAlignment="Top" />
+                        <ui:ToggleSwitch Grid.Row="2" Grid.Column="3" />
+                        <ui:ToggleSwitch Grid.Row="3" Grid.Column="3" />
+                        <ui:ToggleSwitch Grid.Row="4" Grid.Column="3" />
+                        <ui:ToggleSwitch Grid.Row="1" Grid.Column="4" VerticalAlignment="Top" />
+                        <ui:ToggleSwitch Grid.Row="2" Grid.Column="4" />
+                        <ui:ToggleSwitch Grid.Row="3" Grid.Column="4" />
+                        <ui:ToggleSwitch Grid.Row="4" Grid.Column="4" />
+                    </Grid>
+                </ui:SimpleStackPanel>
+            </ScrollViewer>
+        </Grid>
+    </DockPanel>
 </Page>
