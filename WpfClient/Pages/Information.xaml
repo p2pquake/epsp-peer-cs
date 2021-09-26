@@ -7,84 +7,108 @@
       xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
       xmlns:local="clr-namespace:WpfClient.Pages"
       xmlns:WpfClient="clr-namespace:WpfClient" x:Class="WpfClient.Pages.Information"
+      xmlns:peer="clr-namespace:Client.Peer;assembly=Client"
+      xmlns:data="clr-namespace:WpfClient.EPSPDataView"
+      Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
+      Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Information">
     <Page.Resources>
-        <local:InformationTemplateSelector x:Key="listItemTemplateSelector" />
-        
-        <DataTemplate x:Key="SampleItemDataTemplate">
+        <local:InformationTemplateSelector x:Key="ListTemplateSelector" />
+
+        <DataTemplate x:Key="HeaderItem">
+            <TextBlock Text="情報" Style="{StaticResource SubtitleTextBlockStyle}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="EarthquakeItem" DataType="data:EPSPQuakeView">
             <StackPanel Orientation="Horizontal">
-                <StackPanel Width="32" Orientation="Vertical" VerticalAlignment="Center">
+                <StackPanel Visibility="{Binding ScaleVisibility}" Width="32" Orientation="Vertical" VerticalAlignment="Center">
                     <TextBlock Text="震度" HorizontalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}" />
-                    <TextBlock Text="{Binding MaxScale}" HorizontalAlignment="Center"
-                                           Style="{StaticResource BodyTextBlockStyle}" />
+                    <TextBlock Text="{Binding EventArgs.Scale}" HorizontalAlignment="Center"
+                                           Style="{StaticResource BodyTextBlockStyle}"
+                                           Foreground="{Binding ScaleForeground}" />
                 </StackPanel>
+                <ui:SymbolIcon Visibility="{Binding ForeignIconVisibility}" Symbol="World" Width="32" Height="24" />
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="{Binding OccuredTime}" />
-                    <TextBlock Text="{Binding Destination}"
+                    <TextBlock Text="{Binding EventArgs.OccuredTime}" />
+                    <TextBlock Text="{Binding EventArgs.Destination}"
                                            TextWrapping="WrapWithOverflow"
                                            HorizontalAlignment="Stretch"
-                                           />
-                </StackPanel>
-            </StackPanel>
-        </DataTemplate>
-        <DataTemplate x:Key="SampleItemAnotherDataTemplate">
-            <StackPanel Orientation="Horizontal">
-                <StackPanel Width="32" Orientation="Vertical" VerticalAlignment="Center">
-                    <TextBlock Text="震度" HorizontalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}" />
-                    <TextBlock Text="{Binding MaxScale}" HorizontalAlignment="Center"
-                                           Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
-                                           Style="{StaticResource BodyTextBlockStyle}" />
-                </StackPanel>
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Text="{Binding OccuredTime}" />
-                    <TextBlock Text="{Binding Destination}"
-                                           TextWrapping="WrapWithOverflow"
-                                           HorizontalAlignment="Stretch"
-                                           />
-                </StackPanel>
-            </StackPanel>
-        </DataTemplate>
-        <DataTemplate x:Key="ForeignItemDataTemplate">
-            <Grid HorizontalAlignment="Stretch">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition MinWidth="32" />
-                    <ColumnDefinition Width="136" />
-                </Grid.ColumnDefinitions>
-                <ui:SymbolIcon Symbol="World" Width="32" Height="24" Grid.Column="0" />
-                <StackPanel Orientation="Vertical" Grid.Column="1">
-                    <TextBlock Text="{Binding OccuredTime}" />
-                    <TextBlock Text="{Binding Destination}"
                                            MaxWidth="136"
-                                           TextWrapping="WrapWithOverflow" />
+                                           />
                 </StackPanel>
-            </Grid>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="TsunamiItem" DataType="data:EPSPTsunamiView">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="{Binding Source}" Width="32" Height="24" />
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding Time}" />
+                    <TextBlock Text="{Binding Caption}"
+                                           TextWrapping="WrapWithOverflow"
+                                           HorizontalAlignment="Stretch"
+                                           MaxWidth="136"
+                                           />
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="EEWTestItem" DataType="data:EPSPEEWTestView">
+            <StackPanel Orientation="Horizontal">
+                <ui:SymbolIcon Symbol="Volume"
+                               Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
+                               Width="32" Height="24" />
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding Time}" />
+                    <TextBlock Text="緊急地震速報 発表検出"
+                                           TextWrapping="WrapWithOverflow"
+                                           HorizontalAlignment="Stretch"
+                                           MaxWidth="136"
+                                           />
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="UserquakeItem" DataType="data:EPSPUserquakeView">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="{Binding Source}" Width="32" Height="24" />
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding Time}" />
+                    <TextBlock Text="{Binding Caption}"
+                                           TextWrapping="WrapWithOverflow"
+                                           HorizontalAlignment="Stretch"
+                                           MaxWidth="136"
+                                           />
+                </StackPanel>
+            </StackPanel>
         </DataTemplate>
     </Page.Resources>
     <Page.DataContext>
         <WpfClient:InformationViewModel/>
     </Page.DataContext>
-    <ui:SimpleStackPanel Orientation="Horizontal">
-        <ui:SimpleStackPanel Orientation="Vertical">
-            <!-- FIXME: ふつうに HeaderItem 使うようにする -->
-            <!-- FIXME: 横幅が期待通りになってない。遠地地震の震源名が切れてる -->
-            <TextBlock Text="情報" Style="{StaticResource SubtitleTextBlockStyle}" Margin="8" />
+    <DockPanel>
+        <ScrollViewer DockPanel.Dock="Left">
             <ui:ListView
-            Width="176"
-            Margin="4"
-            ItemTemplateSelector="{StaticResource listItemTemplateSelector}"
-            ItemsSource="{Binding SampleItems}"
-            >
+                    ItemTemplateSelector="{StaticResource ListTemplateSelector}"
+                    ItemsSource="{Binding Histories}">
+                <ui:ListView.ItemContainerStyle>
+                    <Style TargetType="ui:ListViewItem">
+                        <Setter Property="Padding" Value="8" />
+                    </Style>
+                </ui:ListView.ItemContainerStyle>
             </ui:ListView>
-        </ui:SimpleStackPanel>
-        <Canvas>
-            <Border x:Name="Earthquake">
-                <Canvas Width="620" Height="420">
-                    <Image Source="/Resources/Examples/japan_1024.png" Width="620" />
-                    <Image Source="/Resources/MapOverlays/quake_note.png" Width="40" Canvas.Bottom="8" Canvas.Right="8"/>
-                    <Image Source="/Resources/MapOverlays/description.png" Canvas.Bottom="0" Canvas.Left="0" />
-                    <Canvas Height="40" Width="620" Background="#B2FFFFFF">
+        </ScrollViewer>
+        <Border>
+            <Grid>
+                <Grid x:Name="Earthquake" Visibility="Visible">
+                    <Image Source="/Resources/Examples/japan_1024.png" Stretch="UniformToFill" />
+                    <Canvas>
+                        <Image Source="/Resources/MapOverlays/quake_note.png" Width="40" Canvas.Bottom="8" Canvas.Right="8"/>
+                        <Image Source="/Resources/MapOverlays/description.png" Height="8" Canvas.Bottom="0" Canvas.Left="0" />
+                    </Canvas>
+                    <Canvas VerticalAlignment="Top" Height="40" Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}">
                         <ui:SimpleStackPanel Orientation="Horizontal" Spacing="16" Margin="4">
                             <ui:SimpleStackPanel Orientation="Vertical">
                                 <TextBlock Text="日時" Style="{StaticResource CaptionTextBlockStyle}" />
@@ -104,11 +128,14 @@
                             </ui:SimpleStackPanel>
                             <ui:SimpleStackPanel Orientation="Vertical">
                                 <TextBlock Text="津波" Style="{StaticResource CaptionTextBlockStyle}" />
-                                <Label Content="被害の心配なし（若干の海面変動）" FontWeight="Bold" />
+                                <Label Content="津波予報発表中"
+                                       FontWeight="Bold"
+                                       Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
+                                       />
                             </ui:SimpleStackPanel>
                         </ui:SimpleStackPanel>
                     </Canvas>
-                    <Expander ExpandDirection="Left"
+                    <Expander Visibility="Hidden" ExpandDirection="Left"
                                   Background="#B2FFFFFF"
                                   IsExpanded="True" Header="詳細" Height="376" Canvas.Bottom="0" Canvas.Right="0">
                         <ScrollViewer>
@@ -133,15 +160,15 @@
                             </ui:SimpleStackPanel>
                         </ScrollViewer>
                     </Expander>
-                </Canvas>
-            </Border>
-            <Border x:Name="Userquake" d:IsHidden="True">
-                <Canvas Width="620" Height="420">
-                    <Image Source="Resources/Examples/japan_1024.png" Width="620" />
-                    <Image Source="Resources/MapOverlays/userquake_note.png" Width="40" Canvas.Bottom="8" Canvas.Right="8"/>
-                    <Image Source="Resources/MapOverlays/description.png" Canvas.Bottom="0" Canvas.Left="0" />
-                    <Canvas Height="40" Width="620" Background="#B2FFFFFF">
-                        <ui:SimpleStackPanel Orientation="Horizontal" Spacing="16" Margin="4">
+                </Grid>
+                <Grid x:Name="Userquake" Visibility="Hidden">
+                    <Image Source="/Resources/Examples/japan_1024.png" Stretch="UniformToFill" />
+                    <Canvas>
+                        <Image Source="/Resources/MapOverlays/userquake_note.png" Width="40" Canvas.Bottom="8" Canvas.Right="8"/>
+                        <Image Source="/Resources/MapOverlays/description.png" Height="8" Canvas.Bottom="0" Canvas.Left="0" />
+                    </Canvas>
+                    <DockPanel Height="40" VerticalAlignment="Top" Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}">
+                        <ui:SimpleStackPanel DockPanel.Dock="Left" Orientation="Horizontal" Spacing="16" Margin="4">
                             <ui:SimpleStackPanel Orientation="Vertical">
                                 <TextBlock Text="日時" Style="{StaticResource CaptionTextBlockStyle}" />
                                 <Label Content="11月22日12時34分56秒～現在" FontWeight="Bold" />
@@ -150,15 +177,16 @@
                                 <TextBlock Text="件数" Style="{StaticResource CaptionTextBlockStyle}" />
                                 <Label Content="123" FontWeight="Bold" />
                             </ui:SimpleStackPanel>
-                            <Label Content="受信中"
-                                       FontWeight="Bold"
-                                       Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
-                                       Background="#FDE7E9"
-                                       VerticalAlignment="Center" />
                         </ui:SimpleStackPanel>
-                    </Canvas>
-                </Canvas>
-            </Border>
-        </Canvas>
-    </ui:SimpleStackPanel>
+                        <Label DockPanel.Dock="Right"
+                                   Content="受信中"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center" />
+                    </DockPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </DockPanel>
 </Page>

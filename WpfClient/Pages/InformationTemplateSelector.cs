@@ -1,10 +1,15 @@
-﻿using System;
+﻿using Client.App.Userquake;
+using Client.Peer;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+
+using WpfClient.EPSPDataView;
 
 namespace WpfClient.Pages
 {
@@ -14,19 +19,29 @@ namespace WpfClient.Pages
         {
             var element = container as FrameworkElement;
 
-            if (item is SampleItem sampleItem)
+            if (item == null)
             {
-                if (sampleItem.MaxScale.CompareTo("5") >= 0)
-                {
-                    return element.FindResource("SampleItemAnotherDataTemplate") as DataTemplate;
-                }
-
-                return element.FindResource("SampleItemDataTemplate") as DataTemplate;
+                return element.FindResource("HeaderItem") as DataTemplate;
             }
 
-            if (item is ForeignItem)
+            if (item is EPSPQuakeView)
             {
-                return element.FindResource("ForeignItemDataTemplate") as DataTemplate;
+                return element.FindResource("EarthquakeItem") as DataTemplate;
+            }
+
+            if (item is EPSPTsunamiView)
+            {
+                return element.FindResource("TsunamiItem") as DataTemplate;
+            }
+
+            if (item is EPSPEEWTestView)
+            {
+                return element.FindResource("EEWTestItem") as DataTemplate;
+            }
+
+            if (item is EPSPUserquakeView)
+            {
+                return element.FindResource("UserquakeItem") as DataTemplate;
             }
 
             return null;
