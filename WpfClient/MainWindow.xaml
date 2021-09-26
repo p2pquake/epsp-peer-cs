@@ -8,7 +8,9 @@
         ui:WindowHelper.UseModernWindowStyle="True"
         xmlns:local="clr-namespace:WpfClient"
         mc:Ignorable="d"
-        Title="P2P地震情報" Height="480" Width="800">
+        Title="P2P地震情報"
+        Height="480" Width="800"
+        MinHeight="180" MinWidth="480">
     <Window.DataContext>
         <local:RootViewModel/>
     </Window.DataContext>

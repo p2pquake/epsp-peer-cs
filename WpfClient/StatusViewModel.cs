@@ -56,7 +56,7 @@ namespace WpfClient
             }    
         }
 
-        private string statusTitle;
+        private string statusTitle = "接続されていません。";
         public string StatusTitle
         {
             get { return statusTitle; }
@@ -67,7 +67,7 @@ namespace WpfClient
             }
         }
 
-        private string statusDescription;
+        private string statusDescription = "P2P地震情報を起動しました。自動的にネットワークへの接続を開始します。";
         public string StatusDescription
         {
             get { return statusDescription; }
