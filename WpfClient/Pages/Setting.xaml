@@ -53,7 +53,7 @@
             </ui:NavigationView.MenuItems>
         </ui:NavigationView>
         <Grid>
-            <ScrollViewer Visibility="{Binding BootVisibility}" d:Visibility="Hidden">
+            <ScrollViewer Visibility="{Binding BootVisibility}" d:Visibility="Visible">
                 <ui:SimpleStackPanel x:Name="起動" Spacing="16" Margin="16">
                     <TextBlock Text="起動" Style="{StaticResource SubtitleTextBlockStyle}" />
                     <Label Content="Windows 起動時に P2P地震情報を開始する" />
@@ -64,7 +64,7 @@
                     <ui:ToggleSwitch IsEnabled="False" />
                 </ui:SimpleStackPanel>
             </ScrollViewer>
-            <ScrollViewer Visibility="{Binding ConnectionVisibility}" d:Visibility="Visible">
+            <ScrollViewer Visibility="{Binding ConnectionVisibility}" d:Visibility="Hidden">
                 <ui:SimpleStackPanel x:Name="接続" Spacing="16" Margin="16">
                     <TextBlock Text="接続" Style="{StaticResource SubtitleTextBlockStyle}" />
                     <TextBlock Text="P2Pネットワークの構築には、ポートを開放したピアが必要です。" />

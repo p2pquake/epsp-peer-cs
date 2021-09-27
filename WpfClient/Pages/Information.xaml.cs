@@ -24,5 +24,11 @@ namespace WpfClient.Pages
         {
             InitializeComponent();
         }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var viewModel = (InformationViewModel)DataContext;
+            viewModel.SelectItem = ((ModernWpf.Controls.ListView)sender).SelectedItem;
+        }
     }
 }

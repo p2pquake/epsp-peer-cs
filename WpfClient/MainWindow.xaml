@@ -17,12 +17,12 @@
     <DockPanel LastChildFill="True">
         <ui:NavigationView SelectionChanged="NavigationView_SelectionChanged" PaneDisplayMode="Top" DockPanel.Dock="Top" IsBackButtonVisible="Collapsed" IsSettingsVisible="False">
             <ui:NavigationView.MenuItems>
-                <ui:NavigationViewItem Content="情報" Tag="Information">
+                <ui:NavigationViewItem IsSelected="True" Content="情報" Tag="Information">
                     <ui:NavigationViewItem.Icon>
                         <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE946;" />
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-                <ui:NavigationViewItem IsSelected="True" Content="設定" Tag="Setting" Icon="Setting" />
+                <ui:NavigationViewItem Content="設定" Tag="Setting" Icon="Setting" />
                 <ui:NavigationViewItem Content="{Binding Status}" d:Content="接続済み" Tag="Status">
                     <ui:NavigationViewItem.Icon>
                         <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{Binding StatusIconGlyph}" d:Glyph="&#xEC27;" />

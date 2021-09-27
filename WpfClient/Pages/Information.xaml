@@ -16,6 +16,23 @@
       Title="Information">
     <Page.Resources>
         <local:InformationTemplateSelector x:Key="ListTemplateSelector" />
+        <local:DetailDescriptionTemplateSelector x:Key="DetailTemplateSelector" />
+
+        <DataTemplate x:Key="DetailHeaderItem">
+            <TextBlock Text="{Binding Text}" Style="{StaticResource SubtitleTextBlockStyle}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="DetailPrefectureItem">
+            <TextBlock Text="{Binding Text}" Margin="0,16,0,0" Style="{StaticResource BaseTextBlockStyle}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="DetailScaleItem">
+            <TextBlock Text="{Binding Text}" Style="{StaticResource BaseTextBlockStyle}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="DetailNameItem">
+            <TextBlock Text="{Binding Text}" Margin="0,0,0,4" Style="{StaticResource BodyTextBlockStyle}" />
+        </DataTemplate>
 
         <DataTemplate x:Key="HeaderItem">
             <TextBlock Text="情報" Style="{StaticResource SubtitleTextBlockStyle}" />
@@ -92,7 +109,9 @@
         <ScrollViewer DockPanel.Dock="Left">
             <ui:ListView
                     ItemTemplateSelector="{StaticResource ListTemplateSelector}"
-                    ItemsSource="{Binding Histories}">
+                    ItemsSource="{Binding Histories}"
+                    SelectedIndex="1"
+                    SelectionChanged="ListView_SelectionChanged">
                 <ui:ListView.ItemContainerStyle>
                     <Style TargetType="ui:ListViewItem">
                         <Setter Property="Padding" Value="8" />
@@ -102,8 +121,8 @@
         </ScrollViewer>
         <Border>
             <Grid>
-                <Grid x:Name="Earthquake" Visibility="Visible">
-                    <Image Source="/Resources/Examples/japan_1024.png" Stretch="UniformToFill" />
+                <Grid x:Name="Earthquake" Visibility="{Binding EarthquakeVisibility}" d:Visibility="Visible">
+                    <Image Source="{Binding SelectItem.BitmapImage}" Stretch="Uniform" />
                     <Canvas>
                         <Image Source="/Resources/MapOverlays/quake_note.png" Width="40" Canvas.Bottom="8" Canvas.Right="8"/>
                         <Image Source="/Resources/MapOverlays/description.png" Height="8" Canvas.Bottom="0" Canvas.Left="0" />
@@ -112,57 +131,48 @@
                         <ui:SimpleStackPanel Orientation="Horizontal" Spacing="16" Margin="4">
                             <ui:SimpleStackPanel Orientation="Vertical">
                                 <TextBlock Text="日時" Style="{StaticResource CaptionTextBlockStyle}" />
-                                <Label Content="11月22日12時34分頃" FontWeight="Bold" />
+                                <Label Content="{Binding SelectItem.EventArgs.OccuredTime}" FontWeight="Bold" />
                             </ui:SimpleStackPanel>
                             <ui:SimpleStackPanel Orientation="Vertical">
                                 <TextBlock Text="震源" Style="{StaticResource CaptionTextBlockStyle}" />
-                                <Label Content="山梨県東部・富士五湖" FontWeight="Bold" />
+                                <Label Content="{Binding SelectItem.EventArgs.Destination}" FontWeight="Bold" />
                             </ui:SimpleStackPanel>
                             <ui:SimpleStackPanel Orientation="Vertical">
                                 <TextBlock Text="深さ" Style="{StaticResource CaptionTextBlockStyle}" />
-                                <Label Content="ごく浅い" FontWeight="Bold" />
+                                <Label Content="{Binding SelectItem.EventArgs.Depth}" FontWeight="Bold" />
                             </ui:SimpleStackPanel>
                             <ui:SimpleStackPanel Orientation="Vertical">
                                 <TextBlock Text="M" Style="{StaticResource CaptionTextBlockStyle}" />
-                                <Label Content="0.0" FontWeight="Bold" />
+                                <Label Content="{Binding SelectItem.EventArgs.Magnitude}" FontWeight="Bold" />
                             </ui:SimpleStackPanel>
                             <ui:SimpleStackPanel Orientation="Vertical">
                                 <TextBlock Text="津波" Style="{StaticResource CaptionTextBlockStyle}" />
-                                <Label Content="津波予報発表中"
+                                <Label Content="{Binding SelectItem.TsunamiText}"
                                        FontWeight="Bold"
-                                       Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
+                                       Foreground="{Binding SelectItem.TsunamiForeground}"
                                        />
                             </ui:SimpleStackPanel>
                         </ui:SimpleStackPanel>
                     </Canvas>
-                    <Expander Visibility="Hidden" ExpandDirection="Left"
-                                  Background="#B2FFFFFF"
-                                  IsExpanded="True" Header="詳細" Height="376" Canvas.Bottom="0" Canvas.Right="0">
+                    <Expander Visibility="Visible" ExpandDirection="Left"
+                                  HorizontalAlignment="Right"
+                                  Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}"
+                                  IsExpanded="False" Header="詳細" MaxWidth="320" Canvas.Bottom="0" Canvas.Right="0">
                         <ScrollViewer>
-                            <ui:SimpleStackPanel Width="160" Spacing="4">
-                                <TextBlock Text="各地の震度" Style="{StaticResource SubtitleTextBlockStyle}" />
-                                <TextBlock Text="宮城県" Style="{StaticResource BaseTextBlockStyle}" />
-                                <TextBlock Text="震度3" Style="{StaticResource BaseTextBlockStyle}" />
-                                <TextBlock Text="石巻市" TextWrapping="WrapWithOverflow" Style="{StaticResource CaptionTextBlockStyle}" />
-                                <TextBlock Text="震度2" Style="{StaticResource BaseTextBlockStyle}" />
-                                <TextBlock Text="仙台泉区、東松島市、松島町、七ヶ浜町、女川町、気仙沼市、登米市、大崎市、涌谷町、宮城美里町、南三陸町"
-                                           TextWrapping="WrapWithOverflow"
-                                           Style="{StaticResource CaptionTextBlockStyle}" />
-                                <TextBlock Text="震度1" Style="{StaticResource BaseTextBlockStyle}" />
-                                <TextBlock Text="仙台青葉区、仙台宮城野区、仙台若林区、仙台太白区、塩竈市、多賀城市、利府町、大和町、大郷町、大衡村、栗原市、色麻町、宮城加美町、仙台空港、名取市、角田市、岩沼市、大河原町、柴田町、宮城川崎町、亘理町、山元町"
-                                           TextWrapping="WrapWithOverflow"
-                                           Style="{StaticResource CaptionTextBlockStyle}" />
-                                <TextBlock Text="岩手県" Style="{StaticResource BaseTextBlockStyle}" />
-                                <TextBlock Text="震度2" Style="{StaticResource BaseTextBlockStyle}" />
-                                <TextBlock Text="大船渡市、住田町、一関市"
-                                           TextWrapping="WrapWithOverflow"
-                                           Style="{StaticResource CaptionTextBlockStyle}" />
-                            </ui:SimpleStackPanel>
+                            <ItemsControl
+                                ItemsSource="{Binding SelectItem.DetailItemViewList}"
+                                ItemTemplateSelector="{StaticResource DetailTemplateSelector}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <ui:SimpleStackPanel Spacing="4" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
                         </ScrollViewer>
                     </Expander>
                 </Grid>
-                <Grid x:Name="Userquake" Visibility="Hidden">
-                    <Image Source="/Resources/Examples/japan_1024.png" Stretch="UniformToFill" />
+                <Grid x:Name="Userquake" Visibility="{Binding UserquakeVisibility}" d:Visibility="Hidden">
+                    <Image Source="{Binding SelectItem.BitmapImage}" Stretch="Uniform" />
                     <Canvas>
                         <Image Source="/Resources/MapOverlays/userquake_note.png" Width="40" Canvas.Bottom="8" Canvas.Right="8"/>
                         <Image Source="/Resources/MapOverlays/description.png" Height="8" Canvas.Bottom="0" Canvas.Left="0" />
@@ -171,14 +181,16 @@
                         <ui:SimpleStackPanel DockPanel.Dock="Left" Orientation="Horizontal" Spacing="16" Margin="4">
                             <ui:SimpleStackPanel Orientation="Vertical">
                                 <TextBlock Text="日時" Style="{StaticResource CaptionTextBlockStyle}" />
-                                <Label Content="11月22日12時34分56秒～現在" FontWeight="Bold" />
+                                <Label Content="{Binding SelectItem.DetailTime}" FontWeight="Bold" />
                             </ui:SimpleStackPanel>
                             <ui:SimpleStackPanel Orientation="Vertical">
                                 <TextBlock Text="件数" Style="{StaticResource CaptionTextBlockStyle}" />
-                                <Label Content="123" FontWeight="Bold" />
+                                <Label Content="{Binding SelectItem.EventArgs.Count}" FontWeight="Bold" />
                             </ui:SimpleStackPanel>
                         </ui:SimpleStackPanel>
                         <Label DockPanel.Dock="Right"
+                                   Visibility="{Binding SelectItem.ReceivingVisibility}"
+                                   d:Visibility="Visible"
                                    Content="受信中"
                                    FontWeight="Bold"
                                    Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
