@@ -1,0 +1,23 @@
+version: 1.0.{build}
+image:
+- Visual Studio 2019
+- Ubuntu2004
+configuration:
+- Debug
+- DebugExcludeWPF
+clone_depth: 1
+build:
+  verbosity: minimal
+matrix:
+  exclude:
+    - image: Visual Studio 2019
+      configuration: DebugExcludeWPF
+    - image: Ubuntu2004
+      configuration: Debug
+for:
+-
+  matrix:
+    only:
+      - image: Visual Studio 2019
+  before_build:
+    - ps: nuget restore

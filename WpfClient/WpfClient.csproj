@@ -1,0 +1,73 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows10.0.18362.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <StartupObject></StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ApplicationDefinition Remove="App.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Examples\japan_1024.png" />
+    <None Remove="Resources\Icons\icon.png" />
+    <None Remove="Resources\Icons\tsunami.svg" />
+    <None Remove="Resources\Icons\tsunami_black.png" />
+    <None Remove="Resources\Icons\tsunami_gray.png" />
+    <None Remove="Resources\Icons\tsunami_red.png" />
+    <None Remove="Resources\Icons\tsunami_white.png" />
+    <None Remove="Resources\Icons\tsunami_yellow.png" />
+    <None Remove="Resources\Icons\userquake.svg" />
+    <None Remove="Resources\Icons\userquake_black.png" />
+    <None Remove="Resources\Icons\userquake_gray.png" />
+    <None Remove="Resources\Icons\userquake_red.png" />
+    <None Remove="Resources\Icons\userquake_white.png" />
+    <None Remove="Resources\Icons\userquake_yellow.png" />
+    <None Remove="Resources\MapOverlays\description.png" />
+    <None Remove="Resources\MapOverlays\quake_note.png" />
+    <None Remove="Resources\MapOverlays\userquake_note.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Examples\japan_1024.png" />
+    <Resource Include="Resources\Icons\tsunami_black.png" />
+    <Resource Include="Resources\Icons\tsunami_gray.png" />
+    <Resource Include="Resources\Icons\tsunami_red.png" />
+    <Resource Include="Resources\Icons\tsunami_white.png" />
+    <Resource Include="Resources\Icons\tsunami_yellow.png" />
+    <Resource Include="Resources\Icons\userquake.svg" />
+    <Resource Include="Resources\Icons\userquake_black.png" />
+    <Resource Include="Resources\Icons\userquake_gray.png" />
+    <Resource Include="Resources\Icons\userquake_red.png" />
+    <Resource Include="Resources\Icons\userquake_white.png" />
+    <Resource Include="Resources\Icons\userquake_yellow.png" />
+    <Resource Include="Resources\MapOverlays\description.png" />
+    <Resource Include="Resources\MapOverlays\quake_note.png" />
+    <Resource Include="Resources\MapOverlays\userquake_note.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ModernWpfUI" Version="0.9.4" />
+    <PackageReference Include="SharpVectors" Version="1.7.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Client\Client.csproj" />
+    <ProjectReference Include="..\JsonApi\JsonApi.csproj" />
+    <ProjectReference Include="..\Map\Map.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Icons\tsunami.svg" />
+  </ItemGroup>
+
+</Project>
