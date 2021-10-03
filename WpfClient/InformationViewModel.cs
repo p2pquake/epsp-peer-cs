@@ -39,6 +39,7 @@ namespace WpfClient
         public ObservableCollection<object> Histories { get; } = new()
         {
             null,
+            /*
             Factory.WrapEventArgs(new EPSPQuakeEventArgs()
             {
                 InformationType = QuakeInformationType.Detail,
@@ -98,6 +99,7 @@ namespace WpfClient
                 { "215", new UserquakeEvaluationArea() { AreaCode = "215", Count = 4, Confidence = 0.0702406 } },
                 { "220", new UserquakeEvaluationArea() { AreaCode = "220", Count = 1, Confidence = 0.0236118 } },
             } }),
+            */
         };
 
         // See: https://docs.microsoft.com/ja-jp/dotnet/desktop/wpf/data/how-to-implement-property-change-notification

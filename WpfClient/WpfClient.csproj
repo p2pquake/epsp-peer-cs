@@ -62,6 +62,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Client\Client.csproj" />
+    <ProjectReference Include="..\JsonApi\JsonApi.csproj" />
     <ProjectReference Include="..\Map\Map.csproj" />
   </ItemGroup>
 
