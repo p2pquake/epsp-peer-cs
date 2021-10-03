@@ -109,7 +109,6 @@ namespace WpfClient
             var obj = Factory.WrapEventArgs(eventArgs);
             App.Current.Dispatcher.Invoke(() =>
             {
-                // XXX: ReadHistories と処理が同じ
                 // 開始日時が同じものは、最新の情報だけコレクションに含める
                 var histories = viewModel.InformationViewModel.Histories;
                 var existItem = histories.FirstOrDefault(e => (e is EPSPUserquakeView view) && (view.EventArgs.StartedAt == eventArgs.StartedAt));
@@ -168,17 +167,12 @@ namespace WpfClient
                     };
 
                     if (eventArgs.InformationType == QuakeInformationType.Unknown) { continue; }
-
-                    var obj = Factory.WrapEventArgs(eventArgs);
-                    App.Current.Dispatcher.Invoke(() =>
-                    {
-                        histories.Add(obj);
-                    });
+                    AddHistory(eventArgs);
                 }
 
                 if (item is JMATsunami tsunami)
                 {
-                    var obj = Factory.WrapEventArgs(new EPSPTsunamiEventArgs()
+                    var eventArgs = new EPSPTsunamiEventArgs()
                     {
                         IsCancelled = tsunami.Cancelled,
                         ReceivedAt = DateTime.Parse(tsunami.Time),
@@ -193,11 +187,8 @@ namespace WpfClient
                             },
                             Region = e.Name
                         }).ToList(),
-                    });
-                    App.Current.Dispatcher.Invoke(() =>
-                    {
-                        histories.Add(obj);
-                    });
+                    };
+                    AddHistory(eventArgs);
                 }
 
                 if (item is EEWDetection eew)
@@ -209,12 +200,7 @@ namespace WpfClient
                         ReceivedAt = DateTime.Parse(eew.Time),
                     };
                     if (eventArgs.IsTest) { continue; }
-
-                    var obj = Factory.WrapEventArgs(eventArgs);
-                    App.Current.Dispatcher.Invoke(() =>
-                    {
-                        histories.Add(obj);
-                    });
+                    AddHistory(eventArgs);
                 }
 
                 if (item is UserquakeEvaluation evaluation)
@@ -231,21 +217,7 @@ namespace WpfClient
                         AreaConfidences = evaluation.AreaConfidences.Where(e => e.Value.Confidence >= 0).ToDictionary(e => e.Key, e => new UserquakeEvaluationArea() { AreaCode = e.Key, Confidence = e.Value.Confidence, Count = e.Value.Count } as IUserquakeEvaluationArea)
                     };
 
-                    var obj = Factory.WrapEventArgs(eventArgs);
-                    App.Current.Dispatcher.Invoke(() =>
-                    {
-                        // 開始日時が同じものは、最新の情報だけコレクションに含める
-                        var existItem = histories.FirstOrDefault(e => (e is EPSPUserquakeView view) && (view.EventArgs.StartedAt == eventArgs.StartedAt));
-
-                        if (existItem == null)
-                        {
-                            histories.Add(obj);
-                        } else if (existItem is EPSPUserquakeView view && view.EventArgs.UpdatedAt < eventArgs.UpdatedAt)
-                        {
-                            histories.Remove(existItem);
-                            histories.Add(obj);
-                        }
-                    });
+                    AddUserquakeHistory(eventArgs);
                 }
             }
         }
