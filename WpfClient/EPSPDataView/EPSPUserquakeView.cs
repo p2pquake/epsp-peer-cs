@@ -34,12 +34,14 @@ namespace WpfClient.EPSPDataView
         public Visibility ReceivingVisibility =>
             Visibility.Hidden;
 
-        public string DetailTime => $"{EventArgs.StartedAt.ToString("M月dd日HH時mm分ss秒")}～{EventArgs.UpdatedAt.ToString("HH時mm分ss秒")}";
+        public string DetailTime => $"{EventArgs?.StartedAt.ToString("M月dd日HH時mm分ss秒")}～{EventArgs?.UpdatedAt.ToString("HH時mm分ss秒")}";
 
         public BitmapImage BitmapImage
         {
             get
             {
+                if (EventArgs == null) { return null; }
+
                 var mapDrawer = new MapDrawer()
                 {
                     MapType = Map.Model.MapType.JAPAN_4096,

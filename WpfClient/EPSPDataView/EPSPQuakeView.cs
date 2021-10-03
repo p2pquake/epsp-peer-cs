@@ -26,15 +26,16 @@ namespace WpfClient.EPSPDataView
                     : (SolidColorBrush)App.Current.MainWindow.FindResource("SystemControlPageTextBaseHighBrush");
 
         public SolidColorBrush TsunamiForeground =>
-            EventArgs.TsunamiType == DomesticTsunamiType.Effective ? (SolidColorBrush)App.Current.MainWindow.FindResource("SystemControlErrorTextForegroundBrush") :
+            EventArgs?.TsunamiType == DomesticTsunamiType.Effective ? (SolidColorBrush)App.Current.MainWindow.FindResource("SystemControlErrorTextForegroundBrush") :
             (SolidColorBrush)App.Current.MainWindow.FindResource("SystemControlPageTextBaseHighBrush");
 
-        public string TsunamiText => EventArgs.TsunamiType switch
+        public string TsunamiText => EventArgs?.TsunamiType switch
         {
             DomesticTsunamiType.None => "心配はありません",
             DomesticTsunamiType.Checking => "有無を調査中",
             DomesticTsunamiType.Effective => "津波予報 発表中",
             DomesticTsunamiType.Unknown => "不明",
+            null => "不明",
             _ => throw new NotImplementedException(),
         };
 
@@ -44,7 +45,7 @@ namespace WpfClient.EPSPDataView
             {
                 var list = new List<DetailItemView>();
 
-                if (EventArgs.PointList == null) { return list; }
+                if (EventArgs?.PointList == null) { return list; }
 
                 list.Add(new DetailItemView("各地の震度", TextStyles.Title));
 
@@ -69,6 +70,8 @@ namespace WpfClient.EPSPDataView
         {
             get
             {
+                if (EventArgs == null) { return null; }
+
                 var mapDrawer = new MapDrawer()
                 {
                     MapType = EventArgs.InformationType == QuakeInformationType.Foreign ? Map.Model.MapType.WORLD_1024 : Map.Model.MapType.JAPAN_4096,
