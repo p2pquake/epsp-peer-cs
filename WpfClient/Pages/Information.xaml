@@ -106,7 +106,7 @@
         <WpfClient:InformationViewModel/>
     </Page.DataContext>
     <DockPanel>
-        <ScrollViewer DockPanel.Dock="Left">
+        <ScrollViewer DockPanel.Dock="Left" Width="180">
             <ui:ListView
                     ItemTemplateSelector="{StaticResource ListTemplateSelector}"
                     ItemsSource="{Binding Histories}"
@@ -157,8 +157,8 @@
                     <Expander Visibility="Visible" ExpandDirection="Left"
                                   HorizontalAlignment="Right"
                                   Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}"
-                                  IsExpanded="False" Header="詳細" MaxWidth="320" Canvas.Bottom="0" Canvas.Right="0">
-                        <ScrollViewer>
+                                  IsExpanded="False" Header="詳細" MaxWidth="320" Margin="0,40,0,0">
+                        <ScrollViewer Width="240" Padding="4">
                             <ItemsControl
                                 ItemsSource="{Binding SelectItem.DetailItemViewList}"
                                 ItemTemplateSelector="{StaticResource DetailTemplateSelector}">
