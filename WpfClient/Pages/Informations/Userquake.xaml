@@ -1,0 +1,45 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:ui="http://schemas.modernwpf.com/2019"
+      xmlns:local="clr-namespace:WpfClient.Pages.Informations"
+      xmlns:EPSPDataView="clr-namespace:WpfClient.EPSPDataView" x:Class="WpfClient.Pages.Informations.Userquake"
+      Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
+      Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="712"
+      Title="Userquake">
+    <Page.DataContext>
+        <EPSPDataView:EPSPUserquakeView/>
+    </Page.DataContext>
+
+    <Grid>
+        <Image Source="{Binding BitmapImage}" Stretch="Uniform" />
+        <Canvas>
+            <Image Source="/Resources/MapOverlays/userquake_note.png" Width="40" Canvas.Bottom="8" Canvas.Right="8"/>
+            <Image Source="/Resources/MapOverlays/description.png" Height="8" Canvas.Bottom="0" Canvas.Left="0" />
+        </Canvas>
+        <DockPanel Height="40" VerticalAlignment="Top" Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}">
+            <ui:SimpleStackPanel DockPanel.Dock="Left" Orientation="Horizontal" Spacing="16" Margin="4">
+                <ui:SimpleStackPanel Orientation="Vertical">
+                    <TextBlock Text="日時" Style="{StaticResource CaptionTextBlockStyle}" />
+                    <Label Content="{Binding DetailTime}" FontWeight="Bold" />
+                </ui:SimpleStackPanel>
+                <ui:SimpleStackPanel Orientation="Vertical">
+                    <TextBlock Text="件数" Style="{StaticResource CaptionTextBlockStyle}" />
+                    <Label Content="{Binding EventArgs.Count}" FontWeight="Bold" />
+                </ui:SimpleStackPanel>
+            </ui:SimpleStackPanel>
+            <Label DockPanel.Dock="Right"
+                                   Visibility="{Binding ReceivingVisibility}"
+                                   d:Visibility="Visible"
+                                   Content="受信中"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center" />
+        </DockPanel>
+    </Grid>
+</Page>

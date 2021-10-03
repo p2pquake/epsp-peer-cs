@@ -11,7 +11,7 @@ using System.Windows.Controls;
 
 using WpfClient.EPSPDataView;
 
-namespace WpfClient.Pages
+namespace WpfClient.Pages.Informations
 {
     public class DetailDescriptionTemplateSelector : DataTemplateSelector
     {

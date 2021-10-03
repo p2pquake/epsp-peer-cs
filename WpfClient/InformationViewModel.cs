@@ -26,11 +26,14 @@ namespace WpfClient
             set {
                 selectItem = value;
                 OnPropertyChanged();
+                OnPropertyChanged("ItemPageName");
                 OnPropertyChanged("EarthquakeVisibility");
                 OnPropertyChanged("UserquakeVisibility");
             }
         }
 
+        public string ItemPageName =>
+            SelectItem is EPSPQuakeView ? "Informations/Earthquake.xaml" : "Informations/Userquake.xaml";
         public Visibility EarthquakeVisibility =>
             SelectItem is EPSPQuakeView ? Visibility.Visible : Visibility.Hidden;
         public Visibility UserquakeVisibility =>

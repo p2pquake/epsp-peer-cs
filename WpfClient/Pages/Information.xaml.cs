@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using WpfClient.EPSPDataView;
+
 namespace WpfClient.Pages
 {
     /// <summary>
@@ -29,6 +31,11 @@ namespace WpfClient.Pages
         {
             var viewModel = (InformationViewModel)DataContext;
             viewModel.SelectItem = ((ModernWpf.Controls.ListView)sender).SelectedItem;
+        }
+
+        private void Frame_Navigated(object sender, NavigationEventArgs e)
+        {
+            ((FrameworkElement)e.Content).DataContext = ((InformationViewModel)DataContext).SelectItem;
         }
     }
 }

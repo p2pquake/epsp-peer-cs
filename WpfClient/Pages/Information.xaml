@@ -16,23 +16,6 @@
       Title="Information">
     <Page.Resources>
         <local:InformationTemplateSelector x:Key="ListTemplateSelector" />
-        <local:DetailDescriptionTemplateSelector x:Key="DetailTemplateSelector" />
-
-        <DataTemplate x:Key="DetailHeaderItem">
-            <TextBlock Text="{Binding Text}" Style="{StaticResource SubtitleTextBlockStyle}" />
-        </DataTemplate>
-
-        <DataTemplate x:Key="DetailPrefectureItem">
-            <TextBlock Text="{Binding Text}" Margin="0,16,0,0" Style="{StaticResource BaseTextBlockStyle}" />
-        </DataTemplate>
-
-        <DataTemplate x:Key="DetailScaleItem">
-            <TextBlock Text="{Binding Text}" Style="{StaticResource BaseTextBlockStyle}" />
-        </DataTemplate>
-
-        <DataTemplate x:Key="DetailNameItem">
-            <TextBlock Text="{Binding Text}" Margin="0,0,0,4" Style="{StaticResource BodyTextBlockStyle}" />
-        </DataTemplate>
 
         <DataTemplate x:Key="HeaderItem">
             <TextBlock Text="情報" Style="{StaticResource SubtitleTextBlockStyle}" />
@@ -121,83 +104,7 @@
         </ScrollViewer>
         <Border>
             <Grid>
-                <Grid x:Name="Earthquake" Visibility="{Binding EarthquakeVisibility}" d:Visibility="Visible">
-                    <Image Source="{Binding SelectItem.BitmapImage}" Stretch="Uniform" />
-                    <Canvas>
-                        <Image Source="/Resources/MapOverlays/quake_note.png" Width="40" Canvas.Bottom="8" Canvas.Right="8"/>
-                        <Image Source="/Resources/MapOverlays/description.png" Height="8" Canvas.Bottom="0" Canvas.Left="0" />
-                    </Canvas>
-                    <Canvas VerticalAlignment="Top" Height="40" Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}">
-                        <ui:SimpleStackPanel Orientation="Horizontal" Spacing="16" Margin="4">
-                            <ui:SimpleStackPanel Orientation="Vertical">
-                                <TextBlock Text="日時" Style="{StaticResource CaptionTextBlockStyle}" />
-                                <Label Content="{Binding SelectItem.EventArgs.OccuredTime}" FontWeight="Bold" />
-                            </ui:SimpleStackPanel>
-                            <ui:SimpleStackPanel Orientation="Vertical">
-                                <TextBlock Text="震源" Style="{StaticResource CaptionTextBlockStyle}" />
-                                <Label Content="{Binding SelectItem.EventArgs.Destination}" FontWeight="Bold" />
-                            </ui:SimpleStackPanel>
-                            <ui:SimpleStackPanel Orientation="Vertical">
-                                <TextBlock Text="深さ" Style="{StaticResource CaptionTextBlockStyle}" />
-                                <Label Content="{Binding SelectItem.EventArgs.Depth}" FontWeight="Bold" />
-                            </ui:SimpleStackPanel>
-                            <ui:SimpleStackPanel Orientation="Vertical">
-                                <TextBlock Text="M" Style="{StaticResource CaptionTextBlockStyle}" />
-                                <Label Content="{Binding SelectItem.EventArgs.Magnitude}" FontWeight="Bold" />
-                            </ui:SimpleStackPanel>
-                            <ui:SimpleStackPanel Orientation="Vertical">
-                                <TextBlock Text="津波" Style="{StaticResource CaptionTextBlockStyle}" />
-                                <Label Content="{Binding SelectItem.TsunamiText}"
-                                       FontWeight="Bold"
-                                       Foreground="{Binding SelectItem.TsunamiForeground}"
-                                       />
-                            </ui:SimpleStackPanel>
-                        </ui:SimpleStackPanel>
-                    </Canvas>
-                    <Expander Visibility="Visible" ExpandDirection="Left"
-                                  HorizontalAlignment="Right"
-                                  Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}"
-                                  IsExpanded="False" Header="詳細" MaxWidth="320" Margin="0,40,0,0">
-                        <ScrollViewer Width="240" Padding="4">
-                            <ItemsControl
-                                ItemsSource="{Binding SelectItem.DetailItemViewList}"
-                                ItemTemplateSelector="{StaticResource DetailTemplateSelector}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <ui:SimpleStackPanel Spacing="4" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                            </ItemsControl>
-                        </ScrollViewer>
-                    </Expander>
-                </Grid>
-                <Grid x:Name="Userquake" Visibility="{Binding UserquakeVisibility}" d:Visibility="Hidden">
-                    <Image Source="{Binding SelectItem.BitmapImage}" Stretch="Uniform" />
-                    <Canvas>
-                        <Image Source="/Resources/MapOverlays/userquake_note.png" Width="40" Canvas.Bottom="8" Canvas.Right="8"/>
-                        <Image Source="/Resources/MapOverlays/description.png" Height="8" Canvas.Bottom="0" Canvas.Left="0" />
-                    </Canvas>
-                    <DockPanel Height="40" VerticalAlignment="Top" Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}">
-                        <ui:SimpleStackPanel DockPanel.Dock="Left" Orientation="Horizontal" Spacing="16" Margin="4">
-                            <ui:SimpleStackPanel Orientation="Vertical">
-                                <TextBlock Text="日時" Style="{StaticResource CaptionTextBlockStyle}" />
-                                <Label Content="{Binding SelectItem.DetailTime}" FontWeight="Bold" />
-                            </ui:SimpleStackPanel>
-                            <ui:SimpleStackPanel Orientation="Vertical">
-                                <TextBlock Text="件数" Style="{StaticResource CaptionTextBlockStyle}" />
-                                <Label Content="{Binding SelectItem.EventArgs.Count}" FontWeight="Bold" />
-                            </ui:SimpleStackPanel>
-                        </ui:SimpleStackPanel>
-                        <Label DockPanel.Dock="Right"
-                                   Visibility="{Binding SelectItem.ReceivingVisibility}"
-                                   d:Visibility="Visible"
-                                   Content="受信中"
-                                   FontWeight="Bold"
-                                   Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
-                                   HorizontalAlignment="Right"
-                                   VerticalAlignment="Center" />
-                    </DockPanel>
-                </Grid>
+                <Frame NavigationUIVisibility="Hidden" Source="{Binding ItemPageName}" Navigated="Frame_Navigated" />
             </Grid>
         </Border>
     </DockPanel>
