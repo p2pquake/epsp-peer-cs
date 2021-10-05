@@ -81,14 +81,12 @@
                 <ui:SimpleStackPanel x:Name="揺れた" Spacing="16" Margin="16">
                     <TextBlock Text="「揺れた！」" Style="{StaticResource SubtitleTextBlockStyle}" />
                     <Label Content="あなたの発信地域" />
-                    <ComboBox SelectedIndex="0">
-                        <ComboBoxItem Content="東京" />
-                    </ComboBox>
+                    <ComboBox SelectedItem="{Binding SelectArea, Mode=TwoWay}" ItemsSource="{Binding UserquakeAreas}" />
                     <Label Content="発信方法" />
                     <ui:SimpleStackPanel>
                         <CheckBox Content="ウィンドウ右上「揺れた！」ボタン" IsEnabled="False" IsChecked="True" />
-                        <CheckBox Content="トレイアイコン 中ダブルクリック" />
-                        <CheckBox Content="トレイアイコン 右ダブルクリック" />
+                        <CheckBox Content="トレイアイコン 中ダブルクリック" IsChecked="{Binding SendIfMiddleDoubleClick, Mode=TwoWay}" />
+                        <CheckBox Content="トレイアイコン 右ダブルクリック" IsChecked="{Binding SendIfRightDoubleClick, Mode=TwoWay}" />
                     </ui:SimpleStackPanel>
                 </ui:SimpleStackPanel>
             </ScrollViewer>
@@ -129,26 +127,24 @@
                         <TextBlock Text="音を鳴らす" Grid.Row="4" Grid.Column="0" />
 
                         <ui:SimpleStackPanel Grid.Row="1" Grid.Column="1">
-                            <ui:ToggleSwitch />
-                            <ComboBox SelectedIndex="0">
-                                <ComboBoxItem Content="震度 1 以上" />
-                            </ComboBox>
+                            <ui:ToggleSwitch IsOn="{Binding EarthquakeNotification, Mode=TwoWay}" />
+                            <ComboBox IsEnabled="{Binding EarthquakeNotification}" SelectedItem="{Binding EarthquakeMinScale}" ItemsSource="{Binding EarthquakeScales}" />
                         </ui:SimpleStackPanel>
-                        <ui:ToggleSwitch Grid.Row="2" Grid.Column="1" />
-                        <ui:ToggleSwitch Grid.Row="3" Grid.Column="1" />
-                        <ui:ToggleSwitch Grid.Row="4" Grid.Column="1" />
-                        <ui:ToggleSwitch Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" />
-                        <ui:ToggleSwitch Grid.Row="2" Grid.Column="2" />
-                        <ui:ToggleSwitch Grid.Row="3" Grid.Column="2" />
-                        <ui:ToggleSwitch Grid.Row="4" Grid.Column="2" />
-                        <ui:ToggleSwitch Grid.Row="1" Grid.Column="3" VerticalAlignment="Top" />
-                        <ui:ToggleSwitch Grid.Row="2" Grid.Column="3" />
-                        <ui:ToggleSwitch Grid.Row="3" Grid.Column="3" />
-                        <ui:ToggleSwitch Grid.Row="4" Grid.Column="3" />
-                        <ui:ToggleSwitch Grid.Row="1" Grid.Column="4" VerticalAlignment="Top" />
-                        <ui:ToggleSwitch Grid.Row="2" Grid.Column="4" />
-                        <ui:ToggleSwitch Grid.Row="3" Grid.Column="4" />
-                        <ui:ToggleSwitch Grid.Row="4" Grid.Column="4" />
+                        <ui:ToggleSwitch IsEnabled="{Binding EarthquakeNotification}" IsOn="{Binding EarthquakeShow, Mode=TwoWay}" Grid.Row="2" Grid.Column="1" />
+                        <ui:ToggleSwitch IsEnabled="{Binding EarthquakeNotification}" IsOn="{Binding EarthquakeNotice, Mode=TwoWay}" Grid.Row="3" Grid.Column="1" />
+                        <ui:ToggleSwitch IsEnabled="{Binding EarthquakeNotification}" IsOn="{Binding EarthquakeSound, Mode=TwoWay}" Grid.Row="4" Grid.Column="1" />
+                        <ui:ToggleSwitch IsOn="{Binding UserquakeNotification, Mode=TwoWay}" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" />
+                        <ui:ToggleSwitch IsEnabled="{Binding UserquakeNotification}" IsOn="{Binding UserquakeShow, Mode=TwoWay}" Grid.Row="2" Grid.Column="2" />
+                        <ui:ToggleSwitch IsEnabled="{Binding UserquakeNotification}" IsOn="{Binding UserquakeNotice, Mode=TwoWay}" Grid.Row="3" Grid.Column="2" />
+                        <ui:ToggleSwitch IsEnabled="{Binding UserquakeNotification}" IsOn="{Binding UserquakeSound, Mode=TwoWay}" Grid.Row="4" Grid.Column="2" />
+                        <ui:ToggleSwitch IsOn="{Binding TsunamiNotification, Mode=TwoWay}" Grid.Row="1" Grid.Column="3" VerticalAlignment="Top" />
+                        <ui:ToggleSwitch IsEnabled="{Binding TsunamiNotification}" IsOn="{Binding TsunamiShow, Mode=TwoWay}" Grid.Row="2" Grid.Column="3" />
+                        <ui:ToggleSwitch IsEnabled="{Binding TsunamiNotification}" IsOn="{Binding TsunamiNotice, Mode=TwoWay}" Grid.Row="3" Grid.Column="3" />
+                        <ui:ToggleSwitch IsEnabled="{Binding TsunamiNotification}" IsOn="{Binding TsunamiSound, Mode=TwoWay}" Grid.Row="4" Grid.Column="3" />
+                        <ui:ToggleSwitch IsOn="{Binding EEWTestNotification, Mode=TwoWay}" Grid.Row="1" Grid.Column="4" VerticalAlignment="Top" />
+                        <ui:ToggleSwitch IsEnabled="{Binding EEWTestNotification}" IsOn="{Binding EEWTestShow, Mode=TwoWay}" Grid.Row="2" Grid.Column="4" />
+                        <ui:ToggleSwitch IsEnabled="{Binding EEWTestNotification}" IsOn="{Binding EEWTestNotice, Mode=TwoWay}" Grid.Row="3" Grid.Column="4" />
+                        <ui:ToggleSwitch IsEnabled="{Binding EEWTestNotification}" IsOn="{Binding EEWTestSound, Mode=TwoWay}" Grid.Row="4" Grid.Column="4" />
                     </Grid>
                 </ui:SimpleStackPanel>
             </ScrollViewer>
