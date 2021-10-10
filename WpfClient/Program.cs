@@ -6,6 +6,7 @@ using JsonApi;
 
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -43,6 +44,7 @@ namespace WpfClient
                         {
                             var window = (MainWindow)App.Current?.MainWindow;
                             viewModel = (RootViewModel)window?.DataContext;
+                            viewModel.SettingViewModel.LoadFromConfiguration(ConfigurationManager.Configuration);
                             window.OnUserquake += Window_OnUserquake;
                         }
                     });
