@@ -1,0 +1,30 @@
+﻿<Grid x:Class="WpfClient.Pages.Informations.TsunamiCategoryText"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfClient.Pages.Informations"
+             mc:Ignorable="d"
+      Background="{Binding BackgroundColor}">
+    <TextBlock Text="{Binding Text}" Foreground="Black" Style="{StaticResource BaseTextBlockStyle}">
+        <TextBlock.RenderTransform>
+            <TranslateTransform X="0" Y="1" />
+        </TextBlock.RenderTransform>
+    </TextBlock>
+    <TextBlock Text="{Binding Text}" Foreground="Black" Style="{StaticResource BaseTextBlockStyle}">
+        <TextBlock.RenderTransform>
+            <TranslateTransform X="0" Y="-1" />
+        </TextBlock.RenderTransform>
+    </TextBlock>
+    <TextBlock Text="{Binding Text}" Foreground="Black" Style="{StaticResource BaseTextBlockStyle}">
+        <TextBlock.RenderTransform>
+            <TranslateTransform X="1" Y="0" />
+        </TextBlock.RenderTransform>
+    </TextBlock>
+    <TextBlock Text="{Binding Text}" Foreground="Black" Style="{StaticResource BaseTextBlockStyle}">
+        <TextBlock.RenderTransform>
+            <TranslateTransform X="-1" Y="0" />
+        </TextBlock.RenderTransform>
+    </TextBlock>
+    <TextBlock Text="{Binding Text}" Foreground="White" Style="{StaticResource BaseTextBlockStyle}" />
+</Grid>

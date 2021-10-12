@@ -16,13 +16,18 @@
     </Page.DataContext>
 
     <Grid>
-        <Image Source="/Resources/Examples/japan_1024.png" Stretch="UniformToFill" />
+        <Image Source="/Resources/Examples/japan_1024.png" Opacity="0.3" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"  />
         <ScrollViewer Padding="4" Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}">
             <ui:SimpleStackPanel Spacing="16">
                 <TextBlock Text="{Binding DetailTitle}" Style="{StaticResource TitleTextBlockStyle}" />
-                <TextBlock Text="揺れに備えよ" Name="FlashMessage" Style="{StaticResource TitleTextBlockStyle}" FontSize="72" FontWeight="Bold" Foreground="Gray" />
-                <TextBlock Text="約 30 秒、揺れに備えてください。" Style="{StaticResource SubtitleTextBlockStyle}" />
-                <TextBlock Text="一律配信です。揺れないこともあります。" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <ui:SimpleStackPanel Name="Warning" Spacing="16">
+                    <TextBlock Text="揺れに備えよ" Name="FlashMessage" Style="{StaticResource TitleTextBlockStyle}" FontSize="72" FontWeight="Bold" Foreground="Gray" />
+                    <TextBlock Text="約 30 秒、揺れに備えてください。" Style="{StaticResource SubtitleTextBlockStyle}" />
+                    <TextBlock Text="一律配信です。揺れないこともあります。" Style="{StaticResource SubtitleTextBlockStyle}" />
+                </ui:SimpleStackPanel>
+                <ui:SimpleStackPanel Name="Past" Spacing="16">
+                    <TextBlock Text="過去の情報です。" Style="{StaticResource SubtitleTextBlockStyle}" />
+                </ui:SimpleStackPanel>
                 <Separator />
                 <TextBlock Text="これは緊急地震速報ではありません" Style="{StaticResource BaseTextBlockStyle}" />
                 <TextBlock Text="あくまで「一般向け緊急地震速報の『発表』」のみを伝えるものです。「震源」「地域」「猶予時間」などの情報は一切含みません。" Style="{StaticResource BodyTextBlockStyle}" />

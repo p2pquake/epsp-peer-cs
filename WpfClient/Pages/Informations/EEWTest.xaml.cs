@@ -37,12 +37,13 @@ namespace WpfClient.Pages.Informations
             var view = (EPSPEEWTestView)this.DataContext;
             if (view.EventArgs is null) { return; }
 
-            var count = 0;
-            //if (DateTime.Now.Subtract(view.EventArgs.ReceivedAt).TotalSeconds > 30)
-            //{
-            //    count = int.MaxValue - 1;
-            //}
+            if (DateTime.Now.Subtract(view.EventArgs.ReceivedAt).TotalSeconds > 30) {
+                Warning.Visibility = Visibility.Collapsed;
+                return;
+            }
+            Past.Visibility = Visibility.Collapsed;
 
+            var count = 0;
             var timer = new DispatcherTimer(DispatcherPriority.Normal)
             {
                 Interval = TimeSpan.FromSeconds(0.2),
