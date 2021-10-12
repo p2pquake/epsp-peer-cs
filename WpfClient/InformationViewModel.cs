@@ -27,17 +27,18 @@ namespace WpfClient
                 selectItem = value;
                 OnPropertyChanged();
                 OnPropertyChanged("ItemPageName");
-                OnPropertyChanged("EarthquakeVisibility");
-                OnPropertyChanged("UserquakeVisibility");
             }
         }
 
         public string ItemPageName =>
-            SelectItem is EPSPQuakeView ? "Informations/Earthquake.xaml" : "Informations/Userquake.xaml";
-        public Visibility EarthquakeVisibility =>
-            SelectItem is EPSPQuakeView ? Visibility.Visible : Visibility.Hidden;
-        public Visibility UserquakeVisibility =>
-            SelectItem is EPSPUserquakeView ? Visibility.Visible : Visibility.Hidden;
+            SelectItem switch
+            {
+                EPSPQuakeView => "Informations/Earthquake.xaml",
+                EPSPUserquakeView => "Informations/Userquake.xaml",
+                EPSPTsunamiView => "Informations/Tsunami.xaml",
+                EPSPEEWTestView => "Informations/EEWTest.xaml",
+                _ => "Informations/Unknown.xaml",
+            };
 
         public ObservableCollection<object> Histories { get; } = new()
         {

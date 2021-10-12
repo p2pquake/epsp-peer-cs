@@ -1,0 +1,59 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:ui="http://schemas.modernwpf.com/2019"
+      xmlns:local="clr-namespace:WpfClient.Pages.Informations"
+      xmlns:EPSPDataView="clr-namespace:WpfClient.EPSPDataView" x:Class="WpfClient.Pages.Informations.Tsunami"
+      Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
+      Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="712"
+      Title="Tsunami">
+    <Page.Resources>
+        <local:DetailDescriptionTemplateSelector x:Key="DetailTemplateSelector" />
+
+        <DataTemplate x:Key="DetailHeaderItem">
+            <TextBlock Text="{Binding Text}" Style="{StaticResource SubtitleTextBlockStyle}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="DetailNameItem">
+            <TextBlock Text="{Binding Text}" Margin="0,0,0,4" Style="{StaticResource BodyTextBlockStyle}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="DetailSectionItem">
+            <TextBlock Text="{Binding Text}" Margin="0,0,0,4" Style="{StaticResource BaseTextBlockStyle}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="DetailMajorWarningItem">
+            <local:TsunamiCategoryText Text="大津波警報（ 3 メートル超）" BackgroundColor="#C800FF" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="DetailWarningItem">
+            <local:TsunamiCategoryText Text="津波警報（最大 3 メートル）" BackgroundColor="#FF2800" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="DetailAdvisoryItem">
+            <local:TsunamiCategoryText Text="津波注意報（最大 1 メートル）" BackgroundColor="#FAF500" />
+        </DataTemplate>
+    </Page.Resources>
+    <Page.DataContext>
+        <EPSPDataView:EPSPTsunamiView/>
+    </Page.DataContext>
+
+    <Grid>
+        <Image Source="/Resources/Examples/japan_1024.png" Opacity="0.3" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"  />
+        <ScrollViewer Padding="4" Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}">
+            <ItemsControl
+                ItemsSource="{Binding DetailItemViewList}"
+                ItemTemplateSelector="{StaticResource DetailTemplateSelector}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ui:SimpleStackPanel Spacing="4" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Page>
