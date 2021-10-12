@@ -1,0 +1,34 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:ui="http://schemas.modernwpf.com/2019"
+      xmlns:local="clr-namespace:WpfClient.Pages.Informations"
+      xmlns:EPSPDataView="clr-namespace:WpfClient.EPSPDataView" x:Class="WpfClient.Pages.Informations.EEWTest"
+      Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
+      Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="712"
+      Title="Tsunami">
+    <Page.DataContext>
+        <EPSPDataView:EPSPEEWTestView/>
+    </Page.DataContext>
+
+    <Grid>
+        <Image Source="/Resources/Examples/japan_1024.png" Stretch="UniformToFill" />
+        <ScrollViewer Padding="4" Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}">
+            <ui:SimpleStackPanel Spacing="16">
+                <TextBlock Text="{Binding DetailTitle}" Style="{StaticResource TitleTextBlockStyle}" />
+                <TextBlock Text="揺れに備えよ" Name="FlashMessage" Style="{StaticResource TitleTextBlockStyle}" FontSize="72" FontWeight="Bold" Foreground="Gray" />
+                <TextBlock Text="約 30 秒、揺れに備えてください。" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <TextBlock Text="一律配信です。揺れないこともあります。" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <Separator />
+                <TextBlock Text="これは緊急地震速報ではありません" Style="{StaticResource BaseTextBlockStyle}" />
+                <TextBlock Text="あくまで「一般向け緊急地震速報の『発表』」のみを伝えるものです。「震源」「地域」「猶予時間」などの情報は一切含みません。" Style="{StaticResource BodyTextBlockStyle}" />
+                <TextBlock Text="「地域」の情報を含みませんので、お住まいの地域が揺れるとは限りません。" Style="{StaticResource BodyTextBlockStyle}" />
+                <TextBlock Text="NHKラジオ第一の音声を自動認識しています。認識ミスによって誤報が配信されることがあります。" Style="{StaticResource BodyTextBlockStyle}" />
+            </ui:SimpleStackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

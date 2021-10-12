@@ -34,6 +34,7 @@ namespace WpfClient.EPSPDataView
         }
 
         public string Time => EventArgs.ReceivedAt.ToString("dd日HH時mm分");
+        public string DetailTime => EventArgs.ReceivedAt.ToString("dd日HH時mm分ss秒");
 
         public string Caption
         {
@@ -44,13 +45,7 @@ namespace WpfClient.EPSPDataView
                     return "津波予報 解除";
                 }
 
-                return MaxTsunamiCategory() switch
-                {
-                    TsunamiCategory.MajorWarning => "大津波警報",
-                    TsunamiCategory.Warning => "津波警報",
-                    TsunamiCategory.Advisory => "津波注意報",
-                    _ => "津波予報"
-                };
+                return TsunamiCategoryString(MaxTsunamiCategory());
             }
         }
 
@@ -64,5 +59,78 @@ namespace WpfClient.EPSPDataView
             if (categories.Contains(TsunamiCategory.Advisory)) { return TsunamiCategory.Advisory; }
             return TsunamiCategory.Unknown;
         }
+        public List<DetailItemView> DetailItemViewList
+        {
+            get
+            {
+                var list = new List<DetailItemView>();
+                if (EventArgs is null)
+                {
+                    return list;
+                }
+
+                list.Add(new DetailItemView($"津波予報 （受信日時： {DetailTime}）", TextStyles.Title));
+                if (EventArgs.IsCancelled)
+                {
+                    list.Add(new DetailItemView("津波予報はすべて解除されました。", TextStyles.Name));
+                    return list;
+                }
+
+                var regionsByCategories = EventArgs.RegionList.OrderBy(e => e.Category).Reverse().GroupBy(e => e.Category);
+                foreach (var regionsByCategory in regionsByCategories)
+                {
+                    list.Add(new DetailItemView(TsunamiCategoryDetailString(regionsByCategory.Key), TextStyles.Scale));
+                    list.Add(new DetailItemView(string.Join('、', regionsByCategory.Select(e => $"{(e.IsImmediately ? "＊" : "")}{e.Region}")), TextStyles.Name));
+                }
+
+                if (EventArgs.RegionList.Any(e => e.IsImmediately))
+                {
+                    list.Add(new DetailItemView("", TextStyles.Name));
+                    list.Add(new DetailItemView("＊印の沿岸では、ただちに津波が来襲すると予想されます", TextStyles.Name));
+                }
+
+                list.Add(new DetailItemView("", TextStyles.Name));
+                list.Add(new DetailItemView("とるべき行動（気象庁リーフレット「津波防災」より）", TextStyles.Prefecture));
+
+                if (EventArgs.RegionList.Any(e => e.Category == TsunamiCategory.MajorWarning))
+                {
+                    list.Add(new DetailItemView($"{TsunamiCategoryString(TsunamiCategory.MajorWarning)} ・ {TsunamiCategoryString(TsunamiCategory.Warning)}", TextStyles.Scale));
+                    list.Add(new DetailItemView("沿岸部や川沿いにいる人は、ただちに高台や避難ビルなど安全な場所へ避難してください。", TextStyles.Name));
+                    list.Add(new DetailItemView("津波は繰り返し襲ってくるので、大津波・津波警報が解除されるまで安全な場所から離れないでください。", TextStyles.Name));
+                    list.Add(new DetailItemView("＜ここなら安心と思わず、より高い場所を目指して避難しましょう！＞", TextStyles.Name));
+                } else if (EventArgs.RegionList.Any(e => e.Category == TsunamiCategory.Warning))
+                {
+                    list.Add(new DetailItemView(TsunamiCategoryString(TsunamiCategory.Warning), TextStyles.Scale));
+                    list.Add(new DetailItemView("沿岸部や川沿いにいる人は、ただちに高台や避難ビルなど安全な場所へ避難してください。", TextStyles.Name));
+                    list.Add(new DetailItemView("津波は繰り返し襲ってくるので、津波警報が解除されるまで安全な場所から離れないでください。", TextStyles.Name));
+                    list.Add(new DetailItemView("＜ここなら安心と思わず、より高い場所を目指して避難しましょう！＞", TextStyles.Name));
+                }
+
+                if (EventArgs.RegionList.Any(e => e.Category == TsunamiCategory.Advisory))
+                {
+                    list.Add(new DetailItemView(TsunamiCategoryString(TsunamiCategory.Advisory), TextStyles.Scale));
+                    list.Add(new DetailItemView("海の中にいる人は、ただちに海から上がって、海岸から離れてください。", TextStyles.Name));
+                    list.Add(new DetailItemView("津波注意報が解除されるまで海に入ったり海岸に近づいたりしないでください。", TextStyles.Name));
+                }
+
+                return list;
+            }
+        }
+
+        private static string TsunamiCategoryString(TsunamiCategory category) => category switch
+        {
+            TsunamiCategory.MajorWarning => "大津波警報",
+            TsunamiCategory.Warning => "津波警報",
+            TsunamiCategory.Advisory => "津波注意報",
+            _ => "津波予報"
+        };
+
+        private static string TsunamiCategoryDetailString(TsunamiCategory category) => category switch
+        {
+            TsunamiCategory.MajorWarning => "大津波警報（ 3 メートル以上）",
+            TsunamiCategory.Warning => "津波警報（最大 3 メートル）",
+            TsunamiCategory.Advisory => "津波注意報（最大 1 メートル）",
+            _ => "津波予報"
+        };
     }
 }
