@@ -4,6 +4,8 @@ using Client.Peer;
 
 using JsonApi;
 
+using Microsoft.Toolkit.Uwp.Notifications;
+
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -15,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 
 using WpfClient.EPSPDataView;
+using WpfClient.Notifications;
 
 namespace WpfClient
 {
@@ -23,9 +26,12 @@ namespace WpfClient
         // FIXME: 動作するか試している。あとでリファクタリングする。
         static MediatorContext client;
         static RootViewModel viewModel;
+        static Configuration configuration;
+        static Notifier notifier;
 
         [STAThread]
         public static void Main(string[] args) {
+            configuration = ConfigurationManager.Configuration;
             var localMode = args.Length > 0 && args[0] == "local";
             Task.Run(() => { BootP2PQuake(localMode); });
             App app = new();
@@ -68,6 +74,8 @@ namespace WpfClient
             client.OnEEWTest += Client_OnEEWTest;
             client.OnNewUserquakeEvaluation += Client_OnNewUserquakeEvaluation;
             client.OnUpdateUserquakeEvaluation += Client_OnUpdateUserquakeEvaluation;
+
+            notifier = new Notifier(configuration, client);
 
             if (localMode)
             {
