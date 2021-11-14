@@ -185,7 +185,7 @@ namespace WpfClient
                         Depth = quake.Earthquake.Hypocenter.Depth == 0 ? "ごく浅い" : quake.Earthquake.Hypocenter.Depth == -1 ? "不明" : $"{quake.Earthquake.Hypocenter.Depth}km",
                         Destination = quake.Earthquake.Hypocenter.Name,
                         Magnitude = $"M{quake.Earthquake.Hypocenter.Magnitude}",
-                        OccuredTime = quake.Earthquake.Time,
+                        OccuredTime = DateTime.Parse(quake.Earthquake.Time).ToString("d日HH時mm分"),
                         Scale = ConvertScale(quake.Earthquake.MaxScale),
                         Latitude = quake.Earthquake.Hypocenter.Latitude <= -200 ? "" : $"{(quake.Earthquake.Hypocenter.Latitude > 0 ? 'N' : 'S')}{Math.Abs(quake.Earthquake.Hypocenter.Latitude)}",
                         Longitude = quake.Earthquake.Hypocenter.Longitude <= -200 ? "" : $"{(quake.Earthquake.Hypocenter.Longitude > 0 ? 'E' : 'W')}{Math.Abs(quake.Earthquake.Hypocenter.Longitude)}",
