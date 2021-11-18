@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DummyPeer.Peer;
+
+using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 
@@ -24,8 +26,11 @@ namespace DummyPeer
 
         private static void RootHandler(RootOptions options)
         {
-            Console.WriteLine($"port: {options.Port}");
-            Console.WriteLine("Hello world");
+            var context = new Context();
+            context.Listen(options.Port);
+            Console.WriteLine($"listen port: {options.Port}");
+            Console.WriteLine("Press enter to exit");
+            Console.ReadLine();
         }
     }
 }
