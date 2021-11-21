@@ -3,6 +3,7 @@
 using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using System.Security.Cryptography;
 
 namespace DummyPeer
 {
@@ -28,6 +29,7 @@ namespace DummyPeer
         {
             var context = new Context();
             context.Listen(options.Port);
+            var randomSender = new RandomSender(context);
             Console.WriteLine($"listen port: {options.Port}");
             Console.WriteLine("Press enter to exit");
             Console.ReadLine();
