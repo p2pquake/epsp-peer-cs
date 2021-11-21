@@ -9,6 +9,11 @@ namespace DummyPeer.ServerCrypto
 {
     public static class DataSigner
     {
+        static DataSigner()
+        {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        }
+
         public static string SignInformation(string data)
         {
             // 署名用データ生成
