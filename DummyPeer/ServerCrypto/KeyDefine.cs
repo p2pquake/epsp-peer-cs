@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DummyPeer.ServerCrypto
+{
+    static class KeyDefine
+    {
+        public static readonly RSAParameters ServerVerificationKey;
+        public static readonly RSAParameters PeerVerificationKey;
+
+        static KeyDefine()
+        {
+            ServerVerificationKey = Asn1PKCS.Decoder.PKCS8DERDecoder.DecodePrivateKey("MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAMH63RhNaW7cUWLBNvTm7ZsdYlGkJAl4DOGJrqlYnkGqxUheAbvN6Ie7hwVasowTt8dCyOWKGOeG1qSwS2Sads4NQec2LboVK1JKnKjx7HQVkN9e2hD1UHSbpTF2sbOenN8709ZukLSJKgIDJ6ogstwMNu4G/nFjr7QPfmRDHviRAgMBAAECgYA0C8smqh6P0C1GAfFs5Ej8RXYL0a6Zm8xY90gVx+EuXVNxh0ePzD+Hq5kepqchTmkQ3appbBQiitssdODFrWwShV0JLMZdLP/kR0emBVN3X+VzBAogTXjvSoJ2/z2ZMIkZRNsvTF0RdseY70k+dpdF5epLPeg/G5W1qCozOe2rwQJBAOrVKMnpOf1CJCbL3Qm7IRXWW/JZ199zJZn5FnZBDgTUgd5Q3DjEXm+l5cv5fBRxWCBiUehnPvsq/fyypcUXQiMCQQDTdwOyJ+/a7Gw675VxfRPS0UyLhfu2OZl/M2vOhi/+YQesacJthgU2vAUN6yBOj1453L7w4j8qBUaGzTV2y8O7AkAWUskb2JXwo1b4cSzD/gv5HXWEJlJFJZcPegROnYSNpP3relhU9SXdCzI7H65R6yxrd609oIL2MXIPkZP8lmdtAkABap+sttXFeqXy8x3mJ7dVRy+jE5+vBc3Aa2DCfmWd55p8jizOPQKV7kZ+ZF/QBufTrWXeCTXxGx3w0zkTdaP3AkB577owh+v2jFyyOOnXkdlNV0656Ynt6BVYH/K1xvgyv5UHQC5qlHgGBraMpWGcDHeOuApklZVAbUm2gkXBwAqG");
+            PeerVerificationKey = Asn1PKCS.Decoder.PKCS8DERDecoder.DecodePrivateKey("MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAMiY1gxNIKfcJa1Dy6r2ptTlYZBx20CitcYPv/dqEr4IySeAmmQx19S249Fsx8O9u3+zM1TfwFiYwxBYrU4L+Jq/g1pzt9Ye5cximsJ7JQsWlBebItbJJM9TIez/NjDTrvBs7vnVG5XpsCaMfZOVG/xhvVRj9q1lG5hKK7nxnhwJAgMBAAECgYEAprXuXnbTBu59GYxYfZNTf2fLN8KIFyWisCJyxeqP/QNMOdo1dcO+vffpSil/s/vBEhYaORVjw73hj3pDPbPRPUCvYLDyi+pdOH2gbt0n99N6WLSn0KzCk33N23OTwmp6fneJr64KqcQkOgkvdJdqWj8lwGrIZnBTs03Cbc13wwkCQQD2CuO8QL60bgwbl6Amz0Uj0o2ip9VT5IYhyTFkHn7LEb282/FVmRwYoGh70TFIPGy1gOasqRbm0UeGcsO+4bBDAkEA0LccVKb2pFcn8MmtQmBfSh9E4fbUk/cyafVpgXiMIVn9ibrEenXG4IQGKMTV2tVE+HHcvb0NNQEiqu9dGFKzwwJBAMvEEP9jj4zWZuijFluN5PDZ+7rtzFsCM6PfgCwupUuAkebLMH93ojEzB9UjVvFAObfH3UK5duIKCHZsrXh0aQkCQBqJvdtxo1jAED8IlbQj5tnY4fxNUzhBLTLV1oV023R+KcOycLsVcKUphFL4vCxoA64HZEbn298Kdur/JnoqQdsCQQCWlJ2ttXgh7C865v2XmCgxwQUyj+rVJi7aby7/bPdU+j8oAf46vTIDcriv4W0NXxBKnoMmkFULtLcpx/q8PDIz");
+        }
+    }
+}
