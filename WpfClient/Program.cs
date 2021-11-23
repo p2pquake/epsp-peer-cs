@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,14 +25,15 @@ namespace WpfClient
         static RootViewModel viewModel;
 
         [STAThread]
-        public static void Main() {
-            Task.Run(() => { BootP2PQuake(); });
+        public static void Main(string[] args) {
+            var localMode = args.Length > 0 && args[0] == "local";
+            Task.Run(() => { BootP2PQuake(localMode); });
             App app = new();
             app.InitializeComponent();
             app.Run();
         }
 
-        public static void BootP2PQuake()
+        public static void BootP2PQuake(bool localMode)
         {
             // ViewModel を取得したりイベントハンドラをくっつけたりする
             while (viewModel == null)
@@ -67,8 +69,24 @@ namespace WpfClient
             client.OnNewUserquakeEvaluation += Client_OnNewUserquakeEvaluation;
             client.OnUpdateUserquakeEvaluation += Client_OnUpdateUserquakeEvaluation;
 
-            client.Connect();
+            if (localMode)
+            {
+                // P2P 地震情報ネットワークに接続せず、 localhost:6910 に接続する
+                var field = client.GetType().GetField("peerContext", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                var peerContext = field.GetValue(client);
 
+                var peerDataType = Type.GetType("Client.Common.General.PeerData, Client");
+                var peerData = Activator.CreateInstance(peerDataType, new object[] { "localhost", 6910, 10 });
+                var peerDatas = Array.CreateInstance(peerDataType, 1);
+                peerDatas.SetValue(peerData, 0);
+
+                var connectMethod = Type.GetType("Client.Peer.Context, Client").GetMethod("Connect");
+                connectMethod.Invoke(peerContext, new object[] { peerDatas });
+
+                return;
+            }
+
+            client.Connect();
             ReadHistories();
         }
 
