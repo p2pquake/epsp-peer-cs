@@ -26,7 +26,7 @@ namespace Client.Peer.State
 
         public virtual void NotifyTsunami(Manager.Peer peer, CRLFSocket socket, Packet packet)
         {
-            if (packet.Data == null || packet.Data.Length != 4)
+            if (packet.Data == null || packet.Data.Length != 3)
             {
                 return;
             }
