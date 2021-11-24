@@ -34,6 +34,17 @@ namespace WpfClient
 
         public object BindingDataContext { get; set; }
 
+        private bool informationIsSelected = true;
+        public bool InformationIsSelected
+        {
+            get { return informationIsSelected; }
+            set
+            {
+                informationIsSelected = value;
+                OnPropertyChanged();
+            }
+        }
+
         private string status = "未接続";
         public string Status
         {

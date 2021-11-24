@@ -93,7 +93,7 @@
             <ui:ListView
                     ItemTemplateSelector="{StaticResource ListTemplateSelector}"
                     ItemsSource="{Binding Histories}"
-                    SelectedIndex="1"
+                    SelectedIndex="{Binding SelectedIndex, Mode=OneWay}"
                     SelectionChanged="ListView_SelectionChanged">
                 <ui:ListView.ItemContainerStyle>
                     <Style TargetType="ui:ListViewItem">
