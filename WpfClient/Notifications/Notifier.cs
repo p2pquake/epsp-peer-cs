@@ -30,6 +30,20 @@ namespace WpfClient.Notifications
             mediatorContext.OnTsunami += MediatorContext_OnTsunami;
             mediatorContext.OnEEWTest += MediatorContext_OnEEWTest;
             mediatorContext.OnNewUserquakeEvaluation += MediatorContext_OnNewUserquakeEvaluation;
+
+            ToastNotificationManagerCompat.OnActivated += ToastNotificationManagerCompat_OnActivated;
+        }
+
+        private void ToastNotificationManagerCompat_OnActivated(ToastNotificationActivatedEventArgsCompat e)
+        {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                if (App.Current.MainWindow.WindowState == System.Windows.WindowState.Minimized)
+                {
+                    App.Current.MainWindow.WindowState = System.Windows.WindowState.Normal;
+                }
+                App.Current.MainWindow.Activate();
+            });
         }
 
         public void MediatorContext_OnEarthquake(object sender, Client.Peer.EPSPQuakeEventArgs e)
