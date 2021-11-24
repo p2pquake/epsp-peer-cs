@@ -38,6 +38,19 @@ namespace WpfClient.Notifications
         {
             App.Current.Dispatcher.Invoke(() =>
             {
+
+                var args = ToastArguments.Parse(e.Argument);
+                // 要素を探す
+                var dataContext = (RootViewModel)App.Current.MainWindow.DataContext;
+                var item = dataContext.InformationViewModel.Histories.First((item) =>
+                    (args["type"] == "quake" && item is EPSPQuakeView quake && quake.EventArgs.ReceivedAt.ToString() == args["receivedAt"]) ||
+                    (args["type"] == "tsunami" && item is EPSPTsunamiView tsunami && tsunami.EventArgs.ReceivedAt.ToString() == args["receivedAt"]) ||
+                    (args["type"] == "eew" && item is EPSPEEWTestView eew && eew.EventArgs.ReceivedAt.ToString() == args["receivedAt"]) ||
+                    (args["type"] == "userquake" && item is EPSPUserquakeView userquake && userquake.EventArgs.StartedAt.ToString() == args["startedAt"])
+                );
+                dataContext.InformationViewModel.SelectedIndex = dataContext.InformationViewModel.Histories.IndexOf(item);
+                dataContext.InformationIsSelected = true;
+
                 if (App.Current.MainWindow.WindowState == System.Windows.WindowState.Minimized)
                 {
                     App.Current.MainWindow.WindowState = System.Windows.WindowState.Normal;
@@ -110,6 +123,7 @@ namespace WpfClient.Notifications
                 builder.AddText($"{e.Destination} (深さ{e.Depth}, {e.Magnitude}) {tsunamiDescription}");
             }
 
+            builder.AddArgument("type", "quake").AddArgument("receivedAt", e.ReceivedAt.ToString());
             builder.Show();
         }
 
@@ -131,6 +145,7 @@ namespace WpfClient.Notifications
                 new ToastContentBuilder()
                     .AddText("津波予報 解除")
                     .AddText("津波予報はすべて解除されました。")
+                    .AddArgument("type", "tsunami").AddArgument("receivedAt", e.ReceivedAt.ToString())
                     .Show();
                 return;
             }
@@ -139,6 +154,7 @@ namespace WpfClient.Notifications
             new ToastContentBuilder()
                 .AddText("津波予報")
                 .AddText($"{TsunamiCategoryConverter.String(maxCategoryGroup.Key)}: {string.Join('、', maxCategoryGroup.Select(e => $"{(e.IsImmediately ? "＊" : "")}{e.Region}"))} {(e.RegionList.Count != maxCategoryGroup.Count() ? " ほか" : "")}")
+                .AddArgument("type", "tsunami").AddArgument("receivedAt", e.ReceivedAt.ToString())
                 .Show();
         }
 
@@ -158,6 +174,7 @@ namespace WpfClient.Notifications
             new ToastContentBuilder()
                 .AddText("緊急地震速報 発表検出")
                 .AddText("NHK ラジオ第一の音声認識により、緊急地震速報の発表を検出しました。")
+                .AddArgument("type", "eew").AddArgument("receivedAt", e.ReceivedAt.ToString())
                 .Show();
         }
 
@@ -180,6 +197,7 @@ namespace WpfClient.Notifications
             new ToastContentBuilder()
                 .AddText("「揺れた！」報告（地震感知情報）")
                 .AddText($"主な地域: {string.Join('、', areas)}")
+                .AddArgument("type", "userquake").AddArgument("startedAt", e.StartedAt.ToString())
                 .Show();
         }
     }

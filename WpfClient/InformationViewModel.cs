@@ -30,6 +30,17 @@ namespace WpfClient
             }
         }
 
+        private int selectedIndex;
+        public int SelectedIndex
+        {
+            get { return selectedIndex; }
+            set
+            {
+                selectedIndex = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string ItemPageName =>
             SelectItem switch
             {

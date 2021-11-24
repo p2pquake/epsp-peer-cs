@@ -17,7 +17,7 @@
     <DockPanel LastChildFill="True">
         <ui:NavigationView SelectionChanged="NavigationView_SelectionChanged" PaneDisplayMode="Top" DockPanel.Dock="Top" IsBackButtonVisible="Collapsed" IsSettingsVisible="False">
             <ui:NavigationView.MenuItems>
-                <ui:NavigationViewItem IsSelected="True" Content="情報" Tag="Information">
+                <ui:NavigationViewItem IsSelected="{Binding InformationIsSelected, Mode=TwoWay}" Content="情報" Tag="Information">
                     <ui:NavigationViewItem.Icon>
                         <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE946;" />
                     </ui:NavigationViewItem.Icon>
