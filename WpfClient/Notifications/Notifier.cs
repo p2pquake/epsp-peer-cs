@@ -36,27 +36,12 @@ namespace WpfClient.Notifications
 
         private void ToastNotificationManagerCompat_OnActivated(ToastNotificationActivatedEventArgsCompat e)
         {
-            App.Current.Dispatcher.Invoke(() =>
-            {
-
-                var args = ToastArguments.Parse(e.Argument);
-                // 要素を探す
-                var dataContext = (RootViewModel)App.Current.MainWindow.DataContext;
-                var item = dataContext.InformationViewModel.Histories.First((item) =>
-                    (args["type"] == "quake" && item is EPSPQuakeView quake && quake.EventArgs.ReceivedAt.ToString() == args["receivedAt"]) ||
-                    (args["type"] == "tsunami" && item is EPSPTsunamiView tsunami && tsunami.EventArgs.ReceivedAt.ToString() == args["receivedAt"]) ||
-                    (args["type"] == "eew" && item is EPSPEEWTestView eew && eew.EventArgs.ReceivedAt.ToString() == args["receivedAt"]) ||
-                    (args["type"] == "userquake" && item is EPSPUserquakeView userquake && userquake.EventArgs.StartedAt.ToString() == args["startedAt"])
-                );
-                dataContext.InformationViewModel.SelectedIndex = dataContext.InformationViewModel.Histories.IndexOf(item);
-                dataContext.InformationIsSelected = true;
-
-                if (App.Current.MainWindow.WindowState == System.Windows.WindowState.Minimized)
-                {
-                    App.Current.MainWindow.WindowState = System.Windows.WindowState.Normal;
-                }
-                App.Current.MainWindow.Activate();
-            });
+            var args = ToastArguments.Parse(e.Argument);
+            Activator.Activate(
+                args["type"],
+                args.Contains("receivedAt") ? args["receivedAt"] : null,
+                args.Contains("startedAt") ? args["startedAt"] : null
+            );
         }
 
         public void MediatorContext_OnEarthquake(object sender, Client.Peer.EPSPQuakeEventArgs e)
