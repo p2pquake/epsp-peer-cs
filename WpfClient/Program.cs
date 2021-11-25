@@ -128,7 +128,7 @@ namespace WpfClient
             var obj = Factory.WrapEventArgs(e);
             App.Current.Dispatcher.Invoke(() =>
             {
-                viewModel.InformationViewModel.Histories.Add(obj);
+                viewModel.InformationViewModel.Histories.Insert(1, obj);
             });
         }
 
@@ -143,12 +143,12 @@ namespace WpfClient
 
                 if (existItem == null)
                 {
-                    histories.Add(obj);
+                    histories.Insert(1, obj);
                 }
                 else if (existItem is EPSPUserquakeView view && view.EventArgs.UpdatedAt < eventArgs.UpdatedAt)
                 {
-                    histories.Remove(existItem);
-                    histories.Add(obj);
+                    var index = histories.IndexOf(existItem);
+                    histories.Insert(index, obj);
                 }
             });
         }
