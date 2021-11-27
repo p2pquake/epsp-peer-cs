@@ -28,6 +28,7 @@ namespace WpfClient
         static RootViewModel viewModel;
         static Configuration configuration;
         static Notifier notifier;
+        static Notifications.Activator activator;
 
         [STAThread]
         public static void Main(string[] args) {
@@ -76,6 +77,7 @@ namespace WpfClient
             client.OnUpdateUserquakeEvaluation += Client_OnUpdateUserquakeEvaluation;
 
             notifier = new Notifier(configuration, client);
+            activator = new Notifications.Activator(configuration, client);
 
             if (localMode)
             {
@@ -84,7 +86,7 @@ namespace WpfClient
                 var peerContext = field.GetValue(client);
 
                 var peerDataType = Type.GetType("Client.Common.General.PeerData, Client");
-                var peerData = Activator.CreateInstance(peerDataType, new object[] { "localhost", 6910, 10 });
+                var peerData = System.Activator.CreateInstance(peerDataType, new object[] { "localhost", 6910, 10 });
                 var peerDatas = Array.CreateInstance(peerDataType, 1);
                 peerDatas.SetValue(peerData, 0);
 
