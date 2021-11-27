@@ -62,6 +62,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.0" />
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
+    <PackageReference Include="NAudio" Version="2.0.1" />
     <PackageReference Include="SharpVectors" Version="1.7.6" />
   </ItemGroup>
 
@@ -98,6 +99,33 @@
 
   <ItemGroup>
     <Folder Include="Resources\Specifications\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\Sounds\EEW_Beta.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Sounds\P2PQ_Snd0.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Sounds\P2PQ_Snd1.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Sounds\P2PQ_Snd2.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Sounds\P2PQ_Snd3.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Sounds\P2PQ_Snd4.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Sounds\P2PQ_Snd9.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Sounds\P2PQ_Sndt.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
