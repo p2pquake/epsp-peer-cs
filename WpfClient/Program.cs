@@ -4,8 +4,6 @@ using Client.Peer;
 
 using JsonApi;
 
-using Microsoft.Toolkit.Uwp.Notifications;
-
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -29,9 +27,11 @@ namespace WpfClient
         static Configuration configuration;
         static Notifier notifier;
         static Notifications.Activator activator;
+        static Player player;
 
         [STAThread]
-        public static void Main(string[] args) {
+        public static void Main(string[] args)
+        {
             configuration = ConfigurationManager.Configuration;
             var localMode = args.Length > 0 && args[0] == "local";
             Task.Run(() => { BootP2PQuake(localMode); });
@@ -78,6 +78,7 @@ namespace WpfClient
 
             notifier = new Notifier(configuration, client);
             activator = new Notifications.Activator(configuration, client);
+            player = new Player(configuration, client);
 
             if (localMode)
             {
