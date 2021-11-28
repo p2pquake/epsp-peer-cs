@@ -30,6 +30,7 @@ namespace WpfClient.Notifications
     public class Player
     {
         private Configuration configuration;
+        private string lastEarthquakeOccuredTime = "";
 
         public Player(Configuration configuration, MediatorContext mediatorContext)
         {
@@ -72,6 +73,12 @@ namespace WpfClient.Notifications
             {
                 return;
             }
+
+            if (e.OccuredTime == lastEarthquakeOccuredTime)
+            {
+                return;
+            }
+            lastEarthquakeOccuredTime = e.OccuredTime;
 
             var scale = e.InformationType == QuakeInformationType.Destination ? 30 : ScaleConverter.Str2Int(e.Scale);
             if (scale < earthquakeNotification.MinScale)
