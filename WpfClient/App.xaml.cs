@@ -23,5 +23,10 @@ namespace WpfClient
                 MainWindow.Show();
             }
         }
+
+        private void Application_SessionEnding(object sender, SessionEndingCancelEventArgs e)
+        {
+            // FIXME: トレイアイコンのコンテキストメニューの終了処理と共通化する
+        }
     }
 }

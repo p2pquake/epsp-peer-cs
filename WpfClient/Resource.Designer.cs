@@ -19,7 +19,7 @@ namespace WpfClient {
     // または Visual Studio のようなツールを使用して自動生成されました。
     // メンバーを追加または削除するには、.ResX ファイルを編集して、/str オプションと共に
     // ResGen を実行し直すか、または VS プロジェクトをビルドし直します。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resource {
@@ -75,12 +75,21 @@ namespace WpfClient {
         ///045,45,北海道,北海道,北海道 宗谷,45.398,141.700
         ///050,50,北海道,北海道,北海道 網走,44.027,144.261
         ///055,55,北海道,北海道,北海道 胆振,42.321,140.972
-        ///060,60,北海道,北海道,北海道 日高,42.173,142.768
-        ///065,65 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///060,60,北海道,北海道,北海道 日高,42.173, [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string epsp_area {
             get {
                 return ResourceManager.GetString("epsp-area", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon p2pquake {
+            get {
+                object obj = ResourceManager.GetObject("p2pquake", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
     }

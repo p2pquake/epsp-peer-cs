@@ -8,6 +8,8 @@
         ui:WindowHelper.UseModernWindowStyle="True"
         xmlns:local="clr-namespace:WpfClient"
         mc:Ignorable="d"
+        StateChanged="Window_StateChanged"
+        Closing="Window_Closing"
         Title="P2P地震情報"
         Height="480" Width="800"
         MinHeight="180" MinWidth="480">
@@ -41,7 +43,7 @@
                     -->
                     <TextBlock Text="{Binding PortStatus}" d:Text="ポート: 未開放" VerticalAlignment="Center" />
                     <TextBlock Text="{Binding NumberOfPeersLabel}" d:Text="2,345 ピア"  VerticalAlignment="Center" />
-                    <Button Content="揺れた！" Click="Button_Click" IsEnabled="{Binding CanSendUserquake}" d:IsEnabled="True" Style="{DynamicResource AccentButtonStyle}" />
+                    <Button Content="揺れた！" Click="ShakeButton_Click" IsEnabled="{Binding CanSendUserquake}" d:IsEnabled="True" Style="{DynamicResource AccentButtonStyle}" />
                 </ui:SimpleStackPanel>
             </ui:NavigationView.PaneFooter>
         </ui:NavigationView>
