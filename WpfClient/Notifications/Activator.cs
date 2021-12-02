@@ -30,10 +30,7 @@ namespace WpfClient.Notifications
                 dataContext.InformationViewModel.SelectedIndex = dataContext.InformationViewModel.Histories.IndexOf(item);
                 dataContext.InformationIsSelected = true;
 
-                if (App.Current.MainWindow.WindowState == System.Windows.WindowState.Minimized)
-                {
-                    App.Current.MainWindow.WindowState = System.Windows.WindowState.Normal;
-                }
+                App.Current.MainWindow.Show();
                 App.Current.MainWindow.Activate();
             });
         }
