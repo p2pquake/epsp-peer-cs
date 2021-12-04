@@ -15,7 +15,7 @@ namespace WpfClient
         public event PropertyChangedEventHandler PropertyChanged;
 
         // FIXME: 震度の変換テーブルが Program.cs にもある。後で整理したい
-        private string[][] earthquakeScaleTable = new string[][]
+        private readonly string[][] earthquakeScaleTable = new string[][]
         {
             new string[] { "10", "1" },
             new string[] { "20", "2" },
@@ -27,6 +27,9 @@ namespace WpfClient
             new string[] { "60", "6強" },
             new string[] { "70", "7" },
         };
+
+        private readonly (int code, string label)[] areaCodeLabels =
+            Resource.epsp_area.Split('\n').Skip(1).Select(e => e.Split(',')).Select(e => (int.Parse(e[1]), e[4])).ToArray();
 
         private string selectTag;
         public string SelectTag
@@ -352,7 +355,7 @@ namespace WpfClient
             useUPnP = configuration.UseUPnP;
             port = configuration.Port;
 
-            selectArea = configuration.Area;
+            selectArea = ConvertAreaCodeToLabel(configuration.AreaCode);
             sendIfMiddleDoubleClick = configuration.SendIfMiddleDoubleClick;
             sendIfRightDoubleClick = configuration.SendIfRightDoubleClick;
 
@@ -390,7 +393,7 @@ namespace WpfClient
             configuration.UseUPnP = useUPnP;
             configuration.Port = port;
 
-            configuration.Area = selectArea;
+            configuration.AreaCode = ConvertAreaToAreaCode(selectArea);
             configuration.SendIfMiddleDoubleClick = sendIfMiddleDoubleClick;
             configuration.SendIfRightDoubleClick = sendIfRightDoubleClick;
 
@@ -428,6 +431,18 @@ namespace WpfClient
         {
             var simplifyScaleLabel = earthquakeScaleTable.First(e => int.Parse(e[0]) == scale)[1];
             return $"震度 {simplifyScaleLabel} 以上";
+        }
+
+        private int ConvertAreaToAreaCode(string areaLabel)
+        {
+            var item = areaCodeLabels.FirstOrDefault(e => e.label == areaLabel);
+            return item == default ? 900 : item.code;
+        }
+
+        private string ConvertAreaCodeToLabel(int areaCode)
+        {
+            var item = areaCodeLabels.FirstOrDefault(e => e.code == areaCode);
+            return item == default ? "未設定" : item.label;
         }
 
         // See: https://docs.microsoft.com/ja-jp/dotnet/desktop/wpf/data/how-to-implement-property-change-notification

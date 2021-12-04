@@ -76,6 +76,12 @@ namespace WpfClient
             client.OnNewUserquakeEvaluation += Client_OnNewUserquakeEvaluation;
             client.OnUpdateUserquakeEvaluation += Client_OnUpdateUserquakeEvaluation;
 
+            configuration.OnChangeEPSPConfiguration += (s, e) =>
+            {
+                ReflectEPSPConfiguration();
+            };
+            ReflectEPSPConfiguration();
+
             notifier = new Notifier(configuration, client);
             activator = new Notifications.Activator(configuration, client);
             player = new Player(configuration, client);
@@ -99,6 +105,14 @@ namespace WpfClient
 
             client.Connect();
             ReadHistories();
+        }
+
+        private static void ReflectEPSPConfiguration()
+        {
+            client.IsPortOpen = configuration.PortOpen;
+            client.Port = configuration.Port;
+            client.UseUPnP = configuration.UseUPnP;
+            client.AreaCode = configuration.AreaCode;
         }
 
         private static void Client_OnEarthquake(object sender, EPSPQuakeEventArgs e)
