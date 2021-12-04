@@ -15,9 +15,18 @@ using WpfClient.EPSPDataView;
 
 namespace WpfClient
 {
-    public class InformationViewModel : INotifyPropertyChanged
+    public interface IFrameModel
+    {
+        public double FrameWidth { get; set; }
+        public double FrameHeight { get; set; }
+    }
+
+    public class InformationViewModel : INotifyPropertyChanged, IFrameModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public double FrameWidth { get; set; }
+        public double FrameHeight { get; set; }
 
         private object selectItem;
         public object SelectItem
