@@ -23,6 +23,7 @@ namespace WpfClient
     /// </summary>
     public partial class MainWindow : Window
     {
+        public event EventHandler OnExit = (s, e) => { };
         public event EventHandler OnUserquake = (s, e) => { };
         private Configuration configuration;
         private NotifyIcon icon;
@@ -116,8 +117,7 @@ namespace WpfClient
 
         private void MenuExitItem_Click(object sender, EventArgs e)
         {
-            // TODO: Windows 終了時などと共通化する
-            throw new NotImplementedException();
+            OnExit(this, EventArgs.Empty);
         }
 
         private void MenuShakeItem_Click(object sender, EventArgs e)
