@@ -17,6 +17,7 @@ namespace WpfClient.EPSPDataView
     public class EPSPQuakeView
     {
         public EPSPQuakeEventArgs EventArgs { get; init; }
+        public IFrameModel FrameModel { get; init; }
 
         public Visibility ForeignIconVisibility => EventArgs.InformationType == QuakeInformationType.Foreign ? Visibility.Visible : Visibility.Collapsed;
         public Visibility ScaleVisibility => EventArgs.InformationType == QuakeInformationType.Foreign ? Visibility.Collapsed : Visibility.Visible;
@@ -78,6 +79,7 @@ namespace WpfClient.EPSPDataView
                     Trim = true,
                     Hypocenter = EventArgs.Latitude == "" ? null : new Map.Model.GeoCoordinate(Latitude, Longitude),
                     ObservationPoints = GenerateObservationPoints(),
+                    PreferedAspectRatio = FrameModel.FrameWidth / FrameModel.FrameHeight,
                 };
                 var png = mapDrawer.DrawAsPng();
 
