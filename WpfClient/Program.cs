@@ -128,7 +128,7 @@ namespace WpfClient
         
         private static void AddHistory(EventArgs e)
         {
-            var obj = Factory.WrapEventArgs(e);
+            var obj = Factory.WrapEventArgs(e, viewModel.InformationViewModel);
             App.Current.Dispatcher.Invoke(() =>
             {
                 viewModel.InformationViewModel.Histories.Insert(1, obj);
@@ -137,7 +137,7 @@ namespace WpfClient
 
         private static void AddUserquakeHistory(UserquakeEvaluateEventArgs eventArgs)
         {
-            var obj = Factory.WrapEventArgs(eventArgs);
+            var obj = Factory.WrapEventArgs(eventArgs, viewModel.InformationViewModel);
             App.Current.Dispatcher.Invoke(() =>
             {
                 // 開始日時が同じものは、最新の情報だけコレクションに含める

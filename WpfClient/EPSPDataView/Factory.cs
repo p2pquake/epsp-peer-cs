@@ -11,11 +11,11 @@ namespace WpfClient.EPSPDataView
 {
     public static class Factory
     {
-        public static object WrapEventArgs(EventArgs eventArgs)
+        public static object WrapEventArgs(EventArgs eventArgs, IFrameModel frameModel)
         {
             if (eventArgs is EPSPQuakeEventArgs quake)
             {
-                return new EPSPQuakeView() { EventArgs = quake };
+                return new EPSPQuakeView() { EventArgs = quake, FrameModel = frameModel };
             }
 
             if (eventArgs is EPSPTsunamiEventArgs tsunami)
@@ -30,7 +30,7 @@ namespace WpfClient.EPSPDataView
 
             if (eventArgs is UserquakeEvaluateEventArgs userquake)
             {
-                return new EPSPUserquakeView() { EventArgs = userquake };
+                return new EPSPUserquakeView() { EventArgs = userquake, FrameModel = frameModel };
             }
 
             return null;
