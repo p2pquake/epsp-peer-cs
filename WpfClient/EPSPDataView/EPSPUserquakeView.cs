@@ -47,6 +47,7 @@ namespace WpfClient.EPSPDataView
                     MapType = Map.Model.MapType.JAPAN_4096,
                     Trim = true,
                     UserquakePoints = GenerateUserquakePoints(),
+                    HideNote = true,
                 };
                 var png = mapDrawer.DrawAsPng();
 
