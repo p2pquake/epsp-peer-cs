@@ -16,6 +16,8 @@ namespace Map.Controller
 {
     public class MapDrawer
     {
+        /// <summary>凡例や出典を表示しない</summary>
+        public bool HideNote { get; set; }
         public bool Trim { get; set; }
         public MapType MapType { get; set; }
         public GeoCoordinate Hypocenter { get; set; }
@@ -112,14 +114,14 @@ namespace Map.Controller
             }
 
             // 地理院タイルの出典
-            if (MapType != MapType.WORLD_512 && MapType != MapType.WORLD_1024)
+            if (MapType != MapType.WORLD_512 && MapType != MapType.WORLD_1024 && !HideNote)
             {
                 using var desc = Image.Load(new MemoryStream(Map.ImageResource.description));
                 image.Mutate(x => x.DrawImage(desc, new Point(0, image.Height - desc.Height), 1));
             }
 
             // 地震感知情報の凡例
-            if (UserquakePoints != null && UserquakePoints.Any())
+            if (UserquakePoints != null && UserquakePoints.Any() && !HideNote)
             {
                 using var uqNote = Image.Load(new MemoryStream(Map.ImageResource.UserquakeNote));
                 uqNote.Mutate(x => x.Resize(uqNote.Width / 5, uqNote.Height / 5));
@@ -127,7 +129,7 @@ namespace Map.Controller
             }
 
             // 地震情報の凡例
-            if (MapType != MapType.WORLD_512 && MapType != MapType.WORLD_1024 && Hypocenter != null)
+            if (MapType != MapType.WORLD_512 && MapType != MapType.WORLD_1024 && Hypocenter != null && !HideNote)
             {
                 using var qNote = Image.Load(new MemoryStream(Map.ImageResource.QuakeNote));
                 if (MapType == MapType.JAPAN_1024)
