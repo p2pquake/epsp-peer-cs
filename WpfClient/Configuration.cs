@@ -76,17 +76,57 @@ namespace WpfClient
 
     public class Configuration
     {
+        public event EventHandler OnChangeEPSPConfiguration = (s, e) => { };
+
         // 起動
         public bool BootAtStartup { get; set; } = false;
         public bool MinimizeAtBoot { get; set; } = false;
 
         // 接続
-        public bool PortOpen { get; set; } = true;
-        public bool UseUPnP { get; set; } = true;
-        public int Port { get; set; } = 6911;
+        private bool portOpen = true;
+        public bool PortOpen
+        {
+            get => portOpen;
+            set
+            {
+                portOpen = value;
+                OnChangeEPSPConfiguration(this, EventArgs.Empty);
+            }
+        }
+
+        private bool useUPnP = true;
+        public bool UseUPnP
+        {
+            get => useUPnP;
+            set {
+                useUPnP = value;
+                OnChangeEPSPConfiguration(this, EventArgs.Empty);
+            }
+        }
+
+        private int port = 6911;
+        public int Port
+        {
+            get => port;
+            set
+            {
+                port = value;
+                OnChangeEPSPConfiguration(this, EventArgs.Empty);
+            }
+        }
 
         // 「揺れた！」
-        public string Area { get; set; } = "901";
+        private int areaCode = 900;
+        public int AreaCode
+        {
+            get => areaCode;
+            set
+            {
+                areaCode = value;
+                OnChangeEPSPConfiguration(this, EventArgs.Empty);
+            }
+        }
+
         public bool SendIfMiddleDoubleClick { get; set; } = false;
         public bool SendIfRightDoubleClick { get; set; } = false;
 
