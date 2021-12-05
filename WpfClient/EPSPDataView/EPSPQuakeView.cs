@@ -79,6 +79,7 @@ namespace WpfClient.EPSPDataView
                     Trim = true,
                     Hypocenter = EventArgs.Latitude == "" ? null : new Map.Model.GeoCoordinate(Latitude, Longitude),
                     ObservationPoints = GenerateObservationPoints(),
+                    HideNote = true,
                     PreferedAspectRatio = FrameModel.FrameWidth / FrameModel.FrameHeight,
                 };
                 var png = mapDrawer.DrawAsPng();
