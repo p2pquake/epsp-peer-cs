@@ -198,7 +198,8 @@ namespace WpfClient
                 else if (existItem is EPSPUserquakeView view && view.EventArgs.UpdatedAt < eventArgs.UpdatedAt)
                 {
                     var index = histories.IndexOf(existItem);
-                    histories.Insert(index, obj);
+                    // FIXME: 選択中（表示中）にこの更新をやると、表示が消えてしまう。
+                    histories[index] = obj;
                 }
             });
         }
@@ -208,7 +209,7 @@ namespace WpfClient
             var items = await JsonApi.Client.Get(100, Code.Earthquake, Code.Tsunami, Code.EEWTest, Code.UserquakeEvaluation);
             var histories = viewModel.InformationViewModel.Histories;
 
-            foreach (var item in items)
+            foreach (var item in items.Reverse())
             {
                 if (item is JMAQuake quake)
                 {
