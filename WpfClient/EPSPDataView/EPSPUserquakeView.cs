@@ -18,6 +18,7 @@ namespace WpfClient.EPSPDataView
     public class EPSPUserquakeView
     {
         public UserquakeEvaluateEventArgs EventArgs { get; init; }
+        public IFrameModel FrameModel { get; init; }
 
         public string Source => ThemeManager.Current.ActualApplicationTheme switch
         {
@@ -47,6 +48,8 @@ namespace WpfClient.EPSPDataView
                     MapType = Map.Model.MapType.JAPAN_4096,
                     Trim = true,
                     UserquakePoints = GenerateUserquakePoints(),
+                    HideNote = true,
+                    PreferedAspectRatio = FrameModel.FrameWidth / FrameModel.FrameHeight,
                 };
                 var png = mapDrawer.DrawAsPng();
 

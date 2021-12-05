@@ -104,7 +104,7 @@
         </ScrollViewer>
         <Border>
             <Grid>
-                <Frame NavigationUIVisibility="Hidden" Source="{Binding ItemPageName}" Navigated="Frame_Navigated" />
+                <Frame NavigationUIVisibility="Hidden" Source="{Binding ItemPageName}" Navigated="Frame_Navigated" SizeChanged="Frame_SizeChanged" />
             </Grid>
         </Border>
     </DockPanel>

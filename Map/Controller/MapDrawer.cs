@@ -16,6 +16,10 @@ namespace Map.Controller
 {
     public class MapDrawer
     {
+        /// <summary>凡例や出典を表示しない</summary>
+        public bool HideNote { get; set; }
+        /// <summary>希望するアスペクト比率 (N:1 の N 部分)</summary>
+        public double PreferedAspectRatio { get; set; }
         public bool Trim { get; set; }
         public MapType MapType { get; set; }
         public GeoCoordinate Hypocenter { get; set; }
@@ -95,31 +99,49 @@ namespace Map.Controller
                 };
                 var coordinates = drawers.Select(e => e.CalcDrawLTRB()).Where(e => e != null);
                 var lt = trans.Geo2Pixel(new GeoCoordinate(
-                    coordinates.Select(e => e.TopLatitude).Max() + 1.5,
+                    coordinates.Select(e => e.TopLatitude).Max() + 1,
                     coordinates.Select(e => e.LeftLongitude).Min() - 1.5
                 ));
                 var rb = trans.Geo2Pixel(new GeoCoordinate(
-                    coordinates.Select(e => e.BottomLatitude).Min() - 1.5,
+                    coordinates.Select(e => e.BottomLatitude).Min() - 1,
                     coordinates.Select(e => e.RightLongitude).Max() + 1.5
                 ));
 
-                var l = new int[] { 0, new int[] { lt.X, rb.X - 240 }.Min() }.Max();
-                var t = new int[] { 0, new int[] { lt.Y, rb.Y - 240 }.Min() }.Max();
-                var r = new int[] { image.Width, new int[] { rb.X, lt.X + 240 }.Max() }.Min();
-                var b = new int[] { image.Height, new int[] { rb.Y, lt.Y + 240 }.Max() }.Min();
+                var l = new int[] { 0, new int[] { lt.X, rb.X - 480 }.Min() }.Max();
+                var t = new int[] { 0, new int[] { lt.Y, rb.Y - 480 }.Min() }.Max();
+                var r = new int[] { image.Width, new int[] { rb.X, lt.X + 480 }.Max() }.Min();
+                var b = new int[] { image.Height, new int[] { rb.Y, lt.Y + 480 }.Max() }.Min();
+
+                if (PreferedAspectRatio > 0)
+                {
+                    var ratio = (double)(r - l) / (b - t);
+                    if (PreferedAspectRatio > ratio)
+                    {
+                        // 横を増やす
+                        var appendWidth = (b - t) * PreferedAspectRatio - (r - l);
+                        l = new int[] { 0, (int)(l - appendWidth / 2) }.Max();
+                        r = new int[] { image.Width, (int)(r + appendWidth / 2) }.Min();
+                    } else
+                    {
+                        // 縦を増やす
+                        var appendHeight = (r - l) / PreferedAspectRatio - (b - t);
+                        t = new int[] { 0, (int)(t - appendHeight / 2) }.Max();
+                        b = new int[] { image.Height, (int)(b + appendHeight / 2) }.Min();
+                    }
+                }
 
                 image.Mutate(x => x.Crop(new Rectangle(l, t, r - l, b - t)));
             }
 
             // 地理院タイルの出典
-            if (MapType != MapType.WORLD_512 && MapType != MapType.WORLD_1024)
+            if (MapType != MapType.WORLD_512 && MapType != MapType.WORLD_1024 && !HideNote)
             {
                 using var desc = Image.Load(new MemoryStream(Map.ImageResource.description));
                 image.Mutate(x => x.DrawImage(desc, new Point(0, image.Height - desc.Height), 1));
             }
 
             // 地震感知情報の凡例
-            if (UserquakePoints != null && UserquakePoints.Any())
+            if (UserquakePoints != null && UserquakePoints.Any() && !HideNote)
             {
                 using var uqNote = Image.Load(new MemoryStream(Map.ImageResource.UserquakeNote));
                 uqNote.Mutate(x => x.Resize(uqNote.Width / 5, uqNote.Height / 5));
@@ -127,7 +149,7 @@ namespace Map.Controller
             }
 
             // 地震情報の凡例
-            if (MapType != MapType.WORLD_512 && MapType != MapType.WORLD_1024 && Hypocenter != null)
+            if (MapType != MapType.WORLD_512 && MapType != MapType.WORLD_1024 && Hypocenter != null && !HideNote)
             {
                 using var qNote = Image.Load(new MemoryStream(Map.ImageResource.QuakeNote));
                 if (MapType == MapType.JAPAN_1024)

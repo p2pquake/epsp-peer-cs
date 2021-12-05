@@ -13,8 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using WpfClient.EPSPDataView;
-
 namespace WpfClient.Pages
 {
     /// <summary>
@@ -36,6 +34,13 @@ namespace WpfClient.Pages
         private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
             ((FrameworkElement)e.Content).DataContext = ((InformationViewModel)DataContext).SelectItem;
+        }
+
+        private void Frame_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var viewModel = (InformationViewModel)DataContext;
+            viewModel.FrameWidth = e.NewSize.Width;
+            viewModel.FrameHeight = e.NewSize.Height;
         }
     }
 }
