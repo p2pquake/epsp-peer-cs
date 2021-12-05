@@ -18,7 +18,7 @@
     <Grid>
         <Image Source="{Binding BitmapImage}" Stretch="Uniform" />
         <Canvas>
-            <Image Source="/Resources/MapOverlays/userquake_note.png" Width="40" Canvas.Bottom="8" Canvas.Right="8"/>
+            <Image Source="/Resources/MapOverlays/userquake_note.png" Width="40" Canvas.Bottom="16" Canvas.Left="8"/>
             <Image Source="/Resources/MapOverlays/description.png" Height="8" Canvas.Bottom="0" Canvas.Left="0" />
         </Canvas>
         <DockPanel Height="40" VerticalAlignment="Top" Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}">
