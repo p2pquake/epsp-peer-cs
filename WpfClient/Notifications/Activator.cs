@@ -16,7 +16,7 @@ namespace WpfClient.Notifications
     {
         private Configuration configuration;
 
-        public static void Activate(string type, string receivedAt = null, string startedAt = null)
+        public static void Select(string type, string receivedAt = null, string startedAt = null)
         {
             App.Current.Dispatcher.Invoke(() =>
             {
@@ -29,7 +29,14 @@ namespace WpfClient.Notifications
                 );
                 dataContext.InformationViewModel.SelectedIndex = dataContext.InformationViewModel.Histories.IndexOf(item);
                 dataContext.InformationIsSelected = true;
+            });
+        }
 
+        public static void Activate(string type, string receivedAt = null, string startedAt = null)
+        {
+            Select(type, receivedAt, startedAt);
+            App.Current.Dispatcher.Invoke(() =>
+            {
                 App.Current.MainWindow.Show();
                 App.Current.MainWindow.Activate();
             });
@@ -57,10 +64,6 @@ namespace WpfClient.Notifications
             {
                 return;
             }
-            if (!earthquakeNotification.Show)
-            {
-                return;
-            }
 
             var scale = e.InformationType == QuakeInformationType.Destination ? 30 : ScaleConverter.Str2Int(e.Scale);
             if (scale < earthquakeNotification.MinScale)
@@ -68,6 +71,11 @@ namespace WpfClient.Notifications
                 return;
             }
 
+            if (!earthquakeNotification.Show)
+            {
+                Select("quake", e.ReceivedAt.ToString());
+                return;
+            }
             Activate("quake", e.ReceivedAt.ToString());
         } 
 
@@ -79,11 +87,12 @@ namespace WpfClient.Notifications
             {
                 return;
             }
+
             if (!tsunamiNotification.Show)
             {
+                Select("tsunami", e.ReceivedAt.ToString());
                 return;
             }
-
             Activate("tsunami", e.ReceivedAt.ToString());
         }
 
@@ -95,11 +104,12 @@ namespace WpfClient.Notifications
             {
                 return;
             }
+
             if (!eewTestNotification.Show)
             {
+                Select("eew", e.ReceivedAt.ToString());
                 return;
             }
-
             Activate("eew", e.ReceivedAt.ToString());
         }
 
@@ -111,11 +121,12 @@ namespace WpfClient.Notifications
             {
                 return;
             }
+
             if (!userquakeNotification.Show)
             {
+                Select("userquake", null, e.StartedAt.ToString());
                 return;
             }
-
             Activate("userquake", null, e.StartedAt.ToString());
         }
     }
