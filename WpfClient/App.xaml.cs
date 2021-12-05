@@ -18,15 +18,11 @@ namespace WpfClient
             base.OnStartup(e);
 
             MainWindow = new MainWindow();
-            if (!ConfigurationManager.Configuration.MinimizeAtBoot)
+            MainWindow.Show();
+            if (ConfigurationManager.Configuration.MinimizeAtBoot)
             {
-                MainWindow.Show();
+                MainWindow.Hide();
             }
-        }
-
-        private void Application_SessionEnding(object sender, SessionEndingCancelEventArgs e)
-        {
-            // FIXME: トレイアイコンのコンテキストメニューの終了処理と共通化する
         }
     }
 }

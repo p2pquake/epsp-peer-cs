@@ -7,6 +7,7 @@ using JsonApi;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -33,9 +34,12 @@ namespace WpfClient
         public static void Main(string[] args)
         {
             configuration = ConfigurationManager.Configuration;
+
             var localMode = args.Length > 0 && args[0] == "local";
             Task.Run(() => { BootP2PQuake(localMode); });
+
             App app = new();
+            app.SessionEnding += App_SessionEnding;
             app.InitializeComponent();
             app.Run();
         }
@@ -54,6 +58,7 @@ namespace WpfClient
                             var window = (MainWindow)App.Current?.MainWindow;
                             viewModel = (RootViewModel)window?.DataContext;
                             viewModel.SettingViewModel.LoadFromConfiguration(ConfigurationManager.Configuration);
+                            window.OnExit += Window_OnExit;
                             window.OnUserquake += Window_OnUserquake;
                         }
                     });
@@ -113,6 +118,34 @@ namespace WpfClient
             client.Port = configuration.Port;
             client.UseUPnP = configuration.UseUPnP;
             client.AreaCode = configuration.AreaCode;
+        }
+
+        private static void App_SessionEnding(object sender, System.Windows.SessionEndingCancelEventArgs e)
+        {
+            Disconnect();
+        }
+
+        private static void Window_OnExit(object sender, EventArgs e)
+        {
+            Disconnect();
+            App.Current.Shutdown();
+        }
+
+        private static void Disconnect()
+        {
+            if (!client.CanDisconnect)
+            {
+                return;
+            }
+
+            var sw = new Stopwatch();
+            sw.Start();
+            client.Disconnect();
+
+            while (sw.ElapsedMilliseconds <= 4000 && !client.CanConnect)
+            {
+                Thread.Sleep(250);
+            }
         }
 
         private static void Client_OnEarthquake(object sender, EPSPQuakeEventArgs e)
