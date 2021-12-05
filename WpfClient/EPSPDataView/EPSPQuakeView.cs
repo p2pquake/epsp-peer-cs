@@ -101,7 +101,7 @@ namespace WpfClient.EPSPDataView
             ).ToList();
         }
 
-        // FIXME: あとでなおす。
+        // XXX: あまりスマートじゃないのであとでなおす。
         private int ConvertScale(string scale)
         {
             return scale switch
@@ -139,7 +139,7 @@ namespace WpfClient.EPSPDataView
                 var longitude = double.Parse(EventArgs.Longitude.Replace("W", "").Replace("E", ""));
                 if (EventArgs.Longitude.StartsWith("W"))
                 {
-                    // FIXME: わすれたのでいったん適当に
+                    // TODO: たぶんあってるけど自信がない
                     longitude = 360 - longitude;
                 }
                 return longitude;
