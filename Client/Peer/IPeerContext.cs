@@ -74,6 +74,23 @@ namespace Client.Peer
         public string Scale { get; set; } = "";
         /// <summary>観測点名称</summary>
         public string Name { get; set; } = "";
+
+        public int ScaleInt
+        {
+            get => Scale switch
+            {
+                "7" => 70,
+                "6強" => 60,
+                "6弱" => 55,
+                "5強" => 50,
+                "5弱" => 45,
+                "4" => 40,
+                "3" => 30,
+                "2" => 20,
+                "1" => 10,
+                _ => -1,
+            };
+        }
     }
 
     /// <summary>地震情報のイベントデータクラスです。</summary>

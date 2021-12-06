@@ -51,7 +51,7 @@ namespace WpfClient.EPSPDataView
                 list.Add(new DetailItemView("各地の震度", TextStyles.Title));
 
                 // XXX: もっときれいに書きたい～
-                var pointsByPrefs = EventArgs.PointList.OrderBy(e => e.Scale).Reverse().GroupBy(e => e.Prefecture);
+                var pointsByPrefs = EventArgs.PointList.OrderByDescending(e => e.ScaleInt).GroupBy(e => e.Prefecture);
                 foreach (var pointsByPref in pointsByPrefs)
                 {
                     list.Add(new DetailItemView(pointsByPref.Key, TextStyles.Prefecture));
