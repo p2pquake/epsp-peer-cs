@@ -33,6 +33,11 @@ namespace Client.App.Userquake
 
         public void AddUserquake(DateTime at, string areaCode, IReadOnlyDictionary<string, int> areaPeers)
         {
+            if (!AreaPositions.Items.ContainsKey(areaCode))
+            {
+                return;
+            }
+
             // リセット、追加
             if (UserquakeIsOver(at))
             {
