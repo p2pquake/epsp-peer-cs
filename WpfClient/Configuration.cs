@@ -1,17 +1,20 @@
-﻿using System;
+﻿using Microsoft.Win32;
+
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace WpfClient
 {
     public class ConfigurationManager
     {
-        private static readonly string fileName = "example.json";
-
         private static Configuration configuration;
         public static Configuration Configuration
         {
@@ -20,6 +23,7 @@ namespace WpfClient
                 if (configuration == null)
                 {
                     configuration = Load();
+                    Configuration.ReflectBootAtStartup(configuration.BootAtStartup);
                 }
 
                 return configuration;
@@ -31,7 +35,7 @@ namespace WpfClient
             try
             {
                 string json = JsonSerializer.Serialize(Configuration);
-                File.WriteAllText(fileName, json);
+                File.WriteAllText(Filename(), json);
                 return true;
             }
             catch (Exception)
@@ -43,14 +47,14 @@ namespace WpfClient
 
         private static Configuration Load()
         {
-            if (!File.Exists(fileName))
+            if (!File.Exists(Filename()))
             {
                 return new Configuration();
             }
 
             try
             {
-                string json = File.ReadAllText(fileName);
+                string json = File.ReadAllText(Filename());
                 return JsonSerializer.Deserialize<Configuration>(json);
             }
             catch (Exception)
@@ -58,6 +62,11 @@ namespace WpfClient
                 // FIXME: エラーハンドリングする
                 return new Configuration();
             }
+        }
+
+        private static string Filename()
+        {
+            return Path.ChangeExtension(Application.ExecutablePath, ".json");
         }
     }
 
@@ -79,7 +88,17 @@ namespace WpfClient
         public event EventHandler OnChangeEPSPConfiguration = (s, e) => { };
 
         // 起動
-        public bool BootAtStartup { get; set; } = false;
+        private bool bootAtStartup = false;
+        public bool BootAtStartup
+        {
+            get => bootAtStartup;
+            set
+            {
+                bootAtStartup = value;
+                ReflectBootAtStartup(value);
+            }
+        }
+
         public bool MinimizeAtBoot { get; set; } = false;
 
         // 接続
@@ -135,5 +154,20 @@ namespace WpfClient
         public Notification UserquakeNotification { get; set; } = new Notification();
         public Notification TsunamiNotification { get; set; } = new Notification();
         public Notification EEWTestNotification { get; set; } = new Notification();
+
+        // XXX: このメソッドはここにあるべきなのか？
+        public static void ReflectBootAtStartup(bool bootAtStartup)
+        {
+            var regKey = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
+            if (bootAtStartup)
+            {
+                regKey.SetValue(Application.ProductName, Application.ExecutablePath);
+                return;
+            }
+            if (regKey.GetValue(Application.ProductName) != null)
+            {
+                regKey.DeleteValue(Application.ProductName);
+            }
+        }
     }
 }
