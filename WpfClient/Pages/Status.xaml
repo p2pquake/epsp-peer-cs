@@ -86,8 +86,13 @@
             </ui:SimpleStackPanel>
         </ScrollViewer>
         <Grid>
-            <Image Source="/Resources/Examples/japan_1024.png" />
-            <TextBlock Text="{Binding AreapeerText}" TextWrapping="WrapWithOverflow" />
+            <!-- <Image Source="/Resources/Examples/japan_1024.png" /> -->
+            <ScrollViewer>
+                <ui:SimpleStackPanel Spacing="12" Margin="16">
+                    <TextBlock Text="ピア分布データ（地図は今後実装予定）" Style="{StaticResource SubtitleTextBlockStyle}" />
+                    <TextBlock Text="{Binding AreapeerText}" d:Text="地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;" TextWrapping="WrapWithOverflow" />
+                </ui:SimpleStackPanel>
+            </ScrollViewer>
         </Grid>
     </DockPanel>
 </Page>

@@ -354,7 +354,9 @@ namespace WpfClient
                 viewModel.NumberOfPeersLabel = $"{client.PeerCount} ピア";
                 viewModel.StatusViewModel.NumberOfPeers = $"{client.PeerCount} ピア";
 
-                viewModel.StatusViewModel.AreapeerText = String.Join("、 ", client.AreaPeerDictionary.Select((area) => $"{area.Key}: {area.Value}ピア"));
+                var epspAreas = Resource.epsp_area.Split('\n').Skip(1).Select(e => e.Split(',')).ToDictionary(e => e[0], e => e[4]);
+
+                viewModel.StatusViewModel.AreapeerText = String.Join("\n", client.AreaPeerDictionary.Where(e => epspAreas.ContainsKey(e.Key)).OrderBy(e => e.Key).Select((area) => $"{epspAreas[area.Key]}: {area.Value}ピア"));
             });
         }
 
