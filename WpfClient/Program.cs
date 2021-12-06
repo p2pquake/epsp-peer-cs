@@ -123,11 +123,13 @@ namespace WpfClient
         private static void App_SessionEnding(object sender, System.Windows.SessionEndingCancelEventArgs e)
         {
             Disconnect();
+            HideNotifyIcon();
         }
 
         private static void Window_OnExit(object sender, EventArgs e)
         {
             Disconnect();
+            HideNotifyIcon();
             App.Current.Shutdown();
         }
 
@@ -146,6 +148,15 @@ namespace WpfClient
             {
                 Thread.Sleep(250);
             }
+        }
+
+        private static void HideNotifyIcon()
+        {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                var window = (MainWindow)App.Current?.MainWindow;
+                window.HideNotifyIcon();
+            });
         }
 
         private static void Client_OnEarthquake(object sender, EPSPQuakeEventArgs e)

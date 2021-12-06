@@ -95,6 +95,11 @@ namespace WpfClient
         // ---------------------------------------------------------------------
         // トレイアイコンの処理
         // ---------------------------------------------------------------------
+        public void HideNotifyIcon()
+        {
+            icon.Visible = false;
+        }
+
         private void InitializeNotifyIcon()
         {
             icon = new NotifyIcon()
