@@ -75,6 +75,7 @@ namespace Client.App
         public int Port { get; set; }
         public bool UseUPnP { get; set; }
         public int MaxConnections { get; set; }
+        public bool IsPortListening { get; set; }
 
         public bool CanConnect { get { return State is DisconnectedState; } }
         public bool CanDisconnect { get { return State is ConnectedState; } }
@@ -158,7 +159,11 @@ namespace Client.App
                 {
                     UPnPUtil.OpenPort(Port);
                 }
-                peerContext.Listen(Port);
+                IsPortListening = peerContext.Listen(Port);
+            }
+            else
+            {
+                IsPortListening = false;
             }
             State.Connect(this, clientContext, peerContext);
         }

@@ -21,6 +21,8 @@ namespace Client.App
 
         /// <summary>ポート開放するかどうか</summary>
         bool IsPortOpen { get; set; }
+        /// <summary>ポートをリッスンしているかどうか</summary>
+        bool IsPortListening { get; }
         /// <summary>ポート番号</summary>
         int Port { get; set; }
 
