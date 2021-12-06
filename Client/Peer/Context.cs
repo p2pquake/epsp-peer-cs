@@ -8,6 +8,7 @@ using Client.Common.Net;
 
 using Client.Peer.Manager;
 using Client.App;
+using System.Net.Sockets;
 
 namespace Client.Peer
 {
@@ -84,9 +85,17 @@ namespace Client.Peer
         {
             EndListen();
 
-            asyncListener = new AsyncListener(port);
-            asyncListener.Accept += AsyncListener_Accept;
-            asyncListener.Start();
+            try
+            {
+                asyncListener = new AsyncListener(port);
+                asyncListener.Accept += AsyncListener_Accept;
+                asyncListener.Start();
+            }
+            catch (SocketException)
+            {
+                asyncListener = null;
+                return false;
+            }
 
             return true;
         }

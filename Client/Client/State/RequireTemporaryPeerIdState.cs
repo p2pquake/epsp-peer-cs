@@ -22,7 +22,7 @@ namespace Client.Client.State
             string peerId = packet.Data[0];
             context.PeerState.PeerId = int.Parse(peerId);
 
-            if (context.PeerConfig.IsPortOpen)
+            if (context.PeerConfig.IsPortOpen && context.PeerConfig.IsPortListening)
             {
                 context.State = new RequirePortScanState();
                 return;
