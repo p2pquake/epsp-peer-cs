@@ -27,7 +27,7 @@ namespace ClientTest.App.Userquake
             var areaPeers = new Dictionary<string, int>()
             {
                 { "100", 5 },
-                { "101", 10 },
+                { "105", 10 },
                 { "110", 1 },
                 { "111", 2 },
             };
@@ -35,10 +35,10 @@ namespace ClientTest.App.Userquake
             {
                 (DateTime.Today.AddSeconds(1000), "100"),
                 (DateTime.Today.AddSeconds(1000), "100"),
-                (DateTime.Today.AddSeconds(1015), "101"),
+                (DateTime.Today.AddSeconds(1015), "105"),
                 (DateTime.Today.AddSeconds(1055), "100"),
                 (DateTime.Today.AddSeconds(1096), "100"),
-                (DateTime.Today.AddSeconds(1097), "101"),
+                (DateTime.Today.AddSeconds(1097), "105"),
                 (DateTime.Today.AddSeconds(1150), "110"),
             };
 
@@ -67,10 +67,10 @@ namespace ClientTest.App.Userquake
 
         private readonly Dictionary<string, int> areaPeers = new()
         {
-            { "101", 100 },
-            { "102", 200 },
-            { "201", 300 },
-            { "202", 10000 },
+            { "100", 100 },
+            { "105", 200 },
+            { "200", 300 },
+            { "205", 10000 },
         };
 
         [TestCase]
@@ -85,11 +85,11 @@ namespace ClientTest.App.Userquake
             // Event 1
             (DateTime, string)[] userquakes = new[]
             {
-                (DateTime.Today.AddSeconds(0), "101"),
-                (DateTime.Today.AddSeconds(18), "201"),
-                (DateTime.Today.AddSeconds(20), "101"),
-                (DateTime.Today.AddSeconds(20), "101"),
-                (DateTime.Today.AddSeconds(20), "101"),
+                (DateTime.Today.AddSeconds(0), "100"),
+                (DateTime.Today.AddSeconds(18), "200"),
+                (DateTime.Today.AddSeconds(20), "100"),
+                (DateTime.Today.AddSeconds(20), "100"),
+                (DateTime.Today.AddSeconds(20), "100"),
             };
             foreach (var userquake in userquakes) { aggregator.AddUserquake(userquake.Item1, userquake.Item2, areaPeers); }
             Assert.That(newEvents, Is.Empty);
@@ -98,13 +98,13 @@ namespace ClientTest.App.Userquake
             // Event 2
             userquakes = new[]
             {
-                (DateTime.Today.AddSeconds(100), "101"),
-                (DateTime.Today.AddSeconds(120), "201"),
-                (DateTime.Today.AddSeconds(123), "101"),
-                (DateTime.Today.AddSeconds(123), "101"),
-                (DateTime.Today.AddSeconds(123), "101"),
-                (DateTime.Today.AddSeconds(123), "101"),
-                (DateTime.Today.AddSeconds(123), "101"),
+                (DateTime.Today.AddSeconds(100), "100"),
+                (DateTime.Today.AddSeconds(120), "200"),
+                (DateTime.Today.AddSeconds(123), "100"),
+                (DateTime.Today.AddSeconds(123), "100"),
+                (DateTime.Today.AddSeconds(123), "100"),
+                (DateTime.Today.AddSeconds(123), "100"),
+                (DateTime.Today.AddSeconds(123), "100"),
             };
             foreach (var userquake in userquakes) { aggregator.AddUserquake(userquake.Item1, userquake.Item2, areaPeers); }
 
@@ -114,14 +114,14 @@ namespace ClientTest.App.Userquake
             Assert.That(newEvents[0].UpdatedAt, Is.EqualTo(DateTime.Today.AddSeconds(123)));
             Assert.That(newEvents[0].ConfidenceLevel, Is.EqualTo(3));
             Assert.That(newEvents[0].AreaConfidences, Has.Count.EqualTo(2));
-            Assert.That(newEvents[0].AreaConfidences["101"].ConfidenceLevel, Is.EqualTo("E"));
-            Assert.That(newEvents[0].AreaConfidences["101"].Count, Is.EqualTo(6));
-            Assert.That(newEvents[0].AreaConfidences["201"].ConfidenceLevel, Is.EqualTo("E"));
-            Assert.That(newEvents[0].AreaConfidences["201"].Count, Is.EqualTo(1));
+            Assert.That(newEvents[0].AreaConfidences["100"].ConfidenceLevel, Is.EqualTo("E"));
+            Assert.That(newEvents[0].AreaConfidences["100"].Count, Is.EqualTo(6));
+            Assert.That(newEvents[0].AreaConfidences["200"].ConfidenceLevel, Is.EqualTo("E"));
+            Assert.That(newEvents[0].AreaConfidences["200"].Count, Is.EqualTo(1));
             Assert.That(updateEvents, Is.Empty);
 
-            aggregator.AddUserquake(DateTime.Today.AddSeconds(124), "101", areaPeers);
-            aggregator.AddUserquake(DateTime.Today.AddSeconds(125), "101", areaPeers);
+            aggregator.AddUserquake(DateTime.Today.AddSeconds(124), "100", areaPeers);
+            aggregator.AddUserquake(DateTime.Today.AddSeconds(125), "100", areaPeers);
 
             Assert.That(newEvents, Has.Count.EqualTo(1));
             Assert.That(updateEvents, Has.Count.EqualTo(2));
@@ -129,21 +129,21 @@ namespace ClientTest.App.Userquake
             Assert.That(updateEvents.Last().StartedAt, Is.EqualTo(newEvents[0].StartedAt));
             Assert.That(updateEvents.Last().UpdatedAt, Is.EqualTo(DateTime.Today.AddSeconds(125)));
             Assert.That(updateEvents.Last().Confidence, Is.GreaterThan(newEvents[0].Confidence));
-            Assert.That(updateEvents.Last().AreaConfidences["101"].Confidence, Is.GreaterThan(newEvents[0].AreaConfidences["101"].Confidence));
-            Assert.That(updateEvents.Last().AreaConfidences["101"].Count, Is.GreaterThan(newEvents[0].AreaConfidences["101"].Count));
-            Assert.That(updateEvents.Last().AreaConfidences["201"].Confidence, Is.EqualTo(newEvents[0].AreaConfidences["201"].Confidence));
-            Assert.That(updateEvents.Last().AreaConfidences["201"].Count, Is.EqualTo(newEvents[0].AreaConfidences["201"].Count));
+            Assert.That(updateEvents.Last().AreaConfidences["100"].Confidence, Is.GreaterThan(newEvents[0].AreaConfidences["100"].Confidence));
+            Assert.That(updateEvents.Last().AreaConfidences["100"].Count, Is.GreaterThan(newEvents[0].AreaConfidences["100"].Count));
+            Assert.That(updateEvents.Last().AreaConfidences["200"].Confidence, Is.EqualTo(newEvents[0].AreaConfidences["200"].Confidence));
+            Assert.That(updateEvents.Last().AreaConfidences["200"].Count, Is.EqualTo(newEvents[0].AreaConfidences["200"].Count));
 
             // Event 3
             userquakes = new[]
             {
-                (DateTime.Today.AddSeconds(200), "101"),
-                (DateTime.Today.AddSeconds(220), "201"),
-                (DateTime.Today.AddSeconds(223), "101"),
-                (DateTime.Today.AddSeconds(223), "101"),
-                (DateTime.Today.AddSeconds(223), "101"),
-                (DateTime.Today.AddSeconds(223), "101"),
-                (DateTime.Today.AddSeconds(223), "101"),
+                (DateTime.Today.AddSeconds(200), "100"),
+                (DateTime.Today.AddSeconds(220), "200"),
+                (DateTime.Today.AddSeconds(223), "100"),
+                (DateTime.Today.AddSeconds(223), "100"),
+                (DateTime.Today.AddSeconds(223), "100"),
+                (DateTime.Today.AddSeconds(223), "100"),
+                (DateTime.Today.AddSeconds(223), "100"),
             };
             foreach (var userquake in userquakes) { aggregator.AddUserquake(userquake.Item1, userquake.Item2, areaPeers); }
             Assert.That(newEvents, Has.Count.EqualTo(2));
@@ -156,32 +156,32 @@ namespace ClientTest.App.Userquake
         public void EvaluateNotTrulyTest()
         {
             evaluateNotTruly(new[] {
-                (DateTime.Today, "101")
+                (DateTime.Today, "100")
             }, areaPeers);
 
             evaluateNotTruly(new[] {
-                (DateTime.Today.AddSeconds(0.05), "101"),
-                (DateTime.Today.AddSeconds(0.10), "101"),
+                (DateTime.Today.AddSeconds(0.05), "100"),
+                (DateTime.Today.AddSeconds(0.10), "100"),
             }, areaPeers);
         }
 
         [TestCase]
         public void EvaluateType1Test() { 
             evaluateNotTruly(new[] {
-                (DateTime.Today.AddSeconds(0), "101"),
-                (DateTime.Today.AddSeconds(18), "201"),
-                (DateTime.Today.AddSeconds(20), "101"),
-                (DateTime.Today.AddSeconds(20), "101"),
-                (DateTime.Today.AddSeconds(20), "101"),
+                (DateTime.Today.AddSeconds(0), "100"),
+                (DateTime.Today.AddSeconds(18), "200"),
+                (DateTime.Today.AddSeconds(20), "100"),
+                (DateTime.Today.AddSeconds(20), "100"),
+                (DateTime.Today.AddSeconds(20), "100"),
             }, areaPeers);
 
             evaluateTruly(new[] {
-                (DateTime.Today.AddSeconds(0), "101"),
-                (DateTime.Today.AddSeconds(20), "201"),
-                (DateTime.Today.AddSeconds(24), "101"),
-                (DateTime.Today.AddSeconds(24), "101"),
-                (DateTime.Today.AddSeconds(24), "101"),
-                (DateTime.Today.AddSeconds(24), "101"),
+                (DateTime.Today.AddSeconds(0), "100"),
+                (DateTime.Today.AddSeconds(20), "200"),
+                (DateTime.Today.AddSeconds(24), "100"),
+                (DateTime.Today.AddSeconds(24), "100"),
+                (DateTime.Today.AddSeconds(24), "100"),
+                (DateTime.Today.AddSeconds(24), "100"),
             }, areaPeers, 2);
         }
 
@@ -190,35 +190,35 @@ namespace ClientTest.App.Userquake
         {
             evaluateTruly(new[]
             {
-                (DateTime.Today.AddSeconds(0), "101"),
-                (DateTime.Today.AddSeconds(40), "101"),
-                (DateTime.Today.AddSeconds(80), "101"),
-                (DateTime.Today.AddSeconds(120), "101"),
-                (DateTime.Today.AddSeconds(160), "101"),
+                (DateTime.Today.AddSeconds(0), "100"),
+                (DateTime.Today.AddSeconds(40), "100"),
+                (DateTime.Today.AddSeconds(80), "100"),
+                (DateTime.Today.AddSeconds(120), "100"),
+                (DateTime.Today.AddSeconds(160), "100"),
             }.Concat(
-                Enumerable.Repeat((DateTime.Today.AddSeconds(179), "101"), 24)
+                Enumerable.Repeat((DateTime.Today.AddSeconds(179), "100"), 24)
             ).Concat(
                 new[]
                 {
-                    (DateTime.Today.AddSeconds(180), "201"),
-                    (DateTime.Today.AddSeconds(180), "101"),
+                    (DateTime.Today.AddSeconds(180), "200"),
+                    (DateTime.Today.AddSeconds(180), "100"),
                 }
             ).ToArray(), areaPeers, 2);
 
             evaluateTruly(new[]
             {
-                (DateTime.Today.AddSeconds(0), "101"),
-                (DateTime.Today.AddSeconds(40), "101"),
-                (DateTime.Today.AddSeconds(80), "101"),
-                (DateTime.Today.AddSeconds(120), "101"),
-                (DateTime.Today.AddSeconds(160), "101"),
+                (DateTime.Today.AddSeconds(0), "100"),
+                (DateTime.Today.AddSeconds(40), "100"),
+                (DateTime.Today.AddSeconds(80), "100"),
+                (DateTime.Today.AddSeconds(120), "100"),
+                (DateTime.Today.AddSeconds(160), "100"),
             }.Concat(
-                Enumerable.Repeat((DateTime.Today.AddSeconds(179), "101"), 23)
+                Enumerable.Repeat((DateTime.Today.AddSeconds(179), "100"), 23)
             ).Concat(
                 new[]
                 {
-                    (DateTime.Today.AddSeconds(180), "201"),
-                    (DateTime.Today.AddSeconds(180), "101"),
+                    (DateTime.Today.AddSeconds(180), "200"),
+                    (DateTime.Today.AddSeconds(180), "100"),
                 }
             ).ToArray(), areaPeers, 1);
         }
@@ -228,20 +228,20 @@ namespace ClientTest.App.Userquake
         {
             evaluateTruly(new[]
             {
-                (DateTime.Today.AddSeconds(0), "101")
+                (DateTime.Today.AddSeconds(0), "100")
             }.Concat(
-                Enumerable.Range(1, 94).Select(e => (DateTime.Today.AddSeconds(40*e), "202"))
+                Enumerable.Range(1, 94).Select(e => (DateTime.Today.AddSeconds(40*e), "205"))
             ).Concat(
-                Enumerable.Range(95, 11).Select(e => (DateTime.Today.AddSeconds(40*e), "201"))
+                Enumerable.Range(95, 11).Select(e => (DateTime.Today.AddSeconds(40*e), "200"))
             ).ToArray(), areaPeers, 2);
             
             evaluateTruly(new[]
             {
-                (DateTime.Today.AddSeconds(0), "101")
+                (DateTime.Today.AddSeconds(0), "100")
             }.Concat(
-                Enumerable.Range(1, 94).Select(e => (DateTime.Today.AddSeconds(40*e), "202"))
+                Enumerable.Range(1, 94).Select(e => (DateTime.Today.AddSeconds(40*e), "205"))
             ).Concat(
-                Enumerable.Range(95, 10).Select(e => (DateTime.Today.AddSeconds(40*e), "201"))
+                Enumerable.Range(95, 10).Select(e => (DateTime.Today.AddSeconds(40*e), "200"))
             ).ToArray(), areaPeers, 1);
         }
 
@@ -250,20 +250,20 @@ namespace ClientTest.App.Userquake
         {
             evaluateTruly(new[]
             {
-                (DateTime.Today.AddSeconds(0), "201")
+                (DateTime.Today.AddSeconds(0), "200")
             }.Concat(
-                Enumerable.Range(1, 11).Select(e => (DateTime.Today.AddSeconds(40*e), "201"))
+                Enumerable.Range(1, 11).Select(e => (DateTime.Today.AddSeconds(40*e), "200"))
             ).Concat(
-                Enumerable.Range(12, 52).Select(e => (DateTime.Today.AddSeconds(40*e), "202"))
+                Enumerable.Range(12, 52).Select(e => (DateTime.Today.AddSeconds(40*e), "205"))
             ).ToArray(), areaPeers, 2);
 
             evaluateTruly(new[]
             {
-                (DateTime.Today.AddSeconds(0), "201")
+                (DateTime.Today.AddSeconds(0), "200")
             }.Concat(
-                Enumerable.Range(1, 10).Select(e => (DateTime.Today.AddSeconds(40*e), "201"))
+                Enumerable.Range(1, 10).Select(e => (DateTime.Today.AddSeconds(40*e), "200"))
             ).Concat(
-                Enumerable.Range(11, 53).Select(e => (DateTime.Today.AddSeconds(40*e), "202"))
+                Enumerable.Range(11, 53).Select(e => (DateTime.Today.AddSeconds(40*e), "205"))
             ).ToArray(), areaPeers, 1);
         }
 
@@ -272,18 +272,18 @@ namespace ClientTest.App.Userquake
         {
             evaluateTruly(new[]
             {
-                (DateTime.Today.AddSeconds(0), "101"),
-                (DateTime.Today.AddSeconds(22), "101"),
-                (DateTime.Today.AddSeconds(22), "101"),
-                (DateTime.Today.AddSeconds(22), "101"),
+                (DateTime.Today.AddSeconds(0), "100"),
+                (DateTime.Today.AddSeconds(22), "100"),
+                (DateTime.Today.AddSeconds(22), "100"),
+                (DateTime.Today.AddSeconds(22), "100"),
             }, areaPeers, 2);
 
             evaluateNotTruly(new[]
             {
-                (DateTime.Today.AddSeconds(0), "101"),
-                (DateTime.Today.AddSeconds(22), "101"),
-                (DateTime.Today.AddSeconds(22), "101"),
-                (DateTime.Today.AddSeconds(22), "102"),
+                (DateTime.Today.AddSeconds(0), "100"),
+                (DateTime.Today.AddSeconds(22), "100"),
+                (DateTime.Today.AddSeconds(22), "100"),
+                (DateTime.Today.AddSeconds(22), "105"),
             }, areaPeers);
         }
 
@@ -448,7 +448,7 @@ namespace ClientTest.App.Userquake
 			    (DateTime.Parse("2020/07/02 23:29:48.338"), "205"),
 			    (DateTime.Parse("2020/07/02 23:29:48.465"), "231"),
 			    (DateTime.Parse("2020/07/02 23:29:48.744"), "215"),
-			    (DateTime.Parse("2020/07/02 23:29:49.021"), "900"),
+			    (DateTime.Parse("2020/07/02 23:29:49.021"), "701"),
 			    (DateTime.Parse("2020/07/02 23:29:49.103"), "241"),
 			    (DateTime.Parse("2020/07/02 23:29:49.153"), "230"),
 			    (DateTime.Parse("2020/07/02 23:29:49.955"), "270"),
@@ -492,7 +492,7 @@ namespace ClientTest.App.Userquake
             {
                 "220", "225", "230", "231", "232", "240", "241", "250", "150", "151", "200", "205", "215", "125", "270", "275", "410"
             };
-            var expectedUnconfidenceAreas = new string[] { "900" };
+            var expectedUnconfidenceAreas = new string[] { "701" };
 
             var eval = evaluate(userquakes, areaPeers);
 
