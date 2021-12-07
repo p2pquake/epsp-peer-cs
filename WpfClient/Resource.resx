@@ -121,7 +121,10 @@
   <data name="epsp-area" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Specifications\epsp-area.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="loading" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MapOverlays\loading.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="p2pquake" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\icons\p2pquake.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>Resources\Icons\p2pquake.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -30,7 +30,7 @@ namespace WpfClient.EPSPDataView
 
             if (eventArgs is UserquakeEvaluateEventArgs userquake)
             {
-                return new EPSPUserquakeView() { EventArgs = userquake, FrameModel = frameModel };
+                return new EPSPUserquakeView(userquake, frameModel);
             }
 
             return null;
