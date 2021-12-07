@@ -200,22 +200,20 @@ namespace WpfClient
 
         private static void AddUserquakeHistory(UserquakeEvaluateEventArgs eventArgs)
         {
-            var obj = Factory.WrapEventArgs(eventArgs, viewModel.InformationViewModel);
             App.Current.Dispatcher.Invoke(() =>
             {
-                // 開始日時が同じものは、最新の情報だけコレクションに含める
+                // 開始日時が同じものが存在する場合は上書き更新する
                 var histories = viewModel.InformationViewModel.Histories;
                 var existItem = histories.FirstOrDefault(e => (e is EPSPUserquakeView view) && (view.EventArgs.StartedAt == eventArgs.StartedAt));
 
                 if (existItem == null)
                 {
+                    var obj = Factory.WrapEventArgs(eventArgs, viewModel.InformationViewModel);
                     histories.Insert(1, obj);
                 }
                 else if (existItem is EPSPUserquakeView view && view.EventArgs.UpdatedAt < eventArgs.UpdatedAt)
                 {
-                    var index = histories.IndexOf(existItem);
-                    // FIXME: 選択中（表示中）にこの更新をやると、表示が消えてしまう。
-                    histories[index] = obj;
+                    view.EventArgs = eventArgs;
                 }
             });
         }

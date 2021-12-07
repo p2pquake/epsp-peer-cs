@@ -6,18 +6,46 @@ using Map.Model;
 using ModernWpf;
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace WpfClient.EPSPDataView
 {
-    public class EPSPUserquakeView
+    public class EPSPUserquakeView : INotifyPropertyChanged
     {
-        public UserquakeEvaluateEventArgs EventArgs { get; init; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /*
+         * 地震感知情報の地図描画
+         * 
+         * - 操作性改善のため、地図生成を非同期で行います。
+         * - 負荷軽減のため、シングルスレッドで生成し、追いつかない分は生成を省略します。
+         */
+        private ConcurrentQueue<UserquakeEvaluateEventArgs> drawingQueue = new ConcurrentQueue<UserquakeEvaluateEventArgs>();
+
+        // 地震感知情報の更新時は EventArgs を上書きする
+        private UserquakeEvaluateEventArgs eventArgs;
+        public UserquakeEvaluateEventArgs EventArgs
+        {
+            get => eventArgs;
+            set
+            {
+                eventArgs = value;
+                drawingQueue.Enqueue(value);
+                OnPropertyChanged();
+                OnPropertyChanged("DetailTime");
+            }
+        }
+
         public IFrameModel FrameModel { get; init; }
 
         public string Source => ThemeManager.Current.ActualApplicationTheme switch
@@ -33,37 +61,92 @@ namespace WpfClient.EPSPDataView
 
         // FIXME: 受信中か判定するために MediatorContext (Client) からプロトコル日時を取る必要がある
         public Visibility ReceivingVisibility =>
-            Visibility.Hidden;
+            EventArgs != null && DateTime.Now.Subtract(EventArgs.UpdatedAt).TotalSeconds < 40 ? Visibility.Visible : Visibility.Hidden;
 
         public string DetailTime => $"{EventArgs?.StartedAt.ToString("M月dd日HH時mm分ss秒")}～{EventArgs?.UpdatedAt.ToString("HH時mm分ss秒")}";
+
+        private byte[] pngImage = Resource.loading;
+        private byte[] PngImage
+        {
+            get => PngImage;
+            set
+            {
+                lock (pngImage)
+                {
+                    pngImage = value;
+                }
+                OnPropertyChanged("BitmapImage");
+            }
+        }
 
         public BitmapImage BitmapImage
         {
             get
             {
-                if (EventArgs == null) { return null; }
-
-                var mapDrawer = new MapDrawer()
+                lock (pngImage)
                 {
-                    MapType = Map.Model.MapType.JAPAN_4096,
-                    Trim = true,
-                    UserquakePoints = GenerateUserquakePoints(),
-                    HideNote = true,
-                    PreferedAspectRatio = FrameModel.FrameWidth / FrameModel.FrameHeight,
-                };
-                var png = mapDrawer.DrawAsPng();
+                    if (pngImage == null) { return null; }
 
-                var bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.StreamSource = png;
-                bitmapImage.EndInit();
-                return bitmapImage;
+                    var bitmapImage = new BitmapImage();
+                    bitmapImage.BeginInit();
+                    bitmapImage.StreamSource = new MemoryStream(pngImage);
+                    bitmapImage.EndInit();
+                    return bitmapImage;
+                }
             }
         }
 
-        private IList<UserquakePoint> GenerateUserquakePoints()
+        public EPSPUserquakeView()
         {
-            return EventArgs.AreaConfidences.Select(e => new UserquakePoint(e.Value.AreaCode, e.Value.Confidence)).ToList();
+        }
+
+        public EPSPUserquakeView(UserquakeEvaluateEventArgs eventArgs, IFrameModel frameModel)
+        {
+            this.EventArgs = eventArgs;
+            this.FrameModel = frameModel;
+
+            // 画像生成スレッド
+            _ = Task.Run(() =>
+            {
+                while (ReceivingVisibility == Visibility.Visible)
+                {
+                    Thread.Sleep(250);
+
+                    UserquakeEvaluateEventArgs eventArgs = null;
+                    while (!drawingQueue.IsEmpty) { drawingQueue.TryDequeue(out eventArgs);  }
+
+                    if (eventArgs != null)
+                    {
+                        var mapDrawer = new MapDrawer()
+                        {
+                            MapType = Map.Model.MapType.JAPAN_4096,
+                            Trim = true,
+                            UserquakePoints = GenerateUserquakePoints(eventArgs),
+                            HideNote = true,
+                            PreferedAspectRatio = FrameModel.FrameWidth / FrameModel.FrameHeight,
+                        };
+                        var png = mapDrawer.DrawAsPng();
+                        using (var ms = new MemoryStream())
+                        {
+                            png.CopyTo(ms);
+                            PngImage = ms.ToArray();
+                        }
+                    }
+                }
+
+                OnPropertyChanged("ReceivingVisibility");
+            });
+        }
+
+        private static IList<UserquakePoint> GenerateUserquakePoints(UserquakeEvaluateEventArgs eventArgs)
+        {
+            return eventArgs.AreaConfidences.Select(e => new UserquakePoint(e.Value.AreaCode, e.Value.Confidence)).ToList();
+        }
+
+        // See: https://docs.microsoft.com/ja-jp/dotnet/desktop/wpf/data/how-to-implement-property-change-notification
+        private void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }
