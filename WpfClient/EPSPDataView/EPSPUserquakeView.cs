@@ -108,8 +108,10 @@ namespace WpfClient.EPSPDataView
             // 画像生成スレッド
             _ = Task.Run(() =>
             {
-                while (ReceivingVisibility == Visibility.Visible)
+                var firstRendering = true;
+                while (firstRendering || ReceivingVisibility == Visibility.Visible)
                 {
+                    firstRendering = false;
                     Thread.Sleep(250);
 
                     UserquakeEvaluateEventArgs eventArgs = null;
