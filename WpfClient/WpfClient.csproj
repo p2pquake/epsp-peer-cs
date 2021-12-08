@@ -9,12 +9,13 @@
     <PackageId>P2PQuake</PackageId>
     <Authors>P2PQuake development team</Authors>
     <Company></Company>
-    <AssemblyName>P2P地震情報</AssemblyName>
+    <AssemblyName>P2PQuake</AssemblyName>
     <PackageProjectUrl>https://www.p2pquake.net/</PackageProjectUrl>
     <AssemblyVersion>0.1.0.0</AssemblyVersion>
     <FileVersion>0.1.0.0</FileVersion>
     <Version>0.1.0</Version>
-    <RepositoryUrl></RepositoryUrl>
+    <RepositoryUrl>https://github.com/p2pquake/epsp-peer-cs</RepositoryUrl>
+    <ApplicationIcon>Resources\Icons\p2pquake.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
