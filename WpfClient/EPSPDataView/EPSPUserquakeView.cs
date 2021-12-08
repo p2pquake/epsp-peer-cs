@@ -89,10 +89,10 @@ namespace WpfClient.EPSPDataView
 
                     var bitmapImage = new BitmapImage();
                     bitmapImage.BeginInit();
-                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmapImage.CreateOptions = BitmapCreateOptions.None;
                     bitmapImage.StreamSource = new MemoryStream(pngImage);
                     bitmapImage.EndInit();
+                    bitmapImage.Freeze();
+                    GC.Collect();
                     return bitmapImage;
                 }
             }
