@@ -30,6 +30,8 @@ namespace WpfClient
         static Notifications.Activator activator;
         static Player player;
 
+        private const int HistoryLimit = 101;
+
         [STAThread]
         public static void Main(string[] args)
         {
@@ -195,6 +197,10 @@ namespace WpfClient
             App.Current.Dispatcher.Invoke(() =>
             {
                 viewModel.InformationViewModel.Histories.Insert(1, obj);
+                if (viewModel.InformationViewModel.Histories.Count > HistoryLimit)
+                {
+                    viewModel.InformationViewModel.Histories.RemoveAt(HistoryLimit);
+                }
             });
         }
 
@@ -210,6 +216,10 @@ namespace WpfClient
                 {
                     var obj = Factory.WrapEventArgs(eventArgs, viewModel.InformationViewModel);
                     histories.Insert(1, obj);
+                    if (histories.Count > HistoryLimit)
+                    {
+                        histories.RemoveAt(HistoryLimit);
+                    }
                 }
                 else if (existItem is EPSPUserquakeView view && view.EventArgs.UpdatedAt < eventArgs.UpdatedAt)
                 {
