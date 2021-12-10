@@ -100,6 +100,8 @@ namespace WpfClient
                 var serverProofKey = verifierType.GetField("ServerProofKey", BindingFlags.NonPublic | BindingFlags.Static);
                 serverProofKey.SetValue(null, "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDB+t0YTWlu3FFiwTb05u2bHWJRpCQJeAzhia6pWJ5BqsVIXgG7zeiHu4cFWrKME7fHQsjlihjnhtaksEtkmnbODUHnNi26FStSSpyo8ex0FZDfXtoQ9VB0m6UxdrGznpzfO9PWbpC0iSoCAyeqILLcDDbuBv5xY6+0D35kQx74kQIDAQAB");
 
+                client.Verification = false;
+
                 // P2P 地震情報ネットワークに接続せず、 localhost:6910 に接続する
                 var field = client.GetType().GetField("peerContext", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
                 var peerContext = field.GetValue(client);

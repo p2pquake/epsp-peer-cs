@@ -11,6 +11,9 @@ namespace Client.App
     /// </summary>
     public interface IPeerConfig
     {
+        /// <summary>署名を検証するかどうか</summary>
+        bool Verification { get; set; }
+
         /// <summary>
         /// 地域コード(3桁)
         /// <para>0埋めのある本来の地域コードは <see cref="FormattedAreaCode"/> を参照してください。</para>

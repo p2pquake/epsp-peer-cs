@@ -39,7 +39,7 @@ namespace Client.Peer
 
             peerManager.ConnectionsChanged += PeerManager_ConnectionsChanged;
 
-            peerManager.OnAreapeers += (s, e) => { if (e.IsValid) { PeerState.AreaPeerDictionary = e.AreaPeerDictionary; } };
+            peerManager.OnAreapeers += (s, e) => { if (!PeerConfig.Verification || e.IsValid) { PeerState.AreaPeerDictionary = e.AreaPeerDictionary; } };
             peerManager.OnEarthquake += PeerManager_OnEarthquake;
             peerManager.OnTsunami += PeerManager_OnTsunami;
             peerManager.OnEEWTest += PeerManager_OnEEWTest;

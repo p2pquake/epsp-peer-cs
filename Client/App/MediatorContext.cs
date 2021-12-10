@@ -69,6 +69,7 @@ namespace Client.App
         public int PeerId { get; set; }
         public TimeSpan TimeOffset { get; set; }
 
+        public bool Verification { get; set; }
         public int AreaCode { get; set; }
         public string FormattedAreaCode { get { return AreaCode.ToString("D3"); } }
         public bool IsPortOpen { get; set; }
@@ -100,6 +101,7 @@ namespace Client.App
             userquakeAggregator = new Aggregator();
             state = new DisconnectedState();
 
+            Verification = true;
             AreaCode = 900;
             MaxConnections = 4;
             IsPortOpen = false;
@@ -114,10 +116,10 @@ namespace Client.App
             peerContext.PeerConfig = this;
             peerContext.PeerState = this;
             peerContext.ConnectionsChanged += (s,e) => { ConnectionsChanged(s, e); };
-            peerContext.OnUserquake += (s, e) => { OnUserquake(s, e); };
-            peerContext.OnTsunami += (s, e) => { OnTsunami(s, e); };
-            peerContext.OnEarthquake += (s, e) => { OnEarthquake(s, e); };
-            peerContext.OnEEWTest += (s, e) => { OnEEWTest(s, e); };
+            peerContext.OnUserquake += (s, e) => { if (!Verification || e.IsValid) { OnUserquake(s, e); } };
+            peerContext.OnTsunami += (s, e) => { if (!Verification || e.IsValid) { OnTsunami(s, e); } };
+            peerContext.OnEarthquake += (s, e) => { if (!Verification || e.IsValid) { OnEarthquake(s, e); } };
+            peerContext.OnEEWTest += (s, e) => { if (!Verification || e.IsValid) { OnEEWTest(s, e); } };
 #if RAISE_RAW_DATA_EVENT
             peerContext.OnData += (s, e) => { OnData(s, e); };
 #endif
