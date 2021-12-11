@@ -144,7 +144,9 @@ namespace WpfClient.EPSPDataView
 
         private static IList<UserquakePoint> GenerateUserquakePoints(UserquakeEvaluateEventArgs eventArgs)
         {
-            return eventArgs.AreaConfidences.Select(e => new UserquakePoint(e.Value.AreaCode, e.Value.Confidence)).ToList();
+            // 信頼度は正規化する（ただし、係数は 8 まで）
+            var normalizationFactor = new double[] { 8, 1.0 / eventArgs.AreaConfidences.Select(e => e.Value.Confidence).Append(0.1).Max() }.Min();
+            return eventArgs.AreaConfidences.Where(e => e.Value.Confidence > 0).Select(e => new UserquakePoint(e.Value.AreaCode, e.Value.Confidence * normalizationFactor)).ToList();
         }
 
         // See: https://docs.microsoft.com/ja-jp/dotnet/desktop/wpf/data/how-to-implement-property-change-notification
