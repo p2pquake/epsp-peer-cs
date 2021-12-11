@@ -125,6 +125,7 @@ namespace WpfClient
         {
             client.IsPortOpen = configuration.PortOpen;
             client.Port = configuration.Port;
+            client.MaxConnections = configuration.PortOpen ? 20 : 4;
             client.UseUPnP = configuration.UseUPnP;
             client.AreaCode = configuration.AreaCode;
         }
