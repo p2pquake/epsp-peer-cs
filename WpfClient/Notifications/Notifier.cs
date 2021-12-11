@@ -94,7 +94,7 @@ namespace WpfClient.Notifications
 
             if (e.InformationType == QuakeInformationType.ScalePrompt)
             {
-                var maxScaleGroup = e.PointList.OrderBy(e => e.Scale).Reverse().GroupBy(e => e.Scale).First();
+                var maxScaleGroup = e.PointList.OrderBy(e => e.ScaleInt).Reverse().GroupBy(e => e.Scale).First();
                 builder.AddText($"震度{maxScaleGroup.Key}: {string.Join('、', maxScaleGroup.Select(e => e.Name))}");
             } else
             {
