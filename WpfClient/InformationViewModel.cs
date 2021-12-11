@@ -62,7 +62,6 @@ namespace WpfClient
 
         public ObservableCollection<object> Histories { get; } = new()
         {
-            null,
             /*
             Factory.WrapEventArgs(new EPSPQuakeEventArgs()
             {

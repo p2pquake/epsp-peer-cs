@@ -19,11 +19,6 @@ namespace WpfClient.Pages
         {
             var element = container as FrameworkElement;
 
-            if (item == null)
-            {
-                return element.FindResource("HeaderItem") as DataTemplate;
-            }
-
             if (item is EPSPQuakeView)
             {
                 return element.FindResource("EarthquakeItem") as DataTemplate;

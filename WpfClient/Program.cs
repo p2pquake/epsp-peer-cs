@@ -30,7 +30,7 @@ namespace WpfClient
         static Notifications.Activator activator;
         static Player player;
 
-        private const int HistoryLimit = 101;
+        private const int HistoryLimit = 100;
 
         [STAThread]
         public static void Main(string[] args)
@@ -199,7 +199,7 @@ namespace WpfClient
             var obj = Factory.WrapEventArgs(e, viewModel.InformationViewModel);
             App.Current.Dispatcher.Invoke(() =>
             {
-                viewModel.InformationViewModel.Histories.Insert(1, obj);
+                viewModel.InformationViewModel.Histories.Insert(0, obj);
                 if (viewModel.InformationViewModel.Histories.Count > HistoryLimit)
                 {
                     viewModel.InformationViewModel.Histories.RemoveAt(HistoryLimit);
@@ -218,7 +218,7 @@ namespace WpfClient
                 if (existItem == null)
                 {
                     var obj = Factory.WrapEventArgs(eventArgs, viewModel.InformationViewModel);
-                    histories.Insert(1, obj);
+                    histories.Insert(0, obj);
                     if (histories.Count > HistoryLimit)
                     {
                         histories.RemoveAt(HistoryLimit);
@@ -326,6 +326,8 @@ namespace WpfClient
                     AddUserquakeHistory(eventArgs);
                 }
             }
+
+            viewModel.InformationViewModel.SelectedIndex = 0;
         }
 
         private static string ConvertScale(int scale)

@@ -17,10 +17,6 @@
     <Page.Resources>
         <local:InformationTemplateSelector x:Key="ListTemplateSelector" />
 
-        <DataTemplate x:Key="HeaderItem">
-            <TextBlock Text="情報" Style="{StaticResource SubtitleTextBlockStyle}" />
-        </DataTemplate>
-
         <DataTemplate x:Key="EarthquakeItem" DataType="data:EPSPQuakeView">
             <StackPanel Orientation="Horizontal">
                 <StackPanel Visibility="{Binding ScaleVisibility}" Width="32" Orientation="Vertical" VerticalAlignment="Center">
@@ -90,17 +86,27 @@
     </Page.DataContext>
     <DockPanel>
         <ScrollViewer DockPanel.Dock="Left" Width="180">
-            <ui:ListView
-                    ItemTemplateSelector="{StaticResource ListTemplateSelector}"
-                    ItemsSource="{Binding Histories}"
-                    SelectedIndex="{Binding SelectedIndex, Mode=OneWay}"
-                    SelectionChanged="ListView_SelectionChanged">
-                <ui:ListView.ItemContainerStyle>
-                    <Style TargetType="ui:ListViewItem">
-                        <Setter Property="Padding" Value="8" />
-                    </Style>
-                </ui:ListView.ItemContainerStyle>
-            </ui:ListView>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="8">
+                    <TextBlock Text="情報" Style="{StaticResource SubtitleTextBlockStyle}" Width="124" />
+                    <!--
+                        <Button>
+                            <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE72C;" />
+                        </Button>
+                    -->
+                </StackPanel>
+                <ui:ListView
+                        ItemTemplateSelector="{StaticResource ListTemplateSelector}"
+                        ItemsSource="{Binding Histories}"
+                        SelectedIndex="{Binding SelectedIndex, Mode=OneWay}"
+                        SelectionChanged="ListView_SelectionChanged">
+                    <ui:ListView.ItemContainerStyle>
+                        <Style TargetType="ui:ListViewItem">
+                            <Setter Property="Padding" Value="8" />
+                        </Style>
+                    </ui:ListView.ItemContainerStyle>
+                </ui:ListView>
+            </StackPanel>
         </ScrollViewer>
         <Border>
             <Grid>
