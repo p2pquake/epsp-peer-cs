@@ -69,6 +69,11 @@ namespace WpfClient
 
         private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
+            var frame = (System.Windows.Controls.Frame)sender;
+            while (frame.CanGoBack)
+            {
+                frame.RemoveBackEntry();
+            }
             ((FrameworkElement)e.Content).DataContext = ((RootViewModel)DataContext).BindingDataContext;
         }
 
