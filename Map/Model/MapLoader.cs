@@ -14,6 +14,7 @@ namespace Map.Model
         WORLD_512,
         WORLD_1024,
         JAPAN_1024,
+        JAPAN_2048,
         JAPAN_4096,
         JAPAN_8192,
     }
@@ -46,6 +47,7 @@ namespace Map.Model
                 MapType.WORLD_512 => Map.ImageResource.world_512,
                 MapType.WORLD_1024 => Map.ImageResource.world_1024,
                 MapType.JAPAN_1024 => Map.ImageResource.japan_gsi_1024,
+                MapType.JAPAN_2048 => Map.ImageResource.japan_gsi_2048,
                 MapType.JAPAN_4096 => Map.ImageResource.japan_gsi_4096,
                 MapType.JAPAN_8192 => Map.ImageResource.japan_gsi_8192,
                 _ => Map.ImageResource.japan_gsi_1024,

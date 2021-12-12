@@ -123,7 +123,7 @@ namespace WpfClient.EPSPDataView
                     {
                         var mapDrawer = new MapDrawer()
                         {
-                            MapType = Map.Model.MapType.JAPAN_4096,
+                            MapType = Map.Model.MapType.JAPAN_2048,
                             Trim = true,
                             UserquakePoints = GenerateUserquakePoints(eventArgs),
                             HideNote = true,
