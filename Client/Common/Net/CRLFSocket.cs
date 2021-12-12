@@ -186,37 +186,48 @@ namespace Client.Common.Net
             {
                 ProcessReceiveData(receiveBytes);
 
-                if (socket.Connected)
-                    socket.BeginReceive(receiveBuffer, 0, BUFFER_SIZE, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
-            }
-            else
-            {
-                Logger.GetLog().Debug("切断されました。");
-
+                // Connected を見ても BeginReceive するときに切れてることがあるので、諦めて try-catch で囲む
+                // if (socket.Connected)
                 try
                 {
-                    if (socket.Connected)
-                    {
-                        Logger.GetLog().Debug("Connected: true");
-                        socket.Close();
-                        Logger.GetLog().Debug("切断しました。");
-                    }
-
-                    Closed(this, EventArgs.Empty);
+                    socket.BeginReceive(receiveBuffer, 0, BUFFER_SIZE, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
+                    return;
                 }
-                catch (Exception e)
+                catch (SocketException)
                 {
-                    Logger.GetLog().Error("切断処理中に例外が発生しました。", e);
+                    // noop (後続処理で切断してもらう)
+                }
+                catch (ObjectDisposedException)
+                {
+                    return;
+                }
+            }
+
+            Logger.GetLog().Debug("切断されました。");
+
+            try
+            {
+                if (socket.Connected)
+                {
+                    Logger.GetLog().Debug("Connected: true");
+                    socket.Close();
+                    Logger.GetLog().Debug("切断しました。");
                 }
 
-                Logger.GetLog().Debug("切断処理完了。");
-
-                //// no-receive (error?)
-                //Logger.GetLog().Debug("切断されました: " + ((IPEndPoint)socket.RemoteEndPoint).Address.ToString() + ":" + ((IPEndPoint)socket.RemoteEndPoint).Port.ToString());
-
-                //Close();
-                //Closed(this, EventArgs.Empty);
+                Closed(this, EventArgs.Empty);
             }
+            catch (Exception e)
+            {
+                Logger.GetLog().Error("切断処理中に例外が発生しました。", e);
+            }
+
+            Logger.GetLog().Debug("切断処理完了。");
+
+            //// no-receive (error?)
+            //Logger.GetLog().Debug("切断されました: " + ((IPEndPoint)socket.RemoteEndPoint).Address.ToString() + ":" + ((IPEndPoint)socket.RemoteEndPoint).Port.ToString());
+
+            //Close();
+            //Closed(this, EventArgs.Empty);
         }
 
         private void ProcessReceiveData(int receiveBytes)
