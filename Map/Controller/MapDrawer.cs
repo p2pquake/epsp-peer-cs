@@ -107,10 +107,11 @@ namespace Map.Controller
                     coordinates.Select(e => e.RightLongitude).Max() + 1.5
                 ));
 
-                var l = new int[] { 0, new int[] { lt.X, rb.X - 480 }.Min() }.Max();
-                var t = new int[] { 0, new int[] { lt.Y, rb.Y - 480 }.Min() }.Max();
-                var r = new int[] { image.Width, new int[] { rb.X, lt.X + 480 }.Max() }.Min();
-                var b = new int[] { image.Height, new int[] { rb.Y, lt.Y + 480 }.Max() }.Min();
+                var margin = MapType == MapType.JAPAN_1024 ? 240 : 480;
+                var l = new int[] { 0, new int[] { lt.X, rb.X - margin }.Min() }.Max();
+                var t = new int[] { 0, new int[] { lt.Y, rb.Y - margin }.Min() }.Max();
+                var r = new int[] { image.Width, new int[] { rb.X, lt.X + margin }.Max() }.Min();
+                var b = new int[] { image.Height, new int[] { rb.Y, lt.Y + margin }.Max() }.Min();
 
                 if (PreferedAspectRatio > 0)
                 {
