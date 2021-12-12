@@ -17,7 +17,7 @@ namespace Map.Model
     class UserquakeDrawer : AbstractDrawer
     {
         public IList<UserquakePoint> UserquakePoints { get; init; }
-        private const int drawSize = 12;
+        private const int drawSize = 36;
 
         public override LTRBCoordinate CalcDrawLTRB()
         {

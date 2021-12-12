@@ -1,0 +1,33 @@
+﻿<Window x:Class="WpfClient.LicenseWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        xmlns:local="clr-namespace:WpfClient"
+        Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
+        Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
+        mc:Ignorable="d"
+        Title="ライセンス - P2P地震情報" Height="450" Width="640" WindowStyle="ToolWindow">
+    <Window.Resources>
+        <DataTemplate x:Key="LicenseTemplate" DataType="local:LicenseModel">
+            <Expander Header="{Binding Name}">
+                <TextBlock Margin="4" Text="{Binding Text}" TextWrapping="WrapWithOverflow" FontFamily="Consolas" Background="{DynamicResource SystemControlBackgroundListLowBrush}" />
+            </Expander>
+        </DataTemplate>
+    </Window.Resources>
+    <Window.DataContext>
+        <local:LicenseViewModel />
+    </Window.DataContext>
+    <ScrollViewer>
+        <ui:SimpleStackPanel Spacing="8" Margin="16">
+            <TextBlock Text="ライセンス" Style="{StaticResource SubtitleTextBlockStyle}" />
+            <TextBlock Text="P2P地震情報は、数々の OSS (オープンソースソフトウェア) によって成り立っています。" Style="{StaticResource BodyTextBlockStyle}" />
+            <ui:ListView
+                ItemTemplate="{StaticResource LicenseTemplate}"
+                ItemsSource="{Binding Licenses}"
+                IsItemClickEnabled="False"/>
+        </ui:SimpleStackPanel>
+    </ScrollViewer>
+</Window>

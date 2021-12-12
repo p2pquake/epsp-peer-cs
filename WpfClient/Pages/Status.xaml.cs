@@ -20,9 +20,20 @@ namespace WpfClient.Pages
     /// </summary>
     public partial class Status : Page
     {
+        private LicenseWindow licenseWindow;
+
         public Status()
         {
             InitializeComponent();
+        }
+
+        private void ShowLicenseButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (licenseWindow == null)
+            {
+                licenseWindow = new LicenseWindow();
+            }
+            licenseWindow.Show();
         }
     }
 }
