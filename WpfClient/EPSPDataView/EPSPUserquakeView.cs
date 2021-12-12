@@ -86,6 +86,23 @@ namespace WpfClient.EPSPDataView
                 lock (pngImage)
                 {
                     if (pngImage == null) { return null; }
+                    if (eventArgs != null && ReceivingVisibility == Visibility.Hidden)
+                    {
+                        var mapDrawer = new MapDrawer()
+                        {
+                            MapType = Map.Model.MapType.JAPAN_2048,
+                            Trim = true,
+                            UserquakePoints = GenerateUserquakePoints(EventArgs),
+                            HideNote = true,
+                            PreferedAspectRatio = FrameModel.FrameWidth / FrameModel.FrameHeight,
+                        };
+                        var png = mapDrawer.DrawAsPng();
+                        using (var ms = new MemoryStream())
+                        {
+                            png.CopyTo(ms);
+                            pngImage = ms.ToArray();
+                        }
+                    }
 
                     var bitmapImage = new BitmapImage();
                     bitmapImage.BeginInit();
