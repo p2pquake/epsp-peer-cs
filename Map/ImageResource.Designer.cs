@@ -143,6 +143,16 @@ namespace Map {
         /// <summary>
         ///   型 System.Byte[] のローカライズされたリソースを検索します。
         /// </summary>
+        internal static byte[] japan_gsi_2048 {
+            get {
+                object obj = ResourceManager.GetObject("japan_gsi_2048", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
         internal static byte[] japan_gsi_4096 {
             get {
                 object obj = ResourceManager.GetObject("japan_gsi_4096", resourceCulture);
