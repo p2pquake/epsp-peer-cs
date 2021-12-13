@@ -43,7 +43,7 @@
                     -->
                     <TextBlock Text="{Binding PortStatus}" d:Text="ポート: 未開放" VerticalAlignment="Center" />
                     <TextBlock Text="{Binding NumberOfPeersLabel}" d:Text="2,345 ピア"  VerticalAlignment="Center" />
-                    <Button Content="揺れた！" Click="ShakeButton_Click" IsEnabled="{Binding CanSendUserquake}" d:IsEnabled="True" Style="{DynamicResource AccentButtonStyle}" />
+                    <Button Content="揺れた！" Click="ShakeButton_Click" d:IsEnabled="True" Style="{DynamicResource AccentButtonStyle}" ToolTip="揺れたことを伝えます。" />
                 </ui:SimpleStackPanel>
             </ui:NavigationView.PaneFooter>
         </ui:NavigationView>

@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Threading;
 
 using WpfClient.EPSPDataView;
@@ -350,6 +351,7 @@ namespace WpfClient
         private static void Window_OnUserquake(object sender, EventArgs e)
         {
             client.SendUserquake();
+            MessageBox.Show("地震感知情報を発信しました。", "P2P地震情報", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private static void Client_ConnectionsChanged(object sender, EventArgs e)
