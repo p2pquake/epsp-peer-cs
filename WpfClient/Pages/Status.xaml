@@ -47,7 +47,7 @@
                     <TextBlock Text="{Binding PortStatus}" d:Text="未開放" Grid.Column="1" Grid.Row="2" />
                     <TextBlock Text="{Binding KeyStatus}" d:Text="有効" Grid.Column="1" Grid.Row="3" />
                 </Grid>
-                <TextBlock Text="P2P地震情報 Beta4(Rev01)" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <TextBlock Text="P2P地震情報 Beta3.5(Rev01)" Style="{StaticResource SubtitleTextBlockStyle}" />
                 <Grid>
                     <Grid.Resources>
                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
