@@ -20,6 +20,8 @@ namespace Map.Controller
         public bool HideNote { get; set; }
         /// <summary>希望するアスペクト比率 (N:1 の N 部分)</summary>
         public double PreferedAspectRatio { get; set; }
+        /// <summary>描画しない（トリム・凡例表示のみ）</summary>
+        public bool HideDraw { get; set; }
         public bool Trim { get; set; }
         public MapType MapType { get; set; }
         public GeoCoordinate Hypocenter { get; set; }
@@ -99,7 +101,10 @@ namespace Map.Controller
             }
 
             // 描画処理
-            drawers.ForEach(x => x.Draw());
+            if (!HideDraw)
+            {
+                drawers.ForEach(x => x.Draw());
+            }
 
             // トリム処理
             if (MapType != MapType.WORLD_512 && MapType != MapType.WORLD_1024 && Trim)
