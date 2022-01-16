@@ -130,6 +130,12 @@
   <data name="Stations" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Points\Stations.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="TsunamiAreaCodes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Points\TsunamiAreaCodes.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TsunamiAreaGeoJsons" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Points\tsunami.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
+  </data>
   <data name="UserquakeAreaGeoJsons" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Points\userquake.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
