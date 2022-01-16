@@ -283,9 +283,29 @@ namespace Map {
         /// <summary>
         ///   型 System.Byte[] のローカライズされたリソースを検索します。
         /// </summary>
+        internal static byte[] TsunamiNoteAdvisory {
+            get {
+                object obj = ResourceManager.GetObject("TsunamiNoteAdvisory", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
         internal static byte[] TsunamiNoteMajorWarning {
             get {
                 object obj = ResourceManager.GetObject("TsunamiNoteMajorWarning", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static byte[] TsunamiNoteWarning {
+            get {
+                object obj = ResourceManager.GetObject("TsunamiNoteWarning", resourceCulture);
                 return ((byte[])(obj));
             }
         }

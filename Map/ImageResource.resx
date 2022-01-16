@@ -184,8 +184,14 @@
   <data name="Scale70" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Images\scale_70.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="TsunamiNoteAdvisory" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Images\tsunami_note_advisory.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="TsunamiNoteMajorWarning" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Images\tsunami_note_majorwarning.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TsunamiNoteWarning" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Images\tsunami_note_warning.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="UserquakeNote" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Images\userquake_note.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
