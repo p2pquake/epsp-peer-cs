@@ -1,5 +1,7 @@
 ﻿using Client.Peer;
 
+using Map.Controller;
+
 using ModernWpf;
 
 using System;
@@ -8,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 using WpfClient.Utils;
 
@@ -16,6 +19,7 @@ namespace WpfClient.EPSPDataView
     public class EPSPTsunamiView
     {
         public EPSPTsunamiEventArgs EventArgs { get; init; }
+        public IFrameModel FrameModel { get; init; }
 
         public string Source
         {
@@ -35,8 +39,8 @@ namespace WpfClient.EPSPDataView
             }
         }
 
-        public string Time => EventArgs.ReceivedAt.ToString("dd日HH時mm分");
-        public string DetailTime => EventArgs.ReceivedAt.ToString("dd日HH時mm分ss秒");
+        public string Time => EventArgs?.ReceivedAt.ToString("dd日HH時mm分");
+        public string DetailTime => EventArgs?.ReceivedAt.ToString("dd日HH時mm分ss秒");
 
         public string Caption
         {
@@ -61,6 +65,60 @@ namespace WpfClient.EPSPDataView
             if (categories.Contains(TsunamiCategory.Advisory)) { return TsunamiCategory.Advisory; }
             return TsunamiCategory.Unknown;
         }
+
+        private Map.Model.TsunamiCategory GetCategory(TsunamiCategory category)
+        {
+            return category switch
+            {
+                TsunamiCategory.MajorWarning => Map.Model.TsunamiCategory.MajorWarning,
+                TsunamiCategory.Warning => Map.Model.TsunamiCategory.Warning,
+                TsunamiCategory.Advisory => Map.Model.TsunamiCategory.Advisory,
+                _ => Map.Model.TsunamiCategory.Unknown,
+            };
+        }
+
+        public string NoteFilename
+        {
+            get
+            {
+                if (EventArgs == null) { return null; }
+
+                string category = MaxTsunamiCategory() switch
+                {
+                    TsunamiCategory.MajorWarning => "majorwarning",
+                    TsunamiCategory.Warning => "warning",
+                    TsunamiCategory.Advisory => "advisory",
+                    _ => "majorwarning",
+                };
+
+                return $"/Resources/MapOverlays/tsunami_note_{category}.png";
+            }
+        }
+
+        public BitmapImage BitmapImage
+        {
+            get
+            {
+                if (EventArgs == null) { return null; }
+
+                var mapDrawer = new MapDrawer()
+                {
+                    MapType = Map.Model.MapType.JAPAN_1024,
+                    Trim = !EventArgs.IsCancelled,
+                    TsunamiPoints = EventArgs.RegionList.Select(e => new Map.Model.TsunamiPoint(e.Region, GetCategory(e.Category))).ToList(),
+                    HideNote = true,
+                    PreferedAspectRatio = FrameModel.FrameWidth / FrameModel.FrameHeight,
+                };
+                var png = mapDrawer.DrawAsPng();
+
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = png;
+                bitmapImage.EndInit();
+                return bitmapImage;
+            }
+        }
+
         public List<DetailItemView> DetailItemViewList
         {
             get
@@ -71,7 +129,7 @@ namespace WpfClient.EPSPDataView
                     return list;
                 }
 
-                list.Add(new DetailItemView($"津波予報 （受信日時： {DetailTime}）", TextStyles.Title));
+                //list.Add(new DetailItemView($"津波予報 （受信日時： {DetailTime}）", TextStyles.Title));
                 if (EventArgs.IsCancelled)
                 {
                     list.Add(new DetailItemView("津波予報はすべて解除されました。", TextStyles.Name));

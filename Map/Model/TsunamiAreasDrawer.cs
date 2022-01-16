@@ -18,6 +18,7 @@ namespace Map.Model
         Warning, // 津波警報
         Advisory, // 津波注意報
         //Slight, // 若干の海面変動
+        Unknown,
     }
     public record TsunamiPoint(string Name, TsunamiCategory Category);
 

@@ -43,17 +43,35 @@
     </Page.DataContext>
 
     <Grid>
-        <Image Source="/Resources/Examples/japan_1024.png" Opacity="0.3" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"  />
-        <ScrollViewer Padding="4" Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}">
-            <ItemsControl
-                ItemsSource="{Binding DetailItemViewList}"
-                ItemTemplateSelector="{StaticResource DetailTemplateSelector}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <ui:SimpleStackPanel Spacing="4" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </ScrollViewer>
+        <Image Source="{Binding BitmapImage}" Stretch="Uniform" />
+        <Canvas>
+            <Image Source="{Binding NoteFilename}" Width="80" Canvas.Bottom="16" Canvas.Left="8"/>
+            <Image Source="/Resources/MapOverlays/description.png" Height="8" Canvas.Bottom="0" Canvas.Left="0" />
+        </Canvas>
+        <Canvas VerticalAlignment="Top" Height="40" Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}">
+            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="16" Margin="4">
+                <ui:SimpleStackPanel Orientation="Vertical">
+                    <TextBlock Text="受信日時" Style="{StaticResource CaptionTextBlockStyle}" />
+                    <Label Content="{Binding DetailTime}" FontWeight="Bold" />
+                </ui:SimpleStackPanel>
+            </ui:SimpleStackPanel>
+        </Canvas>
+    
+        <Expander Visibility="Visible" ExpandDirection="Left"
+                                  HorizontalAlignment="Right"
+                                  Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}"
+                                  IsExpanded="False" Header="詳細" MaxWidth="320" Margin="0,40,0,0">
+            <ScrollViewer Width="240" Padding="4">
+                <ItemsControl
+                                ItemsSource="{Binding DetailItemViewList}"
+                                ItemTemplateSelector="{StaticResource DetailTemplateSelector}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ui:SimpleStackPanel Spacing="4" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
+        </Expander>
     </Grid>
 </Page>
