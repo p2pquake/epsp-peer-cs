@@ -25,11 +25,13 @@ namespace Map.Controller
         public GeoCoordinate Hypocenter { get; set; }
         public IList<ObservationPoint> ObservationPoints { get; init; }
         public IList<UserquakePoint> UserquakePoints { get; init; }
+        public IList<TsunamiPoint> TsunamiPoints { get; init; }
 
         public MapDrawer()
         {
             ObservationPoints = new List<ObservationPoint>();
             UserquakePoints = new List<UserquakePoint>();
+            TsunamiPoints = new List<TsunamiPoint>();
         }
 
         public Stream DrawAsPng()
@@ -81,6 +83,18 @@ namespace Map.Controller
                     IsMercator = mapData.IsMercator,
                     LTRB = mapData.LTRBCoordinate,
                     UserquakePoints = UserquakePoints,
+                });
+            }
+
+            //   津波予報
+            if (TsunamiPoints != null && TsunamiPoints.Any())
+            {
+                drawers.Add(new TsunamiAreasDrawer
+                {
+                    Image = image,
+                    IsMercator = mapData.IsMercator,
+                    LTRB = mapData.LTRBCoordinate,
+                    TsunamiPoints = TsunamiPoints,
                 });
             }
 
@@ -161,6 +175,14 @@ namespace Map.Controller
                     qNote.Mutate(x => x.Resize(qNote.Width / 5, qNote.Height / 5));
                 }
                 image.Mutate(x => x.DrawImage(qNote, new Point(image.Width - qNote.Width - 8, image.Height - qNote.Height - 8), 1));
+            }
+
+            // 津波予報の凡例
+            if (TsunamiPoints != null && TsunamiPoints.Any() && !HideNote)
+            {
+                using var tsunamiNote = Image.Load(new MemoryStream(Map.ImageResource.TsunamiNoteMajorWarning));
+                tsunamiNote.Mutate(x => x.Resize(tsunamiNote.Width / 5, tsunamiNote.Height / 5));
+                image.Mutate(x => x.DrawImage(tsunamiNote, new Point(image.Width - tsunamiNote.Width - 8, image.Height - tsunamiNote.Height - 8), 1));
             }
 
             // PNG 出力

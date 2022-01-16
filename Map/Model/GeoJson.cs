@@ -25,4 +25,29 @@
         public bool islandBold { get; set; }
         public object name { get; set; }
     }
+
+    // XXX: できれば共通化したい。
+    public class MultiLineGeoJson
+    {
+        public string type { get; set; }
+        public MultiLineFeature[] features { get; set; }
+    }
+
+    public class MultiLineFeature
+    {
+        public string type { get; set; }
+        public MultiLineGeometry geometry { get; set; }
+        public MultiLineProperties properties { get; set; }
+    }
+
+    public class MultiLineGeometry
+    {
+        public string type { get; set; }
+        public float[][][] coordinates { get; set; }
+    }
+
+    public class MultiLineProperties
+    {
+        public string code { get; set; }
+    }
 }
