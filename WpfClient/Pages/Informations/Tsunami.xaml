@@ -49,9 +49,9 @@
             <Image Source="{Binding NoteFilename}" Width="80" Canvas.Bottom="16" Canvas.Left="8"/>
             <Image Source="/Resources/MapOverlays/description.png" Height="8" Canvas.Bottom="0" Canvas.Left="0" />
         </Canvas>
-        <Canvas VerticalAlignment="Top" Height="40" Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}">
+        <Canvas VerticalAlignment="Top" Height="40">
             <ui:SimpleStackPanel Orientation="Horizontal" Spacing="16" Margin="4">
-                <ui:SimpleStackPanel Orientation="Vertical">
+                <ui:SimpleStackPanel Orientation="Vertical" Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}">
                     <TextBlock Text="受信日時" Style="{StaticResource CaptionTextBlockStyle}" />
                     <Label Content="{Binding DetailTime}" FontWeight="Bold" />
                 </ui:SimpleStackPanel>
