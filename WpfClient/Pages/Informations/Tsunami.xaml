@@ -43,7 +43,8 @@
     </Page.DataContext>
 
     <Grid>
-        <Image Source="{Binding BitmapImage}" Stretch="Uniform" />
+        <Image Source="{Binding EmptyBitmapImage}" Stretch="Uniform" />
+        <Image Name="FrontImage" Source="{Binding BitmapImage}" Stretch="Uniform" />
         <Canvas>
             <Image Source="{Binding NoteFilename}" Width="80" Canvas.Bottom="16" Canvas.Left="8"/>
             <Image Source="/Resources/MapOverlays/description.png" Height="8" Canvas.Bottom="0" Canvas.Left="0" />

@@ -82,6 +82,7 @@ namespace WpfClient.EPSPDataView
             get
             {
                 if (EventArgs == null) { return null; }
+                if (EventArgs.IsCancelled) { return null; }
 
                 string category = MaxTsunamiCategory() switch
                 {
@@ -107,6 +108,31 @@ namespace WpfClient.EPSPDataView
                     Trim = !EventArgs.IsCancelled,
                     TsunamiPoints = EventArgs.RegionList.Select(e => new Map.Model.TsunamiPoint(e.Region, GetCategory(e.Category))).ToList(),
                     HideNote = true,
+                    PreferedAspectRatio = FrameModel.FrameWidth / FrameModel.FrameHeight,
+                };
+                var png = mapDrawer.DrawAsPng();
+
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = png;
+                bitmapImage.EndInit();
+                return bitmapImage;
+            }
+        }
+
+        public BitmapImage EmptyBitmapImage
+        {
+            get
+            {
+                if (EventArgs == null) { return null; }
+
+                var mapDrawer = new MapDrawer()
+                {
+                    MapType = Map.Model.MapType.JAPAN_1024,
+                    Trim = !EventArgs.IsCancelled,
+                    TsunamiPoints = EventArgs.RegionList.Select(e => new Map.Model.TsunamiPoint(e.Region, GetCategory(e.Category))).ToList(),
+                    HideNote = true,
+                    HideDraw = true,
                     PreferedAspectRatio = FrameModel.FrameWidth / FrameModel.FrameHeight,
                 };
                 var png = mapDrawer.DrawAsPng();
