@@ -180,7 +180,21 @@ namespace Map.Controller
             // 津波予報の凡例
             if (TsunamiPoints != null && TsunamiPoints.Any() && !HideNote)
             {
-                using var tsunamiNote = Image.Load(new MemoryStream(Map.ImageResource.TsunamiNoteMajorWarning));
+                var tsunamiNoteResource = Map.ImageResource.TsunamiNoteMajorWarning;
+                if (TsunamiPoints.Any(e => e.Category == TsunamiCategory.MajorWarning))
+                {
+                    tsunamiNoteResource = Map.ImageResource.TsunamiNoteMajorWarning;
+                }
+                else if (TsunamiPoints.Any(e => e.Category == TsunamiCategory.Warning))
+                {
+                    tsunamiNoteResource = Map.ImageResource.TsunamiNoteWarning;
+                }
+                else
+                {
+                    tsunamiNoteResource = Map.ImageResource.TsunamiNoteAdvisory;
+                }
+
+                using var tsunamiNote = Image.Load(new MemoryStream(tsunamiNoteResource));
                 tsunamiNote.Mutate(x => x.Resize(tsunamiNote.Width / 5, tsunamiNote.Height / 5));
                 image.Mutate(x => x.DrawImage(tsunamiNote, new Point(image.Width - tsunamiNote.Width - 8, image.Height - tsunamiNote.Height - 8), 1));
             }
