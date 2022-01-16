@@ -54,6 +54,7 @@ namespace WpfClient.Pages.Informations
             };
 
             timer.Start();
+            DataContextChanged += (s, e) => timer.Stop();
             Unloaded += (s, e) => timer.Stop();
         }
     }
