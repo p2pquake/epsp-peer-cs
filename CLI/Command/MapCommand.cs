@@ -19,6 +19,7 @@ namespace CLI.Command
                 )
             {
                QuakeSubCommand.Build(),
+               TsunamiSubCommand.Build(),
                UserquakeSubCommand.Build(),
             };
 
