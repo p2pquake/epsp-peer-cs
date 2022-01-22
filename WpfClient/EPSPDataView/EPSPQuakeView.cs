@@ -58,7 +58,7 @@ namespace WpfClient.EPSPDataView
                     var match = regex.Match(e.Name);
                     if (match.Success)
                     {
-                        e.Name = match.Groups[1].Value;
+                        return new QuakeObservationPoint { Prefecture = e.Prefecture, Name = match.Groups[1].Value, Scale = e.Scale };
                     }
                     return e;
                 }).GroupBy(e => e.Name).Select(e => e.First());
