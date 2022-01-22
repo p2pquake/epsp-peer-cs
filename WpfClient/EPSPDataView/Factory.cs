@@ -20,7 +20,7 @@ namespace WpfClient.EPSPDataView
 
             if (eventArgs is EPSPTsunamiEventArgs tsunami)
             {
-                return new EPSPTsunamiView() { EventArgs = tsunami };
+                return new EPSPTsunamiView() { EventArgs = tsunami, FrameModel = frameModel };
             }
 
             if (eventArgs is EPSPEEWTestEventArgs eew)

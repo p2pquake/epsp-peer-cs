@@ -20,16 +20,20 @@ namespace Map.Controller
         public bool HideNote { get; set; }
         /// <summary>希望するアスペクト比率 (N:1 の N 部分)</summary>
         public double PreferedAspectRatio { get; set; }
+        /// <summary>描画しない（トリム・凡例表示のみ）</summary>
+        public bool HideDraw { get; set; }
         public bool Trim { get; set; }
         public MapType MapType { get; set; }
         public GeoCoordinate Hypocenter { get; set; }
         public IList<ObservationPoint> ObservationPoints { get; init; }
         public IList<UserquakePoint> UserquakePoints { get; init; }
+        public IList<TsunamiPoint> TsunamiPoints { get; init; }
 
         public MapDrawer()
         {
             ObservationPoints = new List<ObservationPoint>();
             UserquakePoints = new List<UserquakePoint>();
+            TsunamiPoints = new List<TsunamiPoint>();
         }
 
         public Stream DrawAsPng()
@@ -84,8 +88,23 @@ namespace Map.Controller
                 });
             }
 
+            //   津波予報
+            if (TsunamiPoints != null && TsunamiPoints.Any())
+            {
+                drawers.Add(new TsunamiAreasDrawer
+                {
+                    Image = image,
+                    IsMercator = mapData.IsMercator,
+                    LTRB = mapData.LTRBCoordinate,
+                    TsunamiPoints = TsunamiPoints,
+                });
+            }
+
             // 描画処理
-            drawers.ForEach(x => x.Draw());
+            if (!HideDraw)
+            {
+                drawers.ForEach(x => x.Draw());
+            }
 
             // トリム処理
             if (MapType != MapType.WORLD_512 && MapType != MapType.WORLD_1024 && Trim)
@@ -161,6 +180,28 @@ namespace Map.Controller
                     qNote.Mutate(x => x.Resize(qNote.Width / 5, qNote.Height / 5));
                 }
                 image.Mutate(x => x.DrawImage(qNote, new Point(image.Width - qNote.Width - 8, image.Height - qNote.Height - 8), 1));
+            }
+
+            // 津波予報の凡例
+            if (TsunamiPoints != null && TsunamiPoints.Any() && !HideNote)
+            {
+                var tsunamiNoteResource = Map.ImageResource.TsunamiNoteMajorWarning;
+                if (TsunamiPoints.Any(e => e.Category == TsunamiCategory.MajorWarning))
+                {
+                    tsunamiNoteResource = Map.ImageResource.TsunamiNoteMajorWarning;
+                }
+                else if (TsunamiPoints.Any(e => e.Category == TsunamiCategory.Warning))
+                {
+                    tsunamiNoteResource = Map.ImageResource.TsunamiNoteWarning;
+                }
+                else
+                {
+                    tsunamiNoteResource = Map.ImageResource.TsunamiNoteAdvisory;
+                }
+
+                using var tsunamiNote = Image.Load(new MemoryStream(tsunamiNoteResource));
+                tsunamiNote.Mutate(x => x.Resize(tsunamiNote.Width / 5, tsunamiNote.Height / 5));
+                image.Mutate(x => x.DrawImage(tsunamiNote, new Point(image.Width - tsunamiNote.Width - 8, image.Height - tsunamiNote.Height - 8), 1));
             }
 
             // PNG 出力

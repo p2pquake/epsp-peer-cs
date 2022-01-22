@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+
+using WpfClient.EPSPDataView;
 
 namespace WpfClient.Pages.Informations
 {
@@ -23,6 +26,36 @@ namespace WpfClient.Pages.Informations
         public Tsunami()
         {
             InitializeComponent();
+            this.DataContextChanged += Tsunami_DataContextChanged;
+        }
+
+        private void Tsunami_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (this.DataContext is null) { return; }
+            var view = (EPSPTsunamiView)this.DataContext;
+            if (view.EventArgs is null) { return; }
+
+            var count = 0;
+            var timer = new DispatcherTimer(DispatcherPriority.Normal)
+            {
+                Interval = TimeSpan.FromSeconds(0.5),
+            };
+            timer.Tick += (s, e) =>
+            {
+                count = (count + 1) % 6;
+                if (count == 0)
+                {
+                    FrontImage.Visibility = Visibility.Hidden;
+                }
+                if (count == 1)
+                {
+                    FrontImage.Visibility = Visibility.Visible;
+                }
+            };
+
+            timer.Start();
+            DataContextChanged += (s, e) => timer.Stop();
+            Unloaded += (s, e) => timer.Stop();
         }
     }
 }

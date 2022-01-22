@@ -47,6 +47,9 @@
     <None Remove="Resources\Icons\userquake_yellow.png" />
     <None Remove="Resources\MapOverlays\description.png" />
     <None Remove="Resources\MapOverlays\quake_note.png" />
+    <None Remove="Resources\MapOverlays\tsunami_note_advisory.png" />
+    <None Remove="Resources\MapOverlays\tsunami_note_majorwarning.png" />
+    <None Remove="Resources\MapOverlays\tsunami_note_warning.png" />
     <None Remove="Resources\MapOverlays\userquake_note.png" />
   </ItemGroup>
 
@@ -65,6 +68,9 @@
     <Resource Include="Resources\Icons\userquake_yellow.png" />
     <Resource Include="Resources\MapOverlays\description.png" />
     <Resource Include="Resources\MapOverlays\quake_note.png" />
+    <Resource Include="Resources\MapOverlays\tsunami_note_advisory.png" />
+    <Resource Include="Resources\MapOverlays\tsunami_note_majorwarning.png" />
+    <Resource Include="Resources\MapOverlays\tsunami_note_warning.png" />
     <Resource Include="Resources\MapOverlays\userquake_note.png" />
   </ItemGroup>
 
