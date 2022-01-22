@@ -53,7 +53,7 @@ namespace WpfClient.EPSPDataView
 
                 // 市区町村名に省略する
                 var regex = new Regex("^((?:旭川|伊達|石狩|盛岡|奥州|田村|南相馬|那須塩原|東村山|武蔵村山|羽村|十日町|上越|富山|野々市|大町|蒲郡|四日市|姫路|大和郡山|廿日市|下松|岩国|田川|大村)市|(?:余市)町|.+?郡(?:玉村|大町|.+?)[町村]|.+?市.+? 区|.+?[市区町村])", RegexOptions.Compiled);
-                var shortenPoints = EventArgs.PointList.OrderByDescending(e => e.ScaleInt).Select(e =>
+                var shortenPoints = EventArgs.PointList.OrderByDescending(e => ConvertScaleIntForSort(e.ScaleInt)).Select(e =>
                 {
                     var match = regex.Match(e.Name);
                     if (match.Success)
@@ -130,6 +130,12 @@ namespace WpfClient.EPSPDataView
                 "7" => 70,
                 "5弱以上（推定）" => 46,
             };
+        }
+
+        /// <summary>震度 5 弱 → 震度 5 弱以上（推定） と並ぶよう修正する。 API 仕様を直したいくらいの設計ミス感。</summary>
+        private int ConvertScaleIntForSort(int scaleInt)
+        {
+            return scaleInt == 46 ? 44 : scaleInt;
         }
 
         private double Latitude
