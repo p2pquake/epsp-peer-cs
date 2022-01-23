@@ -17,7 +17,6 @@ namespace Map.Model
     class UserquakeDrawer : AbstractDrawer
     {
         public IList<UserquakePoint> UserquakePoints { get; init; }
-        private const int drawSize = 24;
 
         public override LTRBCoordinate CalcDrawLTRB()
         {
@@ -41,6 +40,8 @@ namespace Map.Model
 
         public override void Draw()
         {
+            var drawSize = Image.Width > 1024 ? 24 : 12;
+
             var uqAreas = UserquakeAreas.Instance;
             var uqImages = new Dictionary<string, Image>()
             {
