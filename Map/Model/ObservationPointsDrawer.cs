@@ -17,8 +17,6 @@ namespace Map.Model
     {
         public IList<ObservationPoint> ObservationPoints { get; init; }
         private ObservationAreas areas = ObservationAreas.Instance;
-        private const int drawPointSize = 16;
-        private const int drawAreaSize = 24;
 
         public override LTRBCoordinate CalcDrawLTRB()
         {
@@ -42,6 +40,9 @@ namespace Map.Model
 
         public override void Draw()
         {
+            var drawPointSize = Image.Width > 1024 ? 16 : 12;
+            var drawAreaSize = Image.Width > 1024 ? 24 : 16;
+
             var stations = Stations.Instance;
             // XXX: かしこくない実装方法
             var scaleImages = new Dictionary<int, Image>() {
