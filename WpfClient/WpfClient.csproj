@@ -11,9 +11,9 @@
     <Company></Company>
     <AssemblyName>P2PQuake</AssemblyName>
     <PackageProjectUrl>https://www.p2pquake.net/</PackageProjectUrl>
-    <AssemblyVersion>3.5.0.2</AssemblyVersion>
-    <FileVersion>3.5.0.2</FileVersion>
-    <Version>3.5.2</Version>
+    <AssemblyVersion>3.5.0.1</AssemblyVersion>
+    <FileVersion>3.5.0.1</FileVersion>
+    <Version>3.5.1</Version>
     <RepositoryUrl>https://github.com/p2pquake/epsp-peer-cs</RepositoryUrl>
     <ApplicationIcon>Resources\Icons\p2pquake.ico</ApplicationIcon>
     <NoWin32Manifest>true</NoWin32Manifest>

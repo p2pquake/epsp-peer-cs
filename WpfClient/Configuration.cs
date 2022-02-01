@@ -158,16 +158,16 @@ namespace WpfClient
         // XXX: このメソッドはここにあるべきなのか？
         public static void ReflectBootAtStartup(bool bootAtStartup)
         {
-            // var regKey = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
-            // if (bootAtStartup)
-            // {
-            //     regKey.SetValue(Application.ProductName, Application.ExecutablePath);
-            //     return;
-            // }
-            // if (regKey.GetValue(Application.ProductName) != null)
-            // {
-            //     regKey.DeleteValue(Application.ProductName);
-            // }
+            var regKey = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
+            if (bootAtStartup)
+            {
+                regKey.SetValue(Application.ProductName, Application.ExecutablePath);
+                return;
+            }
+            if (regKey.GetValue(Application.ProductName) != null)
+            {
+                regKey.DeleteValue(Application.ProductName);
+            }
         }
     }
 }
