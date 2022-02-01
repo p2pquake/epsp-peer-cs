@@ -167,7 +167,7 @@ namespace WpfClient.EPSPDataView
                     list.Add(new DetailItemView("＊印の沿岸では、ただちに津波が来襲すると予想されます", TextStyles.Name));
                 }
 
-                var regionsByCategories = EventArgs.RegionList.OrderBy(e => e.Category).Reverse().GroupBy(e => e.Category);
+                var regionsByCategories = EventArgs.RegionList.OrderByDescending(e => e.Category).GroupBy(e => e.Category);
                 foreach (var regionsByCategory in regionsByCategories)
                 {
                     list.Add(new DetailItemView("", regionsByCategory.Key switch {
@@ -176,7 +176,7 @@ namespace WpfClient.EPSPDataView
                         TsunamiCategory.Advisory => TextStyles.Advisory,
                         _ => TextStyles.Name,
                     }));
-                    list.Add(new DetailItemView(string.Join('、', regionsByCategory.Select(e => $"{(e.IsImmediately ? "＊" : "")}{e.Region}")), TextStyles.Name));
+                    list.Add(new DetailItemView(string.Join("\n", regionsByCategory.Select(e => $"{(e.IsImmediately ? "＊" : "")}{e.Region}")), TextStyles.Name));
                 }
 
                 list.Add(new DetailItemView("", TextStyles.Name));
