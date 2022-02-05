@@ -44,14 +44,21 @@ namespace WpfClient.Notifications
 
         private static async void PlaySound(SoundType soundType)
         {
+            if (WaveOut.DeviceCount <= 0) { return; }
             using(var audioFile = new AudioFileReader($"Resources/Sounds/{soundType}.mp3")) {
                 using (var outputDevice = new WaveOutEvent())
                 {
-                    outputDevice.Init(audioFile);
-                    outputDevice.Play();
-                    while (outputDevice.PlaybackState == PlaybackState.Playing)
+                    try
                     {
-                        Thread.Sleep(1000);
+                        outputDevice.Init(audioFile);
+                        outputDevice.Play();
+                        while (outputDevice.PlaybackState == PlaybackState.Playing)
+                        {
+                            Thread.Sleep(1000);
+                        }
+                    } catch (NAudio.MmException)
+                    {
+                        // FIXME: あとでログに出力する。
                     }
                 }
             }
