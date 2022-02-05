@@ -56,8 +56,8 @@
             <ScrollViewer Visibility="{Binding BootVisibility}" d:Visibility="Visible">
                 <ui:SimpleStackPanel x:Name="起動" Spacing="16" Margin="16">
                     <TextBlock Text="起動" Style="{StaticResource SubtitleTextBlockStyle}" />
-                    <Label Content="Windows 起動時に P2P地震情報を開始する（未実装）" IsEnabled="False" />
-                    <ui:ToggleSwitch IsEnabled="False" IsOn="{Binding Path=BootAtStartup, Mode=TwoWay}" />
+                    <Label Content="Windows 起動時に P2P地震情報を開始する" />
+                    <ui:ToggleSwitch IsOn="{Binding Path=BootAtStartup, Mode=TwoWay}" />
                     <Label Content="起動時に最小化する" />
                     <ui:ToggleSwitch IsOn="{Binding Path=MinimizeAtBoot, Mode=TwoWay}" />
                     <Label Content="自動更新する （未実装）" IsEnabled="False" />
