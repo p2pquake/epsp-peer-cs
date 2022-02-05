@@ -28,12 +28,14 @@ namespace Map.Controller
         public IList<ObservationPoint> ObservationPoints { get; init; }
         public IList<UserquakePoint> UserquakePoints { get; init; }
         public IList<TsunamiPoint> TsunamiPoints { get; init; }
+        public IList<Areapeer> Areapeers { get; init; }
 
         public MapDrawer()
         {
             ObservationPoints = new List<ObservationPoint>();
             UserquakePoints = new List<UserquakePoint>();
             TsunamiPoints = new List<TsunamiPoint>();
+            Areapeers = new List<Areapeer>();
         }
 
         public Stream DrawAsPng()
@@ -97,6 +99,18 @@ namespace Map.Controller
                     IsMercator = mapData.IsMercator,
                     LTRB = mapData.LTRBCoordinate,
                     TsunamiPoints = TsunamiPoints,
+                });
+            }
+
+            // ピア分布図
+            if (Areapeers != null && Areapeers.Any())
+            {
+                drawers.Add(new AreapeersDrawer
+                {
+                    Image = image,
+                    IsMercator = mapData.IsMercator,
+                    LTRB = mapData.LTRBCoordinate,
+                    Areapeers = Areapeers,
                 });
             }
 
