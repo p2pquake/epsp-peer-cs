@@ -4,6 +4,8 @@ using Client.Peer;
 
 using JsonApi;
 
+using Map.Controller;
+
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -14,6 +16,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 using WpfClient.EPSPDataView;
@@ -373,6 +376,19 @@ namespace WpfClient
                 var epspAreas = Resource.epsp_area.Split('\n').Skip(1).Select(e => e.Split(',')).ToDictionary(e => e[0], e => e[4]);
 
                 viewModel.StatusViewModel.AreapeerText = String.Join("\n", client.AreaPeerDictionary.Where(e => epspAreas.ContainsKey(e.Key)).OrderBy(e => e.Key).Select((area) => $"{epspAreas[area.Key]}: {area.Value}ピア"));
+
+                var mapDrawer = new MapDrawer()
+                {
+                    MapType = Map.Model.MapType.JAPAN_1024,
+                    Areapeers = client.AreaPeerDictionary.Where(e => epspAreas.ContainsKey(e.Key)).Select(e => new Map.Model.Areapeer(e.Key, e.Value)).ToList(),
+                };
+                var png = mapDrawer.DrawAsPng();
+
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = png;
+                bitmapImage.EndInit();
+                viewModel.StatusViewModel.BitmapImage = bitmapImage;
             });
         }
 
