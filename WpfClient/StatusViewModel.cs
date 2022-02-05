@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace WpfClient
 {
@@ -85,6 +86,17 @@ namespace WpfClient
             set
             {
                 areapeerText = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private BitmapImage bitmapImage;
+        public BitmapImage BitmapImage
+        {
+            get { return bitmapImage; }
+            set
+            {
+                bitmapImage = value;
                 OnPropertyChanged();
             }
         }

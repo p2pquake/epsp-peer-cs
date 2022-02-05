@@ -90,11 +90,15 @@
             </ui:SimpleStackPanel>
         </ScrollViewer>
         <Grid>
-            <!-- <Image Source="/Resources/Examples/japan_1024.png" /> -->
-            <ScrollViewer>
+            <Image Source="{Binding BitmapImage}" Stretch="Uniform" />
+            <ScrollViewer MaxWidth="180" HorizontalAlignment="Right" Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}">
                 <ui:SimpleStackPanel Spacing="12" Margin="16">
-                    <TextBlock Text="ピア分布データ（地図は今後実装予定）" Style="{StaticResource SubtitleTextBlockStyle}" />
-                    <TextBlock Text="{Binding AreapeerText}" d:Text="地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;" TextWrapping="WrapWithOverflow" />
+                    <TextBlock Text="ピア分布データ" Style="{StaticResource SubtitleTextBlockStyle}" />
+                    <TextBlock
+                        Text="{Binding AreapeerText}"
+                        d:Text="地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;地域未設定: 10ピア&#10;"
+                        TextWrapping="WrapWithOverflow"
+                        />
                 </ui:SimpleStackPanel>
             </ScrollViewer>
         </Grid>
