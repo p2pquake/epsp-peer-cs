@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ namespace Client.App.Userquake
         public IUserquakeEvaluation Evaluation { get; private set; }
         public bool IsDetecting { get; private set; }
 
-        ICollection<Userquake> userquakes;
+        BlockingCollection<Userquake> userquakes;
 
         public IUserquakeEvaluation EvaluationAt(DateTime at)
         {
@@ -41,14 +42,14 @@ namespace Client.App.Userquake
             // リセット、追加
             if (UserquakeIsOver(at))
             {
-                userquakes = new LinkedList<Userquake>();
+                userquakes = new();
                 IsDetecting = false;
                 Evaluation = null;
             }
             userquakes.Add(new Userquake() { At = at, AreaCode = areaCode });
 
             // 評価
-            var evaluation = Evaluate(userquakes, areaPeers);
+            var evaluation = Evaluate(userquakes.ToArray(), areaPeers);
             Evaluation = evaluation;
             if (evaluation == null || evaluation.ConfidenceLevel < 3)
             {
@@ -76,7 +77,7 @@ namespace Client.App.Userquake
             }
         }
 
-        IUserquakeEvaluation Evaluate(ICollection<Userquake> userquakes, IReadOnlyDictionary<string, int> areaPeers)
+        IUserquakeEvaluation Evaluate(IReadOnlyCollection<Userquake> userquakes, IReadOnlyDictionary<string, int> areaPeers)
         {
             var confidenceValue = new double[] { 0, 0.97015, 0.96774, 0.97024, 0.98052 };
 
