@@ -33,8 +33,11 @@ namespace ClientTest.App.Userquake
                 { "015", 10 },
             };
 
+            var count = 0;
+
             Action addUserquakes = () =>
             {
+                var actionCount = 0;
                 var r = new Random();
                 var sw = new Stopwatch();
                 sw.Start();
@@ -42,13 +45,16 @@ namespace ClientTest.App.Userquake
                 {
                     aggregator.AddUserquake(DateTime.Now, "010", areaPeers);
                     aggregator.AddUserquake(DateTime.Now, "015", areaPeers);
-                    Thread.Sleep(r.Next(1, 10));
+                    actionCount += 2;
                 }
+                Interlocked.Add(ref count, actionCount);
             };
 
             // マルチスレッドで地震感知情報のイベントを発火
             Parallel.Invoke(Enumerable.Repeat(addUserquakes, 10).ToArray());
-            Thread.Sleep(5500);
+
+            Assert.AreEqual(count, aggregator.Evaluation.Count);
+            Console.WriteLine($"Count: {count}");
         }
     }
 }
