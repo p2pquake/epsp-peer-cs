@@ -47,6 +47,32 @@
                 </ui:SimpleStackPanel>
             </ui:NavigationView.PaneFooter>
         </ui:NavigationView>
-        <Frame NavigationUIVisibility="Hidden" Source="{Binding PageFileName}" Navigated="Frame_Navigated" />
+        <Grid>
+            <Frame NavigationUIVisibility="Hidden" Source="{Binding PageFileName}" Navigated="Frame_Navigated" />
+            <Grid>
+                <Canvas VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource SystemControlBackgroundAltHighBrush}" Opacity="0.5" />
+                <StackPanel VerticalAlignment="Center" Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
+                    <ui:SimpleStackPanel Margin="16" Spacing="16">
+                        <TextBlock Text="エラーが発生しました" Style="{StaticResource BaseTextBlockStyle}" Foreground="{DynamicResource SystemControlHighlightAccentBrush}" />
+                        <!-- <TextBlock Text="以下のエラーが発生しました。" Style="{StaticResource CaptionTextBlockStyle}" /> -->
+                        <TextBox
+                            Text="aaaaa&#10;bbbb&#10;ccc&#10;ddd&#10;eee&#10;fff&#10;ggg"
+                            TextWrapping="Wrap"
+                            AcceptsReturn="True"
+                            IsReadOnly="True"
+                            MaxLines="4"
+                            MinLines="4"
+                            VerticalScrollBarVisibility="Visible"
+                            FontSize="12"
+                        />
+                        <CheckBox Content="開発者にエラー内容を報告する" IsChecked="True" />
+                        <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="12">
+                            <Button Content="再起動" Style="{StaticResource AccentButtonStyle}" MinWidth="80" />
+                            <Button Content="終了" MinWidth="80" />
+                        </ui:SimpleStackPanel>
+                    </ui:SimpleStackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
     </DockPanel>
 </Window>
