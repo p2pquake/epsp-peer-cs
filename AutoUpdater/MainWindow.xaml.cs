@@ -24,5 +24,13 @@ namespace AutoUpdater
         {
             InitializeComponent();
         }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var entries = await UpdateClient.CheckUpdateAsync();
+            MessageBox.Show($"アップデートが {entries.Length} 個みつかりました");
+            await UpdateClient.UpdateAsync(entries);
+            MessageBox.Show($"アップデートしました");
+        }
     }
 }

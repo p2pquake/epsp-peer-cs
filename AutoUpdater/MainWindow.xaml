@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoUpdater"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+        Title="P2P地震情報 アップデーター" Height="450" Width="800">
+    <StackPanel>
+        <TextBlock Text="アップデートが見つかりました。更新しますか？" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="更新する" Click="Button_Click" />
+            <Button Content="あとで" />
+        </StackPanel>
+    </StackPanel>
 </Window>
