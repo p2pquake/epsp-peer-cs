@@ -6,4 +6,8 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\IPC\IPC.csproj" />
+  </ItemGroup>
+
 </Project>

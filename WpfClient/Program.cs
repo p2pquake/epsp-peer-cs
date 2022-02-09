@@ -57,7 +57,7 @@ namespace WpfClient
 
         private static void RunNamedPipe()
         {
-            using var pipe = new NamedPipeServerStream("p2pquake-ipc", PipeDirection.In);
+            using var pipe = new NamedPipeServerStream(IPC.Const.Name, PipeDirection.In);
 
             while (true)
             {
@@ -67,18 +67,17 @@ namespace WpfClient
                 string line;
                 while ((line = sr.ReadLine()) != null)
                 {
-                    var message = JsonSerializer.Deserialize<Dictionary<string, string>>(line);
-                    var method = message["method"];
+                    var message = JsonSerializer.Deserialize<IPC.Message>(line);
 
-                    switch (method)
+                    switch (message.Method)
                     {
-                        case "exit":
+                        case IPC.Method.Exit:
                             Disconnect();
                             HideNotifyIcon();
                             App.Current.Dispatcher.Invoke(() => App.Current?.Shutdown());
                             return;
                         default:
-                            Console.Error.WriteLine($"不明なコマンド {method}");
+                            Console.Error.WriteLine($"不明なコマンド {message.Method}");
                             return;
                     }
                 }

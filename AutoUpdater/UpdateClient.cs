@@ -36,13 +36,13 @@ namespace AutoUpdater
             }
 
             // パイプを開き、終了してもらう
-            using var pipe = new NamedPipeClientStream(".", "p2pquake-ipc", PipeDirection.Out, PipeOptions.CurrentUserOnly);
+            using var pipe = new NamedPipeClientStream(".", IPC.Const.Name, PipeDirection.Out, PipeOptions.CurrentUserOnly);
             try
             {
                 pipe.Connect(1000);
                 using var stream = new StreamWriter(pipe);
                 stream.AutoFlush = true;
-                stream.WriteLine(JsonSerializer.Serialize(new Dictionary<string, string>() { { "method", "exit" } }));
+                stream.WriteLine(JsonSerializer.Serialize(new IPC.Message(IPC.Method.Exit)));
             }
             catch (TimeoutException)
             {
