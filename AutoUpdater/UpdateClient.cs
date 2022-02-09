@@ -1,26 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AutoUpdater
 {
     public class UpdateClient
     {
+        enum TerminateResult
+        {
+            NotRunning,
+            Terminated,
+            Running,
+        }
+
         private static string UpdateUri = "https://www.p2pquake.net/update";
         private static HttpClient Client = new HttpClient() { Timeout = TimeSpan.FromSeconds(30) };
+
+        private static TerminateResult TerminateP2PQuake()
+        {
+            // プロセスは起動してる？
+            var processes = Process.GetProcessesByName("P2PQuake");
+            if (processes.Length <= 0)
+            {
+                return TerminateResult.NotRunning;
+            }
+
+            // パイプを開き、終了してもらう
+            using var pipe = new NamedPipeClientStream(".", "p2pquake-ipc", PipeDirection.Out, PipeOptions.CurrentUserOnly);
+            try
+            {
+                pipe.Connect(1000);
+                using var stream = new StreamWriter(pipe);
+                stream.AutoFlush = true;
+                stream.WriteLine(JsonSerializer.Serialize(new Dictionary<string, string>() { { "method", "exit" } }));
+            }
+            catch (TimeoutException)
+            {
+                // 古いバージョンの場合はここに来る。強制終了する
+                processes.ToList().ForEach(process => process.Kill());
+            }
+
+            // 終了まで 10 秒待つ
+            var sw = new Stopwatch();
+            sw.Start();
+
+            while (sw.ElapsedMilliseconds <= 10000)
+            {
+                if (processes.All(process => { process.Refresh(); return process.HasExited; })) { return TerminateResult.Terminated; }
+                Thread.Sleep(500);
+            }
+
+            return TerminateResult.Running;
+        }
 
         public static async Task UpdateAsync(UpdateEntry[] entries)
         {
             var appDirectory = GetAppDirectory();
 
-            // TODO: アプリケーション (P2PQuake.exe) の終了処理が必要
+            TerminateP2PQuake();
 
             foreach (var entry in entries)
             {
