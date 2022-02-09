@@ -65,9 +65,7 @@ namespace AutoUpdater
 
         public static async Task UpdateAsync(UpdateEntry[] entries)
         {
-            var appDirectory = GetAppDirectory();
-
-            TerminateP2PQuake();
+            var terminateResult = TerminateP2PQuake();
 
             foreach (var entry in entries)
             {
@@ -103,6 +101,11 @@ namespace AutoUpdater
                     // FIXME: 例外を出したところで表示に反映されるわけではないので現時点で意味がない。
                     throw new Exception($"ファイル {entry.path} のハッシュ値が異なります。");
                 }
+            }
+
+            if (terminateResult == TerminateResult.Terminated)
+            {
+                Process.Start(GeneratePath("P2PQuake.exe"));
             }
         }
 
@@ -152,7 +155,12 @@ namespace AutoUpdater
 
         private static string GeneratePath(UpdateEntry entry)
         {
-            return Path.Join(GetAppDirectory(), entry.path.Replace('/', Path.DirectorySeparatorChar));
+            return GeneratePath(entry.path);
+        }
+
+        private static string GeneratePath(string path)
+        {
+            return Path.Join(GetAppDirectory(), path.Replace('/', Path.DirectorySeparatorChar));
         }
     }
 }
