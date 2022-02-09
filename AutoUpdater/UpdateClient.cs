@@ -83,10 +83,19 @@ namespace AutoUpdater
                     Directory.CreateDirectory(directory);
                 }
 
-                // ファイルを書き込む
-                using var fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
+                // 一時ファイルを書き込む
+                using var fs = new FileStream($"{path}.tmp", FileMode.OpenOrCreate, FileAccess.Write);
                 response.CopyTo(fs);
                 fs.Close();
+
+                // ファイルが存在する場合、 ReplaceFile API で極力アトミックに差し替える
+                if (File.Exists(path))
+                {
+                    File.Replace($"{path}.tmp", path, null);
+                } else
+                {
+                    File.Move($"{path}.tmp", path);
+                }
 
                 // 検証しとく？
                 if (CalcSha256(path) != entry.sha256Digest)
