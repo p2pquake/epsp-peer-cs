@@ -16,6 +16,13 @@ namespace AutoUpdater
 {
     public class UpdateClient
     {
+        public enum UpdateResult
+        {
+            Failure,
+            Success,
+            SuccessAndRestart,
+        }
+
         enum TerminateResult
         {
             NotRunning,
@@ -63,7 +70,7 @@ namespace AutoUpdater
             return TerminateResult.Running;
         }
 
-        public static async Task UpdateAsync(UpdateEntry[] entries)
+        public static async Task<UpdateResult> UpdateAsync(UpdateEntry[] entries)
         {
             var terminateResult = TerminateP2PQuake();
 
@@ -105,8 +112,12 @@ namespace AutoUpdater
 
             if (terminateResult == TerminateResult.Terminated)
             {
+                // FIXME: 例外処理（存在しない場合は例外）
                 Process.Start(GeneratePath("P2PQuake.exe"));
+                return UpdateResult.SuccessAndRestart;
             }
+
+            return UpdateResult.Success;
         }
 
         public static async Task<UpdateEntry[]> CheckUpdateAsync()

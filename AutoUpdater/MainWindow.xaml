@@ -5,12 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoUpdater"
         mc:Ignorable="d"
-        Title="P2P地震情報 アップデーター" Height="450" Width="800">
-    <StackPanel>
-        <TextBlock Text="アップデートが見つかりました。更新しますか？" />
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="更新する" Click="Button_Click" />
-            <Button Content="あとで" />
+        Title="P2P地震情報 アップデーター" SizeToContent="WidthAndHeight">
+    <Window.DataContext>
+        <local:MainWindowModel/>
+    </Window.DataContext>
+    <Grid>
+        <!-- 更新がないときはそもそもウィンドウを表示しない想定。 -->
+        <StackPanel Visibility="{Binding ConfirmationVisibility}" d:Visibility="Hidden" Margin="4">
+            <TextBlock Text="アップデートが見つかりました。更新しますか？" Margin="8,8,8,24" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="更新する" Click="UpdateButton_Click" Margin="8" Padding="8,4,8,4" />
+                <Button Content="あとで" Click="CancelButton_Click" Margin="8" Padding="8,4,8,4" />
+            </StackPanel>
         </StackPanel>
-    </StackPanel>
+        <StackPanel Visibility="{Binding UpdateVisibility}" d:Visibility="Visible" Margin="4">
+            <TextBlock Text="{Binding UpdateMessage}" d:Text="アップデートしています..." Margin="8" />
+            <ProgressBar d:Visibility="Visible" Visibility="{Binding UpdatingVisibility}" IsIndeterminate="True" Height="12" Margin="8,0,8,0" />
+            <StackPanel d:Visibility="Hidden" Visibility="{Binding UpdatedVisibility}" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="閉じる" Click="CloseButton_Click" Margin="8,12,8,12" Padding="8,4,8,4" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
 </Window>

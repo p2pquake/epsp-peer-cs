@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,12 +26,51 @@ namespace AutoUpdater
             InitializeComponent();
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private async void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            var entries = await UpdateClient.CheckUpdateAsync();
-            MessageBox.Show($"アップデートが {entries.Length} 個みつかりました");
-            await UpdateClient.UpdateAsync(entries);
-            MessageBox.Show($"アップデートしました");
+            var dataContext = (MainWindowModel)App.Current.MainWindow.DataContext;
+            dataContext.UpdateMessage = "アップデートしています...";
+            dataContext.UpdateStatus = UpdateStatus.Updating;
+
+            var updates = await Task.Run(async () =>
+            {
+                return await UpdateClient.CheckUpdateAsync();
+            });
+
+            dataContext.UpdateMessage = $"アップデートしています... (全 {updates.Length} ファイル)";
+
+            var result = await Task.Run(async () =>
+            {
+                return await UpdateClient.UpdateAsync(updates);
+            });
+
+            switch (result)
+            {
+                case UpdateClient.UpdateResult.SuccessAndRestart:
+                    Close();
+                    return;
+                case UpdateClient.UpdateResult.Failure:
+                    // FIXME: このメッセージは適切でない。ネットワークエラーかもしれない。
+                    dataContext.UpdateMessage = "アップデートに失敗しました。\nアプリやファイルを閉じていること、書き込み権限があることを確認してください。";
+                    break;
+                case UpdateClient.UpdateResult.Success:
+                    dataContext.UpdateMessage = "アップデートが完了しました。";
+                    break;
+                default:
+                    break;
+            }
+
+            dataContext.UpdateStatus = UpdateStatus.Updated;
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
