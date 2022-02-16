@@ -46,6 +46,35 @@ namespace WpfClient
             configuration = ConfigurationManager.Configuration;
 
             var localMode = args.Length > 0 && args[0] == "local";
+
+            using var mutex = new Mutex(false, "P2PQuake");
+            bool hasHandle = false;
+            try
+            {
+                hasHandle = mutex.WaitOne(0, false);
+            }
+            catch (AbandonedMutexException)
+            {
+                hasHandle = true;
+            }
+            if (!hasHandle)
+            {
+                // 既に起動しているプロセスをアクティブにする
+                using var pipe = new NamedPipeClientStream(".", IPC.Const.Name, PipeDirection.Out, PipeOptions.CurrentUserOnly);
+                try
+                {
+                    pipe.Connect(500);
+                    using var stream = new StreamWriter(pipe);
+                    stream.AutoFlush = true;
+                    stream.WriteLine(JsonSerializer.Serialize(new IPC.Message(IPC.Method.Show)));
+                }
+                catch (TimeoutException)
+                {
+                    MessageBox.Show("既に起動しています。", "P2P地震情報");
+                }
+                return;
+            }
+
             Task.Run(() => { BootP2PQuake(localMode); });
             Task.Run(() => { RunNamedPipe(); });
 
@@ -57,10 +86,10 @@ namespace WpfClient
 
         private static void RunNamedPipe()
         {
-            using var pipe = new NamedPipeServerStream(IPC.Const.Name, PipeDirection.In);
-
             while (true)
             {
+                using var pipe = new NamedPipeServerStream(IPC.Const.Name, PipeDirection.In);
+
                 pipe.WaitForConnection();
 
                 using var sr = new StreamReader(pipe);
@@ -71,6 +100,13 @@ namespace WpfClient
 
                     switch (message.Method)
                     {
+                        case IPC.Method.Show:
+                            App.Current.Dispatcher.Invoke(() =>
+                            {
+                                App.Current.MainWindow.Show();
+                                App.Current.MainWindow.Activate();
+                            });
+                            break;
                         case IPC.Method.Exit:
                             Disconnect();
                             HideNotifyIcon();
