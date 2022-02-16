@@ -60,6 +60,13 @@ namespace AutoUpdater.Updater
 
             foreach (var entry in entries)
             {
+                // 自分自身が更新対象の場合、 AutoUpdater2.exe として退避する
+                // （あとで P2PQuake (WpfClient) によって差し替えられる）
+                if (entry.path == "AutoUpdater.exe")
+                {
+                    entry.path = "AutoUpdater2.exe";
+                }
+
                 var response = await Client.GetStreamAsync($"{UpdateUri}/{entry.path}");
                 var path = GeneratePath(entry);
                 var directory = Path.GetDirectoryName(path);
@@ -79,13 +86,14 @@ namespace AutoUpdater.Updater
                 }
 
                 // ファイルが存在する場合、 ReplaceFile API で極力アトミックに差し替える
-                if (File.Exists(path))
-                {
-                    File.Replace($"{path}.tmp", path, null);
-                } else
-                {
-                    File.Move($"{path}.tmp", path);
-                }
+                // ... つもりだったが、差し替え時使用中だと .TMP ファイルが生成されて残る挙動がみられたため止めた。
+                //if (File.Exists(path))
+                //{
+                //    File.Replace($"{path}.tmp", path, null);
+                //} else
+                //{
+                File.Move($"{path}.tmp", path);
+                //}
             }
 
             if (terminateResult == TerminateResult.Terminated)
