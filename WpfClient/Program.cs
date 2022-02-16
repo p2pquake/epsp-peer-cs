@@ -48,6 +48,7 @@ namespace WpfClient
             var localMode = args.Length > 0 && args[0] == "local";
             Task.Run(() => { BootP2PQuake(localMode); });
             Task.Run(() => { RunNamedPipe(); });
+            Task.Run(() => { Updater.UpdateUpdater(); });
 
             App app = new();
             app.SessionEnding += App_SessionEnding;
