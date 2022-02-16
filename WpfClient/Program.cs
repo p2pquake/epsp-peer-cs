@@ -10,9 +10,13 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
+using System.IO;
+using System.IO.Pipes;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -43,6 +47,7 @@ namespace WpfClient
 
             var localMode = args.Length > 0 && args[0] == "local";
             Task.Run(() => { BootP2PQuake(localMode); });
+            Task.Run(() => { RunNamedPipe(); });
 
             App app = new();
             app.SessionEnding += App_SessionEnding;
@@ -50,7 +55,36 @@ namespace WpfClient
             app.Run();
         }
 
-        public static void BootP2PQuake(bool localMode)
+        private static void RunNamedPipe()
+        {
+            using var pipe = new NamedPipeServerStream(IPC.Const.Name, PipeDirection.In);
+
+            while (true)
+            {
+                pipe.WaitForConnection();
+
+                using var sr = new StreamReader(pipe);
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    var message = JsonSerializer.Deserialize<IPC.Message>(line);
+
+                    switch (message.Method)
+                    {
+                        case IPC.Method.Exit:
+                            Disconnect();
+                            HideNotifyIcon();
+                            App.Current.Dispatcher.Invoke(() => App.Current?.Shutdown());
+                            return;
+                        default:
+                            Console.Error.WriteLine($"不明なコマンド {message.Method}");
+                            return;
+                    }
+                }
+            }
+        }
+
+        private static void BootP2PQuake(bool localMode)
         {
             // ViewModel を取得したりイベントハンドラをくっつけたりする
             while (viewModel == null)

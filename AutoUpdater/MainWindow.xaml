@@ -1,0 +1,38 @@
+﻿<Window x:Class="AutoUpdater.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoUpdater"
+        mc:Ignorable="d"
+        Title="P2P地震情報 アップデーター"
+        SizeToContent="WidthAndHeight"
+        WindowStyle="ToolWindow">
+    <Window.DataContext>
+        <local:MainWindowModel/>
+    </Window.DataContext>
+    <Grid>
+        <!-- 共通化できるかもしれないが、 DRY と言い難いので別々に定義している。 -->
+        <StackPanel Visibility="{Binding CheckingVisibility}" d:Visibility="Hidden" Margin="4">
+            <TextBlock Text="アップデートを確認しています…" Margin="8" />
+            <ProgressBar IsIndeterminate="True" Height="12" Margin="8,0,8,0" />
+        </StackPanel>
+        <StackPanel Visibility="{Binding ConfirmationVisibility}" d:Visibility="Hidden" Margin="4">
+            <TextBlock Text="アップデートが見つかりました。更新しますか？" Margin="8,8,8,24" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="更新する" Click="UpdateButton_Click" Margin="8" Padding="8,4,8,4" />
+                <Button Content="あとで" Click="CancelButton_Click" Margin="8" Padding="8,4,8,4" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Visibility="{Binding UpdatingVisibility}" d:Visibility="Hidden" Margin="4">
+            <TextBlock Text="アップデートしています..." Margin="8" />
+            <ProgressBar IsIndeterminate="True" Height="12" Margin="8,0,8,0" />
+        </StackPanel>
+        <StackPanel Visibility="{Binding UpdatedVisibility}" d:Visibility="Visible" Margin="4">
+            <TextBlock Text="{Binding UpdatedResultMessage}" TextWrapping="WrapWithOverflow" Margin="8,8,8,24" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="閉じる" Click="CloseButton_Click" Margin="8" Padding="8,4,8,4" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
