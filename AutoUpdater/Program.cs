@@ -9,9 +9,17 @@ namespace AutoUpdater
 {
     public static class Program
     {
+        /// <summary>更新がないときに終了する</summary>
+        public static bool silent = false;
+
         [STAThread]
         public static void Main(string[] args)
         {
+            if (args.Length > 0 && args[0] == "silent")
+            {
+                silent = true;
+            }
+
             App app = new();
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             _ = app.Run();

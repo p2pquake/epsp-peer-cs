@@ -41,12 +41,12 @@ namespace AutoUpdater
                 return;
             }
 
-            // FIXME: 自動更新モードの場合、アップデートなければ静かに終了する
-            //if (quitIfNoUpdate)
-            //{
-            //    this.Close();
-            //    return;
-            //}
+            // XXX: 微妙な依存関係...
+            if (Program.silent)
+            {
+                this.Close();
+                return;
+            }
 
             dataContext.UpdatedResultMessage = "アップデートはありません。最新の状態です。";
             dataContext.UpdateStatus = UpdateStatus.Updated;
