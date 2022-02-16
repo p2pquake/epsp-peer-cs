@@ -5,12 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoUpdater"
         mc:Ignorable="d"
-        Title="P2P地震情報 アップデーター" SizeToContent="WidthAndHeight">
+        Title="P2P地震情報 アップデーター"
+        SizeToContent="WidthAndHeight"
+        WindowStyle="ToolWindow">
     <Window.DataContext>
         <local:MainWindowModel/>
     </Window.DataContext>
     <Grid>
-        <!-- 更新がないときはそもそもウィンドウを表示しない想定。 -->
+        <!-- 共通化できるかもしれないが、 DRY と言い難いので別々に定義している。 -->
+        <StackPanel Visibility="{Binding CheckingVisibility}" d:Visibility="Hidden" Margin="4">
+            <TextBlock Text="アップデートを確認しています…" Margin="8" />
+            <ProgressBar IsIndeterminate="True" Height="12" Margin="8,0,8,0" />
+        </StackPanel>
         <StackPanel Visibility="{Binding ConfirmationVisibility}" d:Visibility="Hidden" Margin="4">
             <TextBlock Text="アップデートが見つかりました。更新しますか？" Margin="8,8,8,24" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -18,11 +24,14 @@
                 <Button Content="あとで" Click="CancelButton_Click" Margin="8" Padding="8,4,8,4" />
             </StackPanel>
         </StackPanel>
-        <StackPanel Visibility="{Binding UpdateVisibility}" d:Visibility="Visible" Margin="4">
-            <TextBlock Text="{Binding UpdateMessage}" d:Text="アップデートしています..." Margin="8" />
-            <ProgressBar d:Visibility="Visible" Visibility="{Binding UpdatingVisibility}" IsIndeterminate="True" Height="12" Margin="8,0,8,0" />
-            <StackPanel d:Visibility="Hidden" Visibility="{Binding UpdatedVisibility}" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="閉じる" Click="CloseButton_Click" Margin="8,12,8,12" Padding="8,4,8,4" />
+        <StackPanel Visibility="{Binding UpdatingVisibility}" d:Visibility="Hidden" Margin="4">
+            <TextBlock Text="アップデートしています..." Margin="8" />
+            <ProgressBar IsIndeterminate="True" Height="12" Margin="8,0,8,0" />
+        </StackPanel>
+        <StackPanel Visibility="{Binding UpdatedVisibility}" d:Visibility="Visible" Margin="4">
+            <TextBlock Text="{Binding UpdatedResultMessage}" TextWrapping="WrapWithOverflow" Margin="8,8,8,24" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="閉じる" Click="CloseButton_Click" Margin="8" Padding="8,4,8,4" />
             </StackPanel>
         </StackPanel>
     </Grid>

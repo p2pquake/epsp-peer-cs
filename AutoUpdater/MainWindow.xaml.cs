@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AutoUpdater.Updater;
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -24,37 +26,56 @@ namespace AutoUpdater
         public MainWindow()
         {
             InitializeComponent();
+
+            Loaded += MainWindow_Loaded;
+        }
+
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            var dataContext = (MainWindowModel)DataContext;
+
+            var updates = await UpdateClient.Check();
+            if (updates.Length > 0)
+            {
+                dataContext.UpdateStatus = UpdateStatus.Confirmation;
+                return;
+            }
+
+            // FIXME: 自動更新モードの場合、アップデートなければ静かに終了する
+            //if (quitIfNoUpdate)
+            //{
+            //    this.Close();
+            //    return;
+            //}
+
+            dataContext.UpdatedResultMessage = "アップデートはありません。最新の状態です。";
+            dataContext.UpdateStatus = UpdateStatus.Updated;
         }
 
         private async void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            var dataContext = (MainWindowModel)App.Current.MainWindow.DataContext;
-            dataContext.UpdateMessage = "アップデートしています...";
+            var dataContext = (MainWindowModel)DataContext;
             dataContext.UpdateStatus = UpdateStatus.Updating;
 
             var updates = await Task.Run(async () =>
             {
-                return await UpdateClient.CheckUpdateAsync();
+                return await UpdateClient.Check();
             });
-
-            dataContext.UpdateMessage = $"アップデートしています... (全 {updates.Length} ファイル)";
 
             var result = await Task.Run(async () =>
             {
-                return await UpdateClient.UpdateAsync(updates);
+                return await UpdateClient.Update(updates);
             });
-
             switch (result)
             {
                 case UpdateClient.UpdateResult.SuccessAndRestart:
                     Close();
                     return;
                 case UpdateClient.UpdateResult.Failure:
-                    // FIXME: このメッセージは適切でない。ネットワークエラーかもしれない。
-                    dataContext.UpdateMessage = "アップデートに失敗しました。\nアプリやファイルを閉じていること、書き込み権限があることを確認してください。";
+                    dataContext.UpdatedResultMessage = $"アップデートに失敗しました。";
                     break;
                 case UpdateClient.UpdateResult.Success:
-                    dataContext.UpdateMessage = "アップデートが完了しました。";
+                    dataContext.UpdatedResultMessage = "アップデートが完了しました。";
                     break;
                 default:
                     break;

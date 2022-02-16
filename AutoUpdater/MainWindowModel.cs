@@ -11,6 +11,7 @@ namespace AutoUpdater
 {
     public enum UpdateStatus
     {
+        Checking,
         Confirmation,
         Updating,
         Updated,
@@ -20,12 +21,14 @@ namespace AutoUpdater
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Visibility ConfirmationVisibility => updateStatus == UpdateStatus.Confirmation ? Visibility.Visible : Visibility.Hidden;
-        public Visibility UpdateVisibility => updateStatus != UpdateStatus.Confirmation ? Visibility.Visible : Visibility.Hidden;
-        public Visibility UpdatingVisibility => updateStatus == UpdateStatus.Updating ? Visibility.Visible : Visibility.Hidden;
-        public Visibility UpdatedVisibility => updateStatus == UpdateStatus.Updated ? Visibility.Visible : Visibility.Hidden;
+        public Visibility CheckingVisibility => CalcVisibility(UpdateStatus.Checking);
+        public Visibility ConfirmationVisibility => CalcVisibility(UpdateStatus.Confirmation);
+        public Visibility UpdatingVisibility => CalcVisibility(UpdateStatus.Updating);
+        public Visibility UpdatedVisibility => CalcVisibility(UpdateStatus.Updated);
 
-        private UpdateStatus updateStatus = UpdateStatus.Confirmation;
+        private Visibility CalcVisibility(UpdateStatus desiredStatus) => updateStatus == desiredStatus ? Visibility.Visible : Visibility.Hidden;
+
+        private UpdateStatus updateStatus = UpdateStatus.Checking;
         public UpdateStatus UpdateStatus
         {
             get => updateStatus;
@@ -33,20 +36,20 @@ namespace AutoUpdater
             {
                 updateStatus = value;
                 OnPropertyChanged();
+                OnPropertyChanged("CheckingVisibility");
                 OnPropertyChanged("ConfirmationVisibility");
-                OnPropertyChanged("UpdateVisibility");
                 OnPropertyChanged("UpdatingVisibility");
                 OnPropertyChanged("UpdatedVisibility");
             }
         }
 
-        private string updateMessage = "アップデートしています...";
-        public string UpdateMessage
+        private string updatedResultMessage = "";
+        public string UpdatedResultMessage
         {
-            get => updateMessage;
+            get => updatedResultMessage;
             set
             {
-                updateMessage = value;
+                updatedResultMessage = value;
                 OnPropertyChanged();
             }
         }

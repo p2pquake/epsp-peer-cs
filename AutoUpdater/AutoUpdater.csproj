@@ -20,9 +20,4 @@
     <ProjectReference Include="..\IPC\IPC.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Resources\" />
-    <Folder Include="Updater\" />
-  </ItemGroup>
-
 </Project>
