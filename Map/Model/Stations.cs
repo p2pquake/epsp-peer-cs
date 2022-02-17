@@ -47,7 +47,6 @@ namespace Map.Model
 
             var points = PointResource.Stations
                 .Split('\n')
-                .Skip(1)
                 .Where((line) => line.Length > 0)
                 .Select((line) => line.Split(','))
                 .Select((items) => new Station(
