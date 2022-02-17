@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -13,6 +14,17 @@ namespace WpfClient
     {
         private static readonly string updaterFilename = "AutoUpdater.exe";
         private static readonly string updaterSourceFilename = "AutoUpdater2.exe";
+
+        public static void Run()
+        {
+            string path = GeneratePath(updaterFilename);
+            if (!File.Exists(path)) {
+                // TODO: 存在しないことを伝えたほうがいいかも。
+                return;
+            }
+            var process = Process.Start(path, "silent");
+            process.WaitForExit();
+        }
 
         /// <summary>AutoUpdater の更新処理</summary>
         public static void UpdateUpdater()
@@ -42,7 +54,7 @@ namespace WpfClient
 
         private static string GetAppDirectory()
         {
-            return Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            return Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
         }
 
         private static string GeneratePath(string path)

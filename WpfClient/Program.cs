@@ -75,13 +75,17 @@ namespace WpfClient
                 return;
             }
 
-            Task.Run(() => { BootP2PQuake(localMode); });
             Task.Run(() => { RunNamedPipe(); });
             Task.Run(() => { Updater.UpdateUpdater(); });
+            if (configuration.AutoUpdate)
+            {
+                Updater.Run();
+            }
 
+            Task.Run(() => { BootP2PQuake(localMode); });
             App app = new();
-            app.SessionEnding += App_SessionEnding;
             app.InitializeComponent();
+            app.SessionEnding += App_SessionEnding;
             app.Run();
         }
 
@@ -111,7 +115,13 @@ namespace WpfClient
                         case IPC.Method.Exit:
                             Disconnect();
                             HideNotifyIcon();
-                            App.Current.Dispatcher.Invoke(() => App.Current?.Shutdown());
+                            if (App.Current != null)
+                            {
+                                App.Current.Dispatcher.Invoke(() => App.Current?.Shutdown());
+                            } else
+                            {
+                                Environment.Exit(0);
+                            }
                             return;
                         default:
                             Console.Error.WriteLine($"不明なコマンド {message.Method}");
@@ -220,6 +230,8 @@ namespace WpfClient
 
         private static void Disconnect()
         {
+            if (client == null) { return; }
+
             if (!client.CanDisconnect)
             {
                 return;
@@ -237,7 +249,7 @@ namespace WpfClient
 
         private static void HideNotifyIcon()
         {
-            App.Current.Dispatcher.Invoke(() =>
+            App.Current?.Dispatcher?.Invoke(() =>
             {
                 var window = (MainWindow)App.Current?.MainWindow;
                 window.HideNotifyIcon();

@@ -100,6 +100,7 @@ namespace WpfClient
         }
 
         public bool MinimizeAtBoot { get; set; } = false;
+        public bool AutoUpdate { get; set; } = true;
 
         // 接続
         private bool portOpen = true;

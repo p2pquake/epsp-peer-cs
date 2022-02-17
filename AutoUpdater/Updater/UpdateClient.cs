@@ -11,6 +11,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AutoUpdater.Updater
 {
@@ -92,7 +93,7 @@ namespace AutoUpdater.Updater
                 //    File.Replace($"{path}.tmp", path, null);
                 //} else
                 //{
-                File.Move($"{path}.tmp", path);
+                File.Move($"{path}.tmp", path, true);
                 //}
             }
 
@@ -152,7 +153,7 @@ namespace AutoUpdater.Updater
 
         private static string GetAppDirectory()
         {
-            return Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            return Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
         }
 
         private static string GeneratePath(UpdateEntry entry)

@@ -87,6 +87,17 @@ namespace WpfClient
             }
         }
 
+        private bool autoUpdate;
+        public bool AutoUpdate
+        {
+            get => autoUpdate;
+            set
+            {
+                autoUpdate = value;
+                OnPropertyChanged();
+            }
+        }
+
         private bool portOpen;
         public bool PortOpen
         {
@@ -350,6 +361,7 @@ namespace WpfClient
         {
             bootAtStartup = configuration.BootAtStartup;
             minimizeAtBoot = configuration.MinimizeAtBoot;
+            autoUpdate = configuration.AutoUpdate;
 
             portOpen = configuration.PortOpen;
             useUPnP = configuration.UseUPnP;
@@ -388,6 +400,7 @@ namespace WpfClient
 
             configuration.BootAtStartup = bootAtStartup;
             configuration.MinimizeAtBoot = minimizeAtBoot;
+            configuration.AutoUpdate = autoUpdate;
 
             configuration.PortOpen = portOpen;
             configuration.UseUPnP = useUPnP;
