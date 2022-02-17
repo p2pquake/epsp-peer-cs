@@ -11,6 +11,7 @@ namespace IPC
 
     public enum Method
     {
+        Show,
         Exit,
     }
 }
