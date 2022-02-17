@@ -37,8 +37,13 @@ namespace WpfClient.Notifications
             Select(type, receivedAt, startedAt);
             App.Current.Dispatcher.Invoke(() =>
             {
-                App.Current.MainWindow.Show();
-                App.Current.MainWindow.Activate();
+                var window = App.Current.MainWindow;
+                window.Show();
+                if (window.WindowState == System.Windows.WindowState.Minimized)
+                {
+                    window.WindowState = System.Windows.WindowState.Normal;
+                }
+                window.Activate();
             });
         }
 
