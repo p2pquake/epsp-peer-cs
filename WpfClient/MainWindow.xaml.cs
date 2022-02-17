@@ -40,6 +40,10 @@ namespace WpfClient
         private void ShowWindow()
         {
             Show();
+            if (WindowState == WindowState.Minimized)
+            {
+                WindowState = WindowState.Normal;
+            }
             Activate();
         }
 
@@ -86,15 +90,6 @@ namespace WpfClient
         {
             e.Cancel = true;
             Hide();
-        }
-
-        private void Window_StateChanged(object sender, EventArgs e)
-        {
-            if (WindowState == WindowState.Minimized)
-            {
-                WindowState = WindowState.Normal;
-                Hide();
-            }
         }
 
         // ---------------------------------------------------------------------

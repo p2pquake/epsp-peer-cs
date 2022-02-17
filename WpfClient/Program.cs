@@ -104,8 +104,13 @@ namespace WpfClient
                         case IPC.Method.Show:
                             App.Current.Dispatcher.Invoke(() =>
                             {
-                                App.Current.MainWindow.Show();
-                                App.Current.MainWindow.Activate();
+                                var window = App.Current.MainWindow;
+                                window.Show();
+                                if (window.WindowState == WindowState.Minimized)
+                                {
+                                    window.WindowState = WindowState.Normal;
+                                }
+                                window.Activate();
                             });
                             break;
                         case IPC.Method.Exit:
