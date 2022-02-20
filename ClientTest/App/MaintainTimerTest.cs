@@ -21,6 +21,11 @@ namespace ClientTest.App
         {
             var mediatorContext = new MediatorContext();
 
+            var maintainTimerField = mediatorContext.GetType().GetField("maintainTimer", BindingFlags.GetField | BindingFlags.NonPublic | BindingFlags.Instance);
+            var timer = (MaintainTimer)maintainTimerField.GetValue(mediatorContext);
+            var intervalField = timer.GetType().GetField("maintainInterval", BindingFlags.SetField | BindingFlags.NonPublic | BindingFlags.Instance);
+            intervalField.SetValue(timer, 1000);
+
             var field = mediatorContext.GetType().GetField("clientContext", BindingFlags.SetField | BindingFlags.NonPublic | BindingFlags.Instance);
             var clientContextMock = new Mock<IClientContext>();
             field.SetValue(mediatorContext, clientContextMock.Object);
