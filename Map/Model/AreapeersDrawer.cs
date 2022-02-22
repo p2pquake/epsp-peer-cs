@@ -90,9 +90,9 @@ namespace Map.Model
             // 文字描画
             using var fontStream = new MemoryStream(FontResource.RobotoMono_Bold);
             var collection = new FontCollection();
-            var family = collection.Install(fontStream);
+            var family = collection.Add(fontStream);
             var font = family.CreateFont(drawSize, FontStyle.Bold);
-            var rendererOptions = new RendererOptions(font);
+            var rendererOptions = new TextOptions(font);
 
             foreach (var area in Areapeers) {
                 if (!uqAreas.ContainsKey(area.Areacode))
