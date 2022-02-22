@@ -39,42 +39,45 @@ namespace Client.App.Userquake
                 return;
             }
 
-            // リセット、追加
-            if (UserquakeIsOver(at))
+            UserquakeEvaluateEventArgs e;
+            lock (this)
             {
-                userquakes = new();
-                IsDetecting = false;
-                Evaluation = null;
-            }
-            userquakes.Add(new Userquake() { At = at, AreaCode = areaCode });
+                // リセット、追加
+                if (UserquakeIsOver(at))
+                {
+                    userquakes = new();
+                    IsDetecting = false;
+                    Evaluation = null;
+                }
+                userquakes.Add(new Userquake() { At = at, AreaCode = areaCode });
 
-            // 評価
-            var evaluation = Evaluate(userquakes.ToArray(), areaPeers);
-            Evaluation = evaluation;
-            if (evaluation == null || evaluation.ConfidenceLevel < 3)
-            {
-                return;
+                // 評価
+                var evaluation = Evaluate(userquakes.ToArray(), areaPeers);
+                Evaluation = evaluation;
+                if (evaluation == null || evaluation.ConfidenceLevel < 3)
+                {
+                    return;
+                }
+
+                // 更新
+                e = new UserquakeEvaluateEventArgs()
+                {
+                    StartedAt = evaluation.StartedAt,
+                    UpdatedAt = evaluation.UpdatedAt,
+                    Count = evaluation.Count,
+                    Confidence = evaluation.Confidence,
+                    AreaConfidences = evaluation.AreaConfidences,
+                };
+
+                if (!IsDetecting)
+                {
+                    IsDetecting = true;
+                    OnNew(this, e);
+                    return;
+                }
             }
 
-            // 更新
-            var e = new UserquakeEvaluateEventArgs()
-            {
-                StartedAt = evaluation.StartedAt,
-                UpdatedAt = evaluation.UpdatedAt,
-                Count = evaluation.Count,
-                Confidence = evaluation.Confidence,
-                AreaConfidences = evaluation.AreaConfidences,
-            };
-
-            if (!IsDetecting)
-            {
-                IsDetecting = true;
-                OnNew(this, e);
-            }
-            else
-            {
-                OnUpdate(this, e);
-            }
+            OnUpdate(this, e);
         }
 
         IUserquakeEvaluation Evaluate(IReadOnlyCollection<Userquake> userquakes, IReadOnlyDictionary<string, int> areaPeers)
