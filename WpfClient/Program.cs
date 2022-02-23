@@ -6,6 +6,8 @@ using JsonApi;
 
 using Map.Controller;
 
+using Sentry;
+
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -74,8 +76,8 @@ namespace WpfClient
                 }
                 return;
             }
-
             Task.Run(() => { RunNamedPipe(); });
+
             Task.Run(() => { Updater.UpdateUpdater(); });
             if (configuration.AutoUpdate)
             {
@@ -83,10 +85,38 @@ namespace WpfClient
             }
 
             Task.Run(() => { BootP2PQuake(localMode); });
+
+            InitSentry();
+
             App app = new();
             app.InitializeComponent();
             app.SessionEnding += App_SessionEnding;
+            app.DispatcherUnhandledException += App_DispatcherUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             app.Run();
+        }
+
+        private static void InitSentry()
+        {
+            SentrySdk.Init(o =>
+            {
+                o.Dsn = "https://b78379893a4d4b6bb0d49fe7ae5c114b@o1151228.ingest.sentry.io/6227705";
+#if DEBUG
+                o.Environment = "debug";
+#else
+                o.Environment = "release";
+#endif
+            });
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            SentrySdk.CaptureException((Exception)e.ExceptionObject);
+        }
+
+        private static void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            SentrySdk.CaptureException(e.Exception);
         }
 
         private static void RunNamedPipe()
