@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Sentry;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,13 +22,30 @@ namespace AutoUpdater
                 silent = true;
             }
 
+            InitSentry();
+
             App app = new();
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             _ = app.Run();
         }
 
+        private static void InitSentry()
+        {
+            SentrySdk.Init(o =>
+            {
+                o.Dsn = "https://812c520eddb245a69b331b802770c513@o1151228.ingest.sentry.io/6228133";
+#if DEBUG
+                o.Environment = "debug";
+#else
+                o.Environment = "release";
+#endif
+            });
+        }
+
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
+            SentrySdk.CaptureException((Exception)e.ExceptionObject);
+
             var dataContext = (MainWindowModel)App.Current.MainWindow.DataContext;
             if (dataContext != null)
             {
