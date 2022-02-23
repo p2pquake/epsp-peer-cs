@@ -5,10 +5,33 @@
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+    <AssemblyName>P2PQuakeAutoUpdater</AssemblyName>
+    <Version>3.5.3</Version>
+    <Authors>P2PQuake development team</Authors>
+    <Company>P2PQuake development team</Company>
+    <Product>P2P地震情報 アップデーター</Product>
+    <PackageProjectUrl>https://www.p2pquake.net/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/p2pquake/epsp-peer-cs</RepositoryUrl>
+    <NeutralLanguage>ja-JP</NeutralLanguage>
+    <AssemblyVersion>3.5.0.3</AssemblyVersion>
+    <FileVersion>3.5.0.3</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
     <ApplicationDefinition Remove="App.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Sentry" Version="3.14.1" />
   </ItemGroup>
 
   <ItemGroup>
