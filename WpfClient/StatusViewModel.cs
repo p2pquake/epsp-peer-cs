@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -76,6 +78,16 @@ namespace WpfClient
             {
                 statusDescription = value;
                 OnPropertyChanged();
+            }
+        }
+
+        public string Version
+        {
+            get
+            {
+                var asm = Assembly.GetExecutingAssembly();
+                var info = FileVersionInfo.GetVersionInfo(asm.Location);
+                return $"P2P地震情報 Beta{info.ProductMajorPart}.{info.ProductMinorPart}(Rev{info.ProductBuildPart:00})";
             }
         }
 
