@@ -12,8 +12,8 @@ namespace WpfClient
 {
     public static class Updater
     {
-        private static readonly string updaterFilename = "AutoUpdater.exe";
-        private static readonly string updaterSourceFilename = "AutoUpdater2.exe";
+        private static readonly string updaterFilename = "P2PQuakeAutoUpdater.exe";
+        private static readonly string updaterSourceFilename = "P2PQuakeAutoUpdater2.exe";
 
         public static void Run()
         {

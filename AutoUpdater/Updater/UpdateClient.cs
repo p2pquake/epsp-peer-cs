@@ -61,11 +61,11 @@ namespace AutoUpdater.Updater
 
             foreach (var entry in entries)
             {
-                // 自分自身が更新対象の場合、 AutoUpdater2.exe として退避する
+                // 自分自身が更新対象の場合、 P2PQuakeAutoUpdater2.exe として退避する
                 // （あとで P2PQuake (WpfClient) によって差し替えられる）
-                if (entry.path == "AutoUpdater.exe")
+                if (entry.path == "P2PQuakeAutoUpdater.exe")
                 {
-                    entry.path = "AutoUpdater2.exe";
+                    entry.path = "P2PQuakeAutoUpdater2.exe";
                 }
 
                 var response = await Client.GetStreamAsync($"{UpdateUri}/{entry.path}");

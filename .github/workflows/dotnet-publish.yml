@@ -1,0 +1,32 @@
+name: dotnet publish
+
+on:
+  push:
+    tags:
+      - v*
+
+# See: https://docs.microsoft.com/ja-jp/dotnet/devops/dotnet-test-github-action
+#      https://docs.microsoft.com/ja-jp/aspnet/core/host-and-deploy/visual-studio-publish-profiles?view=aspnetcore-5.0#folder-publish-example
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET 5.0
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "5.0.x"
+      - name: Publish AutoUpdater
+        run: dotnet publish .\AutoUpdater\AutoUpdater.csproj /p:Configuration=Release /p:PublishProfile=FolderProfile
+      - name: Publish WpfClient
+        run: dotnet publish .\WpfClient\WpfClient.csproj /p:Configuration=Release /p:PublishProfile=FolderProfile
+      - name: Collect package files
+        run: |
+          powershell Copy-Item -Path .\AutoUpdater\bin\Release\net5.0-windows\publish\P2PQuakeAutoUpdater.exe -Destination .\WpfClient\bin\Release\net5.0-windows10.0.18362.0\publish\
+      - name: Package
+        run: |
+          powershell Move-Item .\WpfClient\bin\Release\net5.0-windows10.0.18362.0\publish .\P2PQuake_${{ github.ref_name }}; Compress-Archive -Path .\P2PQuake_${{ github.ref_name }} -DestinationPath .\P2PQuake_${{ github.ref_name }}.zip
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: P2PQuake_${{ github.ref_name }}.zip
