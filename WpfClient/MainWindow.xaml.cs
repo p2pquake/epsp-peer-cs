@@ -105,7 +105,7 @@ namespace WpfClient
             icon = new NotifyIcon()
             {
                 Icon = Resource.p2pquake,
-                Text = "P2P地震情報 (Beta4)",
+                Text = "P2P地震情報 Beta3.5",
                 Visible = true,
             };
             icon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
