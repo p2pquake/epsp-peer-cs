@@ -10,7 +10,7 @@ namespace Client.Common.General
         public static readonly string PROTOCOL_VERSION = "0.34";
         public static readonly string SOFTWARE_NAME = "P2PQ_SharpClient";
         // TODO: SOFTWARE_VERSIONを自動生成したい
-        public static readonly string SOFTWARE_VERSION = "compatible_0.0.002";
+        public static readonly string SOFTWARE_VERSION = "compatible_0.35.003";
         public static readonly double ALLOW_PROTOCOL_VERSION = 0.30;
     }
 }
