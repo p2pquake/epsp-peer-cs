@@ -5,6 +5,8 @@ using NAudio.Wave;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -45,7 +47,7 @@ namespace WpfClient.Notifications
         private static async void PlaySound(SoundType soundType)
         {
             if (WaveOut.DeviceCount <= 0) { return; }
-            using(var audioFile = new AudioFileReader($"Resources/Sounds/{soundType}.mp3")) {
+            using(var audioFile = new AudioFileReader(GeneratePath($"Resources/Sounds/{soundType}.mp3"))) {
                 using (var outputDevice = new WaveOutEvent())
                 {
                     try
@@ -160,6 +162,16 @@ namespace WpfClient.Notifications
             }
 
             PlaySound(SoundType.P2PQ_Snd9);
+        }
+
+        private static string GetAppDirectory()
+        {
+            return Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+        }
+
+        private static string GeneratePath(string path)
+        {
+            return Path.Join(GetAppDirectory(), path.Replace('/', Path.DirectorySeparatorChar));
         }
     }
 }
