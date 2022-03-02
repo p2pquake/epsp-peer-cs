@@ -15,17 +15,17 @@ namespace Client.App.State
 
         internal virtual bool Connect(MediatorContext mediatorContext, IClientContext clientContext, IPeerContext peerContext)
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException($"Cannot connect in {GetType().Name}");
         }
 
         internal virtual void Disconnect(MediatorContext mediatorContext, IClientContext clientContext, IPeerContext peerContext)
         {
-            throw new InvalidOperationException();
+            throw new InvalidOperationException($"Cannot disconnect in {GetType().Name}");
         }
 
         internal virtual bool Maintain(MediatorContext mediatorContext, IClientContext clientContext, IPeerContext peerContext)
         {
-            throw new InvalidOperationException();
+            throw new InvalidOperationException($"Cannot maintain in {GetType().Name}");
         }
 
         internal virtual void Completed(MediatorContext mediatorContext, IClientContext clientContext, IPeerContext peerContext, OperationCompletedEventArgs oce)
