@@ -19,7 +19,7 @@ namespace Client.Client.State
         /// <returns></returns>
         public virtual void RequireAllowVersion(IClientContextForState context, CRLFSocket socket,  Packet packet)
         {
-            throw new InvalidOperationException();
+            throw new InvalidOperationException($"Cannot be operated in {GetType().Name}");
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Client.Client.State
         /// <returns></returns>
         public virtual void NoticeAllowVersion(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
-            throw new InvalidOperationException();
+            throw new InvalidOperationException($"Cannot be operated in {GetType().Name}");
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Client.Client.State
         /// <param name="packet"></param>
         public virtual void AllocateTemporaryPeerId(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
-            throw new InvalidOperationException();
+            throw new InvalidOperationException($"Cannot be operated in {GetType().Name}");
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Client.Client.State
         /// <param name="packet"></param>
         public virtual void ReceivePortCheckResult(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
-            throw new InvalidOperationException();
+            throw new InvalidOperationException($"Cannot be operated in {GetType().Name}");
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Client.Client.State
         /// <param name="packet"></param>
         public virtual void ReceiveJoiningPeerData(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
-            throw new InvalidOperationException();
+            throw new InvalidOperationException($"Cannot be operated in {GetType().Name}");
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Client.Client.State
         /// <param name="packet"></param>
         public virtual void AllocatePeerId(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
-            throw new InvalidOperationException();
+            throw new InvalidOperationException($"Cannot be operated in {GetType().Name}");
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Client.Client.State
         /// <param name="packet"></param>
         public virtual void AllocateKey(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
-            throw new InvalidOperationException();
+            throw new InvalidOperationException($"Cannot be operated in {GetType().Name}");
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Client.Client.State
         /// <param name="packet"></param>
         public virtual void ReceiveProtocolTime(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
-            throw new InvalidOperationException();
+            throw new InvalidOperationException($"Cannot be operated in {GetType().Name}");
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Client.Client.State
         /// <param name="packet"></param>
         public virtual void EndConnection(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
-            throw new InvalidOperationException();
+            throw new InvalidOperationException($"Cannot be operated in {GetType().Name}");
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Client.Client.State
         /// <param name="packet"></param>
         public virtual void AcceptedEcho(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
-            throw new InvalidOperationException();
+            throw new InvalidOperationException($"Cannot be operated in {GetType().Name}");
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Client.Client.State
         /// <param name="packet"></param>
         public virtual void ReAllocateKey(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
-            throw new InvalidOperationException();
+            throw new InvalidOperationException($"Cannot be operated in {GetType().Name}");
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Client.Client.State
         /// <param name="packet"></param>
         public virtual void NoticeAreaPeers(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
-            throw new InvalidOperationException();
+            throw new InvalidOperationException($"Cannot be operated in {GetType().Name}");
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace Client.Client.State
         /// <param name="packet"></param>
         public virtual void AcceptedPart(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
-            throw new InvalidOperationException();
+            throw new InvalidOperationException($"Cannot be operated in {GetType().Name}");
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace Client.Client.State
         /// <param name="packet"></param>
         public virtual void DifferentSpecificationError(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
-            throw new InvalidOperationException();
+            throw new InvalidOperationException($"Cannot be operated in {GetType().Name}");
         }
 
         /// <summary>
