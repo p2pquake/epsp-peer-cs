@@ -111,5 +111,77 @@ namespace ClientTest.Peer.Manager
                 new object[] { this, eventArgs }
                 );
         }
+
+        [TestCase]
+        public void RelayCodeTest()
+        {
+            var reservedCodes = new List<int>();
+            reservedCodes = reservedCodes
+                .Concat(Enumerable.Range(550, 1))
+                .Concat(Enumerable.Range(553, 2))
+                .Concat(Enumerable.Range(557, 4))
+                .Concat(Enumerable.Range(562, 28))
+                .Concat(Enumerable.Range(620, 10))
+                .Concat(Enumerable.Range(640, 10))
+                .ToList();
+
+            var nonReservedCodes = new List<int>();
+            nonReservedCodes = nonReservedCodes
+                .Concat(Enumerable.Range(590, 21))
+                .Concat(Enumerable.Range(613, 1))
+                .Concat(Enumerable.Range(616, 4))
+                .Concat(Enumerable.Range(630, 1))
+                .Concat(Enumerable.Range(633, 1))
+                .Concat(Enumerable.Range(636, 4))
+                .Concat(Enumerable.Range(650, 44))
+                .Concat(Enumerable.Range(695, 5))
+                .ToList();
+
+            var relayDatas = new List<string>
+            {
+                "551 1 ABC:2022/01/01 00-00-00:ABC:ABC",
+                "552 1 ABC:2022/01/01 00-00-00:ABC",
+                "555 1 ABC:2022/01/01 00-00-00:ABC:ABC:2022/01/01 00-00-00:ABC",
+                "556 1 ABC:2022/01/01 00-00-00:ABC:ABC:2022/01/01 00-00-00:ABC",
+                "561 1 ABC:2022/01/01 00-00-00:ABC",
+                "615 1 1:1",
+                "635 1 1:1:2:3:4",
+            }
+            .Concat(reservedCodes.Select(code => $"{code} 1"))
+            .ToList();
+
+            var denyDatas = new List<string>
+            {
+                "611 1",
+                "612 1",
+                "614 1 0.35:ABC:ABC",
+                "631 1",
+                "632 1 1",
+                "634 1 0.35:ABC:ABC",
+                "694 1",
+            }
+            .Concat(nonReservedCodes.Select(code => $"{code} 1"))
+            .ToList();
+
+            var invokeCount = 0;
+            peer.ReadLine += (s, e) => { invokeCount++; };
+
+            Assert.Multiple(() =>
+            {
+                foreach (var relayData in relayDatas)
+                {
+                    invokeCount = 0;
+                    Invoke(Packet.Parse(relayData));
+                    Assert.AreEqual(1, invokeCount, $"Not relayed: {relayData}");
+                }
+
+                foreach (var denyData in denyDatas)
+                {
+                    invokeCount = 0;
+                    Invoke(Packet.Parse(denyData));
+                    Assert.AreEqual(0, invokeCount, $"Relayed: {denyData}");
+                }
+            });
+        }
     }
 }
