@@ -118,8 +118,7 @@ namespace Client.Peer.Manager
                 return;
             }
 
-            // ホップ数による破棄。VB6版P2P地震情報と同等
-            if (e.packet.Hop >= PeerCount() / 20 + 5)
+            if (e.packet.Hop > Math.Max(10, Math.Sqrt(PeerCount())))
             {
                 return;
             }

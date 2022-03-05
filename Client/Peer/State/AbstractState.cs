@@ -177,6 +177,16 @@ namespace Client.Peer.State
             socket.Close();
         }
 
+        public virtual void ReceiveReservedCode(Manager.Peer peer, CRLFSocket socket, Packet packet)
+        {
+            if (packet.Data == null || packet.Data.Length <= 0)
+            {
+                return;
+            }
+
+            Relay(peer, socket, packet);
+        }
+
         private void Relay(Manager.Peer peer, CRLFSocket socket, Packet packet)
         {
             ReadLineEventArgs eventArgs = new ReadLineEventArgs();
