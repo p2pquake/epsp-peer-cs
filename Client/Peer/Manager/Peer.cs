@@ -57,7 +57,7 @@ namespace Client.Peer.Manager
         void Socket_ReadLine(object sender, ReadLineEventArgs e)
         {
             Packet packet = e.packet;
-            string methodName = PeerConst.getCodeName(packet.Code);
+            string methodName = PeerConst.GetCodeName(packet.Code);
 
             if (methodName == null)
             {

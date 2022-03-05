@@ -147,7 +147,7 @@ namespace ClientTest.Peer.Manager
                 "615 1 1:1",
                 "635 1 1:1:2:3:4",
             }
-            .Concat(reservedCodes.Select(code => $"{code} 1"))
+            .Concat(reservedCodes.Select(code => $"{code} 1 ABC"))
             .ToList();
 
             var denyDatas = new List<string>
@@ -160,7 +160,7 @@ namespace ClientTest.Peer.Manager
                 "634 1 0.35:ABC:ABC",
                 "694 1",
             }
-            .Concat(nonReservedCodes.Select(code => $"{code} 1"))
+            .Concat(nonReservedCodes.Select(code => $"{code} 1 ABC"))
             .ToList();
 
             var invokeCount = 0;

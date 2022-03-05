@@ -19,7 +19,7 @@ namespace Client.Peer.Manager
 
         public bool isDuplicate(Packet packet)
         {
-            string data = string.Join(":", packet.Data);
+            string data = $"{packet.Code}:{string.Join(":", packet.Data)}";
 
             lock (duplicateList)
             {
