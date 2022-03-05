@@ -43,9 +43,9 @@ namespace WpfClient.Pages
             viewModel.FrameHeight = e.NewSize.Height;
         }
 
-        private void RefreshButton_Click(object sender, RoutedEventArgs e)
-        {
-            Program.RefreshInformation();
-        }
+        //private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Program.RefreshInformation();
+        //}
     }
 }

@@ -76,8 +76,8 @@
                         <TextBox Text="{Binding Path=Port, Mode=TwoWay}" Width="120" TextAlignment="Right" />
                     </ui:SimpleStackPanel>
                     <Separator />
-                    <Label Content="接続が切れていた間の情報を補完する（未実装）" IsEnabled="False" />
-                    <ui:ToggleSwitch IsEnabled="False" />
+                    <Label Content="接続が30分以上途切れたときに、情報を再取得する" />
+                    <ui:ToggleSwitch IsOn="{Binding Path=DisconnectionComplement, Mode=TwoWay}" />
                 </ui:SimpleStackPanel>
             </ScrollViewer>
             <ScrollViewer Visibility="{Binding UserquakeVisibility}" d:Visibility="Hidden">

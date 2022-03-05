@@ -39,6 +39,7 @@ namespace WpfClient
         static Notifier notifier;
         static Notifications.Activator activator;
         static Player player;
+        static DateTime latestConnected = DateTime.MaxValue;
 
         private const int HistoryLimit = 100;
 
@@ -530,6 +531,18 @@ namespace WpfClient
                 noConnection: "接続なし"
                 );
 
+            // 情報更新 -----
+            if (status == "接続済み")
+            {
+                if (DateTime.Now.Subtract(latestConnected).TotalMinutes >= 30)
+                {
+                    RefreshInformation();
+                }
+
+                latestConnected = DateTime.Now;
+            }
+
+            // 表示更新 -----
             var statusIconGlyph = ChoiceByState(
                 disconnected: "\xF384",
                 disconnecting: "\xF384",

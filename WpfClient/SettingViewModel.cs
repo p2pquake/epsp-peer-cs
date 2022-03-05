@@ -131,6 +131,17 @@ namespace WpfClient
             }
         }
 
+        private bool disconnectionComplement;
+        public bool DisconnectionComplement
+        {
+            get => disconnectionComplement;
+            set
+            {
+                disconnectionComplement = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<string> UserquakeAreas =>
             new ObservableCollection<string>(Resource.epsp_area.Split('\n').Skip(1).Select(e => e.Split(',')[4]));
 
@@ -366,6 +377,7 @@ namespace WpfClient
             portOpen = configuration.PortOpen;
             useUPnP = configuration.UseUPnP;
             port = configuration.Port;
+            disconnectionComplement = configuration.DisconnectionComplement;
 
             selectArea = ConvertAreaCodeToLabel(configuration.AreaCode);
             sendIfMiddleDoubleClick = configuration.SendIfMiddleDoubleClick;
@@ -405,6 +417,7 @@ namespace WpfClient
             configuration.PortOpen = portOpen;
             configuration.UseUPnP = useUPnP;
             configuration.Port = port;
+            configuration.DisconnectionComplement = disconnectionComplement;
 
             configuration.AreaCode = ConvertAreaToAreaCode(selectArea);
             configuration.SendIfMiddleDoubleClick = sendIfMiddleDoubleClick;

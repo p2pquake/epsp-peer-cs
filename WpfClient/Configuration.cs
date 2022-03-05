@@ -135,6 +135,17 @@ namespace WpfClient
             }
         }
 
+        private bool disconnectionComplement = true;
+        public bool DisconnectionComplement
+        {
+            get => disconnectionComplement;
+            set
+            {
+                disconnectionComplement = value;
+                OnChangeEPSPConfiguration(this, EventArgs.Empty);
+            }
+        }
+
         // 「揺れた！」
         private int areaCode = 900;
         public int AreaCode
