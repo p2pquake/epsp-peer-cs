@@ -241,6 +241,15 @@ namespace WpfClient
             ReadHistories();
         }
 
+        public static void RefreshInformation()
+        {
+            App.Current?.Dispatcher?.Invoke(() =>
+            {
+                viewModel.InformationViewModel.Histories.Clear();
+            });
+            ReadHistories();
+        }
+
         private static void ReflectEPSPConfiguration()
         {
             client.IsPortOpen = configuration.PortOpen;

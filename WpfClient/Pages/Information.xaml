@@ -89,11 +89,9 @@
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="8">
                     <TextBlock Text="情報" Style="{StaticResource SubtitleTextBlockStyle}" Width="124" />
-                    <!--
-                        <Button>
-                            <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE72C;" />
-                        </Button>
-                    -->
+                    <Button Padding="4" Click="RefreshButton_Click">
+                        <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE72C;" />
+                    </Button>
                 </StackPanel>
                 <ui:ListView
                         ItemTemplateSelector="{StaticResource ListTemplateSelector}"

@@ -42,5 +42,10 @@ namespace WpfClient.Pages
             viewModel.FrameWidth = e.NewSize.Width;
             viewModel.FrameHeight = e.NewSize.Height;
         }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            Program.RefreshInformation();
+        }
     }
 }
