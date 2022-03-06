@@ -534,7 +534,7 @@ namespace WpfClient
             // 情報更新 -----
             if (status == "接続済み")
             {
-                if (DateTime.Now.Subtract(latestConnected).TotalMinutes >= 30)
+                if (configuration.DisconnectionComplement && DateTime.Now.Subtract(latestConnected).TotalMinutes >= 30)
                 {
                     RefreshInformation();
                 }
