@@ -52,6 +52,12 @@ namespace WpfClient
             }
         }
 
+        public static bool HasUpdaterUpdate()
+        {
+            string sourcePath = GeneratePath(updaterSourceFilename);
+            return File.Exists(sourcePath);
+        }
+
         private static string GetAppDirectory()
         {
             return Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
@@ -61,6 +67,5 @@ namespace WpfClient
         {
             return Path.Join(GetAppDirectory(), path.Replace('/', Path.DirectorySeparatorChar));
         }
-
     }
 }

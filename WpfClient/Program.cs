@@ -79,8 +79,10 @@ namespace WpfClient
             }
             Task.Run(() => { RunNamedPipe(); });
 
-            Task.Run(() => { Updater.UpdateUpdater(); });
-            if (configuration.AutoUpdate)
+            if (Updater.HasUpdaterUpdate())
+            {
+                Task.Run(() => { Updater.UpdateUpdater(); });
+            } else if (configuration.AutoUpdate)
             {
                 Updater.Run();
             }
