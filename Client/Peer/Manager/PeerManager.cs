@@ -44,7 +44,7 @@ namespace Client.Peer.Manager
             duplicateRemover = new DuplicateRemover();
             networkInquiryManager = new Manager.NetworkInquiryManager();
             echoTimer = new Timer(EchoTimer_Tick);
-            echoTimer.Change(0, 300000);
+            echoTimer.Change(0, 120000);
         }
 
         public void AddFromSocket(Socket socket)
