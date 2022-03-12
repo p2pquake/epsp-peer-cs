@@ -570,7 +570,7 @@ namespace WpfClient
                 );
 
             var portStatus = "-";
-            if (client.State.GetType().Name == "ConnectedState")
+            if (client.ReadonlyState.GetType().Name == "ConnectedState")
             {
                 portStatus = client.IsPortOpened ? "開放" : "未開放";
             }
@@ -594,7 +594,7 @@ namespace WpfClient
 
         private static string ChoiceByState(string disconnected, string disconnecting, string connecting, string connected, string noConnection)
         {
-            return client.State.GetType().Name switch
+            return client.ReadonlyState.GetType().Name switch
             {
                 "DisconnectedState" => disconnected,
                 "DisconnectingState" => disconnecting,

@@ -94,14 +94,14 @@ namespace Client.App
                 }
                 
                 // isStoppedでない: ConnectかMaintain なので絞りこめる
-                if (mediatorContext.State is ConnectedState)
+                if (mediatorContext.ReadonlyState is ConnectedState)
                 {
                     Task.Run(() =>
                     {
                         RequireMaintain(this, EventArgs.Empty);
                     });
                 }
-                if (mediatorContext.State is DisconnectedState)
+                if (mediatorContext.ReadonlyState is DisconnectedState)
                 {
                     Task.Run(() =>
                     {
@@ -128,13 +128,13 @@ namespace Client.App
                 return;
             }
 
-            if (mediatorContext.State is DisconnectedState)
+            if (mediatorContext.ReadonlyState is DisconnectedState)
             {
                 processingCount = 0;
 
                 RequireConnect(this, EventArgs.Empty);
             }
-            else if (mediatorContext.State is ConnectedState)
+            else if (mediatorContext.ReadonlyState is ConnectedState)
             {
                 processingCount = 0;
 
@@ -143,9 +143,9 @@ namespace Client.App
                     RequireMaintain(this, EventArgs.Empty);
                 }
             }
-            else if (mediatorContext.State is ConnectingState ||
-                     mediatorContext.State is DisconnectingState ||
-                     mediatorContext.State is MaintenanceState)
+            else if (mediatorContext.ReadonlyState is ConnectingState ||
+                     mediatorContext.ReadonlyState is DisconnectingState ||
+                     mediatorContext.ReadonlyState is MaintenanceState)
             {
                 processingCount++;
                 if (processingCount > processTimeoutCount)
@@ -162,7 +162,7 @@ namespace Client.App
             isStopped = true;
             timer.Change(Timeout.Infinite, Timeout.Infinite);
             
-            if (mediatorContext.State is ConnectedState)
+            if (mediatorContext.ReadonlyState is ConnectedState)
             {
                 RequireDisconnect(this, EventArgs.Empty);
             }

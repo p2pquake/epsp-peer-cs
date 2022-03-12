@@ -47,8 +47,10 @@ namespace Client.App
 
         private AbstractState state;
 
+        public ReadonlyAbstractState ReadonlyState {
+            get => state;
+        }
         public AbstractState State {
-            get { return state; }
             set { state = value; StateChanged(this, EventArgs.Empty);  }
         }
 
@@ -78,8 +80,8 @@ namespace Client.App
         public int MaxConnections { get; set; }
         public bool IsPortListening { get; set; }
 
-        public bool CanConnect { get { return State is DisconnectedState; } }
-        public bool CanDisconnect { get { return State is ConnectedState; } }
+        public bool CanConnect { get { return state is DisconnectedState; } }
+        public bool CanDisconnect { get { return state is ConnectedState; } }
         private bool CanMaintain { get { return CanDisconnect; } }
 
         /// <summary>
@@ -148,7 +150,7 @@ namespace Client.App
             if (!CanDisconnect) { return; }
 
             peerContext.EndListen();
-            State.Disconnect(this, clientContext, peerContext);
+            state.Disconnect(this, clientContext, peerContext);
         }
 
         private void MaintainTimer_RequireConnect(object sender, EventArgs e)
@@ -167,14 +169,14 @@ namespace Client.App
             {
                 IsPortListening = false;
             }
-            State.Connect(this, clientContext, peerContext);
+            state.Connect(this, clientContext, peerContext);
         }
 
         private void MaintainTimer_RequireMaintain(object sender, EventArgs e)
         {
             if (!CanMaintain) { return; }
 
-            State.Maintain(this, clientContext, peerContext);
+            state.Maintain(this, clientContext, peerContext);
         }
 
         private void ClientContext_StateChanged(object sender, EventArgs e)
@@ -187,7 +189,7 @@ namespace Client.App
         {
             Logger.GetLog().Debug("ClientContext_OperationCompleted: " + e.Result.ToString() + ", " + e.ErrorCode.ToString());
 
-            State.Completed(this, clientContext, peerContext, e);
+            state.Completed(this, clientContext, peerContext, e);
             Completed(this, e);
         }
 

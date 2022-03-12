@@ -16,9 +16,10 @@ namespace Client.App
     /// </summary>
     public interface IMediatorContext : IOperatable, IPeerState, IPeerConfig
     {
+        ReadonlyAbstractState ReadonlyState { get; }
         // XXX: 外部から接続状態を書き換えられる．
         /// <summary>接続状態</summary>
-        AbstractState State { get; set; }
+        AbstractState State { set; }
 
         /// <summary>接続状態が変化すると発生します。接続状態は <see cref="State"/> で取得できます。</summary>
         event EventHandler StateChanged;

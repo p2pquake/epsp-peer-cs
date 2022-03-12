@@ -33,8 +33,8 @@ namespace ClientTest.App
             bool isCalled = false;
             mediatorContext.StateChanged += (s, e) =>
             {
-                Console.WriteLine("State: " + mediatorContext.State);
-                if (mediatorContext.State is DisconnectedState)
+                Console.WriteLine("State: " + mediatorContext.ReadonlyState);
+                if (mediatorContext.ReadonlyState is DisconnectedState)
                 {
                     isCalled = true;
                 }

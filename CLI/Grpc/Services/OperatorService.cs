@@ -41,7 +41,7 @@ namespace CLI.Grpc.Services
         {
             State state = new()
             {
-                AppState = _m.State.GetType().Name switch
+                AppState = _m.ReadonlyState.GetType().Name switch
                 {
                     "DisconnectedState" => State.Types.AppState.Disconnected,
                     "ConnectingState" => State.Types.AppState.Connecting,

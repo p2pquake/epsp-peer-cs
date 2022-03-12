@@ -7,12 +7,15 @@ using Client.Peer;
 
 namespace Client.App.State
 {
-    public abstract class AbstractState
+    public abstract class ReadonlyAbstractState
     {
         internal abstract bool CanConnect { get; }
         internal abstract bool CanDisconnect { get; }
         internal abstract bool CanMaintain { get; }
+    }
 
+    public abstract class AbstractState : ReadonlyAbstractState
+    {
         internal virtual bool Connect(MediatorContext mediatorContext, IClientContext clientContext, IPeerContext peerContext)
         {
             throw new InvalidOperationException($"Cannot connect in {GetType().Name}");
