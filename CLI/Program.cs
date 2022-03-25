@@ -26,12 +26,29 @@ namespace CLI
                         GrcpMain();
                     })
                 },
+                new System.CommandLine.Command("run", "P2P地震情報 ピアとして動作します")
+                {
+                    Handler = CommandHandler.Create(() =>
+                    {
+                        Run();
+                    })
+                },
             };
 
             return root.InvokeAsync(args).Result;
         }
 
-       static void GrcpMain()
+        private static void Run()
+        {
+            BasicConfigurator.Configure();
+
+            var mc = new MediatorContext();
+            mc.Connect();
+
+            Console.ReadLine();
+        }
+
+        static void GrcpMain()
         {
             BasicConfigurator.Configure();
 
