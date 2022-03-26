@@ -9,6 +9,8 @@ using log4net.Config;
 using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using System.Diagnostics;
+using System.Threading;
 
 namespace CLI
 {
@@ -45,7 +47,21 @@ namespace CLI
             var mc = new MediatorContext();
             mc.Connect();
 
+            Console.WriteLine("Enter キーを押すと終了します。");
             Console.ReadLine();
+
+            if (mc.CanDisconnect)
+            {
+                mc.Disconnect();
+            }
+
+            var sw = new Stopwatch();
+            sw.Start();
+
+            while (sw.ElapsedMilliseconds <= 4000 && !mc.CanConnect)
+            {
+                Thread.Sleep(250);
+            }
         }
 
         static void GrcpMain()
