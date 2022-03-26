@@ -21,13 +21,13 @@ namespace Client.Client.State
             ProcessType = processType;
         }
 
-        public override void Process(IClientContextForState context, CRLFSocket socket)
+        internal override void Process(IClientContextForState context, CRLFSocket socket)
         {
             Logger.GetLog().Debug("...再接続中かな？");
             // throw new NotSupportedException();
         }
 
-        public override void RequireAllowVersion(IClientContextForState context, CRLFSocket socket, Packet packet)
+        internal override void RequireAllowVersion(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
             context.State = new NotifyProtocolVersionState(ProcessType);
         }

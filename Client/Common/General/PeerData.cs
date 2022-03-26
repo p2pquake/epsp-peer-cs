@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Client.Common.General
 {
-    class PeerData
+    public class PeerData
     {
         private string address;
         private int port;

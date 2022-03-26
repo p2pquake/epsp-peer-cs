@@ -9,7 +9,7 @@ namespace Client.Client.State
 {
     class RequireReallocateKeyState : AbstractState
     {
-        public override void Process(IClientContextForState context, Common.Net.CRLFSocket socket)
+        internal override void Process(IClientContextForState context, Common.Net.CRLFSocket socket)
         {
             string[] datas = { context.PeerState.PeerId.ToString(), "Unknown" };
             if (context.PeerState.Key != null)
@@ -21,7 +21,7 @@ namespace Client.Client.State
             socket.WriteLine("124 1 " + string.Join(":", datas));
         }
 
-        public override void ReAllocateKey(IClientContextForState context, CRLFSocket socket, Packet packet)
+        internal override void ReAllocateKey(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
             RequireAllocateKeyState allocateKeyState = new RequireAllocateKeyState();
             context.PeerState.Key = allocateKeyState.CreateKeyData(packet);
@@ -29,7 +29,7 @@ namespace Client.Client.State
             ChangeState(context);
         }
 
-        public override void KeyCantAllocateError(IClientContextForState context, CRLFSocket socket, Packet packet)
+        internal override void KeyCantAllocateError(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
             ChangeState(context);
         }

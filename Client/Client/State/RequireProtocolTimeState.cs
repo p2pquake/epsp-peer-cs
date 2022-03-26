@@ -11,12 +11,12 @@ namespace Client.Client.State
 {
     class RequireProtocolTimeState : AbstractState
     {
-        public override void Process(IClientContextForState context, CRLFSocket socket)
+        internal override void Process(IClientContextForState context, CRLFSocket socket)
         {
             socket.WriteLine("118 1");
         }
 
-        public override void ReceiveProtocolTime(IClientContextForState context, CRLFSocket socket, Packet packet)
+        internal override void ReceiveProtocolTime(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
             DateTime protocolTime = DateTime.ParseExact(packet.Data[0], "yyyy/MM/dd HH-mm-ss", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None);
             context.PeerState.TimeOffset = protocolTime - DateTime.Now;

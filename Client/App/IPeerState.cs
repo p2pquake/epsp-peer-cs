@@ -31,7 +31,7 @@ namespace Client.App
         DateTime CalcNowProtocolTime();
     }
 
-    interface IPeerStateForClient
+    public interface IPeerStateForClient
     {
         int PeerId { get; set; }
 

@@ -10,7 +10,7 @@ namespace Client.Client.State
 {
     class RequirePartState : AbstractState
     {
-        public override void Process(IClientContextForState context, CRLFSocket socket)
+        internal override void Process(IClientContextForState context, CRLFSocket socket)
         {
             IPeerStateForClient peerState = context.PeerState;
             string[] datas = { peerState.PeerId.ToString(), (peerState.Key == null ? "Unknown" : peerState.Key.PublicKey) };
@@ -18,17 +18,17 @@ namespace Client.Client.State
             socket.WriteLine("128 1 " + string.Join(":", datas));
         }
 
-        public override void AcceptedPart(IClientContextForState context, CRLFSocket socket, Packet packet)
+        internal override void AcceptedPart(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
             context.State = new EndConnectionState(ClientConst.OperationResult.Successful, ClientConst.ErrorCode.SUCCESSFUL);
         }
 
-        public override void AddressChangedError(IClientContextForState context, CRLFSocket socket, Packet packet)
+        internal override void AddressChangedError(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
             context.State = new EndConnectionState(ClientConst.OperationResult.Restartable, ClientConst.ErrorCode.RETURNED_ADDRESS_CHANGED);
         }
 
-        public override void IncorrectRequestError(IClientContextForState context, CRLFSocket socket, Packet packet)
+        internal override void IncorrectRequestError(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
             context.State = new EndConnectionState(ClientConst.OperationResult.Restartable, ClientConst.ErrorCode.RETURNED_INVALID_REQUEST);
         }

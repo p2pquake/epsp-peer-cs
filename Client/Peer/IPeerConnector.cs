@@ -10,7 +10,7 @@ namespace Client.Peer
     /// <summary>
     /// 上位クラス・隣接クラスへ見せるPeerConnectorインタフェース
     /// </summary>
-    interface IPeerConnector
+    public interface IPeerConnector
     {
         /// <summary>
         /// ピア接続数が変化したことを通知します。

@@ -19,6 +19,7 @@ namespace CLI
             var root = new RootCommand()
             {
                 MapCommand.Build(),
+                AdminCommand.Build(),
                 new System.CommandLine.Command("legacy", "これまでの Observers CLI を起動します")
                 {
                     Handler = CommandHandler.Create(() =>
