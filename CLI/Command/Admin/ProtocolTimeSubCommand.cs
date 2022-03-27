@@ -30,8 +30,6 @@ namespace CLI.Command.Admin
         }
         private static void ProtocolTimeHandler()
         {
-            BasicConfigurator.Configure();
-
             var servers = new string[]
             {
                 "www.p2pquake.net:6910",
@@ -44,7 +42,12 @@ namespace CLI.Command.Admin
             {
                 var retreiver = new ProtocolTimeRetreiver();
                 var offset = retreiver.GetOffset(server);
-                Console.WriteLine($"{server} offset: {offset.TotalMilliseconds} ms.");
+
+                if (offset == TimeSpan.MinValue)
+                {
+                    continue;
+                }
+                Console.WriteLine($"{server},{offset.TotalSeconds}");
             }
         }
     }
