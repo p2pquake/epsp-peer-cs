@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DummyPeer", "DummyPeer\Dumm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoUpdater", "AutoUpdater\AutoUpdater.csproj", "{33CA82A6-A453-4D4C-9D76-8EE939DA66DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPC", "IPC\IPC.csproj", "{48CFB725-2B18-47A7-8158-FE0C8B2469E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IPC", "IPC\IPC.csproj", "{48CFB725-2B18-47A7-8158-FE0C8B2469E7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaMetricsCollector", "LambdaMetricsCollector\LambdaMetricsCollector.csproj", "{45740CF1-7560-4567-9B4C-EFB7356D51AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -300,6 +302,30 @@ Global
 		{48CFB725-2B18-47A7-8158-FE0C8B2469E7}.Release|x64.Build.0 = Release|Any CPU
 		{48CFB725-2B18-47A7-8158-FE0C8B2469E7}.Release|x86.ActiveCfg = Release|Any CPU
 		{48CFB725-2B18-47A7-8158-FE0C8B2469E7}.Release|x86.Build.0 = Release|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Debug|arm64.Build.0 = Debug|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Debug|x64.Build.0 = Debug|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Debug|x86.Build.0 = Debug|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.DebugExcludeWPF|Any CPU.ActiveCfg = Debug|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.DebugExcludeWPF|Any CPU.Build.0 = Debug|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.DebugExcludeWPF|arm64.ActiveCfg = Debug|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.DebugExcludeWPF|arm64.Build.0 = Debug|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.DebugExcludeWPF|x64.ActiveCfg = Debug|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.DebugExcludeWPF|x64.Build.0 = Debug|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.DebugExcludeWPF|x86.ActiveCfg = Debug|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.DebugExcludeWPF|x86.Build.0 = Debug|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Release|arm64.ActiveCfg = Release|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Release|arm64.Build.0 = Release|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Release|x64.ActiveCfg = Release|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Release|x64.Build.0 = Release|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Release|x86.ActiveCfg = Release|Any CPU
+		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
