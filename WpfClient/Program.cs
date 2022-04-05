@@ -95,7 +95,6 @@ namespace WpfClient
             app.InitializeComponent();
             app.SessionEnding += App_SessionEnding;
             app.DispatcherUnhandledException += App_DispatcherUnhandledException;
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             app.Run();
         }
 
@@ -110,11 +109,6 @@ namespace WpfClient
                 o.Environment = "release";
 #endif
             });
-        }
-
-        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            SentrySdk.CaptureException((Exception)e.ExceptionObject);
         }
 
         private static void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
