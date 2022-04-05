@@ -105,7 +105,7 @@ namespace WpfClient.Notifications
                     DomesticTsunamiType.Effective => "津波予報 発表中",
                     _ => "津波の有無不明",
                 };
-                builder.AddText($"{e.Destination} (深さ{e.Depth}, {e.Magnitude}) {tsunamiDescription}");
+                builder.AddText($"{e.Destination} (深さ{e.Depth}, M{e.Magnitude}) {tsunamiDescription}");
             }
 
             builder.AddArgument("type", "quake").AddArgument("receivedAt", e.ReceivedAt.ToString());
