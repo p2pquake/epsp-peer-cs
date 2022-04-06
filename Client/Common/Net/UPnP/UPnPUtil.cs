@@ -1,4 +1,5 @@
-﻿using Open.Nat;
+﻿using Mono.Nat;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,32 +12,29 @@ namespace Client.Common.Net.UPnP
 {
     public class UPnPUtil
     {
-        public static bool OpenPort(int port, string name = "EPSP Client")
+        public static bool OpenPort(int port)
         {
-            try
+            bool completed = false;
+            // 別 Task で走らせて 3 秒だけは待つ。
+            Task.Run(() =>
             {
-                var discoverer = new NatDiscoverer();
-                var cts = new CancellationTokenSource(5000);
-                var deviceTask = discoverer.DiscoverDeviceAsync(PortMapper.Upnp, cts);
-                deviceTask.Wait();
-                var device = deviceTask.Result;
-                var mapTask = device.CreatePortMapAsync(new Mapping(Protocol.Tcp, port, port, name));
-                mapTask.Wait();
-            }
-            catch (AggregateException e)
-            {
-                if (e.InnerException is NatDeviceNotFoundException || e.InnerException is MappingException)
+                NatUtility.DeviceFound += (s, e) =>
                 {
-                    return false;
-                }
-                if (e.InnerException is WebException)
-                {
-                    return false;
-                }
-                throw e;
-            }
-
-            return true;
+                    var device = e.Device;
+                    try
+                    {
+                        device.CreatePortMap(new Mapping(Protocol.Tcp, port, port));
+                    } catch (Exception)
+                    {
+                        // 開放に失敗しても何もしない.
+                    }
+                    completed = true;
+                };
+                NatUtility.StartDiscovery(NatProtocol.Upnp);
+                Thread.Sleep(3000);
+                NatUtility.StopDiscovery();
+            }).Wait();
+            return completed;
         }
     }
 }
