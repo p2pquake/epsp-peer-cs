@@ -109,13 +109,12 @@ namespace WpfClient.EPSPDataView
         {
             if (EventArgs.PointList == null) { return new List<ObservationPoint>(); }
 
-            return EventArgs.PointList.Select(e =>
+            return EventArgs.PointList.Where(e => ConvertScale(e.Scale) > 0).Select(e =>
                 new ObservationPoint(e.Prefecture, e.Name, ConvertScale(e.Scale))
             ).ToList();
         }
 
-        // XXX: あまりスマートじゃないのであとでなおす。
-        private int ConvertScale(string scale)
+        private static int ConvertScale(string scale)
         {
             return scale switch
             {
@@ -129,11 +128,12 @@ namespace WpfClient.EPSPDataView
                 "6強" => 60,
                 "7" => 70,
                 "5弱以上（推定）" => 46,
+                _ => -1,
             };
         }
 
         /// <summary>震度 5 弱 → 震度 5 弱以上（推定） と並ぶよう修正する。 API 仕様を直したいくらいの設計ミス感。</summary>
-        private int ConvertScaleIntForSort(int scaleInt)
+        private static int ConvertScaleIntForSort(int scaleInt)
         {
             return scaleInt == 46 ? 44 : scaleInt;
         }

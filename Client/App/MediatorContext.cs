@@ -217,10 +217,6 @@ namespace Client.App
 
         public DateTime CalcNowProtocolTime()
         {
-            if (TimeOffset == null)
-            {
-                return DateTime.Now;
-            }
             return DateTime.Now + TimeOffset;
         }
 
