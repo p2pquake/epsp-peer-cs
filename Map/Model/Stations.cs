@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -32,8 +33,8 @@ namespace Map.Model
                     items[1],
                     true,
                     true,
-                    double.Parse(items[2]),
-                    double.Parse(items[3])
+                    double.Parse(items[2], NumberFormatInfo.InvariantInfo),
+                    double.Parse(items[3], NumberFormatInfo.InvariantInfo)
                 )).ToList();
             areas.ForEach(area =>
             {
@@ -54,8 +55,8 @@ namespace Map.Model
                     items[1],
                     false,
                     items[4] == "気象庁",
-                    double.Parse(items[2]),
-                    double.Parse(items[3])
+                    double.Parse(items[2], NumberFormatInfo.InvariantInfo),
+                    double.Parse(items[3], NumberFormatInfo.InvariantInfo)
                 )).ToList();
 
             points.ForEach(point =>
