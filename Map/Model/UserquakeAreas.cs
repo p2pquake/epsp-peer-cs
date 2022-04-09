@@ -11,7 +11,7 @@ namespace Map.Model
 
     public class UserquakeAreas
     {
-        public static UserquakeAreas Instance { get; } = new();
+        public static UserquakeAreas Instance { get; private set; } = new();
 
         private readonly IReadOnlyDictionary<string, UserquakeArea> areas;
         private readonly IReadOnlyDictionary<string, GeoCoordinate[][]> areaGeoCoordinates;

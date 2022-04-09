@@ -11,7 +11,7 @@ namespace Map.Model
 
     public class Stations
     {
-        public static Stations Instance { get; } = new();
+        public static Stations Instance { get; private set; } = new();
 
         private readonly IReadOnlyDictionary<string, Station> stations;
         private readonly IReadOnlyDictionary<string, IReadOnlyDictionary<string, Station>> stationsByPrefecture;

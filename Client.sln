@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IPC", "IPC\IPC.csproj", "{4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaMetricsCollector", "LambdaMetricsCollector\LambdaMetricsCollector.csproj", "{45740CF1-7560-4567-9B4C-EFB7356D51AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapTest", "MapTest\MapTest.csproj", "{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -326,6 +328,30 @@ Global
 		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Release|x64.Build.0 = Release|Any CPU
 		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Release|x86.ActiveCfg = Release|Any CPU
 		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Release|x86.Build.0 = Release|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Debug|arm64.Build.0 = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Debug|x64.Build.0 = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Debug|x86.Build.0 = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.DebugExcludeWPF|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.DebugExcludeWPF|Any CPU.Build.0 = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.DebugExcludeWPF|arm64.ActiveCfg = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.DebugExcludeWPF|arm64.Build.0 = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.DebugExcludeWPF|x64.ActiveCfg = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.DebugExcludeWPF|x64.Build.0 = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.DebugExcludeWPF|x86.ActiveCfg = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.DebugExcludeWPF|x86.Build.0 = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Release|arm64.ActiveCfg = Release|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Release|arm64.Build.0 = Release|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Release|x64.ActiveCfg = Release|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Release|x64.Build.0 = Release|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Release|x86.ActiveCfg = Release|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
