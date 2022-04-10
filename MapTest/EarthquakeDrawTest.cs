@@ -5,20 +5,18 @@ using NUnit.Framework;
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Threading;
 
 namespace MapTest
 {
     public class EarthquakeDrawTest
     {
-
-        [TestCaseSource(typeof(Internationalization), nameof(Internationalization.CultureNames))]
-        public void InternationalizationTest(string cultureName)
-        {
-            Internationalization.ReinstantiateSingletonInstances(cultureName);
-
+        static readonly Func<Stream>[] drawActions = {
             // 2022/04/07 22:26
-            new MapDrawer
+            () => new MapDrawer
             {
                 Trim = true,
                 MapType = MapType.JAPAN_1024,
@@ -27,25 +25,42 @@ namespace MapTest
                 {
                     new("é≠éôìáåß", "é≠éôìáè\ìáë∫", 10),
                 },
-            }.DrawAsPng();
-
+            }.DrawAsPng(),
             // 2022/04/07 09:30
-            new MapDrawer
+            () => new MapDrawer
             {
                 Trim = true,
                 MapType = MapType.JAPAN_2048,
                 Hypocenter = new GeoCoordinate(34.9, 137.5),
-            }.DrawAsPng();
+            }.DrawAsPng(),
 
             // 2022/04/08 22:05
-            new MapDrawer
+            () => new MapDrawer
             {
                 MapType = MapType.JAPAN_8192,
                 ObservationPoints = new List<ObservationPoint>
                 {
                     new("", "êŒêÏåßî\ìo", 40),
                 },
-            }.DrawAsPng();
+            }.DrawAsPng(),
+        };
+
+        [TestCaseSource(nameof(drawActions))]
+        public void InternationalizationTest(Func<Stream> drawAction)
+        {
+            var drawResults = Internationalization.CultureNames.Select(cultureName =>
+            {
+                Internationalization.ReinstantiateSingletonInstances(cultureName);
+                var ms = new MemoryStream();
+                drawAction().CopyTo(ms);
+                return ms.ToArray();
+            }).ToList();
+
+            drawResults.ForEach(drawResult =>
+            {
+                Assert.AreEqual(drawResults[0].Length, drawResult.Length);
+                Assert.AreEqual(drawResults[0], drawResult);
+            });
         }
     }
 }
