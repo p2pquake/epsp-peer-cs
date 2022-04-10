@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30320.27
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKCSPeerCrypto", "PKCSPeerCrypto\PKCSPeerCrypto.csproj", "{A6A750A9-E49D-470E-B19C-518A1D0E46F2}"
 EndProject
@@ -26,6 +26,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IPC", "IPC\IPC.csproj", "{48CFB725-2B18-47A7-8158-FE0C8B2469E7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaMetricsCollector", "LambdaMetricsCollector\LambdaMetricsCollector.csproj", "{45740CF1-7560-4567-9B4C-EFB7356D51AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapTest", "MapTest\MapTest.csproj", "{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -326,6 +328,30 @@ Global
 		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Release|x64.Build.0 = Release|Any CPU
 		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Release|x86.ActiveCfg = Release|Any CPU
 		{45740CF1-7560-4567-9B4C-EFB7356D51AB}.Release|x86.Build.0 = Release|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Debug|arm64.Build.0 = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Debug|x64.Build.0 = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Debug|x86.Build.0 = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.DebugExcludeWPF|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.DebugExcludeWPF|Any CPU.Build.0 = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.DebugExcludeWPF|arm64.ActiveCfg = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.DebugExcludeWPF|arm64.Build.0 = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.DebugExcludeWPF|x64.ActiveCfg = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.DebugExcludeWPF|x64.Build.0 = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.DebugExcludeWPF|x86.ActiveCfg = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.DebugExcludeWPF|x86.Build.0 = Debug|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Release|arm64.ActiveCfg = Release|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Release|arm64.Build.0 = Release|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Release|x64.ActiveCfg = Release|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Release|x64.Build.0 = Release|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Release|x86.ActiveCfg = Release|Any CPU
+		{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

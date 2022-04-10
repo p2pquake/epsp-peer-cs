@@ -8,7 +8,7 @@ namespace Map.Model
 
     public class TsunamiAreas
     {
-        public static TsunamiAreas Instance { get; } = new();
+        public static TsunamiAreas Instance { get; private set; } = new();
 
         private readonly IReadOnlyDictionary<string, TsunamiArea> tsunamiAreas;
 

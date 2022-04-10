@@ -8,7 +8,7 @@ namespace Map.Model
 
     public class ObservationAreas
     {
-        public static ObservationAreas Instance { get; } = new();
+        public static ObservationAreas Instance { get; private set; } = new();
 
         private readonly IReadOnlyDictionary<string, ObservationArea> observationAreas;
 

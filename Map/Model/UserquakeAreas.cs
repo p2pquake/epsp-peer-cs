@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -11,7 +12,7 @@ namespace Map.Model
 
     public class UserquakeAreas
     {
-        public static UserquakeAreas Instance { get; } = new();
+        public static UserquakeAreas Instance { get; private set; } = new();
 
         private readonly IReadOnlyDictionary<string, UserquakeArea> areas;
         private readonly IReadOnlyDictionary<string, GeoCoordinate[][]> areaGeoCoordinates;
@@ -25,7 +26,14 @@ namespace Map.Model
                 .Select((line) => line.Split(','))
                 .ToDictionary(
                     items => items[0],
-                    items => new UserquakeArea(items[0], items[1], items[2], items[3], double.Parse(items[4]), double.Parse(items[5]))
+                    items => new UserquakeArea(
+                        items[0],
+                        items[1],
+                        items[2],
+                        items[3],
+                        double.Parse(items[4], NumberFormatInfo.InvariantInfo),
+                        double.Parse(items[5], NumberFormatInfo.InvariantInfo)
+                        )
                 );
 
             // 地震感知情報の地域コード → 地震情報 GeoJSON のコード(複数)
