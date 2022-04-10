@@ -21,14 +21,14 @@ namespace Client.Client.State
             this.processType = processType;
         }
 
-        public override void Process(IClientContextForState context, CRLFSocket socket)
+        internal override void Process(IClientContextForState context, CRLFSocket socket)
         {
             string[] datas = { Const.PROTOCOL_VERSION, Const.SOFTWARE_NAME, Const.SOFTWARE_VERSION };
             socket.WriteLine("131 1 " + string.Join(":", datas));
         }
 
 
-        public override void NoticeAllowVersion(IClientContextForState context, CRLFSocket socket, Packet packet)
+        internal override void NoticeAllowVersion(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
             string serverVersion = packet.Data[0];
 

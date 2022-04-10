@@ -12,13 +12,13 @@ namespace Client.Client.State
     /// </summary>
     class RequirePortScanState : AbstractState
     {
-        public override void Process(IClientContextForState context, CRLFSocket socket)
+        internal override void Process(IClientContextForState context, CRLFSocket socket)
         {
             string[] datas = { context.PeerState.PeerId.ToString(), context.PeerConfig.Port.ToString() };
             socket.WriteLine("114 1 " + string.Join(":", datas));
         }
 
-        public override void ReceivePortCheckResult(IClientContextForState context, CRLFSocket socket, Packet packet)
+        internal override void ReceivePortCheckResult(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
             context.PeerState.IsPortOpened = (packet.Data[0] == "1");
 

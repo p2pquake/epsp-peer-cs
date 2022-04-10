@@ -8,14 +8,14 @@ namespace Client.Client.State
 {
     class PeerEchoState : AbstractState
     {
-        public override void Process(IClientContextForState context, Common.Net.CRLFSocket socket)
+        internal override void Process(IClientContextForState context, Common.Net.CRLFSocket socket)
         {
             IPeerStateForClient peerState = context.PeerState;
             string[] datas = { peerState.PeerId.ToString(), peerState.Connections.ToString() };
             socket.WriteLine("123 1 " + string.Join(":", datas));
         }
 
-        public override void AcceptedEcho(IClientContextForState context, Common.Net.CRLFSocket socket, Common.Net.Packet packet)
+        internal override void AcceptedEcho(IClientContextForState context, Common.Net.CRLFSocket socket, Common.Net.Packet packet)
         {
             IPeerStateForClient peerState = context.PeerState;
             if (peerState.Key == null || peerState.Key.IsExpired(context.PeerState.CalcNowProtocolTime()))

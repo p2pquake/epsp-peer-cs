@@ -14,7 +14,7 @@ using Client.Peer;
 
 namespace Client.Client
 {
-    class ClientContext : IClientContext, IClientContextForState
+    public class ClientContext : IClientContext, IClientContextForState
     {
         private AbstractState state;
 
@@ -43,12 +43,14 @@ namespace Client.Client
             get { return State is IFinishedState; }
         }
 
-        public ClientContext()
+        public ClientContext(string[] servers = null)
         {
             state = new FinishedState(ClientConst.OperationResult.Successful, ClientConst.ErrorCode.SUCCESSFUL);
 
-            string[] servers = Application.Default.servers.Split(',');
-               // ConfigurationManager.AppSettings["servers"].Split(',');
+            if (servers == null)
+            {
+                servers = Application.Default.servers.Split(',');
+            }
             foreach (string server in servers)
             {
                 string[] items = server.Split(':');
@@ -123,7 +125,7 @@ namespace Client.Client
 
             // HACK: こんなところでリフレクションを無駄に使うのはいかんでしょう。
             Type type = State.GetType();
-            MethodInfo methodInfo = type.GetMethod(methodName);
+            MethodInfo methodInfo = type.GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
 
             object[] args = { this, socket, packet };
 
