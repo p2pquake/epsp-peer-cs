@@ -1,4 +1,4 @@
-using Map.Controller;
+ï»¿using Map.Controller;
 using Map.Model;
 
 using NUnit.Framework;
@@ -23,7 +23,7 @@ namespace MapTest
                 Hypocenter = new GeoCoordinate(29.4, 129.5),
                 ObservationPoints = new List<ObservationPoint>
                 {
-                    new("­™“‡Œ§", "­™“‡\“‡‘º", 10),
+                    new("é¹¿å…å³¶çœŒ", "é¹¿å…å³¶åå³¶æ‘", 10),
                 },
             }.DrawAsPng(),
             // 2022/04/07 09:30
@@ -40,7 +40,7 @@ namespace MapTest
                 MapType = MapType.JAPAN_8192,
                 ObservationPoints = new List<ObservationPoint>
                 {
-                    new("", "ÎìŒ§”\“o", 40),
+                    new("", "çŸ³å·çœŒèƒ½ç™»", 40),
                 },
             }.DrawAsPng(),
         };

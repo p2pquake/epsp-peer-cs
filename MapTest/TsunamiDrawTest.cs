@@ -1,4 +1,4 @@
-using Map.Controller;
+ï»¿using Map.Controller;
 using Map.Model;
 
 using NUnit.Framework;
@@ -22,8 +22,8 @@ namespace MapTest
                 MapType = MapType.JAPAN_2048,
                 TsunamiPoints = new List<TsunamiPoint>
                 {
-                    new TsunamiPoint("‹{éŒ§", TsunamiCategory.Advisory),
-                    new TsunamiPoint("•Ÿ“‡Œ§", TsunamiCategory.Advisory),
+                    new TsunamiPoint("å®®åŸçœŒ", TsunamiCategory.Advisory),
+                    new TsunamiPoint("ç¦å³¶çœŒ", TsunamiCategory.Advisory),
                 },
             }.DrawAsPng();
         }
