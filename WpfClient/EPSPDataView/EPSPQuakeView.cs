@@ -5,6 +5,7 @@ using Map.Model;
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -142,7 +143,7 @@ namespace WpfClient.EPSPDataView
         {
             get
             {
-                var latitude = double.Parse(EventArgs.Latitude.Replace("N", "").Replace("S", ""));
+                var latitude = double.Parse(EventArgs.Latitude.Replace("N", "").Replace("S", ""), NumberFormatInfo.InvariantInfo);
                 if (EventArgs.Latitude.StartsWith("S"))
                 {
                     latitude *= -1;
@@ -155,7 +156,7 @@ namespace WpfClient.EPSPDataView
         {
             get
             {
-                var longitude = double.Parse(EventArgs.Longitude.Replace("W", "").Replace("E", ""));
+                var longitude = double.Parse(EventArgs.Longitude.Replace("W", "").Replace("E", ""), NumberFormatInfo.InvariantInfo);
                 if (EventArgs.Longitude.StartsWith("W"))
                 {
                     // TODO: たぶんあってるけど自信がない

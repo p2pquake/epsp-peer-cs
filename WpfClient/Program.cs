@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
@@ -390,11 +391,11 @@ namespace WpfClient
                         },
                         Depth = quake.Earthquake.Hypocenter.Depth == 0 ? "ごく浅い" : quake.Earthquake.Hypocenter.Depth == -1 ? "不明" : $"{quake.Earthquake.Hypocenter.Depth}km",
                         Destination = quake.Earthquake.Hypocenter.Name,
-                        Magnitude = $"M{quake.Earthquake.Hypocenter.Magnitude}",
+                        Magnitude = $"{quake.Earthquake.Hypocenter.Magnitude.ToString(NumberFormatInfo.InvariantInfo)}",
                         OccuredTime = DateTime.Parse(quake.Earthquake.Time).ToString("d日HH時mm分"),
                         Scale = ConvertScale(quake.Earthquake.MaxScale),
-                        Latitude = quake.Earthquake.Hypocenter.Latitude <= -200 ? "" : $"{(quake.Earthquake.Hypocenter.Latitude > 0 ? 'N' : 'S')}{Math.Abs(quake.Earthquake.Hypocenter.Latitude)}",
-                        Longitude = quake.Earthquake.Hypocenter.Longitude <= -200 ? "" : $"{(quake.Earthquake.Hypocenter.Longitude > 0 ? 'E' : 'W')}{Math.Abs(quake.Earthquake.Hypocenter.Longitude)}",
+                        Latitude = quake.Earthquake.Hypocenter.Latitude <= -200 ? "" : $"{(quake.Earthquake.Hypocenter.Latitude > 0 ? 'N' : 'S')}{Math.Abs(quake.Earthquake.Hypocenter.Latitude).ToString(NumberFormatInfo.InvariantInfo)}",
+                        Longitude = quake.Earthquake.Hypocenter.Longitude <= -200 ? "" : $"{(quake.Earthquake.Hypocenter.Longitude > 0 ? 'E' : 'W')}{Math.Abs(quake.Earthquake.Hypocenter.Longitude).ToString(NumberFormatInfo.InvariantInfo)}",
                         PointList = quake.Points.Select(e =>
                             new QuakeObservationPoint() { Prefecture = e.Pref, Name = e.Addr, Scale = ConvertScale(e.Scale) }
                         ).ToList(),

@@ -7,6 +7,7 @@ using Client.Peer.Manager;
 
 using Client.Common.General;
 using Client.Common.Net;
+using System.Globalization;
 
 namespace Client.Peer.State
 {
@@ -94,7 +95,7 @@ namespace Client.Peer.State
             }
 
             double version = 0.0;
-            if (!double.TryParse(packet.Data[0], out version)) {
+            if (!double.TryParse(packet.Data[0], NumberStyles.Any, NumberFormatInfo.InvariantInfo, out version)) {
                 return;
             }
 
@@ -124,7 +125,7 @@ namespace Client.Peer.State
             }
 
             double version = 0.0;
-            if (!double.TryParse(packet.Data[0], out version))
+            if (!double.TryParse(packet.Data[0], NumberStyles.Any, NumberFormatInfo.InvariantInfo, out version))
             {
                 return;
             }
