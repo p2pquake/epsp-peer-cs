@@ -84,6 +84,8 @@ namespace Client.App
         public bool CanDisconnect { get { return state is ConnectedState; } }
         private bool CanMaintain { get { return CanDisconnect; } }
 
+        private readonly object stateOperationLock = new object();
+
         /// <summary>
         /// インスタンスを初期化します。初期値はそれぞれ下記となります。
         /// <list type="bullet">
@@ -147,36 +149,46 @@ namespace Client.App
 
         private void MaintainTimer_RequireDisconnect(object sender, EventArgs e)
         {
-            if (!CanDisconnect) { return; }
+            lock (stateOperationLock)
+            {
+                if (!CanDisconnect) { return; }
 
-            peerContext.EndListen();
-            state.Disconnect(this, clientContext, peerContext);
+                peerContext.EndListen();
+                state.Disconnect(this, clientContext, peerContext);
+            }
         }
 
         private void MaintainTimer_RequireConnect(object sender, EventArgs e)
         {
-            if (!CanConnect) { return; }
+            lock (stateOperationLock)
+            {
+                if (!CanConnect) { return; }
 
-            if (IsPortOpen)
-            {
-                if (UseUPnP)
+                if (IsPortOpen)
                 {
-                    UPnPUtil.OpenPort(Port);
+                    if (UseUPnP)
+                    {
+                        UPnPUtil.OpenPort(Port);
+                    }
+                    IsPortListening = peerContext.Listen(Port);
                 }
-                IsPortListening = peerContext.Listen(Port);
+                else
+                {
+                    IsPortListening = false;
+                }
+
+                state.Connect(this, clientContext, peerContext);
             }
-            else
-            {
-                IsPortListening = false;
-            }
-            state.Connect(this, clientContext, peerContext);
         }
 
         private void MaintainTimer_RequireMaintain(object sender, EventArgs e)
         {
-            if (!CanMaintain) { return; }
+            lock (stateOperationLock)
+            {
+                if (!CanMaintain) { return; }
 
-            state.Maintain(this, clientContext, peerContext);
+                state.Maintain(this, clientContext, peerContext);
+            }
         }
 
         private void ClientContext_StateChanged(object sender, EventArgs e)
