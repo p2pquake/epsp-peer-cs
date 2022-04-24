@@ -1,5 +1,4 @@
 ﻿using CLI.Command;
-using CLI.Command;
 using CLI.Observers;
 
 using Client.App;

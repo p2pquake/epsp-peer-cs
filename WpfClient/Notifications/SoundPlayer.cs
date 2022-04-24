@@ -44,7 +44,7 @@ namespace WpfClient.Notifications
             mediatorContext.OnNewUserquakeEvaluation += MediatorContext_OnNewUserquakeEvaluation;
         }
 
-        private static async void PlaySound(SoundType soundType)
+        private static void PlaySound(SoundType soundType)
         {
             if (WaveOut.DeviceCount <= 0) { return; }
             using(var audioFile = new AudioFileReader(GeneratePath($"Resources/Sounds/{soundType}.mp3"))) {
