@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
@@ -15,6 +17,8 @@ namespace ClientTest.Peer.Manager
     [TestFixture]
     class PeerManagerTest
     {
+        private Random random = new Random();
+
         [TestCase]
         public void PeerReadLineDuplicateRemoving()
         {
@@ -179,6 +183,98 @@ namespace ClientTest.Peer.Manager
                 );
 
             Assert.AreEqual(5, callCount);
+        }
+
+        [TestCase]
+        public void PeerListMultithreadOperationTest()
+        {
+            var peerManager = new PeerManager()
+            {
+                PeerCount = () => 1000,
+                PeerId = () => 55,
+            };
+            peerManager.ConnectionsChanged += (s, e) => { };
+
+            /*
+             * Connect randomly
+             */
+            var tcpListener = new TcpListener(IPAddress.Any, 9999);
+            tcpListener.Start();
+            var sockets = new List<Socket>();
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    var socket = await tcpListener.AcceptSocketAsync();
+                    lock (sockets) { sockets.Add(socket); }
+                }
+            });
+
+            Action connect = () =>
+            {
+                var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                socket.Connect(IPEndPoint.Parse($"127.0.{random.Next(255)}.1:9999"));
+                peerManager.AddFromSocket(socket);
+            };
+
+            /*
+             * Disconnect randomly
+             */
+            Action disconnect = () =>
+            {
+                if (random.Next() > 0.5) { return; }
+                lock (sockets)
+                {
+                    if (sockets.Count() > 0)
+                    {
+                        sockets[random.Next(sockets.Count())].Close(); ;
+                    }
+                }
+            };
+
+            /*
+             * DisconnectAll randomly
+             */
+            Action disconnectAll = () =>
+            {
+                if (random.Next() > 0.2) { return; }
+                peerManager.DisconnectAll();
+            };
+
+            /*
+             * Send randomly
+             */
+            Action sendAll = () =>
+            {
+                peerManager.Send(new Packet() { Code = 611, Hop = 1, Data = new string[] { } });
+            };
+
+            /*
+             * Receive randomly
+             */
+
+            /*
+             * State change randomly
+             */
+
+            var actions = new List<Action>()
+            {
+                connect,
+                disconnect,
+                disconnectAll,
+                sendAll,
+            };
+            actions = Enumerable.Repeat(actions, 100).SelectMany(e => e).ToList();
+
+            var sw = new Stopwatch();
+            sw.Start();
+            Parallel.Invoke(actions.Select(e => new Action(() =>
+            {
+                while (sw.ElapsedMilliseconds < 10000)
+                {
+                    e();
+                }
+            })).ToArray());
         }
     }
 }
