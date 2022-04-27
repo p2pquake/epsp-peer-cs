@@ -55,6 +55,7 @@ namespace Client.Peer.Manager
             peer.PeerId += () => { return PeerId(); };
 
             IPEndPoint remoteEndPoint = crlfSocket.RemoteEndPoint;
+            if (remoteEndPoint == null) { return; }
             peer.PeerData = new PeerData(remoteEndPoint.Address.ToString(), remoteEndPoint.Port, -1);
 
             lock (peerList)
