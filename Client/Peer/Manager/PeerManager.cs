@@ -35,8 +35,7 @@ namespace Client.Peer.Manager
         public Func<DateTime> ProtocolTime { get; set; }
         public Func<int> PeerCount { get; set; }
 
-        internal int Connections { get { return peerList.Count; } }
-
+        internal int Connections { get { lock (peerList) { return peerList.Count; } } }
 
         public PeerManager()
         {
@@ -58,13 +57,16 @@ namespace Client.Peer.Manager
             IPEndPoint remoteEndPoint = crlfSocket.RemoteEndPoint;
             peer.PeerData = new PeerData(remoteEndPoint.Address.ToString(), remoteEndPoint.Port, -1);
 
-            if (peerList.Any(e => e.PeerData.Address == peer.PeerData.Address))
+            lock (peerList)
             {
-                peer.Disconnect();
-                return;
-            }
+                if (peerList.Any(e => e.PeerData.Address == peer.PeerData.Address))
+                {
+                    peer.Disconnect();
+                    return;
+                }
 
-            peerList.Add(peer);
+                peerList.Add(peer);
+            }
             ConnectionsChanged(this, EventArgs.Empty);
 
             peer.BeginReceive();
@@ -87,7 +89,7 @@ namespace Client.Peer.Manager
             bool result = peer.Connect(peerData);
             if (result)
             {
-                peerList.Add(peer);
+                lock (peerList) { peerList.Add(peer); }
                 ConnectionsChanged(this, EventArgs.Empty);
             }
 
@@ -383,16 +385,23 @@ namespace Client.Peer.Manager
                 Send(e.packet, (Peer)sender);
 
                 // リプライ送信
-                var packet = new Packet();
-                packet.Code = 635;
-                packet.Hop = 1;
-                packet.Data = new string[]
+                string peerIds;
+                lock (peerList)
                 {
-                    e.packet.Data[0],
-                    e.packet.Data[1],
-                    PeerId().ToString(),
-                    string.Join(",", peerList.Select(peer => peer.PeerData.PeerId)),
-                    (e.packet.Hop - 1).ToString()
+                    peerIds = string.Join(",", peerList.Select(peer => peer.PeerData.PeerId));
+                }
+                var packet = new Packet()
+                {
+                    Code = 635,
+                    Hop = 1,
+                    Data = new string[]
+                    {
+                        e.packet.Data[0],
+                        e.packet.Data[1],
+                        PeerId().ToString(),
+                        peerIds,
+                        (e.packet.Hop - 1).ToString()
+                    }
                 };
                 ((Peer)sender).Send(packet);
                 
@@ -423,17 +432,20 @@ namespace Client.Peer.Manager
 
         void Peer_Closed(object sender, EventArgs e)
         {
-            peerList.Remove((Peer)sender);
+            lock (peerList) { peerList.Remove((Peer)sender); }
             ConnectionsChanged(this, EventArgs.Empty);
         }
 
         internal void DisconnectAll()
         {
-            foreach (Peer peer in peerList)
+            lock (peerList)
             {
-                peer.Disconnect();
+                foreach (Peer peer in peerList)
+                {
+                    peer.Disconnect();
+                }
+                peerList.Clear();
             }
-            peerList.Clear();
             ConnectionsChanged(this, EventArgs.Empty);
         }
     
