@@ -213,7 +213,13 @@ namespace ClientTest.Peer.Manager
             Action connect = () =>
             {
                 var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                socket.Connect(IPEndPoint.Parse($"127.0.{random.Next(255)}.1:9999"));
+                try
+                {
+                    socket.Connect(IPEndPoint.Parse($"127.0.{random.Next(255)}.1:9999"));
+                } catch (SocketException)
+                {
+                    // nothing to do
+                }
                 peerManager.AddFromSocket(socket);
             };
 
