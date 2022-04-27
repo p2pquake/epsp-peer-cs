@@ -104,7 +104,8 @@ namespace Client.Peer.Manager
 
         internal void Send(Packet packet, Peer exceptPeer)
         {
-            var list = new List<Peer>(peerList);
+            List<Peer> list;
+            lock (peerList) { list = new List<Peer>(peerList); }
             foreach (Peer peer in list)
             {
                 if (peer != exceptPeer)
