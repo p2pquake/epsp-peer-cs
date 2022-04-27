@@ -150,11 +150,24 @@ namespace Client.Common.Net
             }
         }
 
-        public void BeginReceive()
+        public bool BeginReceive()
         {
             // Hook
             receiveBuffer = new byte[BUFFER_SIZE];
-            socket.BeginReceive(receiveBuffer, 0, BUFFER_SIZE, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
+            try
+            {
+                socket.BeginReceive(receiveBuffer, 0, BUFFER_SIZE, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
+                return true;
+            }
+            catch (SocketException)
+            {
+                Close();
+                return false;
+            }
+            catch (ObjectDisposedException)
+            {
+                return false;
+            }
         }
 
         private void ConnectCallback(IAsyncResult ar)
