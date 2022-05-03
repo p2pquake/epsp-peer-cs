@@ -41,9 +41,7 @@ namespace Client.App
         public event EventHandler<EPSPUserquakeEventArgs> OnUserquake = (s, e) => { };
         public event EventHandler<UserquakeEvaluateEventArgs> OnNewUserquakeEvaluation = delegate { };
         public event EventHandler<UserquakeEvaluateEventArgs> OnUpdateUserquakeEvaluation = delegate { };
-#if RAISE_RAW_DATA_EVENT
         public event EventHandler<EPSPRawDataEventArgs> OnData = (s, e) => { };
-#endif
 
         private AbstractState state;
 
@@ -122,9 +120,7 @@ namespace Client.App
             peerContext.OnTsunami += (s, e) => { if (!Verification || e.IsValid) { OnTsunami(s, e); } };
             peerContext.OnEarthquake += (s, e) => { if (!Verification || e.IsValid) { OnEarthquake(s, e); } };
             peerContext.OnEEWTest += (s, e) => { if (!Verification || e.IsValid) { OnEEWTest(s, e); } };
-#if RAISE_RAW_DATA_EVENT
             peerContext.OnData += (s, e) => { OnData(s, e); };
-#endif
 
             maintainTimer.RequireConnect += MaintainTimer_RequireConnect;
             maintainTimer.RequireMaintain += MaintainTimer_RequireMaintain;

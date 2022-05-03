@@ -42,10 +42,8 @@ namespace Client.App
         event EventHandler<UserquakeEvaluateEventArgs> OnNewUserquakeEvaluation;
         /// <summary>地震感知情報の評価結果が更新された場合に発生します。</summary>
         event EventHandler<UserquakeEvaluateEventArgs> OnUpdateUserquakeEvaluation;
-
-#if RAISE_RAW_DATA_EVENT
+        /// <summary>新規データ受信時に発生します。</summary>
         event EventHandler<EPSPRawDataEventArgs> OnData;
-#endif
 #if MOBILE_SERVER
         void SendAll(Packet packet);
 #endif

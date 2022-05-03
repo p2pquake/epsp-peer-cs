@@ -26,10 +26,7 @@ namespace Client.Peer.Manager
         public event EventHandler<EPSPAreapeersEventArgs> OnAreapeers;
         public event EventHandler<EPSPEEWTestEventArgs> OnEEWTest;
         public event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
-
-#if RAISE_RAW_DATA_EVENT
-        public event EventHandler<EPSPRawDataEventArgs> OnData;      
-#endif
+        public event EventHandler<EPSPRawDataEventArgs> OnData;
 
         public Func<int> PeerId { get; set; }
         public Func<DateTime> ProtocolTime { get; set; }
@@ -137,13 +134,10 @@ namespace Client.Peer.Manager
 
         private void RaiseDataEvent(Packet packet)
         {
-            // オプションにより有効とする
-#if RAISE_RAW_DATA_EVENT
             EPSPRawDataEventArgs raw = new EPSPRawDataEventArgs();
             raw.Packet = packet.ToPacketString();
-            OnData(this, raw);  
-#endif
-            
+            OnData(this, raw);
+
             RaiseEarthquakeEvent(packet);
             RaiseTsunamiEvent(packet);
             RaiseAreapeersEvent(packet);
