@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Client.Common.Net;
 using Client.Peer.Manager;
@@ -186,6 +187,7 @@ namespace ClientTest.Peer.Manager
         }
 
         [TestCase]
+        [Repeat(100)]
         public void PeerListMultithreadOperationTest()
         {
             var peerManager = new PeerManager()
@@ -206,6 +208,7 @@ namespace ClientTest.Peer.Manager
                 while (true)
                 {
                     var socket = await tcpListener.AcceptSocketAsync();
+                    socket.ReceiveBufferSize = 1024 * 1024;
                     lock (sockets) { sockets.Add(socket); }
                 }
             });
@@ -233,7 +236,7 @@ namespace ClientTest.Peer.Manager
                 {
                     if (sockets.Count() > 0)
                     {
-                        sockets[random.Next(sockets.Count())].Close(); ;
+                        sockets[random.Next(sockets.Count())].Close();
                     }
                 }
             };
@@ -243,7 +246,7 @@ namespace ClientTest.Peer.Manager
              */
             Action disconnectAll = () =>
             {
-                if (random.Next() > 0.2) { return; }
+                if (random.Next() > 0.05) { return; }
                 peerManager.DisconnectAll();
             };
 
@@ -276,11 +279,24 @@ namespace ClientTest.Peer.Manager
             sw.Start();
             Parallel.Invoke(actions.Select(e => new Action(() =>
             {
-                while (sw.ElapsedMilliseconds < 10000)
+                while (sw.ElapsedMilliseconds < 200)
                 {
                     e();
+                    Thread.Sleep(1);
                 }
             })).ToArray());
+
+            // Check all closed?
+            Thread.Sleep(20);
+            sockets.ForEach(e => e.Close());
+            Thread.Sleep(20);
+            if (peerManager.Connections > 0)
+            {
+                Console.WriteLine("pause");
+            }
+            Assert.Zero(peerManager.Connections);
+
+            tcpListener.Stop();
         }
     }
 }
