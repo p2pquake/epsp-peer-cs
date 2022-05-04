@@ -212,9 +212,10 @@ namespace Client.Peer
         /// </summary>
         event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
 
-#if RAISE_RAW_DATA_EVENT
+        /// <summary>
+        /// データ受信イベント
+        /// </summary>
         event EventHandler<EPSPRawDataEventArgs> OnData;
-#endif
 
         /// <summary>
         /// すべてのピア接続を切断します。
