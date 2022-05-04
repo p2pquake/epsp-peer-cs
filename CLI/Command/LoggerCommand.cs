@@ -44,6 +44,7 @@ namespace CLI.Command
             };
             appender.ActivateOptions();
             BasicConfigurator.Configure(appender);
+            LogManager.Flush(50);
 
             logger = LogManager.GetLogger("Logger");
 
