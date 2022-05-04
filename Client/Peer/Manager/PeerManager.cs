@@ -26,7 +26,7 @@ namespace Client.Peer.Manager
         public event EventHandler<EPSPAreapeersEventArgs> OnAreapeers;
         public event EventHandler<EPSPEEWTestEventArgs> OnEEWTest;
         public event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
-        public event EventHandler<EPSPRawDataEventArgs> OnData;
+        public event EventHandler<EPSPRawDataEventArgs> OnData = (s, e) => {};
 
         public Func<int> PeerId { get; set; }
         public Func<DateTime> ProtocolTime { get; set; }
