@@ -32,6 +32,9 @@ namespace CLI.Command
             public int Port { get; set; }
         }
 
+        private static IMediatorContext mc;
+        private static ILog logger;
+
         private static void LoggerHandler(LoggerOptions options)
         {
             var appender = new ConsoleAppender()
@@ -39,11 +42,13 @@ namespace CLI.Command
                 Threshold = log4net.Core.Level.Info,
                 Layout = new PatternLayout("%date %-5level %appdomain [%thread]: %message%newline"),
             };
-
-            BasicConfigurator.Configure(appender);
             appender.ActivateOptions();
+            BasicConfigurator.Configure(appender);
 
-            var mc = new MediatorContext();
+            logger = LogManager.GetLogger("Logger");
+
+            mc = new MediatorContext();
+            mc.StateChanged += Mc_StateChanged;
             mc.OnData += Mc_OnData;
             mc.IsPortOpen = options.Port > 0;
             mc.Port = options.Port;
@@ -63,9 +68,14 @@ namespace CLI.Command
 
         }
 
+        private static void Mc_StateChanged(object sender, EventArgs e)
+        {
+            logger.Info($"State changed: {mc.ReadonlyState.GetType().Name}");
+        }
+
         private static void Mc_OnData(object sender, Client.Peer.EPSPRawDataEventArgs e)
         {
-            LogManager.GetLogger("Logger").Info($"EPSP data arrived: {e.Packet}");
+            logger.Info($"EPSP data arrived: {e.Packet}");
         }
     }
 }
