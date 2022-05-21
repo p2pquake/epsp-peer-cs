@@ -34,6 +34,9 @@ namespace PKCSPeerCryptoTest
 
             // 署名
             var signResult = Signer.SignUserquake(1, privateKey, "901", signTime);
+            // Adaptation to client_vb6 implementation
+            Assert.LessOrEqual(Convert.FromBase64String(signResult.signature).Length, 48);
+
 
             // 検証
             Assert.AreEqual(signTime.AddMinutes(1), signResult.expire);
