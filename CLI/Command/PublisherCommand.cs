@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.Diagnostics;
@@ -117,21 +118,34 @@ namespace CLI.Command
 
             while (!quit)
             {
-                HttpListenerContext context = listener.GetContext();
-                HttpListenerRequest request = context.Request;
-                HttpListenerResponse response = context.Response;
+                try
+                {
+                    HttpListenerContext context = listener.GetContext();
+                    HttpListenerRequest request = context.Request;
+                    HttpListenerResponse response = context.Response;
 
-                response.StatusCode = 200;
-                response.ContentType = "application/json";
+                    if (mc.AreaPeerDictionary == null)
+                    {
+                        response.StatusCode = 500;
+                        response.ContentType = "text/plain";
+                        response.OutputStream.Write(Encoding.ASCII.GetBytes("AreaPeerDictionary has not been initialized."));
+                        logger.Info("Could not send areapeers because it has not been initialized.");
+                    } else
+                    {
+                        response.StatusCode = 200;
+                        response.ContentType = "application/json";
 
-                string outputJson = JsonConvert.SerializeObject(mc.AreaPeerDictionary.Where(c => c.Key.Trim().Length == 3).ToDictionary(item => item.Key, item => item.Value));
-                byte[] outputBytes = Encoding.ASCII.GetBytes(outputJson);
+                        string outputJson = JsonConvert.SerializeObject(mc.AreaPeerDictionary.Where(c => c.Key.Trim().Length == 3).ToDictionary(item => item.Key, item => item.Value));
+                        byte[] outputBytes = Encoding.ASCII.GetBytes(outputJson);
 
-                response.OutputStream.Write(outputBytes, 0, outputBytes.Length);
-
-                response.Close();
-
-                logger.Info("Send areapeers");
+                        response.OutputStream.Write(outputBytes, 0, outputBytes.Length);
+                        logger.Info("Send areapeers");
+                    }
+                    response.Close();
+                } catch (Exception e)
+                {
+                    logger.Error("Exception occured!", e);
+                }
             }
         }
 
