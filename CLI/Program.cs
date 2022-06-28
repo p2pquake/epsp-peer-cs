@@ -19,6 +19,7 @@ namespace CLI
             {
                 MapCommand.Build(),
                 LoggerCommand.Build(),
+                PublisherCommand.Build(),
                 new System.CommandLine.Command("legacy", "これまでの Observers CLI を起動します")
                 {
                     Handler = CommandHandler.Create(() =>
