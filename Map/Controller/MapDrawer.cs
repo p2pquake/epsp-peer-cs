@@ -29,6 +29,7 @@ namespace Map.Controller
         public IList<UserquakePoint> UserquakePoints { get; init; }
         public IList<TsunamiPoint> TsunamiPoints { get; init; }
         public IList<Areapeer> Areapeers { get; init; }
+        public IList<EEWPoint> EEWPoints { get; init; }
 
         public MapDrawer()
         {
@@ -36,6 +37,7 @@ namespace Map.Controller
             UserquakePoints = new List<UserquakePoint>();
             TsunamiPoints = new List<TsunamiPoint>();
             Areapeers = new List<Areapeer>();
+            EEWPoints = new List<EEWPoint>();
         }
 
         public Stream DrawAsPng()
@@ -111,6 +113,18 @@ namespace Map.Controller
                     IsMercator = mapData.IsMercator,
                     LTRB = mapData.LTRBCoordinate,
                     Areapeers = Areapeers,
+                });
+            }
+
+            // 緊急地震速報（警報）
+            if (EEWPoints != null && EEWPoints.Any())
+            {
+                drawers.Add(new EEWDrawer
+                {
+                    Image = image,
+                    IsMercator = mapData.IsMercator,
+                    LTRB = mapData.LTRBCoordinate,
+                    EEWPoints = EEWPoints,
                 });
             }
 
