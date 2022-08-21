@@ -38,6 +38,7 @@ namespace Client.App
         public event EventHandler<EPSPTsunamiEventArgs> OnTsunami = (s, e) => { };
         public event EventHandler<EventArgs> OnAreapeers = (s, e) => { };
         public event EventHandler<EPSPEEWTestEventArgs> OnEEWTest = (s, e) => { };
+        public event EventHandler<EPSPEEWEventArgs> OnEEW = (s, e) => { };
         public event EventHandler<EPSPUserquakeEventArgs> OnUserquake = (s, e) => { };
         public event EventHandler<UserquakeEvaluateEventArgs> OnNewUserquakeEvaluation = delegate { };
         public event EventHandler<UserquakeEvaluateEventArgs> OnUpdateUserquakeEvaluation = delegate { };
@@ -122,6 +123,7 @@ namespace Client.App
             peerContext.OnTsunami += (s, e) => { if (!Verification || e.IsValid) { OnTsunami(s, e); } };
             peerContext.OnEarthquake += (s, e) => { if (!Verification || e.IsValid) { OnEarthquake(s, e); } };
             peerContext.OnEEWTest += (s, e) => { if (!Verification || e.IsValid) { OnEEWTest(s, e); } };
+            peerContext.OnEEW += (s, e) => { if (!Verification || e.IsValid) { OnEEW(s, e); } };
             peerContext.OnData += (s, e) => { OnData(s, e); };
 
             maintainTimer.RequireConnect += MaintainTimer_RequireConnect;

@@ -169,6 +169,16 @@ namespace Client.Peer
         /// <summary>テストかどうか</summary>
         public bool IsTest { get; set; } = false;
     }
+    /// <summary>緊急地震速報（警報）のイベントデータクラスです。</summary>
+    public class EPSPEEWEventArgs : EPSPDataEventArgs
+    {
+        /// <summary>テストかどうか</summary>
+        public bool IsTest { get; set; } = false;
+        /// <summary>震源をあらわす地域コード</summary>
+        public int Hypocenter { get; set; } = -1;
+        /// <summary>震度 4 以上の揺れが予想される地域コード</summary>
+        public int[] Areas { get; set; } = Array.Empty<int>();
+    }
 
     /// <summary>地震感知情報のイベントデータクラスです。</summary>
     public class EPSPUserquakeEventArgs : EPSPDataEventArgs
@@ -206,6 +216,11 @@ namespace Client.Peer
         /// 緊急地震速報 配信試験(β)イベント
         /// </summary>
         event EventHandler<EPSPEEWTestEventArgs> OnEEWTest;
+
+        /// <summary>
+        /// 緊急地震速報（警報）イベント
+        /// </summary>
+        event EventHandler<EPSPEEWEventArgs> OnEEW;
 
         /// <summary>
         /// 地震感知情報イベント
