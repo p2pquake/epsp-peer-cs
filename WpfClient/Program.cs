@@ -198,6 +198,7 @@ namespace WpfClient
             client.OnEarthquake += Client_OnEarthquake;
             client.OnTsunami += Client_OnTsunami;
             client.OnEEWTest += Client_OnEEWTest;
+            client.OnEEW += Client_OnEEW;
             client.OnNewUserquakeEvaluation += Client_OnNewUserquakeEvaluation;
             client.OnUpdateUserquakeEvaluation += Client_OnUpdateUserquakeEvaluation;
 
@@ -309,6 +310,12 @@ namespace WpfClient
         }
 
         private static void Client_OnEEWTest(object sender, EPSPEEWTestEventArgs e)
+        {
+            // Deprecated: 緊急地震速報（警報）に置き換えます
+            //AddHistory(e);
+        }
+
+        private static void Client_OnEEW(object sender, EPSPEEWEventArgs e)
         {
             AddHistory(e);
         }

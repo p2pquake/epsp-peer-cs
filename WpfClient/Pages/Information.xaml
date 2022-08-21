@@ -67,6 +67,22 @@
             </StackPanel>
         </DataTemplate>
 
+        <DataTemplate x:Key="EEWItem" DataType="data:EPSPEEWView">
+            <StackPanel Orientation="Horizontal">
+                <ui:SymbolIcon Symbol="Volume"
+                               Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
+                               Width="32" Height="24" />
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding Time}" />
+                    <TextBlock Text="緊急地震速報（警報）"
+                                           TextWrapping="WrapWithOverflow"
+                                           HorizontalAlignment="Stretch"
+                                           MaxWidth="136"
+                                           />
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+
         <DataTemplate x:Key="UserquakeItem" DataType="data:EPSPUserquakeView">
             <StackPanel Orientation="Horizontal">
                 <Image Source="{Binding Source}" Width="32" Height="24" />

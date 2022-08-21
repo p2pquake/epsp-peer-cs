@@ -23,9 +23,14 @@ namespace WpfClient.EPSPDataView
                 return new EPSPTsunamiView() { EventArgs = tsunami, FrameModel = frameModel };
             }
 
-            if (eventArgs is EPSPEEWTestEventArgs eew)
+            if (eventArgs is EPSPEEWTestEventArgs eewTest)
             {
-                return new EPSPEEWTestView() { EventArgs = eew };
+                return new EPSPEEWTestView() { EventArgs = eewTest };
+            }
+
+            if (eventArgs is EPSPEEWEventArgs eew)
+            {
+                return new EPSPEEWView(eew, frameModel);
             }
 
             if (eventArgs is UserquakeEvaluateEventArgs userquake)

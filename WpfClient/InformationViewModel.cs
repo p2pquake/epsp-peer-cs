@@ -57,6 +57,7 @@ namespace WpfClient
                 EPSPUserquakeView => "Informations/Userquake.xaml",
                 EPSPTsunamiView => "Informations/Tsunami.xaml",
                 EPSPEEWTestView => "Informations/EEWTest.xaml",
+                EPSPEEWView => "Informations/EEW.xaml",
                 _ => "Informations/Unknown.xaml",
             };
 

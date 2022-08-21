@@ -34,6 +34,11 @@ namespace WpfClient.Pages
                 return element.FindResource("EEWTestItem") as DataTemplate;
             }
 
+            if (item is EPSPEEWView)
+            {
+                return element.FindResource("EEWItem") as DataTemplate;
+            }
+
             if (item is EPSPUserquakeView)
             {
                 return element.FindResource("UserquakeItem") as DataTemplate;

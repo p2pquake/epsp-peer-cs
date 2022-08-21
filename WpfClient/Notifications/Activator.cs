@@ -24,7 +24,7 @@ namespace WpfClient.Notifications
                 var item = dataContext.InformationViewModel.Histories.First((item) =>
                     (type == "quake" && item is EPSPQuakeView quake && quake.EventArgs.ReceivedAt.ToString() == receivedAt) ||
                     (type == "tsunami" && item is EPSPTsunamiView tsunami && tsunami.EventArgs.ReceivedAt.ToString() == receivedAt) ||
-                    (type == "eew" && item is EPSPEEWTestView eew && eew.EventArgs.ReceivedAt.ToString() == receivedAt) ||
+                    (type == "eew" && item is EPSPEEWView eew && eew.EventArgs.ReceivedAt.ToString() == receivedAt) ||
                     (type == "userquake" && item is EPSPUserquakeView userquake && userquake.EventArgs.StartedAt.ToString() == startedAt)
                 );
                 dataContext.InformationViewModel.SelectedIndex = dataContext.InformationViewModel.Histories.IndexOf(item);
@@ -53,7 +53,7 @@ namespace WpfClient.Notifications
 
             mediatorContext.OnEarthquake += MediatorContext_OnEarthquake;
             mediatorContext.OnTsunami += MediatorContext_OnTsunami;
-            mediatorContext.OnEEWTest += MediatorContext_OnEEWTest;
+            mediatorContext.OnEEW += MediatorContext_OnEEW;
             mediatorContext.OnNewUserquakeEvaluation += MediatorContext_OnNewUserquakeEvaluation;
         }
 
@@ -101,7 +101,7 @@ namespace WpfClient.Notifications
             Activate("tsunami", e.ReceivedAt.ToString());
         }
 
-        private void MediatorContext_OnEEWTest(object sender, EPSPEEWTestEventArgs e)
+        private void MediatorContext_OnEEW(object sender, EPSPEEWEventArgs e)
         {
             var eewTestNotification = configuration.EEWTestNotification;
 
