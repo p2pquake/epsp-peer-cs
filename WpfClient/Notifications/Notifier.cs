@@ -28,7 +28,7 @@ namespace WpfClient.Notifications
 
             mediatorContext.OnEarthquake += MediatorContext_OnEarthquake;
             mediatorContext.OnTsunami += MediatorContext_OnTsunami;
-            mediatorContext.OnEEWTest += MediatorContext_OnEEWTest;
+            mediatorContext.OnEEW += MediatorContext_OnEEW;
             mediatorContext.OnNewUserquakeEvaluation += MediatorContext_OnNewUserquakeEvaluation;
 
             ToastNotificationManagerCompat.OnActivated += ToastNotificationManagerCompat_OnActivated;
@@ -143,7 +143,7 @@ namespace WpfClient.Notifications
                 .Show();
         }
 
-        public void MediatorContext_OnEEWTest(object sender, Client.Peer.EPSPEEWTestEventArgs e)
+        public void MediatorContext_OnEEW(object sender, Client.Peer.EPSPEEWEventArgs e)
         {
             var eewTestNotification = configuration.EEWTestNotification;
 
@@ -156,9 +156,13 @@ namespace WpfClient.Notifications
                 return;
             }
 
+            var hypocenter = $"震源: {EEWConverter.GetHypocenter(e.Hypocenter) ?? "（不明な震源）"}";
+            var area = $"強い揺れに警戒: {string.Join(' ', e.Areas.Select(e => EEWConverter.GetArea(e)))}";
+
             new ToastContentBuilder()
-                .AddText("緊急地震速報 発表検出")
-                .AddText("NHK ラジオ第一の音声認識により、緊急地震速報の発表を検出しました。")
+                .AddText("緊急地震速報（警報） 部分配信")
+                .AddText(hypocenter)
+                .AddText(area)
                 .AddArgument("type", "eew").AddArgument("receivedAt", e.ReceivedAt.ToString())
                 .Show();
         }
