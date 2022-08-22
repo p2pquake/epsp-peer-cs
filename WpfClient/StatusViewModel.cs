@@ -85,8 +85,7 @@ namespace WpfClient
         {
             get
             {
-                var asm = Assembly.GetExecutingAssembly();
-                var info = FileVersionInfo.GetVersionInfo(asm.Location);
+                var info = FileVersionInfo.GetVersionInfo(Environment.ProcessPath);
                 return $"P2P地震情報 Beta{info.ProductMinorPart/10.0:0.0}(Rev{info.ProductBuildPart:00})";
             }
         }
