@@ -235,6 +235,11 @@ namespace WpfClient.Utils
             return null;
         }
 
+        public static int GetHypocenterCode(string name)
+        {
+            return code2Hypocenter.FirstOrDefault(e => e.Value == name, new KeyValuePair<int, string>(-1, "")).Key;
+        }
+
         public static string GetArea(int code)
         {
             if (code2AreaName.ContainsKey(code))
@@ -243,6 +248,11 @@ namespace WpfClient.Utils
             }
 
             return null;
+        }
+
+        public static int GetAreaCode(string name)
+        {
+            return code2AreaName.FirstOrDefault(e => e.Value == name, new KeyValuePair<int, string>(-1, "")).Key;
         }
     }
 }
