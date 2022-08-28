@@ -25,7 +25,7 @@ namespace JsonApi
     public class EEWIssue
     {
         public string Time { get; set; }
-        public string EventID { get; set; }
+        public string EventId { get; set; }
         public string Serial { get; set; }
     }
 
