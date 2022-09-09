@@ -28,6 +28,7 @@ using System.Windows.Threading;
 
 using WpfClient.EPSPDataView;
 using WpfClient.Notifications;
+using WpfClient.Utils;
 
 namespace WpfClient
 {
@@ -369,7 +370,7 @@ namespace WpfClient
 
         private async static void ReadHistories()
         {
-            var items = await JsonApi.Client.Get(100, Code.Earthquake, Code.Tsunami, Code.EEWTest, Code.UserquakeEvaluation);
+            var items = await JsonApi.Client.Get(100, Code.Earthquake, Code.Tsunami, Code.EEW, Code.UserquakeEvaluation);
             var histories = viewModel.InformationViewModel.Histories;
 
             foreach (var item in items.Reverse())
@@ -433,15 +434,27 @@ namespace WpfClient
                     AddHistory(eventArgs);
                 }
 
-                if (item is EEWDetection eew)
+                if (item is EEWDetection eewDetection)
                 {
 
                     var eventArgs = new EPSPEEWTestEventArgs()
                     {
-                        IsTest = !(eew.Type == "Full"),
-                        ReceivedAt = DateTime.Parse(eew.Time),
+                        IsTest = !(eewDetection.Type == "Full"),
+                        ReceivedAt = DateTime.Parse(eewDetection.Time),
                     };
                     if (eventArgs.IsTest) { continue; }
+                    AddHistory(eventArgs);
+                }
+
+                if (item is EEW eew)
+                {
+                    var eventArgs = new EPSPEEWEventArgs()
+                    {
+                        IsTest = false,
+                        ReceivedAt = DateTime.Parse(eew.Time),
+                        Hypocenter = EEWConverter.GetHypocenterCode(eew.Earthquake.Hypocenter.ReduceName),
+                        Areas = eew.Areas.Select(e => e.Pref).Distinct().Select(e => EEWConverter.GetAreaCode(e)).ToArray(),
+                    };
                     AddHistory(eventArgs);
                 }
 

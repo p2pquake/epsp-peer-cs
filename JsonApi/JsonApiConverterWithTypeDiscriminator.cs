@@ -32,6 +32,7 @@ namespace JsonApi
                     551 => JsonSerializer.Deserialize<JMAQuake>(rawText, options),
                     552 => JsonSerializer.Deserialize<JMATsunami>(rawText, options),
                     554 => JsonSerializer.Deserialize<EEWDetection>(rawText, options),
+                    556 => JsonSerializer.Deserialize<EEW>(rawText, options),
                     9611 => JsonSerializer.Deserialize<UserquakeEvaluation>(rawText, options),
                     _ => JsonSerializer.Deserialize<UnknownData>(rawText, options),
                 };

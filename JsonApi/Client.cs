@@ -12,7 +12,9 @@ namespace JsonApi
     {
         Earthquake = 551,
         Tsunami = 552,
+        [Obsolete("代わりに EEW を使用してください。")]
         EEWTest = 554,
+        EEW = 556,
         UserquakeEvaluation = 9611,
     }
 
