@@ -180,5 +180,45 @@ namespace ClientTest.Peer.Manager
 
             Assert.AreEqual(5, callCount);
         }
+
+        [TestCase]
+        public void DisconnectUnresponsivePeersTest()
+        {
+            var peerManager = new PeerManager();
+            peerManager.ConnectionsChanged += (s, e) => { };
+
+            var peerList = new List<Client.Peer.Manager.Peer>();
+
+            for (int i = 0; i < 5; i++)
+            {
+                var crlfSocket = new CRLFSocket();
+
+                var peer = new Client.Peer.Manager.Peer(peerManager, crlfSocket);
+                peer.LastEchoReplied = DateTime.Now;
+                peerList.Add(peer);
+
+                var mockSocket = new Mock<ISocket>();
+                mockSocket.SetupGet(x => x.Connected).Returns(true);
+                mockSocket.Setup(x => x.Send(It.IsAny<byte[]>())).Callback(() => { });
+
+                var crlfField = crlfSocket.GetType().GetField("socket", BindingFlags.SetField | BindingFlags.NonPublic | BindingFlags.Instance);
+                crlfField.SetValue(crlfSocket, mockSocket.Object);
+            }
+
+            var field = peerManager.GetType().GetField("peerList", BindingFlags.SetField | BindingFlags.NonPublic | BindingFlags.Instance);
+            field.SetValue(peerManager, peerList);
+
+            Assert.AreEqual(5, peerManager.Connections);
+
+            foreach (var peer in peerList.Take(2))
+            {
+                peer.LastEchoReplied = DateTime.Now.Subtract(TimeSpan.FromMinutes(5));
+            }
+
+            var echoTimerTick = peerManager.GetType().GetMethod("EchoTimer_Tick", BindingFlags.InvokeMethod | BindingFlags.NonPublic | BindingFlags.Instance);
+            echoTimerTick.Invoke(peerManager, new object[] { null });
+
+            Assert.AreEqual(3, peerManager.Connections);
+        }
     }
 }

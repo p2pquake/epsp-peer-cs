@@ -35,7 +35,6 @@ namespace Client.Peer.Manager
 
         internal int Connections { get { return peerList.Count; } }
 
-
         public PeerManager()
         {
             peerList = new List<Peer>();
@@ -472,6 +471,17 @@ namespace Client.Peer.Manager
     
         private void EchoTimer_Tick(object state)
         {
+            var unresponsivePeers = peerList.Where(peer => DateTime.Now.Subtract(peer.LastEchoReplied).TotalMinutes >= 5).ToList();
+            unresponsivePeers.ForEach(peer =>
+            {
+                peer.Disconnect();
+                peerList.Remove(peer);
+            });
+            if (unresponsivePeers.Count > 0)
+            {
+                ConnectionsChanged(this, EventArgs.Empty);
+            }
+
             Packet packet = new Packet();
             packet.Code = Code.PEER_PING;
             packet.Hop = 1;

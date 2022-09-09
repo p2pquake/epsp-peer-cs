@@ -21,6 +21,7 @@ namespace Client.Peer.Manager
 
         internal PeerData PeerData { get; set; }
         public bool IsConnected { get { return socket.State == ConnectionState.Connected; } }
+        internal DateTime LastEchoReplied { get; set; }
 
         public Func<int> PeerId;
         public int GetParentPeerId() { return PeerId(); }
@@ -39,6 +40,8 @@ namespace Client.Peer.Manager
             this.socket = socket;
 
             state.ReadLine += new EventHandler<ReadLineEventArgs>(State_ReadLine);
+            state.EchoReplied += State_EchoReplied;
+            LastEchoReplied = DateTime.Now;
 
             socket.Closed += new EventHandler(Socket_Closed);
             socket.ReadLine += new EventHandler<ReadLineEventArgs>(Socket_ReadLine);
@@ -52,6 +55,11 @@ namespace Client.Peer.Manager
         void State_ReadLine(object sender, ReadLineEventArgs e)
         {
             ReadLine(this, e);
+        }
+
+        private void State_EchoReplied(object sender, EventArgs e)
+        {
+            LastEchoReplied = DateTime.Now;
         }
 
         void Socket_ReadLine(object sender, ReadLineEventArgs e)

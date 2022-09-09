@@ -14,6 +14,7 @@ namespace Client.Peer.State
     abstract class AbstractState
     {
         public event EventHandler<ReadLineEventArgs> ReadLine = (s,e) => {};
+        public event EventHandler<EventArgs> EchoReplied = (s, e)=> { };
 
         public virtual void NotifyEarthquake(Manager.Peer peer, CRLFSocket socket, Packet packet)
         {
@@ -165,7 +166,7 @@ namespace Client.Peer.State
 
         public virtual void ReplyPeerEcho(Manager.Peer peer, CRLFSocket socket, Packet packet)
         {
-            // 何もしない。
+            EchoReplied(this, EventArgs.Empty);
         }
 
         public virtual void InvalidProtocolVersion(Manager.Peer peer, CRLFSocket socket, Packet packet)
