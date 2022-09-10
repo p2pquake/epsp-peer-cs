@@ -130,6 +130,7 @@ namespace Client.App
             maintainTimer.RequireMaintain += MaintainTimer_RequireMaintain;
             maintainTimer.RequireDisconnect += MaintainTimer_RequireDisconnect;
             maintainTimer.RequireDisconnectAllPeers += MaintainTimer_RequireDisconnectAllPeers;
+            maintainTimer.RequireAbort += MaintainTimer_RequireAbort;
 
             OnUserquake += (s, e) => {
                 if (areaPeerDictionary != null)
@@ -137,6 +138,15 @@ namespace Client.App
             };
             userquakeAggregator.OnNew += (s, e) => { OnNewUserquakeEvaluation(this, e); };
             userquakeAggregator.OnUpdate += (s, e) => { OnUpdateUserquakeEvaluation(this, e); };
+        }
+
+        private void MaintainTimer_RequireAbort(object sender, EventArgs e)
+        {
+            lock(stateOperationLock)
+            {
+                clientContext.Abort();
+                State = new DisconnectedState();
+            }
         }
 
         private void MaintainTimer_RequireDisconnectAllPeers(object sender, EventArgs e)

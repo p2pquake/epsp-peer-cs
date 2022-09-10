@@ -19,6 +19,7 @@ namespace Client.App
         public event EventHandler RequireMaintain;
         public event EventHandler RequireDisconnect;
         public event EventHandler RequireDisconnectAllPeers;
+        public event EventHandler RequireAbort;
 
         private ILog logger = Logger.GetLog();
 
@@ -152,7 +153,7 @@ namespace Client.App
                 {
                     logger.Warn("サーバ通信が中断されました。後ほど再接続します。");
                     RequireDisconnectAllPeers(this, EventArgs.Empty);
-                    mediatorContext.State = new DisconnectedState();
+                    RequireAbort(this, EventArgs.Empty);
                 }
             }
         }

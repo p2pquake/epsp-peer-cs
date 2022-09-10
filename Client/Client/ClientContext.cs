@@ -11,6 +11,7 @@ using Client.Client.State;
 using Client.Common.General;
 using Client.Common.Net;
 using Client.Peer;
+using System.Net.Sockets;
 
 namespace Client.Client
 {
@@ -18,9 +19,11 @@ namespace Client.Client
     {
         private AbstractState state;
 
-        public AbstractState State {
+        public AbstractState State
+        {
             get { return state; }
-            set {
+            set
+            {
                 state = value;
                 RaiseEvent();
             }
@@ -37,7 +40,8 @@ namespace Client.Client
 
         private List<ServerPoint> serverPointList = new List<ServerPoint>();
         private Random random = new Random();
-        
+        private CRLFSocket socket;
+
         public bool IsOperatable
         {
             get { return State is IFinishedState; }
@@ -100,7 +104,7 @@ namespace Client.Client
 
             State = state;
 
-            CRLFSocket socket = new CRLFSocket();
+            socket = new CRLFSocket();
             socket.ReadLine += new EventHandler<ReadLineEventArgs>(ProcessData);
             // FIXME: Closedに対する処理は未実装
 
@@ -129,13 +133,27 @@ namespace Client.Client
 
             object[] args = { this, socket, packet };
 
-            methodInfo.Invoke(State, args);
+            try
+            {
+                methodInfo.Invoke(State, args);
+            }
+            catch (InvalidOperationException)
+            {
+                Abort();
+                return;
+            }
+            catch (NotSupportedException)
+            {
+                Abort();
+                return;
+            }
+
 
             Logger.GetLog().Debug("実行後の状態: " + State.GetType().Name);
 
             State.Process(this, socket);
         }
-        
+
         private void RaiseEvent()
         {
             if (state is IFinishedState)
@@ -144,6 +162,25 @@ namespace Client.Client
                 OperationCompletedEventArgs e = new OperationCompletedEventArgs(finishedState.Result, finishedState.ErrorCode);
                 OperationCompleted(this, e);
             }
+        }
+
+        public void Abort()
+        {
+            try
+            {
+                socket?.Close();
+                Logger.GetLog().Warn("サーバとの接続を強制的に中断しました。");
+            }
+            catch (SocketException)
+            {
+                Logger.GetLog().Warn("サーバとの接続中断に失敗しました。");
+            }
+            catch (ObjectDisposedException)
+            {
+                Logger.GetLog().Warn("サーバとの接続中断に失敗しました。");
+            }
+
+            State = new FinishedState(ClientConst.OperationResult.Restartable, ClientConst.ErrorCode.TIMED_OUT);
         }
     }
 }
