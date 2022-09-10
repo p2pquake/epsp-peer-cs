@@ -42,7 +42,7 @@ namespace Client.App.State
             }
             else if (operationResult == ClientConst.OperationResult.Restartable)
             {
-                Logger.GetLog().Info("IPアドレスが変化しているため、再接続します。");
+                Logger.GetLog().Info($"理由 {oce.ErrorCode.ToString()} により、再接続します。");
 
                 peerContext.DisconnectAll();
 
