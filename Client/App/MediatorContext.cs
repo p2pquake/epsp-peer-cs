@@ -144,7 +144,7 @@ namespace Client.App
         {
             lock(stateOperationLock)
             {
-                clientContext.Abort();
+                clientContext.Abort(ClientConst.ErrorCode.TIMED_OUT);
                 State = new DisconnectedState();
             }
         }

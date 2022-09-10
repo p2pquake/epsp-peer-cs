@@ -140,13 +140,13 @@ namespace Client.Client
             catch (InvalidOperationException ioe)
             {
                 Logger.GetLog().Warn($"{State.GetType().Name}#{methodName} は想定しない呼び出しです", ioe);
-                Abort();
+                Abort(ClientConst.ErrorCode.INVALID_OPERATION);
                 return;
             }
             catch (NotSupportedException nse)
             {
                 Logger.GetLog().Warn($"{State.GetType().Name}#{methodName} はサポートされていません", nse);
-                Abort();
+                Abort(ClientConst.ErrorCode.INVALID_OPERATION);
                 return;
             }
 
@@ -166,7 +166,7 @@ namespace Client.Client
             }
         }
 
-        public void Abort()
+        public void Abort(ClientConst.ErrorCode errorCode)
         {
             try
             {
@@ -182,7 +182,7 @@ namespace Client.Client
                 Logger.GetLog().Warn("サーバとの接続中断に失敗しました。");
             }
 
-            State = new FinishedState(ClientConst.OperationResult.Restartable, ClientConst.ErrorCode.TIMED_OUT);
+            State = new FinishedState(ClientConst.OperationResult.Restartable, errorCode);
         }
     }
 }
