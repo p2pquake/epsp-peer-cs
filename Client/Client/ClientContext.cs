@@ -137,13 +137,15 @@ namespace Client.Client
             {
                 methodInfo.Invoke(State, args);
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ioe)
             {
+                Logger.GetLog().Warn($"{State.GetType().Name}#{methodName} は想定しない呼び出しです", ioe);
                 Abort();
                 return;
             }
-            catch (NotSupportedException)
+            catch (NotSupportedException nse)
             {
+                Logger.GetLog().Warn($"{State.GetType().Name}#{methodName} はサポートされていません", nse);
                 Abort();
                 return;
             }
