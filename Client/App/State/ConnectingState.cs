@@ -49,7 +49,8 @@ namespace Client.App.State
                 Logger.GetLog().Info("ピア接続をすべて切断しました（接続数: " + peerContext.Connections + "）");
 
                 mediatorContext.State = new DisconnectedState();
-                mediatorContext.Connect();
+                // MaintainTimer に任せる（一定のインターバルを置く）
+                //mediatorContext.Connect();
             }
             else if (operationResult == ClientConst.OperationResult.Retryable)
             {

@@ -57,21 +57,9 @@ namespace Client.App
                 return;
             }
 
+            // リトライ処理（ここでやる内容ではない気がしつつ、 App.State ではリトライ回数が計測できないので仕方なく）
             retryCount++;
 
-            if (e.Result == Client.General.ClientConst.OperationResult.Restartable)
-            {
-                if (isStopped || retryCount > 10)
-                {
-                    return;
-                }
-
-                Task.Run(() =>
-                {
-                    RequireDisconnectAllPeers(this, EventArgs.Empty);
-                    RequireConnect(this, EventArgs.Empty);
-                });
-            }
             if (e.Result == Client.General.ClientConst.OperationResult.Retryable)
             {
                 if (isStopped)
