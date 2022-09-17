@@ -19,6 +19,7 @@ namespace Client.App
         public event EventHandler RequireMaintain;
         public event EventHandler RequireDisconnect;
         public event EventHandler RequireDisconnectAllPeers;
+        public event EventHandler RequireAbort;
 
         private ILog logger = Logger.GetLog();
 
@@ -56,21 +57,9 @@ namespace Client.App
                 return;
             }
 
+            // リトライ処理（ここでやる内容ではない気がしつつ、 App.State ではリトライ回数が計測できないので仕方なく）
             retryCount++;
 
-            if (e.Result == Client.General.ClientConst.OperationResult.Restartable)
-            {
-                if (isStopped || retryCount > 10)
-                {
-                    return;
-                }
-
-                Task.Run(() =>
-                {
-                    RequireDisconnectAllPeers(this, EventArgs.Empty);
-                    RequireConnect(this, EventArgs.Empty);
-                });
-            }
             if (e.Result == Client.General.ClientConst.OperationResult.Retryable)
             {
                 if (isStopped)
@@ -152,7 +141,7 @@ namespace Client.App
                 {
                     logger.Warn("サーバ通信が中断されました。後ほど再接続します。");
                     RequireDisconnectAllPeers(this, EventArgs.Empty);
-                    mediatorContext.State = new DisconnectedState();
+                    RequireAbort(this, EventArgs.Empty);
                 }
             }
         }

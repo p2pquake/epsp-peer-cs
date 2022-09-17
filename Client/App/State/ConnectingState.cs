@@ -42,14 +42,15 @@ namespace Client.App.State
             }
             else if (operationResult == ClientConst.OperationResult.Restartable)
             {
-                Logger.GetLog().Info("IPアドレスが変化しているため、再接続します。");
+                Logger.GetLog().Info($"理由 {oce.ErrorCode.ToString()} により、再接続します。");
 
                 peerContext.DisconnectAll();
 
                 Logger.GetLog().Info("ピア接続をすべて切断しました（接続数: " + peerContext.Connections + "）");
 
                 mediatorContext.State = new DisconnectedState();
-                mediatorContext.Connect();
+                // MaintainTimer に任せる（一定のインターバルを置く）
+                //mediatorContext.Connect();
             }
             else if (operationResult == ClientConst.OperationResult.Retryable)
             {

@@ -67,5 +67,10 @@ namespace Client.Client
         /// </summary>
         /// <returns></returns>
         bool Maintain();
+
+        /// <summary>
+        /// 処理を強制的に中断する
+        /// </summary>
+        void Abort(ClientConst.ErrorCode errorCode);
     }
 }

@@ -73,6 +73,10 @@ namespace Client.Client.General
             /// 処理タイムアウト
             /// </summary>
             TIMED_OUT = 2,
+            /// <summary>
+            /// 不正な処理による中断
+            /// </summary>
+            INVALID_OPERATION = 3,
 
             /// <summary>
             /// サーバ互換性なし
