@@ -43,6 +43,9 @@ namespace WpfClient.EPSPDataView
                 drawingQueue.Enqueue(value);
                 OnPropertyChanged();
                 OnPropertyChanged("DetailTime");
+                OnPropertyChanged("Count");
+                OnPropertyChanged("Rate");
+                OnPropertyChanged("Text");
             }
         }
 
@@ -64,6 +67,36 @@ namespace WpfClient.EPSPDataView
             EventArgs != null && DateTime.Now.Subtract(EventArgs.UpdatedAt).TotalSeconds < 40 ? Visibility.Visible : Visibility.Hidden;
 
         public string DetailTime => $"{EventArgs?.StartedAt.ToString("M月dd日HH時mm分ss秒")}～{EventArgs?.UpdatedAt.ToString("HH時mm分ss秒")}";
+
+        public string Count => EventArgs == null ? "不明" : $"{EventArgs.Count} 件";
+
+        public string Rate
+        {
+            get
+            {
+                if (EventArgs == null) { return "-"; }
+
+                var diff = EventArgs.UpdatedAt.Subtract(EventArgs.StartedAt).TotalSeconds;
+                if (diff <= 0)
+                {
+                    return "計測中";
+                }
+
+                return $"{EventArgs.Count / diff:N2}/sec";
+            }
+        }
+
+        public string Text
+        {
+            get
+            {
+                if (EventArgs == null) { return "-"; }
+                var points = GenerateUserquakePoints(EventArgs).Where(e => areas.ContainsKey(e.Areacode)).OrderByDescending(e => e.Confidence).GroupBy(e => ConfidenceLabel(e.Confidence));
+
+
+                return string.Join(Environment.NewLine, points.Select(e => $"＜信頼度{e.Key}＞{Environment.NewLine}{string.Join('、', e.Select(e => areas[e.Areacode]))}"));
+            }
+        }
 
         private byte[] pngImage = Resource.loading;
         private byte[] PngImage
@@ -94,7 +127,7 @@ namespace WpfClient.EPSPDataView
                             Trim = true,
                             UserquakePoints = GenerateUserquakePoints(EventArgs),
                             HideNote = true,
-                            PreferedAspectRatio = FrameModel.FrameWidth / FrameModel.FrameHeight,
+                            PreferedAspectRatio = (FrameModel.FrameWidth - 240) / (FrameModel.FrameHeight - 40),
                         };
                         var png = mapDrawer.DrawAsPng();
                         using (var ms = new MemoryStream())
@@ -157,6 +190,21 @@ namespace WpfClient.EPSPDataView
 
                 OnPropertyChanged("ReceivingVisibility");
             });
+        }
+
+        private static Dictionary<string, string> areas = Resource.epsp_area.Split('\n').Skip(1).Select(e => e.Split(',')).ToDictionary(e => e[0], e => e[4]);
+
+        private static string ConfidenceLabel(double confidence)
+        {
+            return confidence switch
+            {
+                var n when n > 0.8 => "A",
+                var n when n > 0.6 => "B",
+                var n when n > 0.4 => "C",
+                var n when n > 0.2 => "D",
+                var n when n > 0.0 => "E",
+                _ => "F"
+            };
         }
 
         private static IList<UserquakePoint> GenerateUserquakePoints(UserquakeEvaluateEventArgs eventArgs)
