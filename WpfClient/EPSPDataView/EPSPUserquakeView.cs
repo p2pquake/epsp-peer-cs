@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace WpfClient.EPSPDataView
@@ -43,6 +44,9 @@ namespace WpfClient.EPSPDataView
                 drawingQueue.Enqueue(value);
                 OnPropertyChanged();
                 OnPropertyChanged("DetailTime");
+                OnPropertyChanged("Count");
+                OnPropertyChanged("Rate");
+                OnPropertyChanged("UserquakeDetails");
             }
         }
 
@@ -64,6 +68,36 @@ namespace WpfClient.EPSPDataView
             EventArgs != null && DateTime.Now.Subtract(EventArgs.UpdatedAt).TotalSeconds < 40 ? Visibility.Visible : Visibility.Hidden;
 
         public string DetailTime => $"{EventArgs?.StartedAt.ToString("M月dd日HH時mm分ss秒")}～{EventArgs?.UpdatedAt.ToString("HH時mm分ss秒")}";
+
+        public string Count => EventArgs == null ? "不明" : $"{EventArgs.Count} 件";
+
+        public string Rate
+        {
+            get
+            {
+                if (EventArgs == null) { return "-"; }
+
+                var diff = EventArgs.UpdatedAt.Subtract(EventArgs.StartedAt).TotalSeconds;
+                if (diff <= 0)
+                {
+                    return "計測中";
+                }
+
+                return $"{EventArgs.Count / diff:N2}/sec";
+            }
+        }
+
+        public record UserquakeDetail(double Confidence, string Label, Brush brush);
+
+        public List<UserquakeDetail> UserquakeDetails
+        {
+            get
+            {
+                if (EventArgs == null) { return new List<UserquakeDetail>(); }
+
+                return GenerateUserquakePoints(EventArgs).Where(e => areas.ContainsKey(e.Areacode)).OrderByDescending(e => e.Confidence).Select(e => new UserquakeDetail(e.Confidence * 80, $"{areas[e.Areacode]} ({EventArgs.AreaConfidences[e.Areacode].Count} 件)", new SolidColorBrush(ConvConfidenceColor(e.Confidence)))).ToList();
+            }
+        }
 
         private byte[] pngImage = Resource.loading;
         private byte[] PngImage
@@ -94,7 +128,7 @@ namespace WpfClient.EPSPDataView
                             Trim = true,
                             UserquakePoints = GenerateUserquakePoints(EventArgs),
                             HideNote = true,
-                            PreferedAspectRatio = FrameModel.FrameWidth / FrameModel.FrameHeight,
+                            PreferedAspectRatio = (FrameModel.FrameWidth - 240) / (FrameModel.FrameHeight - 40),
                         };
                         var png = mapDrawer.DrawAsPng();
                         using (var ms = new MemoryStream())
@@ -157,6 +191,50 @@ namespace WpfClient.EPSPDataView
 
                 OnPropertyChanged("ReceivingVisibility");
             });
+        }
+
+        private static Dictionary<string, string> areas = Resource.epsp_area.Split('\n').Skip(1).Select(e => e.Split(',')).ToDictionary(e => e[0], e => e[4]);
+
+        private static string ConfidenceLabel(double confidence)
+        {
+            return confidence switch
+            {
+                var n when n > 0.8 => "A",
+                var n when n > 0.6 => "B",
+                var n when n > 0.4 => "C",
+                var n when n > 0.2 => "D",
+                var n when n > 0.0 => "E",
+                _ => "F"
+            };
+        }
+
+        private Color ConvConfidenceColor(double confidence)
+        {
+            if (confidence < 0)
+            {
+                return Color.FromArgb(128, 192, 192, 192);
+            }
+
+            if (confidence >= 0.5)
+            {
+                var multiply = (confidence - 0.5) * 2;
+                return Color.FromArgb(
+                    255,
+                    (byte)(244 + (multiply * -4)),
+                    (byte)(160 + (multiply * -32)),
+                    (byte)(64 + (multiply * -64))
+                    );
+            }
+            else
+            {
+                var multiply = confidence * 2;
+                return Color.FromArgb(
+                        192,
+                        (byte)(255 + (multiply * -11)),
+                        (byte)(248 + (multiply * -88)),
+                        (byte)(240 + (multiply * -176))
+                    );
+            }
         }
 
         private static IList<UserquakePoint> GenerateUserquakePoints(UserquakeEvaluateEventArgs eventArgs)
