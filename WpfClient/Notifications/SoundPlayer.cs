@@ -44,10 +44,16 @@ namespace WpfClient.Notifications
             mediatorContext.OnNewUserquakeEvaluation += MediatorContext_OnNewUserquakeEvaluation;
         }
 
+        private static void PlaySoundAsync(SoundType soundType)
+        {
+            Task.Run(() => PlaySound(soundType));
+        }
+
         private static void PlaySound(SoundType soundType)
         {
             if (WaveOut.DeviceCount <= 0) { return; }
-            using(var audioFile = new AudioFileReader(GeneratePath($"Resources/Sounds/{soundType}.mp3"))) {
+            using (var audioFile = new AudioFileReader(GeneratePath($"Resources/Sounds/{soundType}.mp3")))
+            {
                 using (var outputDevice = new WaveOutEvent())
                 {
                     try
@@ -58,7 +64,8 @@ namespace WpfClient.Notifications
                         {
                             Thread.Sleep(1000);
                         }
-                    } catch (NAudio.MmException)
+                    }
+                    catch (NAudio.MmException)
                     {
                         // FIXME: あとでログに出力する。
                     }
@@ -97,22 +104,22 @@ namespace WpfClient.Notifications
 
             if (e.InformationType == QuakeInformationType.Destination)
             {
-                PlaySound(SoundType.P2PQ_Snd0);
+                PlaySoundAsync(SoundType.P2PQ_Snd0);
                 return;
             }
 
             if (scale >= 55)
             {
-                PlaySound(SoundType.P2PQ_Snd4);
+                PlaySoundAsync(SoundType.P2PQ_Snd4);
             } else if (scale >= 45)
             {
-                PlaySound(SoundType.P2PQ_Snd3);
+                PlaySoundAsync(SoundType.P2PQ_Snd3);
             } else if (scale >= 30)
             {
-                PlaySound(SoundType.P2PQ_Snd2);
+                PlaySoundAsync(SoundType.P2PQ_Snd2);
             } else
             {
-                PlaySound(SoundType.P2PQ_Snd1);
+                PlaySoundAsync(SoundType.P2PQ_Snd1);
             }
         } 
 
@@ -129,7 +136,7 @@ namespace WpfClient.Notifications
                 return;
             }
 
-            PlaySound(SoundType.P2PQ_Sndt);
+            PlaySoundAsync(SoundType.P2PQ_Sndt);
         }
 
         private void MediatorContext_OnEEW(object sender, EPSPEEWEventArgs e)
@@ -145,7 +152,7 @@ namespace WpfClient.Notifications
                 return;
             }
 
-            PlaySound(SoundType.EEW_Beta);
+            PlaySoundAsync(SoundType.EEW_Beta);
         }
 
         private void MediatorContext_OnNewUserquakeEvaluation(object sender, Client.App.Userquake.UserquakeEvaluateEventArgs e)
@@ -161,7 +168,7 @@ namespace WpfClient.Notifications
                 return;
             }
 
-            PlaySound(SoundType.P2PQ_Snd9);
+            PlaySoundAsync(SoundType.P2PQ_Snd9);
         }
 
         private static string GetAppDirectory()
