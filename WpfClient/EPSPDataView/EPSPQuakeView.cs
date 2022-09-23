@@ -72,8 +72,7 @@ namespace WpfClient.EPSPDataView
                     var pointsByScales = pointsByPref.GroupBy(e => e.Scale);
                     foreach (var pointsByScale in pointsByScales)
                     {
-                        list.Add(new DetailItemView($"震度{pointsByScale.Key}", TextStyles.Scale));
-                        list.Add(new DetailItemView(string.Join('、', pointsByScale.Select(e => e.Name)), TextStyles.Name));
+                        list.Add(new DetailItemView(string.Join('、', pointsByScale.Select(e => e.Name)), TextStyles.Name, pointsByScale.First().ScaleInt));
                     }
                 }
 

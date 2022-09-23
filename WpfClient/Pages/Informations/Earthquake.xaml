@@ -27,7 +27,17 @@
         </DataTemplate>
 
         <DataTemplate x:Key="DetailNameItem">
-            <TextBlock Text="{Binding Text}" Margin="0,0,0,4" Style="{StaticResource BodyTextBlockStyle}" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Image Source="{Binding ScaleIconPath}" Height="14" Width="14" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Margin="0,2,0,0" />
+                <TextBlock Text="{Binding Text}" Margin="0,0,0,4" Style="{StaticResource BodyTextBlockStyle}" Grid.Row="0" Grid.Column="1" />
+            </Grid>
         </DataTemplate>
     </Page.Resources>
     <Page.DataContext>

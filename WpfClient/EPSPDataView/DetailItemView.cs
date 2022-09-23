@@ -25,11 +25,13 @@ namespace WpfClient.EPSPDataView
     {
         public string Text { get; init; }
         public TextStyles TextStyle { get; init; }
+        public string ScaleIconPath { get; init; }
 
-        public DetailItemView(string text, TextStyles style)
+        public DetailItemView(string text, TextStyles style, int scale = -1)
         {
             this.Text = text;
             this.TextStyle = style;
+            this.ScaleIconPath = $"/Resources/Scales/scale_{scale}.png";
         }
     }
 }
