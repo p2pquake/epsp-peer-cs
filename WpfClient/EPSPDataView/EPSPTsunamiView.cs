@@ -106,7 +106,7 @@ namespace WpfClient.EPSPDataView
                 {
                     MapType = Map.Model.MapType.JAPAN_1024,
                     Trim = !EventArgs.IsCancelled,
-                    TsunamiPoints = EventArgs.RegionList.Select(e => new Map.Model.TsunamiPoint(e.Region, GetCategory(e.Category))).ToList(),
+                    TsunamiPoints = EventArgs.RegionList == null ? new List<Map.Model.TsunamiPoint>() : EventArgs.RegionList.Select(e => new Map.Model.TsunamiPoint(e.Region, GetCategory(e.Category))).ToList(),
                     HideNote = true,
                     PreferedAspectRatio = FrameModel.FrameWidth / FrameModel.FrameHeight,
                 };
@@ -130,7 +130,7 @@ namespace WpfClient.EPSPDataView
                 {
                     MapType = Map.Model.MapType.JAPAN_1024,
                     Trim = !EventArgs.IsCancelled,
-                    TsunamiPoints = EventArgs.RegionList.Select(e => new Map.Model.TsunamiPoint(e.Region, GetCategory(e.Category))).ToList(),
+                    TsunamiPoints = EventArgs.RegionList == null ? new List<Map.Model.TsunamiPoint>() : EventArgs.RegionList.Select(e => new Map.Model.TsunamiPoint(e.Region, GetCategory(e.Category))).ToList(),
                     HideNote = true,
                     HideDraw = true,
                     PreferedAspectRatio = FrameModel.FrameWidth / FrameModel.FrameHeight,
