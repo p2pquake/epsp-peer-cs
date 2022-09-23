@@ -3,6 +3,10 @@ using Client.Peer;
 
 using Microsoft.Toolkit.Uwp.Notifications;
 
+using Polly;
+
+using Sentry;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -109,7 +113,10 @@ namespace WpfClient.Notifications
             }
 
             builder.AddArgument("type", "quake").AddArgument("receivedAt", e.ReceivedAt.ToString());
-            builder.Show();
+            WithRetry(() =>
+            {
+                builder.Show();
+            });
         }
 
         public void MediatorContext_OnTsunami(object sender, Client.Peer.EPSPTsunamiEventArgs e)
@@ -136,11 +143,15 @@ namespace WpfClient.Notifications
             }
 
             var maxCategoryGroup = e.RegionList.OrderByDescending(e => e.Category).GroupBy(e => e.Category).First();
-            new ToastContentBuilder()
-                .AddText("津波予報")
-                .AddText($"{TsunamiCategoryConverter.String(maxCategoryGroup.Key)}: {string.Join('、', maxCategoryGroup.Select(e => $"{(e.IsImmediately ? "＊" : "")}{e.Region}"))} {(e.RegionList.Count != maxCategoryGroup.Count() ? " ほか" : "")}")
-                .AddArgument("type", "tsunami").AddArgument("receivedAt", e.ReceivedAt.ToString())
-                .Show();
+
+            WithRetry(() =>
+            {
+                new ToastContentBuilder()
+                    .AddText("津波予報")
+                    .AddText($"{TsunamiCategoryConverter.String(maxCategoryGroup.Key)}: {string.Join('、', maxCategoryGroup.Select(e => $"{(e.IsImmediately ? "＊" : "")}{e.Region}"))} {(e.RegionList.Count != maxCategoryGroup.Count() ? " ほか" : "")}")
+                    .AddArgument("type", "tsunami").AddArgument("receivedAt", e.ReceivedAt.ToString())
+                    .Show();
+            });
         }
 
         public void MediatorContext_OnEEW(object sender, Client.Peer.EPSPEEWEventArgs e)
@@ -159,12 +170,15 @@ namespace WpfClient.Notifications
             var hypocenter = $"震源: {EEWConverter.GetHypocenter(e.Hypocenter) ?? "（不明な震源）"}";
             var area = $"強い揺れに警戒: {string.Join(' ', e.Areas.Select(e => EEWConverter.GetArea(e)))}";
 
-            new ToastContentBuilder()
-                .AddText("緊急地震速報（警報） 部分配信")
-                .AddText(hypocenter)
-                .AddText(area)
-                .AddArgument("type", "eew").AddArgument("receivedAt", e.ReceivedAt.ToString())
-                .Show();
+            WithRetry(() =>
+            {
+                new ToastContentBuilder()
+                    .AddText("緊急地震速報（警報） 部分配信")
+                    .AddText(hypocenter)
+                    .AddText(area)
+                    .AddArgument("type", "eew").AddArgument("receivedAt", e.ReceivedAt.ToString())
+                    .Show();
+            });
         }
 
 
@@ -183,11 +197,25 @@ namespace WpfClient.Notifications
 
             var areas = e.AreaConfidences.Where(e => e.Value.Confidence >= 0 && userquakeArea.ContainsKey(e.Key)).OrderByDescending(e => e.Value.Confidence).Take(3).Select(e => userquakeArea[e.Key]);
 
-            new ToastContentBuilder()
-                .AddText("「揺れた！」報告（地震感知情報）")
-                .AddText($"主な地域: {string.Join('、', areas)}")
-                .AddArgument("type", "userquake").AddArgument("startedAt", e.StartedAt.ToString())
-                .Show();
+            WithRetry(() =>
+            {
+                new ToastContentBuilder()
+                    .AddText("「揺れた！」報告（地震感知情報）")
+                    .AddText($"主な地域: {string.Join('、', areas)}")
+                    .AddArgument("type", "userquake").AddArgument("startedAt", e.StartedAt.ToString())
+                    .Show();
+            });
+        }
+
+        private void WithRetry(Action a)
+        {
+            try
+            {
+                Policy.Handle<Exception>().Retry(3).Execute(a);
+            } catch (Exception e)
+            {
+                SentrySdk.CaptureException(e);
+            }
         }
     }
 }
