@@ -55,7 +55,7 @@
         </DockPanel>
         <ScrollViewer Grid.Column="1" Grid.Row="1" Padding="4" Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}">
             <ui:SimpleStackPanel Orientation="Vertical" Spacing="8" Margin="4">
-                <TextBlock Text="信頼度分布" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <TextBlock Text="各地域の相対的な信頼度" Style="{StaticResource SubtitleTextBlockStyle}" />
                 <TextBlock Text="{Binding Text}" d:Text="＜信頼度A＞&#10;北海道道北" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWithOverflow" />
                 <Separator />
                 <TextBlock Text="右上の「揺れた！」ボタンやスマホ版アプリで発信できる、利用者からの情報です。" TextWrapping="WrapWithOverflow" Style="{StaticResource BodyTextBlockStyle}" />

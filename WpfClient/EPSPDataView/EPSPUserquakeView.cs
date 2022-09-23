@@ -93,8 +93,7 @@ namespace WpfClient.EPSPDataView
                 if (EventArgs == null) { return "-"; }
                 var points = GenerateUserquakePoints(EventArgs).Where(e => areas.ContainsKey(e.Areacode)).OrderByDescending(e => e.Confidence).GroupBy(e => ConfidenceLabel(e.Confidence));
 
-
-                return string.Join(Environment.NewLine, points.Select(e => $"＜信頼度{e.Key}＞{Environment.NewLine}{string.Join('、', e.Select(e => areas[e.Areacode]))}"));
+                return string.Join(Environment.NewLine, points.Select(e => $"＜信頼度{e.Key}＞{Environment.NewLine}{string.Join('、', e.Select(e => $"{areas[e.Areacode]}({EventArgs.AreaConfidences[e.Areacode].Count})"))}"));
             }
         }
 
