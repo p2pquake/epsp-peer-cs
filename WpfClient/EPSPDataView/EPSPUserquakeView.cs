@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace WpfClient.EPSPDataView
@@ -45,7 +46,7 @@ namespace WpfClient.EPSPDataView
                 OnPropertyChanged("DetailTime");
                 OnPropertyChanged("Count");
                 OnPropertyChanged("Rate");
-                OnPropertyChanged("Text");
+                OnPropertyChanged("UserquakeDetails");
             }
         }
 
@@ -86,14 +87,15 @@ namespace WpfClient.EPSPDataView
             }
         }
 
-        public string Text
+        public record UserquakeDetail(double Confidence, string Label, Brush brush);
+
+        public List<UserquakeDetail> UserquakeDetails
         {
             get
             {
-                if (EventArgs == null) { return "-"; }
-                var points = GenerateUserquakePoints(EventArgs).Where(e => areas.ContainsKey(e.Areacode)).OrderByDescending(e => e.Confidence).GroupBy(e => ConfidenceLabel(e.Confidence));
+                if (EventArgs == null) { return new List<UserquakeDetail>(); }
 
-                return string.Join(Environment.NewLine, points.Select(e => $"＜信頼度{e.Key}＞{Environment.NewLine}{string.Join('、', e.Select(e => $"{areas[e.Areacode]}({EventArgs.AreaConfidences[e.Areacode].Count})"))}"));
+                return GenerateUserquakePoints(EventArgs).Where(e => areas.ContainsKey(e.Areacode)).OrderByDescending(e => e.Confidence).Select(e => new UserquakeDetail(e.Confidence * 80, $"{areas[e.Areacode]} ({EventArgs.AreaConfidences[e.Areacode].Count} 件)", new SolidColorBrush(ConvConfidenceColor(e.Confidence)))).ToList();
             }
         }
 
@@ -204,6 +206,35 @@ namespace WpfClient.EPSPDataView
                 var n when n > 0.0 => "E",
                 _ => "F"
             };
+        }
+
+        private Color ConvConfidenceColor(double confidence)
+        {
+            if (confidence < 0)
+            {
+                return Color.FromArgb(128, 192, 192, 192);
+            }
+
+            if (confidence >= 0.5)
+            {
+                var multiply = (confidence - 0.5) * 2;
+                return Color.FromArgb(
+                    255,
+                    (byte)(244 + (multiply * -4)),
+                    (byte)(160 + (multiply * -32)),
+                    (byte)(64 + (multiply * -64))
+                    );
+            }
+            else
+            {
+                var multiply = confidence * 2;
+                return Color.FromArgb(
+                        192,
+                        (byte)(255 + (multiply * -11)),
+                        (byte)(248 + (multiply * -88)),
+                        (byte)(240 + (multiply * -176))
+                    );
+            }
         }
 
         private static IList<UserquakePoint> GenerateUserquakePoints(UserquakeEvaluateEventArgs eventArgs)

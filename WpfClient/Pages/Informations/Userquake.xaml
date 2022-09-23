@@ -56,7 +56,16 @@
         <ScrollViewer Grid.Column="1" Grid.Row="1" Padding="4" Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}">
             <ui:SimpleStackPanel Orientation="Vertical" Spacing="8" Margin="4">
                 <TextBlock Text="各地域の相対的な信頼度" Style="{StaticResource SubtitleTextBlockStyle}" />
-                <TextBlock Text="{Binding Text}" d:Text="＜信頼度A＞&#10;北海道道北" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWithOverflow" />
+                <ItemsControl ItemsSource="{Binding UserquakeDetails}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="2">
+                                <Rectangle Height="12" Width="{Binding Confidence}" Fill="{Binding brush}" />
+                                <TextBlock Text="{Binding Label}" Style="{StaticResource BodyTextBlockStyle}" />
+                            </ui:SimpleStackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
                 <Separator />
                 <TextBlock Text="右上の「揺れた！」ボタンやスマホ版アプリで発信できる、利用者からの情報です。" TextWrapping="WrapWithOverflow" Style="{StaticResource BodyTextBlockStyle}" />
             </ui:SimpleStackPanel>
