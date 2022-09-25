@@ -123,7 +123,7 @@
                         <TextBlock Text="地震情報" Grid.Column="1" Grid.Row="0" />
                         <TextBlock Text="地震感知情報" Grid.Column="2" Grid.Row="0" />
                         <TextBlock Text="津波予報" Grid.Column="3" Grid.Row="0" />
-                        <TextBlock Text="緊急地震速報&#xA;配信試験（β）" Grid.Column="4" Grid.Row="0" />
+                        <TextBlock Text="緊急地震速報&#xA;（警報）" Grid.Column="4" Grid.Row="0" />
 
                         <TextBlock Text="有効無効" Grid.Row="1" Grid.Column="0" />
                         <TextBlock Text="ウィンドウを表示" Grid.Row="2" Grid.Column="0" />
