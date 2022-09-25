@@ -147,12 +147,16 @@ namespace WpfClient.Notifications
             {
                 return;
             }
-            if (!eewTestNotification.Sound)
+
+            if (eewTestNotification.Sound)
             {
-                return;
+                PlaySoundAsync(SoundType.EEW_Beta);
             }
 
-            PlaySoundAsync(SoundType.EEW_Beta);
+            if (eewTestNotification.VoiceGuidance)
+            {
+                SoundPlayerEEW.PlayEEWAsync(e);
+            }
         }
 
         private void MediatorContext_OnNewUserquakeEvaluation(object sender, Client.App.Userquake.UserquakeEvaluateEventArgs e)

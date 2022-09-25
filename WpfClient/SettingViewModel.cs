@@ -367,6 +367,17 @@ namespace WpfClient
                 OnPropertyChanged();
             }
         }
+
+        private bool eewVoiceGuidance;
+        public bool EEWVoiceGuidance
+        {
+            get => eewVoiceGuidance;
+            set
+            {
+                eewVoiceGuidance = value;
+                OnPropertyChanged();
+            }
+        }
             
         public void LoadFromConfiguration(Configuration configuration)
         {
@@ -404,6 +415,7 @@ namespace WpfClient
             eewTestShow = configuration.EEWTestNotification.Show;
             eewTestNotice = configuration.EEWTestNotification.Notice;
             eewTestSound = configuration.EEWTestNotification.Sound;
+            eewVoiceGuidance = configuration.EEWTestNotification.VoiceGuidance;
         }
 
         private void WritebackConfiguration()
@@ -443,6 +455,7 @@ namespace WpfClient
             configuration.EEWTestNotification.Show = eewTestShow;
             configuration.EEWTestNotification.Notice = eewTestNotice;
             configuration.EEWTestNotification.Sound = eewTestSound;
+            configuration.EEWTestNotification.VoiceGuidance = eewVoiceGuidance;
 
             ConfigurationManager.Save();
         }

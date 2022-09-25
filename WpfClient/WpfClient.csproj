@@ -125,6 +125,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="EEWVoice.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EEWVoice.resx</DependentUpon>
+    </Compile>
     <Compile Update="License.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -138,6 +143,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="EEWVoice.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EEWVoice.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="License.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>License.Designer.cs</LastGenOutput>
@@ -149,6 +158,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Resources\Sounds\EEW\" />
     <Folder Include="Resources\Specifications\" />
   </ItemGroup>
 

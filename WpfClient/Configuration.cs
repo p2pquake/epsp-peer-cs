@@ -76,6 +76,8 @@ namespace WpfClient
         public bool Show { get; set; }
         public bool Notice { get; set; }
         public bool Sound { get; set; }
+        // XXX: EEW のみ
+        public bool VoiceGuidance { get; set; }
     }
 
     public class EarthquakeNotification : Notification
