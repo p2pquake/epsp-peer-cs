@@ -178,7 +178,8 @@ namespace WpfClient.EPSPDataView
                             Trim = true,
                             UserquakePoints = GenerateUserquakePoints(eventArgs),
                             HideNote = true,
-                            PreferedAspectRatio = FrameModel.FrameWidth / FrameModel.FrameHeight,
+                            PreferedAspectRatio = (FrameModel.FrameWidth - 240) / (FrameModel.FrameHeight - 40),
+
                         };
                         var png = mapDrawer.DrawAsPng();
                         using (var ms = new MemoryStream())
