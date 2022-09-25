@@ -117,6 +117,7 @@
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
 
                         <TextBlock Text="地震情報" Grid.Column="1" Grid.Row="0" />
@@ -128,6 +129,8 @@
                         <TextBlock Text="ウィンドウを表示" Grid.Row="2" Grid.Column="0" />
                         <TextBlock Text="通知を表示" Grid.Row="3" Grid.Column="0" />
                         <TextBlock Text="音を鳴らす" Grid.Row="4" Grid.Column="0" />
+                        <TextBlock Text="音声読み上げ" Grid.Row="5" Grid.Column="0" />
+
 
                         <ui:SimpleStackPanel Grid.Row="1" Grid.Column="1">
                             <ui:ToggleSwitch IsOn="{Binding EarthquakeNotification, Mode=TwoWay}" />
@@ -136,19 +139,25 @@
                         <ui:ToggleSwitch IsEnabled="{Binding EarthquakeNotification}" IsOn="{Binding EarthquakeShow, Mode=TwoWay}" Grid.Row="2" Grid.Column="1" />
                         <ui:ToggleSwitch IsEnabled="{Binding EarthquakeNotification}" IsOn="{Binding EarthquakeNotice, Mode=TwoWay}" Grid.Row="3" Grid.Column="1" />
                         <ui:ToggleSwitch IsEnabled="{Binding EarthquakeNotification}" IsOn="{Binding EarthquakeSound, Mode=TwoWay}" Grid.Row="4" Grid.Column="1" />
+                        <TextBlock Text="-" Grid.Row="5" Grid.Column="1" />
                         <ui:ToggleSwitch IsOn="{Binding UserquakeNotification, Mode=TwoWay}" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" />
                         <ui:ToggleSwitch IsEnabled="{Binding UserquakeNotification}" IsOn="{Binding UserquakeShow, Mode=TwoWay}" Grid.Row="2" Grid.Column="2" />
                         <ui:ToggleSwitch IsEnabled="{Binding UserquakeNotification}" IsOn="{Binding UserquakeNotice, Mode=TwoWay}" Grid.Row="3" Grid.Column="2" />
                         <ui:ToggleSwitch IsEnabled="{Binding UserquakeNotification}" IsOn="{Binding UserquakeSound, Mode=TwoWay}" Grid.Row="4" Grid.Column="2" />
+                        <TextBlock Text="-" Grid.Row="5" Grid.Column="2" />
                         <ui:ToggleSwitch IsOn="{Binding TsunamiNotification, Mode=TwoWay}" Grid.Row="1" Grid.Column="3" VerticalAlignment="Top" />
                         <ui:ToggleSwitch IsEnabled="{Binding TsunamiNotification}" IsOn="{Binding TsunamiShow, Mode=TwoWay}" Grid.Row="2" Grid.Column="3" />
                         <ui:ToggleSwitch IsEnabled="{Binding TsunamiNotification}" IsOn="{Binding TsunamiNotice, Mode=TwoWay}" Grid.Row="3" Grid.Column="3" />
                         <ui:ToggleSwitch IsEnabled="{Binding TsunamiNotification}" IsOn="{Binding TsunamiSound, Mode=TwoWay}" Grid.Row="4" Grid.Column="3" />
+                        <TextBlock Text="-" Grid.Row="5" Grid.Column="3" />
                         <ui:ToggleSwitch IsOn="{Binding EEWTestNotification, Mode=TwoWay}" Grid.Row="1" Grid.Column="4" VerticalAlignment="Top" />
                         <ui:ToggleSwitch IsEnabled="{Binding EEWTestNotification}" IsOn="{Binding EEWTestShow, Mode=TwoWay}" Grid.Row="2" Grid.Column="4" />
                         <ui:ToggleSwitch IsEnabled="{Binding EEWTestNotification}" IsOn="{Binding EEWTestNotice, Mode=TwoWay}" Grid.Row="3" Grid.Column="4" />
                         <ui:ToggleSwitch IsEnabled="{Binding EEWTestNotification}" IsOn="{Binding EEWTestSound, Mode=TwoWay}" Grid.Row="4" Grid.Column="4" />
+                        <ui:ToggleSwitch IsEnabled="{Binding EEWTestNotification}" IsOn="{Binding EEWVoiceGuidance, Mode=TwoWay}" Grid.Row="5" Grid.Column="4" />
                     </Grid>
+                    <TextBlock Text="音声読み上げには、 VOICEVOX 四国めたん を使用しています。"
+                               TextWrapping="WrapWithOverflow" />
                 </ui:SimpleStackPanel>
             </ScrollViewer>
         </Grid>
