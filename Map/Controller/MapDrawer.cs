@@ -68,6 +68,18 @@ namespace Map.Controller
                 });
             }
 
+            // 緊急地震速報（警報）
+            if (EEWPoints != null && EEWPoints.Any())
+            {
+                drawers.Add(new EEWDrawer
+                {
+                    Image = image,
+                    IsMercator = mapData.IsMercator,
+                    LTRB = mapData.LTRBCoordinate,
+                    EEWPoints = EEWPoints,
+                });
+            }
+
             //   震源
             if (Hypocenter != null)
             {
@@ -113,18 +125,6 @@ namespace Map.Controller
                     IsMercator = mapData.IsMercator,
                     LTRB = mapData.LTRBCoordinate,
                     Areapeers = Areapeers,
-                });
-            }
-
-            // 緊急地震速報（警報）
-            if (EEWPoints != null && EEWPoints.Any())
-            {
-                drawers.Add(new EEWDrawer
-                {
-                    Image = image,
-                    IsMercator = mapData.IsMercator,
-                    LTRB = mapData.LTRBCoordinate,
-                    EEWPoints = EEWPoints,
                 });
             }
 
@@ -197,7 +197,7 @@ namespace Map.Controller
             }
 
             // 地震情報の凡例
-            if (MapType != MapType.WORLD_512 && MapType != MapType.WORLD_1024 && Hypocenter != null && !HideNote)
+            if (MapType != MapType.WORLD_512 && MapType != MapType.WORLD_1024 && Hypocenter != null && ObservationPoints != null && ObservationPoints.Any() && !HideNote)
             {
                 using var qNote = Image.Load(new MemoryStream(Map.ImageResource.QuakeNote));
                 if (MapType == MapType.JAPAN_1024)
