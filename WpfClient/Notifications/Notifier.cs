@@ -1,6 +1,8 @@
 ﻿using Client.App;
 using Client.Peer;
 
+using Map.Model;
+
 using Microsoft.Toolkit.Uwp.Notifications;
 
 using Polly;

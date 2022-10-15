@@ -5,6 +5,7 @@ using Client.Peer;
 using JsonApi;
 
 using Map.Controller;
+using Map.Model;
 
 using Sentry;
 
@@ -29,6 +30,8 @@ using System.Windows.Threading;
 using WpfClient.EPSPDataView;
 using WpfClient.Notifications;
 using WpfClient.Utils;
+
+using TsunamiCategory = Client.Peer.TsunamiCategory;
 
 namespace WpfClient
 {

@@ -1,6 +1,7 @@
 ﻿using Client.Peer;
 
 using Map.Controller;
+using Map.Model;
 
 using System;
 using System.Collections.Generic;

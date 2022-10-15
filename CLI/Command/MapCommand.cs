@@ -18,9 +18,10 @@ namespace CLI.Command
                 "地図を生成します"
                 )
             {
-               QuakeSubCommand.Build(),
-               TsunamiSubCommand.Build(),
-               UserquakeSubCommand.Build(),
+                EEWSubCommand.Build(),
+                QuakeSubCommand.Build(),
+                TsunamiSubCommand.Build(),
+                UserquakeSubCommand.Build(),
             };
 
             return command;

@@ -69,6 +69,7 @@ namespace Map.Model
                 }
 
                 var coordinatesArray = eewAreas.GetMultiPolygon(point.Areacode);
+                var lineSize = Image.Width > 1024 ? 8 : 4;
 
                 // 輪郭線
                 foreach (var coordinates in coordinatesArray)
@@ -79,7 +80,7 @@ namespace Map.Model
                         return new SixLabors.ImageSharp.PointF(pos.X, pos.Y);
                     })).Build();
 
-                    Image.Mutate(x => x.Draw(new Pen(Color.DarkOrange.WithAlpha(0.8f), 8), path));
+                    Image.Mutate(x => x.Draw(new Pen(Color.DarkOrange.WithAlpha(0.8f), lineSize), path));
                 }
 
                 // 塗りつぶし
