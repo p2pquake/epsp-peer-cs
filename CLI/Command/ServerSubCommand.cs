@@ -6,7 +6,9 @@ using log4net.Layout;
 using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using System.IO;
 using System.Net;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -52,6 +54,7 @@ namespace CLI.Command
 
             Console.WriteLine("Enter キーを押すと終了します。");
             Console.ReadLine();
+            Console.WriteLine("サーバーを停止しています...");
 
             server.Abort();
             Thread.Sleep(5000);
@@ -87,14 +90,86 @@ namespace CLI.Command
                     HttpListenerRequest request = context.Request;
                     HttpListenerResponse response = context.Response;
 
-                    response.StatusCode = 200;
+                    var body = "";
+                    if (request.HasEntityBody)
+                    {
+                        using var reader = new StreamReader(request.InputStream, request.ContentEncoding);
+                        body = reader.ReadToEnd();
+                        request.InputStream.Close();
+                        reader.Close();
+                    }
+
+                    Func<string, (int Code, string ContentType, byte[] ResponseBytes)> callFunction = request.Url!.AbsolutePath switch
+                    {
+                        "/test" => ProcessTest,
+                        "/earthquake" => ProcessEarthquake,
+                        "/tsunami" => ProcessTsunami,
+                        "/eew" => ProcessEEW,
+                        "/userquake" => ProcessUserquake,
+                        _ => ProcessNotFound,
+                    };
+
+                    try
+                    {
+                        if (callFunction == null)
+                        {
+                            response.StatusCode = 404;
+                            response.ContentType = "text/plain";
+                            response.OutputStream.Write(Encoding.ASCII.GetBytes("Function not found"));
+                        }
+                        else
+                        {
+                            var result = callFunction(body);
+                            response.StatusCode = result.Code;
+                            response.ContentType = result.ContentType;
+                            response.OutputStream.Write(result.ResponseBytes);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Error($"Failed to call function with {request.Url} and {body}", e);
+                        response.StatusCode = 500;
+                        response.ContentType = "text/plain";
+                        response.OutputStream.Write(Encoding.UTF8.GetBytes(e.Message));
+                    }
+
                     response.Close();
                 }
                 catch (Exception e)
                 {
-                    logger.Error("Exception occured!", e);
+                    logger.Error("Failed to process request", e);
                 }
             }
+        }
+
+        private static (int Code, string ContentType, byte[] ResponseBytes) ProcessTest(string _)
+        {
+            return (200, "text/plain", Encoding.ASCII.GetBytes("OK"));
+        }
+
+        private static (int Code, string ContentType, byte[] ResponseBytes) ProcessNotFound(string _)
+        {
+            return (404, "text/plain", Encoding.ASCII.GetBytes("Function not found"));
+        }
+
+        private static (int Code, string ContentType, byte[] ResponseBytes) ProcessEarthquake(string _)
+        {
+            return (200, "text/plain", Encoding.ASCII.GetBytes("OK"));
+        }
+
+        private static (int Code, string ContentType, byte[] ResponseBytes) ProcessTsunami(string _)
+        {
+            return (200, "text/plain", Encoding.ASCII.GetBytes("OK"));
+        }
+
+        private static (int Code, string ContentType, byte[] ResponseBytes) ProcessEEW(string _)
+        {
+            return (200, "text/plain", Encoding.ASCII.GetBytes("OK"));
+        }
+
+        private static (int Code, string ContentType, byte[] ResponseBytes) ProcessUserquake(string _)
+        {
+            return (200, "text/plain", Encoding.ASCII.GetBytes("OK"));
         }
 
         public void Abort()
