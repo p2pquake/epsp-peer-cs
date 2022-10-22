@@ -40,7 +40,7 @@ namespace Map.Controller
             EEWPoints = new List<EEWPoint>();
         }
 
-        public Stream DrawAsPng()
+        public MemoryStream DrawAsPng()
         {
             // 画像ロード
             var mapData = MapLoader.Load(MapType);

@@ -3,12 +3,17 @@ using log4net.Appender;
 using log4net.Config;
 using log4net.Layout;
 
+using Map.Controller;
+using Map.Model;
+
 using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -77,7 +82,7 @@ namespace CLI.Command
         {
             HttpListener listener = new HttpListener();
             // FIXME: 実際の実行時は *: とする。
-            listener.Prefixes.Add("http://localhost:" + port + "/");
+            listener.Prefixes.Add("http://*:" + port + "/");
             listener.Start();
 
             logger.Info($"HTTPServer listen {port}.");
@@ -142,6 +147,63 @@ namespace CLI.Command
             }
         }
 
+        class QuakeParams
+        {
+            public bool trim;
+            public string mapType;
+            public double? latitude;
+            public double? longitude;
+            public Point[] points;
+        }
+
+        class Point
+        {
+            public string pref;
+            public string name;
+            public int scale;
+        }
+
+        class UserquakeParams
+        {
+            public bool trim;
+            public string mapType;
+            public Confidence[] confidences;
+        }
+
+        class Confidence
+        {
+            public string areaCode;
+            public double confidence;
+        }
+
+        class TsunamiParams
+        {
+            public bool trim;
+            public bool draw;
+            public string mapType;
+            public Region[] regions;
+        }
+
+        class Region
+        {
+            public string region;
+            public string category;
+        }
+
+        class EEWParams
+        {
+            public bool trim;
+            public string mapType;
+            public double? latitude;
+            public double? longitude;
+            public Area[] areas;
+        }
+
+        class Area
+        {
+            public string pref;
+        }
+
         private static (int Code, string ContentType, byte[] ResponseBytes) ProcessTest(string _)
         {
             return (200, "text/plain", Encoding.ASCII.GetBytes("OK"));
@@ -152,29 +214,119 @@ namespace CLI.Command
             return (404, "text/plain", Encoding.ASCII.GetBytes("Function not found"));
         }
 
-        private static (int Code, string ContentType, byte[] ResponseBytes) ProcessEarthquake(string _)
+        private static (int Code, string ContentType, byte[] ResponseBytes) ProcessEarthquake(string body)
         {
-            return (200, "text/plain", Encoding.ASCII.GetBytes("OK"));
+            var param = JsonSerializer.Deserialize<QuakeParams>(body, new JsonSerializerOptions { IncludeFields = true });
+
+            var mapType = ToMapType(param.mapType);
+            GeoCoordinate hypocenter = null;
+            if (param.latitude.HasValue && param.latitude.Value != -1 &&
+                param.longitude.HasValue && param.longitude.Value != -1)
+                hypocenter = new GeoCoordinate(param.latitude.Value, param.longitude.Value);
+
+            var drawer = new MapDrawer()
+            {
+                MapType = mapType,
+                Trim = param.trim,
+                Hypocenter = hypocenter,
+                ObservationPoints = param.points.Select(point => new ObservationPoint(point.pref, point.name, point.scale)).ToArray()
+            };
+            using var png = drawer.DrawAsPng();
+
+            return (200, "image/png", png.ToArray());
         }
 
-        private static (int Code, string ContentType, byte[] ResponseBytes) ProcessTsunami(string _)
+        private static (int Code, string ContentType, byte[] ResponseBytes) ProcessTsunami(string body)
         {
-            return (200, "text/plain", Encoding.ASCII.GetBytes("OK"));
+            var param = JsonSerializer.Deserialize<TsunamiParams>(body, new JsonSerializerOptions { IncludeFields = true });
+
+            var mapType = ToMapType(param.mapType);
+
+            var drawer = new MapDrawer()
+            {
+                MapType = mapType,
+                Trim = param.trim,
+                HideDraw = !param.draw,
+                TsunamiPoints = param.regions.Select(region => new TsunamiPoint(region.region, ToTsunamiCategory(region.category))).ToArray(),
+            };
+            using var png = drawer.DrawAsPng();
+
+            return (200, "image/png", png.ToArray());
         }
 
-        private static (int Code, string ContentType, byte[] ResponseBytes) ProcessEEW(string _)
+        private static (int Code, string ContentType, byte[] ResponseBytes) ProcessEEW(string body)
         {
-            return (200, "text/plain", Encoding.ASCII.GetBytes("OK"));
+            var param = JsonSerializer.Deserialize<EEWParams>(body, new JsonSerializerOptions { IncludeFields = true });
+
+            var mapType = ToMapType(param.mapType);
+            GeoCoordinate hypocenter = null;
+            if (param.latitude.HasValue && param.latitude.Value != -1 &&
+                param.longitude.HasValue && param.longitude.Value != -1)
+                hypocenter = new GeoCoordinate(param.latitude.Value, param.longitude.Value);
+
+            var drawer = new MapDrawer()
+            {
+                MapType = mapType,
+                Trim = param.trim,
+                Hypocenter = hypocenter,
+                EEWPoints = param.areas.Select(area => area.pref).Distinct().Select(area => new EEWPoint(EEWConverter.GetAreaCode(area).ToString())).ToArray(),
+            };
+            using var png = drawer.DrawAsPng();
+
+            return (200, "image/png", png.ToArray());
         }
 
-        private static (int Code, string ContentType, byte[] ResponseBytes) ProcessUserquake(string _)
+        private static (int Code, string ContentType, byte[] ResponseBytes) ProcessUserquake(string body)
         {
-            return (200, "text/plain", Encoding.ASCII.GetBytes("OK"));
+            var param = JsonSerializer.Deserialize<UserquakeParams>(body, new JsonSerializerOptions { IncludeFields = true });
+
+            var mapType = ToMapType(param.mapType);
+
+            var drawer = new MapDrawer()
+            {
+                MapType = mapType,
+                Trim = param.trim,
+                UserquakePoints = param.confidences.Select(confidence => new UserquakePoint(confidence.areaCode, confidence.confidence)).ToArray(),
+            };
+            using var png = drawer.DrawAsPng();
+
+            return (200, "image/png", png.ToArray());
         }
 
         public void Abort()
         {
             quit = true;
+        }
+
+        private static MapType ToMapType(string mapType)
+        {
+            return mapType switch
+            {
+                "JAPAN_1024" => MapType.JAPAN_1024,
+                "JAPAN_2048" => MapType.JAPAN_2048,
+                "JAPAN_4096" => MapType.JAPAN_4096,
+                "JAPAN_8192" => MapType.JAPAN_8192,
+                "WORLD_512" => MapType.WORLD_512,
+                "WORLD_1024" => MapType.WORLD_1024,
+                _ => throw new InvalidOperationException(),
+            };
+        }
+
+        private static TsunamiCategory ToTsunamiCategory(string category)
+        {
+            if (category == "Advisory" || category == "津波注意報")
+            {
+                return TsunamiCategory.Advisory;
+            }
+            if (category == "Warning" || category == "津波警報")
+            {
+                return TsunamiCategory.Warning;
+            }
+            if (category == "MajorWarning" || category == "大津波警報")
+            {
+                return TsunamiCategory.MajorWarning;
+            }
+            return TsunamiCategory.Unknown;
         }
     }
 }
