@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Client.App;
 using Client.App.State;
 using Client.Client;
+using Client.Client.General;
+
 using Moq;
 using NUnit.Framework;
 
@@ -30,15 +32,11 @@ namespace ClientTest.App
             var clientContextMock = new Mock<IClientContext>();
             field.SetValue(mediatorContext, clientContextMock.Object);
 
-            bool isCalled = false;
-            mediatorContext.StateChanged += (s, e) =>
-            {
-                Console.WriteLine("State: " + mediatorContext.ReadonlyState);
-                if (mediatorContext.ReadonlyState is DisconnectedState)
-                {
-                    isCalled = true;
-                }
-            };
+            // 本来は DisconnectedState への遷移を確認したいが、難しくやむを得ずモックで確認している
+            var isCalled = false;
+            clientContextMock.Setup(m => m.Abort(It.IsAny<ClientConst.ErrorCode>())).Callback(() => { isCalled = true; });
+
+            mediatorContext.StateChanged += (s, e) => { };
             mediatorContext.Completed += (s, e) => { };
             mediatorContext.ConnectionsChanged += (s, e) => { };
 
