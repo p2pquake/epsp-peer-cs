@@ -129,7 +129,6 @@ namespace Client.App
             maintainTimer.RequireConnect += MaintainTimer_RequireConnect;
             maintainTimer.RequireMaintain += MaintainTimer_RequireMaintain;
             maintainTimer.RequireDisconnect += MaintainTimer_RequireDisconnect;
-            maintainTimer.RequireDisconnectAllPeers += MaintainTimer_RequireDisconnectAllPeers;
             maintainTimer.RequireAbort += MaintainTimer_RequireAbort;
 
             OnUserquake += (s, e) => {
@@ -145,11 +144,14 @@ namespace Client.App
             lock(stateOperationLock)
             {
                 clientContext.Abort(ClientConst.ErrorCode.TIMED_OUT);
-                State = new DisconnectedState();
+                if (ReadonlyState is not MaintenanceState)
+                {
+                    DisconnectAllPeers();
+                }
             }
         }
 
-        private void MaintainTimer_RequireDisconnectAllPeers(object sender, EventArgs e)
+        private void DisconnectAllPeers()
         {
             peerContext.EndListen();
             peerContext.DisconnectAll();
