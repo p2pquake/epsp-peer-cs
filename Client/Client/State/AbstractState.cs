@@ -183,7 +183,8 @@ namespace Client.Client.State
         /// <param name="packet"></param>
         internal virtual void IncorrectRequestError(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
-            throw new NotSupportedException();
+            socket.Close();
+            context.State = new FinishedState(ClientConst.OperationResult.Retryable, ClientConst.ErrorCode.RETURNED_INVALID_REQUEST);
         }
 
         /// <summary>
@@ -194,7 +195,8 @@ namespace Client.Client.State
         /// <param name="packet"></param>
         internal virtual void ServerUnavailableError(IClientContextForState context, CRLFSocket socket, Packet packet)
         {
-            throw new NotSupportedException();
+            socket.Close();
+            context.State = new FinishedState(ClientConst.OperationResult.Retryable, ClientConst.ErrorCode.RETURNED_MAINTENANCE);
         }
 
         /// <summary>
