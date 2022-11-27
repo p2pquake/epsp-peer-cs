@@ -90,19 +90,24 @@ namespace Client.Common.Net
 
         public bool Close()
         {
-            if (socket.Connected)
-            {
-                socket.Shutdown(SocketShutdown.Both);
-                socket.Close();
-                return true;
-            }
-            else
+            if (!socket.Connected)
             {
                 return false;
             }
 
-            // return true;
-            // throw new NotImplementedException();
+            try
+            {
+                socket.Shutdown(SocketShutdown.Both);
+            }
+            catch (ObjectDisposedException)
+            {
+                return false;
+            }
+            finally
+            {
+                socket.Close();
+            }
+            return true;
         }
 
         public bool Connect(IPEndPoint ipEndPoint)
@@ -222,12 +227,6 @@ namespace Client.Common.Net
             }
 
             Logger.GetLog().Debug("切断処理完了。");
-
-            //// no-receive (error?)
-            //Logger.GetLog().Debug("切断されました: " + ((IPEndPoint)socket.RemoteEndPoint).Address.ToString() + ":" + ((IPEndPoint)socket.RemoteEndPoint).Port.ToString());
-
-            //Close();
-            //Closed(this, EventArgs.Empty);
         }
 
         private void ProcessReceiveData(int receiveBytes)
