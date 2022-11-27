@@ -55,13 +55,16 @@ namespace Client.Peer.Manager
             IPEndPoint remoteEndPoint = crlfSocket.RemoteEndPoint;
             peer.PeerData = new PeerData(remoteEndPoint.Address.ToString(), remoteEndPoint.Port, -1);
 
-            if (peerList.Any(e => e.PeerData.Address == peer.PeerData.Address))
+            lock (peerList)
             {
-                peer.Disconnect();
-                return;
-            }
+                if (peerList.Any(e => e.PeerData.Address == peer.PeerData.Address))
+                {
+                    peer.Disconnect();
+                    return;
+                }
 
-            peerList.Add(peer);
+                peerList.Add(peer);
+            }
             ConnectionsChanged(this, EventArgs.Empty);
 
             peer.BeginReceive();
@@ -84,7 +87,10 @@ namespace Client.Peer.Manager
             bool result = peer.Connect(peerData);
             if (result)
             {
-                peerList.Add(peer);
+                lock (peerList)
+                {
+                    peerList.Add(peer);
+                }
                 ConnectionsChanged(this, EventArgs.Empty);
             }
 
@@ -98,7 +104,11 @@ namespace Client.Peer.Manager
 
         internal void Send(Packet packet, Peer exceptPeer)
         {
-            var list = new List<Peer>(peerList);
+            List<Peer> list;
+            lock (peerList)
+            {
+                list = new List<Peer>(peerList);
+            }
             foreach (Peer peer in list)
             {
                 if (peer != exceptPeer)
@@ -455,28 +465,43 @@ namespace Client.Peer.Manager
 
         void Peer_Closed(object sender, EventArgs e)
         {
-            peerList.Remove((Peer)sender);
+            lock (peerList)
+            {
+                peerList.Remove((Peer)sender);
+            }
             ConnectionsChanged(this, EventArgs.Empty);
         }
 
         internal void DisconnectAll()
         {
-            foreach (Peer peer in peerList)
+            List<Peer> list;
+            lock (peerList)
+            {
+                list = new List<Peer>(peerList);
+            }
+            foreach (Peer peer in list)
             {
                 peer.Disconnect();
             }
-            peerList.Clear();
+            lock (peerList)
+            {
+                peerList.Clear();
+            }
             ConnectionsChanged(this, EventArgs.Empty);
         }
     
         private void EchoTimer_Tick(object state)
         {
-            var unresponsivePeers = peerList.Where(peer => DateTime.Now.Subtract(peer.LastEchoReplied).TotalMinutes >= 5).ToList();
-            unresponsivePeers.ForEach(peer =>
+            List<Peer> unresponsivePeers;
+            lock (peerList)
             {
-                peer.Disconnect();
-                peerList.Remove(peer);
-            });
+                unresponsivePeers = peerList.Where(peer => DateTime.Now.Subtract(peer.LastEchoReplied).TotalMinutes >= 5).ToList();
+                unresponsivePeers.ForEach(peer =>
+                {
+                    peer.Disconnect();
+                    peerList.Remove(peer);
+                });
+            }
             if (unresponsivePeers.Count > 0)
             {
                 ConnectionsChanged(this, EventArgs.Empty);
