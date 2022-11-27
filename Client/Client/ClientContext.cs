@@ -182,7 +182,7 @@ namespace Client.Client
                 Logger.GetLog().Warn("サーバとの接続中断に失敗しました。");
             }
 
-            State = new FinishedState(ClientConst.OperationResult.Restartable, errorCode);
+            State = new FinishedState(ClientConst.OperationResult.Retryable, errorCode);
         }
     }
 }

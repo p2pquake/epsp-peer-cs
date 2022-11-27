@@ -18,7 +18,6 @@ namespace Client.App
         public event EventHandler RequireConnect;
         public event EventHandler RequireMaintain;
         public event EventHandler RequireDisconnect;
-        public event EventHandler RequireDisconnectAllPeers;
         public event EventHandler RequireAbort;
 
         private ILog logger = Logger.GetLog();
@@ -140,7 +139,6 @@ namespace Client.App
                 if (processingCount > processTimeoutCount)
                 {
                     logger.Warn("サーバ通信が中断されました。後ほど再接続します。");
-                    RequireDisconnectAllPeers(this, EventArgs.Empty);
                     RequireAbort(this, EventArgs.Empty);
                 }
             }
