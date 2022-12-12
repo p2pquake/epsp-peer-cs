@@ -13,6 +13,8 @@ namespace Client.App
     {
         /// <summary>署名を検証するかどうか</summary>
         bool Verification { get; set; }
+        /// <summary>地震感知情報の多重発信を除去するかどうか</summary>
+        bool UserquakeDuplicateRemove { get; set; }
 
         /// <summary>
         /// 地域コード(3桁)

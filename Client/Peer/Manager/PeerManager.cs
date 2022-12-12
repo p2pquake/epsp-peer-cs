@@ -18,6 +18,7 @@ namespace Client.Peer.Manager
         private List<Peer> peerList;
         private DuplicateRemover duplicateRemover;
         private NetworkInquiryManager networkInquiryManager;
+        private UserquakeDuplicateRemover userquakeDuplicateRemover;
         private Timer echoTimer;
 
         public event EventHandler<EventArgs> ConnectionsChanged;
@@ -40,6 +41,7 @@ namespace Client.Peer.Manager
             peerList = new List<Peer>();
             duplicateRemover = new DuplicateRemover();
             networkInquiryManager = new Manager.NetworkInquiryManager();
+            userquakeDuplicateRemover = new UserquakeDuplicateRemover(() => ProtocolTime());
             echoTimer = new Timer(EchoTimer_Tick);
             echoTimer.Change(0, 120000);
         }
@@ -402,13 +404,14 @@ namespace Client.Peer.Manager
                 return;
             }
 
-            EPSPUserquakeEventArgs e = new EPSPUserquakeEventArgs() { ReceivedAt = ProtocolTime() };
+            var e = new EPSPUserquakeEventArgs() { ReceivedAt = ProtocolTime() };
             Verifier.VerifyResult result = Verifier.VerifyUserquake(packet.Data[5], packet.Data[1], packet.Data[0], packet.Data[2], packet.Data[3], packet.Data[4], ProtocolTime());
             e.IsExpired = result.isExpired;
             e.IsInvalidSignature = !result.isValidSignature;
 
             e.PublicKey = packet.Data[2];
             e.AreaCode = data[1];
+            e.IsDuplicate = userquakeDuplicateRemover.IsDuplicate(packet.Data[2]);
             OnUserquake(this, e);
         }
 

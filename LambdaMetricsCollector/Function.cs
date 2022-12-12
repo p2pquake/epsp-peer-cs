@@ -100,6 +100,7 @@ namespace LambdaMetricsCollector
 
         // IPeerConfig
         public bool Verification { get => false; set { } }
+        public bool UserquakeDuplicateRemove { get => false; set { } }
         public int AreaCode { get => 900; set { } }
         public string FormattedAreaCode => "900";
         public bool IsPortOpen { get => false; set { } }
