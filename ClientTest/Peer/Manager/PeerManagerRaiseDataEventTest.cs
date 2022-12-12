@@ -1004,6 +1004,64 @@ namespace ClientTest.Peer.Manager
         }
 
         [TestCase]
+        public void raiseDataEvent_UserquakeData_RemoveDuplicate()
+        {
+            var retreiveA =
+                "555 7 IyZUbE0C5de3CrUYIN+LqhsG6C3+E1dNoxD1Ef02qiri4qW7lqPb5J2p1Fhe3rZs:2017/12/14 06-39-30:MEwwDQYJKoZIhvcNAQEBBQADOwAwOAIxAKK/e5GQjXQPWQRhsMxTmOfQ9ISxDKb747F5g80s9wlB4XIjH7Ig8bycZp90vz3WzQIDAQAB:j74KAyS6Yy5LrEzm33OGBMMkhXT14n6bKajP4FGzHHKXhz3qsE2Ddr4f5E75NRB1SXNdGerMSvLPsXReCxt3Z6VGg81l2WoJIkXpYcuS56dcaMyvwvahQVJBl4B4Q3pcSALBwx5qYMsLzpCt/H/pMywhFJTlcc86CplNBiioAQ8=:2017/12/14 08-38-30:9999920171214063830505,143";
+            var retreiveB =
+                "555 7 IyZUbE0C5de3CrUYIN+LqhsG6C3+E1dNoxD1Ef02qiri4qW7lqPb5J2p1Fhe2rZs:2017/12/14 06-39-30:MEwwDQYJKoZIhvcNAQEBBQADOwAwOAIxAKK/e5GQjXQPWQRhsMxTmOfQ9ISxDKb747F5g80s9wlB4XIjH6Ig8bycZp90vz3WzQIDAQAB:j74KAyS6Yy5LrEzm33OGBMMkhXT14n6bKajP3FGzHHKXhz3qsE2Ddr4f5E75NRB1SXNdGerMSvLPsXReCxt3Z6VGg81l2WoJIkXpYcuS56dcaMyvwvahQVJBl4B4Q3pcSALBwx5qYMsLzpCt/H/pMywhFJTlcc86CplNBiioAQ8=:2017/12/14 08-38-30:9999920171214063830504,142";
+
+            var calledCount = 0;
+            var expectedIsDuplicate = new List<bool>() { false, true, true, false, false, true };
+            peerManager.OnUserquake += (s, e) =>
+            {
+                Assert.AreEqual(expectedIsDuplicate[calledCount], e.IsDuplicate);
+                calledCount += 1;
+            };
+            peerManager.ProtocolTime += () => { return DateTime.Parse("2017/12/14 06:39:30"); };
+            invokeRaiseDataEvent(retreiveA);
+            invokeRaiseDataEvent(retreiveA);
+            peerManager.ProtocolTime += () => { return DateTime.Parse("2017/12/14 06:44:29"); };
+            invokeRaiseDataEvent(retreiveA);
+            invokeRaiseDataEvent(retreiveB);
+            peerManager.ProtocolTime += () => { return DateTime.Parse("2017/12/14 06:44:30"); };
+            invokeRaiseDataEvent(retreiveA);
+            invokeRaiseDataEvent(retreiveB);
+
+            Assert.AreEqual(expectedIsDuplicate.Count, calledCount);
+        }
+
+        [TestCase]
+        public void raiseDataEvent_UserquakeData_PurgeExpired()
+        {
+            var data = "IyZUbE0C5de3CrUYIN+LqhsG6C3+E1dNoxD1Ef02qiri4qW7lqPb5J2p1Fhe3rZs:2017/12/14 06-39-30:MEwwDQYJKoZIhvcNAQEBBQADOwAwOAIxAKK/e5GQjXQPWQRhsMxTmOfQ9ISxDKb747F5g80s9wlB4XIjH7Ig8bycZp90vz3WzQIDAQAB:j74KAyS6Yy5LrEzm33OGBMMkhXT14n6bKajP4FGzHHKXhz3qsE2Ddr4f5E75NRB1SXNdGerMSvLPsXReCxt3Z6VGg81l2WoJIkXpYcuS56dcaMyvwvahQVJBl4B4Q3pcSALBwx5qYMsLzpCt/H/pMywhFJTlcc86CplNBiioAQ8=:2017/12/14 08-38-30:9999920171214063830505,143".Split(':');
+
+            peerManager.OnUserquake += (s, e) => { };
+            for (int i = 0; i <= 1200; i++)
+            {
+                peerManager.ProtocolTime += () => { return DateTime.Parse("2017/12/14 06:39:30").AddSeconds(i); };
+                data[2] = $"data{i}";
+                invokeRaiseDataEvent($"555 7 {string.Join(':', data)}");
+            }
+
+            var calledCount = 0;
+            var expectedIsDuplicate = new List<bool>() { false, true };
+            peerManager.OnUserquake += (s, e) =>
+            {
+                Assert.AreEqual(expectedIsDuplicate[calledCount], e.IsDuplicate);
+                calledCount += 1;
+            };
+
+            peerManager.ProtocolTime += () => { return DateTime.Parse("2017/12/14 06:39:30").AddSeconds(1200); };
+            data[2] = $"data900";
+            invokeRaiseDataEvent($"555 7 {string.Join(':', data)}");
+            data[2] = $"data901";
+            invokeRaiseDataEvent($"555 7 {string.Join(':', data)}");
+
+            Assert.AreEqual(expectedIsDuplicate.Count, calledCount);
+        }
+
+        [TestCase]
         public void raiseDataEvent_Smoke()
         {
             var directory = System.AppDomain.CurrentDomain.BaseDirectory;

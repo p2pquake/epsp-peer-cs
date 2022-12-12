@@ -71,6 +71,7 @@ namespace Client.App
         public TimeSpan TimeOffset { get; set; }
 
         public bool Verification { get; set; }
+        public bool UserquakeDuplicateRemove { get; set; }
         public int AreaCode { get; set; }
         public string FormattedAreaCode { get { return AreaCode.ToString("D3"); } }
         public bool IsPortOpen { get; set; }
@@ -105,6 +106,8 @@ namespace Client.App
             state = new DisconnectedState();
 
             Verification = true;
+            UserquakeDuplicateRemove = true;
+
             AreaCode = 900;
             MaxConnections = 4;
             IsPortOpen = false;
@@ -119,7 +122,7 @@ namespace Client.App
             peerContext.PeerConfig = this;
             peerContext.PeerState = this;
             peerContext.ConnectionsChanged += (s,e) => { ConnectionsChanged(s, e); };
-            peerContext.OnUserquake += (s, e) => { if (!Verification || e.IsValid) { OnUserquake(s, e); } };
+            peerContext.OnUserquake += (s, e) => { if ((!Verification || e.IsValid) && (!UserquakeDuplicateRemove || !e.IsDuplicate)) { OnUserquake(s, e); } };
             peerContext.OnTsunami += (s, e) => { if (!Verification || e.IsValid) { OnTsunami(s, e); } };
             peerContext.OnEarthquake += (s, e) => { if (!Verification || e.IsValid) { OnEarthquake(s, e); } };
             peerContext.OnEEWTest += (s, e) => { if (!Verification || e.IsValid) { OnEEWTest(s, e); } };

@@ -187,6 +187,8 @@ namespace Client.Peer
         public string AreaCode { get; set; } = "";
         /// <summary>公開鍵</summary>
         public string PublicKey { get; set; } = "";
+        /// <summary>多重発信かどうか</summary>
+        public bool IsDuplicate { get; set; } = false;
     }
 
     public class EPSPRawDataEventArgs
