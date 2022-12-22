@@ -139,6 +139,7 @@ namespace Client.App
                 if (processingCount > processTimeoutCount)
                 {
                     logger.Warn("サーバ通信が中断されました。後ほど再接続します。");
+                    processingCount = 0;
                     RequireAbort(this, EventArgs.Empty);
                 }
             }
