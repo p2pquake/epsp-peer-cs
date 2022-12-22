@@ -44,6 +44,7 @@ namespace Client.App.State
             {
                 Logger.GetLog().Info($"理由 {oce.ErrorCode.ToString()} により、再接続します。");
 
+                peerContext.EndListen();
                 peerContext.DisconnectAll();
 
                 Logger.GetLog().Info("ピア接続をすべて切断しました（接続数: " + peerContext.Connections + "）");
