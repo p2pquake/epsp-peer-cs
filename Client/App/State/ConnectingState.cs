@@ -44,6 +44,7 @@ namespace Client.App.State
             {
                 Logger.GetLog().Info($"理由 {oce.ErrorCode.ToString()} により、再接続します。");
 
+                peerContext.EndListen();
                 peerContext.DisconnectAll();
 
                 Logger.GetLog().Info("ピア接続をすべて切断しました（接続数: " + peerContext.Connections + "）");
@@ -56,6 +57,9 @@ namespace Client.App.State
             {
                 // FIXME: 再試行すること。いまは放置プレイ
                 Logger.GetLog().Info("接続に失敗しましたが、再試行可能なエラーです。");
+
+                peerContext.EndListen();
+                peerContext.DisconnectAll();
 
                 mediatorContext.State = new DisconnectedState();
             }

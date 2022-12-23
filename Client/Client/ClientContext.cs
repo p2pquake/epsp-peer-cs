@@ -41,6 +41,7 @@ namespace Client.Client
         private List<ServerPoint> serverPointList = new List<ServerPoint>();
         private Random random = new Random();
         private CRLFSocket socket;
+        private object processingLock = new();
 
         public bool IsOperatable
         {
@@ -105,7 +106,7 @@ namespace Client.Client
             State = state;
 
             socket = new CRLFSocket();
-            socket.ReadLine += new EventHandler<ReadLineEventArgs>(ProcessData);
+            socket.ReadLine += ProcessData;
             // FIXME: Closedに対する処理は未実装
 
             ServerPoint server = serverPointList[random.Next(serverPointList.Count)];
@@ -121,39 +122,41 @@ namespace Client.Client
         {
             Logger.GetLog().Debug("現在の状態: " + State.GetType().Name);
 
-            CRLFSocket socket = (CRLFSocket)sender;
-            Packet packet = e.packet;
-            string methodName = ClientConst.GetCodeName(packet.Code);
-
-            Logger.GetLog().Debug("実行するメソッド: " + methodName);
-
-            // HACK: こんなところでリフレクションを無駄に使うのはいかんでしょう。
-            Type type = State.GetType();
-            MethodInfo methodInfo = type.GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
-
-            object[] args = { this, socket, packet };
-
-            try
+            lock (processingLock)
             {
-                methodInfo.Invoke(State, args);
-            }
-            catch (InvalidOperationException ioe)
-            {
-                Logger.GetLog().Warn($"{State.GetType().Name}#{methodName} は想定しない呼び出しです", ioe);
-                Abort(ClientConst.ErrorCode.INVALID_OPERATION);
-                return;
-            }
-            catch (NotSupportedException nse)
-            {
-                Logger.GetLog().Warn($"{State.GetType().Name}#{methodName} はサポートされていません", nse);
-                Abort(ClientConst.ErrorCode.INVALID_OPERATION);
-                return;
-            }
+                CRLFSocket socket = (CRLFSocket)sender;
+                Packet packet = e.packet;
+                string methodName = ClientConst.GetCodeName(packet.Code);
 
+                Logger.GetLog().Debug("実行するメソッド: " + methodName);
 
-            Logger.GetLog().Debug("実行後の状態: " + State.GetType().Name);
+                // HACK: こんなところでリフレクションを無駄に使うのはいかんでしょう。
+                Type type = State.GetType();
+                MethodInfo methodInfo = type.GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
 
-            State.Process(this, socket);
+                object[] args = { this, socket, packet };
+
+                try
+                {
+                    methodInfo.Invoke(State, args);
+                }
+                catch (InvalidOperationException ioe)
+                {
+                    Logger.GetLog().Warn($"{State.GetType().Name}#{methodName} は想定しない呼び出しです", ioe);
+                    Abort(ClientConst.ErrorCode.INVALID_OPERATION);
+                    return;
+                }
+                catch (NotSupportedException nse)
+                {
+                    Logger.GetLog().Warn($"{State.GetType().Name}#{methodName} はサポートされていません", nse);
+                    Abort(ClientConst.ErrorCode.INVALID_OPERATION);
+                    return;
+                }
+
+                Logger.GetLog().Debug("実行後の状態: " + State.GetType().Name);
+
+                State.Process(this, socket);
+            }
         }
 
         private void RaiseEvent()
@@ -170,7 +173,13 @@ namespace Client.Client
         {
             try
             {
+                // ProcessData による状態遷移や通信が起こらないようにする
+                socket.ReadLine -= ProcessData;
                 socket?.Close();
+                lock (processingLock)
+                {
+                    // noop.
+                }
                 Logger.GetLog().Warn("サーバとの接続を強制的に中断しました。");
             }
             catch (SocketException)

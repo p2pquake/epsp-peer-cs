@@ -147,17 +147,7 @@ namespace Client.App
             lock(stateOperationLock)
             {
                 clientContext.Abort(ClientConst.ErrorCode.TIMED_OUT);
-                if (ReadonlyState is not MaintenanceState)
-                {
-                    DisconnectAllPeers();
-                }
             }
-        }
-
-        private void DisconnectAllPeers()
-        {
-            peerContext.EndListen();
-            peerContext.DisconnectAll();
         }
 
         private void MaintainTimer_RequireDisconnect(object sender, EventArgs e)
