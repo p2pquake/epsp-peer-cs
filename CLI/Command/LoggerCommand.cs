@@ -3,6 +3,8 @@ using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
+
 using Client.App;
 using log4net;
 using log4net.Appender;
@@ -37,6 +39,8 @@ namespace CLI.Command
 
         private static void LoggerHandler(LoggerOptions options)
         {
+            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+
             var appender = new ConsoleAppender()
             {
                 Threshold = log4net.Core.Level.Info,
@@ -67,6 +71,12 @@ namespace CLI.Command
                 Thread.Sleep(250);
             }
 
+        }
+
+        private static void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            logger.Error("Occur UnobservedTaskException", e.Exception);
+            Environment.Exit(1);
         }
 
         private static void Mc_StateChanged(object sender, EventArgs e)
