@@ -32,6 +32,7 @@ namespace WpfClient.Pages
             if (licenseWindow == null)
             {
                 licenseWindow = new LicenseWindow();
+                licenseWindow.Closed += (s, e) => { licenseWindow = null; };
             }
             licenseWindow.Show();
         }
