@@ -169,8 +169,8 @@ namespace WpfClient.Notifications
                 return;
             }
 
-            var hypocenter = $"震源: {EEWConverter.GetHypocenter(e.Hypocenter) ?? "（不明な震源）"}";
-            var area = $"強い揺れに警戒: {string.Join(' ', e.Areas.Select(e => EEWConverter.GetArea(e)))}";
+            var hypocenter = $"震源: {EEWConverter.GetHypocenter(e.Hypocenter) ?? "（不明）"}";
+            var area = $"強い揺れに警戒: {string.Join(' ', e.Areas.Select(e => EEWConverter.GetArea(e) ?? "（不明）"))}";
 
             WithRetry(() =>
             {
