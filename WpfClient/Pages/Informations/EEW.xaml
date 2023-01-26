@@ -46,7 +46,7 @@
                 <TextBlock d:Text="北海道道東　北海道道央" Text="{Binding Areas}" Style="{StaticResource SubtitleTextBlockStyle}" TextWrapping="WrapWithOverflow" />
                 <Separator Margin="0,4,0,12" />
                 <TextBlock Text="対象地域では、あわてずに、身の安全を確保してください。" TextWrapping="WrapWithOverflow" Style="{StaticResource CaptionTextBlockStyle}" />
-                <TextBlock Text="この情報は、緊急地震速報（警報）の内容の一部です。震源名と震度4以上が予想される地域をお伝えします。" TextWrapping="WrapWithOverflow" Style="{StaticResource CaptionTextBlockStyle}" />
+                <TextBlock Text="この情報は、緊急地震速報（警報）の内容の一部です。震源名と強い揺れが予想される地域をお伝えします。" TextWrapping="WrapWithOverflow" Style="{StaticResource CaptionTextBlockStyle}" />
             </ui:SimpleStackPanel>
         </ScrollViewer>
     </Grid>
