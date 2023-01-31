@@ -54,6 +54,17 @@ namespace AutoUpdater
             }
         }
 
+        private string closeButtonContent = "閉じる";
+        public string CloseButtonContent
+        {
+            get => closeButtonContent;
+            set
+            {
+                closeButtonContent = value;
+                OnPropertyChanged();
+            }
+        }
+
         // See: https://docs.microsoft.com/ja-jp/dotnet/desktop/wpf/data/how-to-implement-property-change-notification
         private void OnPropertyChanged([CallerMemberName] string name = null)
         {
