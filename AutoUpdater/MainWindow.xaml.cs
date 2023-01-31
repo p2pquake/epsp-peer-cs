@@ -1,5 +1,7 @@
 ﻿using AutoUpdater.Updater;
 
+using Sentry;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,6 +17,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+
+using static AutoUpdater.Updater.UpdateClient;
 
 namespace AutoUpdater
 {
@@ -23,6 +28,9 @@ namespace AutoUpdater
     /// </summary>
     public partial class MainWindow : Window
     {
+        private DispatcherTimer timer;
+        private int closeCount;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -30,18 +38,59 @@ namespace AutoUpdater
             Loaded += MainWindow_Loaded;
         }
 
+        private void TreatException(Exception ex)
+        {
+            var dataContext = (MainWindowModel)DataContext;
+
+            dataContext.UpdatedResultMessage = $"アップデートに失敗しました。\n\nエラー: {ex.Message}";
+            dataContext.UpdateStatus = UpdateStatus.Updated;
+
+            if (Program.silent)
+            {
+                closeCount = 30;
+                timer = new DispatcherTimer() {  Interval = TimeSpan.FromSeconds(1) };
+                timer.Tick += (s, e) =>
+                {
+                    closeCount--;
+                    dataContext.CloseButtonContent = $"閉じる ({closeCount} 秒後に自動的に閉じます)";
+                    if (closeCount <= 0)
+                    {
+                        timer.Stop();
+                        this.Close();
+                    }
+                };
+                timer.Start();
+                return;
+            }
+        }
+
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             var dataContext = (MainWindowModel)DataContext;
 
-            var updates = await UpdateClient.Check();
-            if (updates.Length > 0)
+            bool hasUpdate;
+            try
             {
-                dataContext.UpdateStatus = UpdateStatus.Confirmation;
+                hasUpdate = (await UpdateClient.Check()).Length > 0;
+            }
+            catch (Exception ex)
+            {
+                SentrySdk.CaptureException(ex);
+                TreatException(ex);
                 return;
             }
 
-            // XXX: 微妙な依存関係...
+            if (hasUpdate)
+            {
+                dataContext.UpdateStatus = UpdateStatus.Confirmation;
+
+                if (Program.silent)
+                {
+                    UpdateButton_Click(this, e);
+                }
+                return;
+            }
+
             if (Program.silent)
             {
                 this.Close();
@@ -57,15 +106,25 @@ namespace AutoUpdater
             var dataContext = (MainWindowModel)DataContext;
             dataContext.UpdateStatus = UpdateStatus.Updating;
 
-            var updates = await Task.Run(async () =>
+            UpdateResult result;
+            try
             {
-                return await UpdateClient.Check();
-            });
+                var updates = await Task.Run(async () =>
+                {
+                    return await UpdateClient.Check();
+                });
+                result = await Task.Run(async () =>
+                {
+                    return await UpdateClient.Update(updates);
+                });
+            }
+            catch (Exception ex)
+            {
+                SentrySdk.CaptureException(ex);
+                TreatException(ex);
+                return;
+            }
 
-            var result = await Task.Run(async () =>
-            {
-                return await UpdateClient.Update(updates);
-            });
             switch (result)
             {
                 case UpdateClient.UpdateResult.SuccessAndRestart:

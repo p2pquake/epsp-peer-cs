@@ -53,6 +53,12 @@ namespace AutoUpdater
                 dataContext.UpdateStatus = UpdateStatus.Updated;
             }
 
+            if (silent)
+            {
+                dataContext.UpdatedResultMessage = $"アップデートに失敗しました。\n\nエラー: {((Exception)e.ExceptionObject).Message}";
+                return;
+            }
+
             _ = MessageBox.Show($"エラーが発生したため、アップデートを中断しました。\n\nエラー: {((Exception)e.ExceptionObject).Message}", "P2P地震情報 アップデーター", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }

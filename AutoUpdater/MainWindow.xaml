@@ -29,9 +29,9 @@
             <ProgressBar IsIndeterminate="True" Height="12" Margin="8,0,8,0" />
         </StackPanel>
         <StackPanel Visibility="{Binding UpdatedVisibility}" d:Visibility="Visible" Margin="4">
-            <TextBlock Text="{Binding UpdatedResultMessage}" TextWrapping="WrapWithOverflow" Margin="8,8,8,24" />
+            <TextBlock Text="{Binding UpdatedResultMessage}" d:Text=""  TextWrapping="WrapWithOverflow" MaxWidth="240" Margin="8,8,8,24" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="閉じる" Click="CloseButton_Click" Margin="8" Padding="8,4,8,4" />
+                <Button Content="{Binding CloseButtonContent}" Click="CloseButton_Click" Margin="8" Padding="8,4,8,4" />
             </StackPanel>
         </StackPanel>
     </Grid>
