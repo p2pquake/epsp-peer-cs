@@ -283,5 +283,77 @@ namespace Client.App
             peerContext.SendAll(packet);
             return true;
         }
+
+        public void TestEarthquake(string scale)
+        {
+            OnEarthquake(this, new EPSPQuakeEventArgs()
+            {
+                Depth = "ごく浅い",
+                Destination = "東京都２３区",
+                InformationType = QuakeInformationType.Detail,
+                IsCorrection = false,
+                IsExpired = false,
+                IsInvalidSignature = false,
+                IssueFrom = "P2P地震情報",
+                Latitude = "35.69",
+                Longitude = "139.69",
+                Magnitude = "0.0",
+                OccuredTime = DateTime.Now.ToString("dd日HH時mm分"),
+                PointList = new QuakeObservationPoint[]
+                {
+                    new QuakeObservationPoint() { Prefecture = "東京都", Scale = scale, Name = "東京千代田区" },
+                    new QuakeObservationPoint() { Prefecture = "東京都", Scale = scale, Name = "テスト震度観測点" },
+                },
+                ReceivedAt = DateTime.Now,
+                Scale = scale,
+                TsunamiType = DomesticTsunamiType.None,
+            });
+        }
+
+        public void TestUserquake()
+        {
+            OnNewUserquakeEvaluation(this, new UserquakeEvaluateEventArgs()
+            {
+                Count = 3,
+                Confidence = 0.98052,
+                AreaConfidences = new Dictionary<string, IUserquakeEvaluationArea>()
+                {
+                    { "250", new UserquakeEvaluationArea() { AreaCode = "250", Count = 2, Confidence = 0.85 } },
+                    { "241", new UserquakeEvaluationArea() { AreaCode = "241", Count = 1, Confidence = 0.5 } },
+                    { "-1", new UserquakeEvaluationArea() { AreaCode = "-1", Count = 1, Confidence = 0 } },
+                },
+                StartedAt = DateTime.Now.AddSeconds(-5),
+                UpdatedAt = DateTime.Now,
+            });
+        }
+
+        public void TestTsunami()
+        {
+            OnTsunami(this, new EPSPTsunamiEventArgs()
+            {
+                IsCancelled = false,
+                IsExpired = false,
+                IsInvalidSignature = false,
+                ReceivedAt = DateTime.Now,
+                RegionList = new TsunamiForecastRegion[]
+                {
+                    new TsunamiForecastRegion() { IsImmediately = false, Category = TsunamiCategory.Advisory, Region = "東京湾内湾" },
+                    new TsunamiForecastRegion() { IsImmediately = false, Category = TsunamiCategory.Advisory, Region = "テスト予報区" },
+                }
+            });
+        }
+
+        public void TestEEW()
+        {
+            OnEEW(this, new EPSPEEWEventArgs()
+            {
+                IsExpired = false,
+                IsInvalidSignature = false,
+                IsTest = false,
+                ReceivedAt = DateTime.Now,
+                Hypocenter = 763,
+                Areas = new int[] { 174, 175, -1 },
+            });
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Client.App;
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -12,6 +14,7 @@ namespace WpfClient
 {
     public class SettingViewModel : INotifyPropertyChanged
     {
+        public MediatorContext MediatorContext { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
         // FIXME: 震度の変換テーブルが Program.cs にもある。後で整理したい

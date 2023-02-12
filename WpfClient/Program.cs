@@ -170,6 +170,8 @@ namespace WpfClient
 
         private static void BootP2PQuake(bool localMode)
         {
+            client = new MediatorContext();
+
             // ViewModel を取得したりイベントハンドラをくっつけたりする
             while (viewModel == null)
             {
@@ -182,6 +184,7 @@ namespace WpfClient
                             var window = (MainWindow)App.Current?.MainWindow;
                             viewModel = (RootViewModel)window?.DataContext;
                             viewModel.SettingViewModel.LoadFromConfiguration(ConfigurationManager.Configuration);
+                            viewModel.SettingViewModel.MediatorContext = client;
                             window.OnExit += Window_OnExit;
                             window.OnUserquake += Window_OnUserquake;
                         }
@@ -195,7 +198,6 @@ namespace WpfClient
                 Thread.Sleep(1000);
             };
 
-            client = new MediatorContext();
             client.ConnectionsChanged += Client_ConnectionsChanged;
             client.StateChanged += Client_StateChanged;
             client.OnAreapeers += Client_OnAreapeers;

@@ -52,6 +52,8 @@ namespace WpfClient.EPSPDataView
 
         public IFrameModel FrameModel { get; init; }
 
+        public Visibility TestLabelVisibility => (EventArgs?.AreaConfidences.Any((area) => area.Key == "-1") ?? false) ? Visibility.Visible : Visibility.Collapsed;
+
         public string Source => ThemeManager.Current.ActualApplicationTheme switch
         {
             ApplicationTheme.Light => "/Resources/Icons/userquake_black.png",
