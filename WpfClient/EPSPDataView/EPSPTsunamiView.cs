@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -20,6 +21,8 @@ namespace WpfClient.EPSPDataView
     {
         public EPSPTsunamiEventArgs EventArgs { get; init; }
         public IFrameModel FrameModel { get; init; }
+
+        public Visibility TestLabelVisibility => (EventArgs?.RegionList.Any((region) => region.Region == "テスト予報区") ?? false) ? Visibility.Visible : Visibility.Collapsed;
 
         public string Source
         {

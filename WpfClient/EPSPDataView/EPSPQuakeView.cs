@@ -23,6 +23,7 @@ namespace WpfClient.EPSPDataView
 
         public Visibility ForeignIconVisibility => EventArgs.InformationType == QuakeInformationType.Foreign ? Visibility.Visible : Visibility.Collapsed;
         public Visibility ScaleVisibility => EventArgs.InformationType == QuakeInformationType.Foreign ? Visibility.Collapsed : Visibility.Visible;
+        public Visibility TestLabelVisibility => (EventArgs?.PointList.Any((point) => point.Name == "テスト震度観測点") ?? false) ? Visibility.Visible : Visibility.Collapsed;
 
         public SolidColorBrush ScaleForeground => EventArgs.Scale.CompareTo("5") >= 0 && EventArgs.Scale.CompareTo("7") <= 0
                     ? (SolidColorBrush)App.Current.MainWindow.FindResource("SystemControlErrorTextForegroundBrush")

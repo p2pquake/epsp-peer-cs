@@ -12,6 +12,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Imaging;
 
 using WpfClient.Utils;
@@ -27,6 +28,7 @@ namespace WpfClient.EPSPDataView
 
         public string Time => EventArgs.ReceivedAt.ToString("dd日HH時mm分");
         public string DetailTime => EventArgs?.ReceivedAt.ToString("dd日HH時mm分ss秒fff");
+        public Visibility TestLabelVisibility => (EventArgs?.Areas.Contains(-1) ?? false) ? Visibility.Visible : Visibility.Collapsed;
 
         private byte[] pngImage = Resource.loading;
         private byte[] PngImage

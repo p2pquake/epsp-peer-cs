@@ -118,6 +118,7 @@
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
 
                         <TextBlock Text="地震情報" Grid.Column="1" Grid.Row="0" />
@@ -155,6 +156,11 @@
                         <ui:ToggleSwitch IsEnabled="{Binding EEWTestNotification}" IsOn="{Binding EEWTestNotice, Mode=TwoWay}" Grid.Row="3" Grid.Column="4" />
                         <ui:ToggleSwitch IsEnabled="{Binding EEWTestNotification}" IsOn="{Binding EEWTestSound, Mode=TwoWay}" Grid.Row="4" Grid.Column="4" />
                         <ui:ToggleSwitch IsEnabled="{Binding EEWTestNotification}" IsOn="{Binding EEWVoiceGuidance, Mode=TwoWay}" Grid.Row="5" Grid.Column="4" />
+
+                        <Button Content="テスト表示&#xA;(5秒後)" Grid.Row="6" Grid.Column="1" Click="TestEarthquakeButton_Click" />
+                        <Button Content="テスト表示&#xA;(5秒後)" Grid.Row="6" Grid.Column="2" Click="TestUserquakeButton_Click" />
+                        <Button Content="テスト表示&#xA;(5秒後)" Grid.Row="6" Grid.Column="3" Click="TestTsunamiButton_Click" />
+                        <Button Content="テスト表示&#xA;(5秒後)" Grid.Row="6" Grid.Column="4" Click="TestEEWButton_Click" />
                     </Grid>
                     <TextBlock Text="音声読み上げには、 VOICEVOX 四国めたん を使用しています。"
                                TextWrapping="WrapWithOverflow" />
