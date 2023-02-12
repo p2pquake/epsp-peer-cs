@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace WpfClient
 {
@@ -96,6 +97,17 @@ namespace WpfClient
             set
             {
                 canSendUserquake = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Visibility showUpdateLink = Visibility.Hidden;
+        public Visibility ShowUpdateLink
+        {
+            get { return showUpdateLink; }
+            set
+            {
+                showUpdateLink = value;
                 OnPropertyChanged();
             }
         }

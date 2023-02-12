@@ -81,6 +81,17 @@ namespace WpfClient
             ((FrameworkElement)e.Content).DataContext = ((RootViewModel)DataContext).BindingDataContext;
         }
 
+        private void UpdateHyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            var result = System.Windows.MessageBox.Show("アップデートしますか？", Title, System.Windows.MessageBoxButton.YesNo);
+            if (result != MessageBoxResult.Yes) { return; }
+
+            Task.Run(() =>
+            {
+                Updater.Run();
+            });
+        }
+
         private void ShakeButton_Click(object sender, RoutedEventArgs e)
         {
             SendUserquake();
