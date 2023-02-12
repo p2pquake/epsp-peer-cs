@@ -54,11 +54,13 @@
                             <Setter Property="VerticalAlignment" Value="Center" />
                         </Style>
                         <Style TargetType="ui:HyperlinkButton">
+                            <Setter Property="FontSize" Value="12" />
                             <Setter Property="Margin" Value="4,-4,0,-4" />
                         </Style>
                     </Grid.Resources>
 
                     <Grid.RowDefinitions>
+                        <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
@@ -72,20 +74,22 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="Webサイト:" Grid.Column="0" Grid.Row="0" />
-                    <TextBlock Text="サービス提供状況:" Grid.Column="0" Grid.Row="1" />
-                    <TextBlock Text="サーバー稼働状況:" Grid.Column="0" Grid.Row="2" />
-                    <TextBlock Text="プライバシーポリシー:" Grid.Column="0" Grid.Row="3" />
-                    <TextBlock Text="ソースコード:" Grid.Column="0" Grid.Row="4" />
-                    <TextBlock Text="ライセンス:" Grid.Column="0" Grid.Row="5" />
+                    <TextBlock Text="更新情報:" Grid.Column="0" Grid.Row="1" />
+                    <TextBlock Text="サービス提供状況:" Grid.Column="0" Grid.Row="2" />
+                    <TextBlock Text="サーバー稼働状況:" Grid.Column="0" Grid.Row="3" />
+                    <TextBlock Text="プライバシーポリシー:" Grid.Column="0" Grid.Row="4" />
+                    <TextBlock Text="ソースコード:" Grid.Column="0" Grid.Row="5" />
+                    <TextBlock Text="ライセンス:" Grid.Column="0" Grid.Row="6" />
 
                     <ui:HyperlinkButton Content="https://www.p2pquake.net/" NavigateUri="https://www.p2pquake.net/" Grid.Column="1" Cursor="Hand" />
-                    <ui:HyperlinkButton Content="https://twitter.com/p2pquake__takuya" NavigateUri="https://twitter.com/p2pquake_takuya" Grid.Column="1" Grid.Row="1" />
-                    <ui:HyperlinkButton Content="https://stats.uptimerobot.com/JR0Qt8QGy" NavigateUri="https://stats.uptimerobot.com/JR0Qt8QGy" Grid.Column="1" Grid.Row="2" Cursor="Hand" />
+                    <ui:HyperlinkButton Content="https://github.com/p2pquake/epsp-peer-cs/releases" NavigateUri="https://github.com/p2pquake/epsp-peer-cs/releases" Grid.Column="1" Grid.Row="1" />
+                    <ui:HyperlinkButton Content="https://twitter.com/p2pquake__takuya" NavigateUri="https://twitter.com/p2pquake_takuya" Grid.Column="1" Grid.Row="2" />
+                    <ui:HyperlinkButton Content="https://stats.uptimerobot.com/JR0Qt8QGy" NavigateUri="https://stats.uptimerobot.com/JR0Qt8QGy" Grid.Column="1" Grid.Row="3" />
                     <ui:HyperlinkButton Content="https://www.p2pquake.net/privacy__policy/"
-                            NavigateUri="https://www.p2pquake.net/privacy_policy/" Grid.Column="1" Grid.Row="3"/>
+                            NavigateUri="https://www.p2pquake.net/privacy_policy/" Grid.Column="1" Grid.Row="4"/>
                     <ui:HyperlinkButton Content="https://github.com/p2pquake/epsp-peer-cs"
-                            NavigateUri="https://github.com/p2pquake/epsp-peer-cs" Grid.Column="1" Grid.Row="4"/>
-                    <ui:HyperlinkButton Content="ライセンスを表示" Click="ShowLicenseButton_Click" Grid.Column="1" Grid.Row="5" />
+                            NavigateUri="https://github.com/p2pquake/epsp-peer-cs" Grid.Column="1" Grid.Row="5"/>
+                    <ui:HyperlinkButton Content="ライセンスを表示" Click="ShowLicenseButton_Click" Grid.Column="1" Grid.Row="6" />
                 </Grid>
             </ui:SimpleStackPanel>
         </ScrollViewer>

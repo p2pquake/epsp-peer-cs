@@ -1,4 +1,6 @@
-﻿using Client.App;
+﻿using AutoUpdater.Updater;
+
+using Client.App;
 using Client.App.Userquake;
 using Client.Peer;
 
@@ -45,6 +47,7 @@ namespace WpfClient
         static Notifications.Activator activator;
         static Player player;
         static DateTime latestConnected = DateTime.MaxValue;
+        static DateTime latestUpdateCheck = DateTime.MinValue;
 
         private const int HistoryLimit = 100;
 
@@ -540,7 +543,7 @@ namespace WpfClient
             });
         }
 
-        private static void Client_StateChanged(object sender, EventArgs e)
+        private static async void Client_StateChanged(object sender, EventArgs e)
         {
             // 未接続、切断中 = 切断アイコン
             var status = ChoiceByState(
@@ -608,6 +611,14 @@ namespace WpfClient
                 viewModel.StatusViewModel.StatusTitle = statusTitle;
                 viewModel.StatusViewModel.StatusDescription = statusDescription;
             });
+
+            // 初回の接続済み遷移、または 7 日経過後の遷移だった場合、アップデートチェック
+            if (status == "接続済み" && DateTime.Now.Subtract(latestUpdateCheck).TotalDays >= 7)
+            {
+                var result = await UpdateClient.Check();
+                viewModel.ShowUpdateLink = (result.Length > 0) ? Visibility.Visible : Visibility.Hidden;
+                latestUpdateCheck = DateTime.Now;
+            }
         }
 
         private static string ChoiceByState(string disconnected, string disconnecting, string connecting, string connected, string noConnection)
