@@ -20,7 +20,11 @@ namespace JsonApi
 
     public class Client
     {
-        static readonly HttpClient client = new();
+        static readonly HttpClientHandler handler = new HttpClientHandler()
+        {
+            AutomaticDecompression = System.Net.DecompressionMethods.All,
+        };
+        static readonly HttpClient client = new(handler);
 
         public async static Task<BasicData[]> Get(int limit = 100, params Code[] codes)
         {
