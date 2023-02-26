@@ -26,9 +26,9 @@ namespace JsonApi
         };
         static readonly HttpClient client = new(handler);
 
-        public async static Task<BasicData[]> Get(int limit = 100, params Code[] codes)
+        public async static Task<BasicData[]> Get(int limit = 100, int offset = 0, params Code[] codes)
         {
-            var response = await client.GetAsync($"https://api.p2pquake.net/v2/history?limit={limit}{(codes.Length > 0 ? "&" : "")}{string.Join('&', codes.Select(e => $"codes={(int)e}"))}");
+            var response = await client.GetAsync($"https://api.p2pquake.net/v2/history?limit={limit}&offset={offset}{(codes.Length > 0 ? "&" : "")}{string.Join('&', codes.Select(e => $"codes={(int)e}"))}");
             response.EnsureSuccessStatusCode();
             string body = await response.Content.ReadAsStringAsync();
 
