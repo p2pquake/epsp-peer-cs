@@ -378,7 +378,10 @@ namespace WpfClient
 
         private async static void ReadHistories()
         {
-            var items = await JsonApi.Client.Get(100, Code.Earthquake, Code.Tsunami, Code.EEW, Code.UserquakeEvaluation);
+            var getTasks = Enumerable.Range(0, 5).Select(i => JsonApi.Client.Get(100, i * 100, Code.Earthquake, Code.Tsunami, Code.EEW, Code.UserquakeEvaluation));
+            var results = await Task.WhenAll(getTasks);
+            var items = results.SelectMany(e => e);
+
             var histories = viewModel.InformationViewModel.Histories;
 
             foreach (var item in items.Reverse())
