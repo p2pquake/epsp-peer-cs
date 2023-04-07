@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Client.App.Userquake
 {
-    struct Userquake
+    public struct Userquake
     {
         public DateTime At { get; set; }
         public string AreaCode { get; set; }
@@ -67,6 +67,7 @@ namespace Client.App.Userquake
                     Count = evaluation.Count,
                     Confidence = evaluation.Confidence,
                     AreaConfidences = evaluation.AreaConfidences,
+                    Userquakes = userquakes.ToArray(),
                 };
 
                 if (!IsDetecting)

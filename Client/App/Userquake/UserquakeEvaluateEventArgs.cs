@@ -70,6 +70,7 @@ namespace Client.App.Userquake
 
     public class UserquakeEvaluateEventArgs : EventArgs, IUserquakeEvaluation
     {
+        public Userquake[] Userquakes { get; init; }
         public DateTime StartedAt { get; init; }
         public DateTime UpdatedAt { get; init; }
         public int Count { get; init; }

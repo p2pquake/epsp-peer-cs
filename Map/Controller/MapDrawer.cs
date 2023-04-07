@@ -27,6 +27,7 @@ namespace Map.Controller
         public GeoCoordinate Hypocenter { get; set; }
         public IList<ObservationPoint> ObservationPoints { get; init; }
         public IList<UserquakePoint> UserquakePoints { get; init; }
+        public IList<Userquake> Userquakes { get; init; }
         public IList<TsunamiPoint> TsunamiPoints { get; init; }
         public IList<Areapeer> Areapeers { get; init; }
         public IList<EEWPoint> EEWPoints { get; init; }
@@ -101,6 +102,16 @@ namespace Map.Controller
                     IsMercator = mapData.IsMercator,
                     LTRB = mapData.LTRBCoordinate,
                     UserquakePoints = UserquakePoints,
+                });
+            }
+            if (Userquakes != null && Userquakes.Any())
+            {
+                drawers.Add(new UserquakeHypocenterDrawer
+                {
+                    Image = image,
+                    IsMercator = mapData.IsMercator,
+                    LTRB = mapData.LTRBCoordinate,
+                    Userquakes = Userquakes,
                 });
             }
 

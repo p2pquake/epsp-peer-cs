@@ -14,7 +14,9 @@ namespace JsonApi
         Tsunami = 552,
         [Obsolete("代わりに EEW を使用してください。")]
         EEWTest = 554,
+        Areapeers = 555,
         EEW = 556,
+        Userquake = 561,
         UserquakeEvaluation = 9611,
     }
 

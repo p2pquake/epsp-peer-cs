@@ -126,6 +126,70 @@ namespace Map
 
             Console.WriteLine($"--- write {sw.ElapsedMilliseconds} ms");
 
+            var userquakeCsvs = new string[][]
+            {
+new string[]{  "2023/03/15 06:41:33.926","425" },
+new string[]{  "2023/03/15 06:41:27.413","240" },
+new string[]{  "2023/03/15 06:41:10.997","231" },
+new string[]{  "2023/03/15 06:41:04.333","250" },
+new string[]{  "2023/03/15 06:41:02.190","231" },
+new string[]{  "2023/03/15 06:40:45.672","250" },
+new string[]{  "2023/03/15 06:40:40.232","241" },
+new string[]{  "2023/03/15 06:40:32.618","505" },
+new string[]{  "2023/03/15 06:40:27.580","241" },
+new string[]{  "2023/03/15 06:40:25.549","250" },
+new string[]{  "2023/03/15 06:40:25.040","215" },
+new string[]{  "2023/03/15 06:40:22.471","270" },
+new string[]{  "2023/03/15 06:40:21.726","231" },
+new string[]{  "2023/03/15 06:40:20.407","111" },
+new string[]{  "2023/03/15 06:40:17.672","250" },
+new string[]{  "2023/03/15 06:40:17.072","215" },
+new string[]{  "2023/03/15 06:40:16.006","250" },
+new string[]{  "2023/03/15 06:40:15.508","270" },
+new string[]{  "2023/03/15 06:40:13.977","250" },
+new string[]{  "2023/03/15 06:40:10.725","250" },
+new string[]{  "2023/03/15 06:40:08.200","270" },
+new string[]{  "2023/03/15 06:40:07.916","250" },
+new string[]{  "2023/03/15 06:40:07.486","250" },
+new string[]{  "2023/03/15 06:40:05.826","241" },
+new string[]{  "2023/03/15 06:40:05.661","231" },
+new string[]{  "2023/03/15 06:40:03.945","250" },
+new string[]{  "2023/03/15 06:40:03.254","250" },
+new string[]{  "2023/03/15 06:40:02.436","275" },
+new string[]{  "2023/03/15 06:39:59.547","250" },
+new string[]{  "2023/03/15 06:39:58.812","241" },
+new string[]{  "2023/03/15 06:39:56.033","225" },
+new string[]{  "2023/03/15 06:39:54.054","270" },
+new string[]{  "2023/03/15 06:39:53.448","250" },
+new string[]{  "2023/03/15 06:39:52.481","250" },
+new string[]{  "2023/03/15 06:39:48.754","270" },
+new string[]{  "2023/03/15 06:39:48.052","215" },
+new string[]{  "2023/03/15 06:39:46.636","250" },
+new string[]{  "2023/03/15 06:39:45.539","270" },
+new string[]{  "2023/03/15 06:39:44.329","250" },
+new string[]{  "2023/03/15 06:39:42.119","250" },
+new string[]{  "2023/03/15 06:39:41.361","270" },
+new string[]{  "2023/03/15 06:39:39.445","225" },
+new string[]{  "2023/03/15 06:39:37.669","305" },
+new string[]{  "2023/03/15 06:39:37.269","250" },
+new string[]{  "2023/03/15 06:39:34.567","250" },
+new string[]{  "2023/03/15 06:39:33.100","250" },
+new string[]{  "2023/03/15 06:39:30.491","250" },
+new string[]{  "2023/03/15 06:39:30.183","250" },
+            };
+
+            var userquakes = userquakeCsvs.Select(uq => new Userquake(DateTime.Parse(uq[0]), uq[1])).OrderBy(uq => uq.Timestamp).ToList();
+
+            var draw3 = new MapDrawer
+            {
+                MapType = Model.MapType.JAPAN_1024,
+                Userquakes = userquakes,
+            };
+            using var png3 = draw3.DrawAsPng();
+            using var file3 = File.Open(@"..\..\..\output3.png", FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+            png3.CopyTo(file3);
+            file3.Close();
+
             //var sw = new Stopwatch();
             //sw.Start();
 
