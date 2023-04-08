@@ -33,6 +33,7 @@ namespace WpfClient.Notifications
     {
         private Configuration configuration;
         private string lastEarthquakeOccuredTime = "";
+        private SoundType lastSoundType = SoundType.P2PQ_Sndt;
 
         public Player(Configuration configuration, MediatorContext mediatorContext)
         {
@@ -90,38 +91,34 @@ namespace WpfClient.Notifications
                 return;
             }
 
-            if (e.OccuredTime == lastEarthquakeOccuredTime)
-            {
-                return;
-            }
-            lastEarthquakeOccuredTime = e.OccuredTime;
-
             var scale = e.InformationType == QuakeInformationType.Destination ? 30 : ScaleConverter.Str2Int(e.Scale);
             if (scale < earthquakeNotification.MinScale)
             {
                 return;
             }
 
-            if (e.InformationType == QuakeInformationType.Destination)
+            var soundType = calcSoundType(e.InformationType, scale);
+
+            if (e.OccuredTime != lastEarthquakeOccuredTime)
             {
-                PlaySoundAsync(SoundType.P2PQ_Snd0);
-                return;
+                PlaySoundAsync(soundType);
+            } else if (soundType != lastSoundType && lastSoundType != SoundType.P2PQ_Snd0)
+            {
+                PlaySoundAsync(soundType);
             }
 
-            if (scale >= 55)
-            {
-                PlaySoundAsync(SoundType.P2PQ_Snd4);
-            } else if (scale >= 45)
-            {
-                PlaySoundAsync(SoundType.P2PQ_Snd3);
-            } else if (scale >= 30)
-            {
-                PlaySoundAsync(SoundType.P2PQ_Snd2);
-            } else
-            {
-                PlaySoundAsync(SoundType.P2PQ_Snd1);
-            }
-        } 
+            lastEarthquakeOccuredTime = e.OccuredTime;
+            lastSoundType = soundType;
+        }
+
+        private SoundType calcSoundType(QuakeInformationType informationType, int scale)
+        {
+            if (informationType == QuakeInformationType.Destination) { return SoundType.P2PQ_Snd0; }
+            if (scale >= 55) { return SoundType.P2PQ_Snd4; }
+            if (scale >= 45) { return SoundType.P2PQ_Snd3; }
+            if (scale >= 30) { return SoundType.P2PQ_Snd2; }
+            return SoundType.P2PQ_Snd1;
+        }
 
         private void MediatorContext_OnTsunami(object sender, EPSPTsunamiEventArgs e)
         {
