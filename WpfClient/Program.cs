@@ -186,7 +186,13 @@ namespace WpfClient
                         {
                             var window = (MainWindow)App.Current?.MainWindow;
                             viewModel = (RootViewModel)window?.DataContext;
+
+                            // 設定反映
                             viewModel.SettingViewModel.LoadFromConfiguration(ConfigurationManager.Configuration);
+                            if (ConfigurationManager.IsFirstBoot) {
+                                viewModel.InformationViewModel.TutorialVisibility = Visibility.Visible;
+                                ConfigurationManager.Save();
+                            }
                             viewModel.SettingViewModel.MediatorContext = client;
                             window.OnExit += Window_OnExit;
                             window.OnUserquake += Window_OnUserquake;

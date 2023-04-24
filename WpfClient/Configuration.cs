@@ -15,6 +15,8 @@ namespace WpfClient
 {
     public class ConfigurationManager
     {
+        public static bool IsFirstBoot { get; set; } = false;
+
         private static Configuration configuration;
         public static Configuration Configuration
         {
@@ -49,6 +51,7 @@ namespace WpfClient
         {
             if (!File.Exists(Filename()))
             {
+                IsFirstBoot = true;
                 return new Configuration();
             }
 

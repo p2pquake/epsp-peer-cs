@@ -43,6 +43,12 @@ namespace WpfClient.Pages
             viewModel.FrameHeight = e.NewSize.Height;
         }
 
+        private void TutorialPanel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var viewModel = (InformationViewModel)DataContext;
+            viewModel.TutorialVisibility = Visibility.Hidden;
+        }
+
         //private void RefreshButton_Click(object sender, RoutedEventArgs e)
         //{
         //    Program.RefreshInformation();
