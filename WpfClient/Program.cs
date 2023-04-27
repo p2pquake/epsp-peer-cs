@@ -198,7 +198,7 @@ namespace WpfClient
                     // nothing to do
                 }
 
-                Thread.Sleep(1000);
+                Thread.Sleep(250);
             };
 
             client.ConnectionsChanged += Client_ConnectionsChanged;
@@ -378,6 +378,19 @@ namespace WpfClient
 
         private async static void ReadHistories()
         {
+            try
+            {
+                await ReadAndAddHistories();
+            } catch (Exception e)
+            {
+                SentrySdk.CaptureException(e);
+            } finally
+            {
+                viewModel.InformationViewModel.IsLoading = false;
+            }
+        }
+
+        private async static Task ReadAndAddHistories() {
             var getTasks = Enumerable.Range(0, 5).Select(i => JsonApi.Client.Get(100, i * 100, Code.Earthquake, Code.Tsunami, Code.EEW, Code.UserquakeEvaluation));
             var results = await Task.WhenAll(getTasks);
             var items = results.SelectMany(e => e);

@@ -115,17 +115,23 @@
                     </Button>
                     -->
                 </StackPanel>
-                <ui:ListView
+                <Grid>
+                    <ui:SimpleStackPanel Orientation="Vertical" Visibility="{Binding LoadingVisibility}" Margin="8" Spacing="8">
+                        <TextBlock Text="読み込み中..." Style="{StaticResource BodyTextBlockStyle}" HorizontalAlignment="Center" />
+                        <ProgressBar IsIndeterminate="True" />
+                    </ui:SimpleStackPanel>
+                    <ui:ListView
                         ItemTemplateSelector="{StaticResource ListTemplateSelector}"
                         ItemsSource="{Binding Histories}"
                         SelectedIndex="{Binding SelectedIndex, Mode=OneWay}"
                         SelectionChanged="ListView_SelectionChanged">
-                    <ui:ListView.ItemContainerStyle>
-                        <Style TargetType="ui:ListViewItem">
-                            <Setter Property="Padding" Value="8" />
-                        </Style>
-                    </ui:ListView.ItemContainerStyle>
-                </ui:ListView>
+                        <ui:ListView.ItemContainerStyle>
+                            <Style TargetType="ui:ListViewItem">
+                                <Setter Property="Padding" Value="8" />
+                            </Style>
+                        </ui:ListView.ItemContainerStyle>
+                    </ui:ListView>
+                </Grid>
             </StackPanel>
         </ScrollViewer>
         <Border>
