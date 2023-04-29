@@ -137,6 +137,57 @@
         <Border>
             <Grid>
                 <Frame NavigationUIVisibility="Hidden" Source="{Binding ItemPageName}" Navigated="Frame_Navigated" SizeChanged="Frame_SizeChanged" />
+                <DockPanel LastChildFill="False" Visibility="{Binding TutorialVisibility}" d:Visibility="Visible" MouseDown="TutorialPanel_MouseDown">
+                    <DockPanel.Background>
+                        <!-- FIXME: ダークテーマとそうでないときで分けたい。 -->
+                        <SolidColorBrush  Color="Black" Opacity="0.5" />
+                    </DockPanel.Background>
+                    <Grid DockPanel.Dock="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Border BorderThickness="0" Margin="8" Padding="12" CornerRadius="8" HorizontalAlignment="Left" Grid.Column="0">
+                            <Border.Background>
+                                <SolidColorBrush Color="White" Opacity="0.9" />
+                            </Border.Background>
+                            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="4">
+                                <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE742;" Foreground="Black" />
+                                <TextBlock Text="自動起動や通知方法が設定できます" Style="{StaticResource BodyTextBlockStyle}" Foreground="Black" />
+                            </ui:SimpleStackPanel>
+                        </Border>
+                        <Border BorderThickness="0" Margin="8" Padding="12" CornerRadius="8" HorizontalAlignment="Right" Grid.Column="1">
+                            <Border.Background>
+                                <SolidColorBrush Color="White" Opacity="0.9" />
+                            </Border.Background>
+                            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="4">
+                                <TextBlock Text="揺れたことを利用者に伝えます" Style="{StaticResource BodyTextBlockStyle}" Foreground="Black" />
+                                <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE7EB;" Foreground="Black" />
+                            </ui:SimpleStackPanel>
+                        </Border>
+                    </Grid>
+                    <Border BorderThickness="0" Margin="8" Padding="12" CornerRadius="8" DockPanel.Dock="Left" VerticalAlignment="Center">
+                        <Border.Background>
+                            <SolidColorBrush Color="White" Opacity="0.9" />
+                        </Border.Background>
+                        <ui:SimpleStackPanel Orientation="Horizontal" Spacing="4">
+                            <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xEC52;" Foreground="Black" />
+                            <TextBlock Text="過去の情報が確認できます" Style="{StaticResource BodyTextBlockStyle}"  Foreground="Black" />
+                        </ui:SimpleStackPanel>
+                    </Border>
+                    <ui:SimpleStackPanel Orientation="Vertical" Spacing="8" Margin="8" DockPanel.Dock="Bottom">
+                        <Border BorderThickness="0" Padding="12" CornerRadius="8" HorizontalAlignment="Right">
+                            <Border.Background>
+                                <SolidColorBrush Color="White" Opacity="0.9" />
+                            </Border.Background>
+                            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="4">
+                                <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE73E;" Foreground="Black" />
+                                <TextBlock Text="起動中は、最新情報をリアルタイムにお知らせします" Style="{StaticResource BodyTextBlockStyle}" Foreground="Black" />
+                            </ui:SimpleStackPanel>
+                        </Border>
+                        <TextBlock Text="クリックすると説明を閉じます。" Style="{StaticResource BodyTextBlockStyle}" Foreground="White" HorizontalAlignment="Right" />
+                    </ui:SimpleStackPanel>
+                </DockPanel>
             </Grid>
         </Border>
     </DockPanel>

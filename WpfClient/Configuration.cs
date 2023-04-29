@@ -15,6 +15,8 @@ namespace WpfClient
 {
     public class ConfigurationManager
     {
+        public static bool IsFirstBoot { get; set; } = false;
+
         private static Configuration configuration;
         public static Configuration Configuration
         {
@@ -49,6 +51,7 @@ namespace WpfClient
         {
             if (!File.Exists(Filename()))
             {
+                IsFirstBoot = true;
                 return new Configuration();
             }
 
@@ -164,10 +167,10 @@ namespace WpfClient
         public bool SendIfRightDoubleClick { get; set; } = false;
 
         // 表示・通知
-        public EarthquakeNotification EarthquakeNotification { get; set; } = new EarthquakeNotification();
-        public Notification UserquakeNotification { get; set; } = new Notification();
-        public Notification TsunamiNotification { get; set; } = new Notification();
-        public Notification EEWTestNotification { get; set; } = new Notification();
+        public EarthquakeNotification EarthquakeNotification { get; set; } = new EarthquakeNotification() { Enabled = true, Notice = false, Show = true, Sound = true };
+        public Notification UserquakeNotification { get; set; } = new Notification() { Enabled = true, Notice = false, Show = true, Sound = true };
+        public Notification TsunamiNotification { get; set; } = new Notification() { Enabled = true, Notice = false, Show = true, Sound = true };
+        public Notification EEWTestNotification { get; set; } = new Notification() { Enabled = true, Notice = false, Show = true, Sound = true, VoiceGuidance = true };
 
         // XXX: このメソッドはここにあるべきなのか？
         public static void ReflectBootAtStartup(bool bootAtStartup)

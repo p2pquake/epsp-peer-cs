@@ -41,6 +41,17 @@ namespace WpfClient
         }
         public Visibility LoadingVisibility => isLoading ? Visibility.Visible : Visibility.Hidden;
 
+        private Visibility tutorialVisibility = Visibility.Hidden;
+        public Visibility TutorialVisibility
+        {
+            get { return tutorialVisibility; }
+            set
+            {
+                tutorialVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
         private object selectItem;
         public object SelectItem
         {
