@@ -28,6 +28,19 @@ namespace WpfClient
         public double FrameWidth { get; set; }
         public double FrameHeight { get; set; }
 
+        private bool isLoading = true;
+        public bool IsLoading
+        {
+            get { return isLoading; }
+            set
+            {
+                isLoading = value;
+                OnPropertyChanged();
+                OnPropertyChanged("LoadingVisibility");
+            }
+        }
+        public Visibility LoadingVisibility => isLoading ? Visibility.Visible : Visibility.Hidden;
+
         private object selectItem;
         public object SelectItem
         {
