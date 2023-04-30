@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AutoUpdater.Updater
+namespace Updater
 {
     public class UpdateEntry
     {

@@ -104,11 +104,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AutoUpdater\AutoUpdater.csproj" />
     <ProjectReference Include="..\Client\Client.csproj" />
     <ProjectReference Include="..\IPC\IPC.csproj" />
     <ProjectReference Include="..\JsonApi\JsonApi.csproj" />
     <ProjectReference Include="..\Map\Map.csproj" />
+    <ProjectReference Include="..\Updater\Updater.csproj" />
   </ItemGroup>
 
   <ItemGroup>
