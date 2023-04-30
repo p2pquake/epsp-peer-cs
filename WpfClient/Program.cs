@@ -1,4 +1,4 @@
-﻿using AutoUpdater.Updater;
+﻿using Updater;
 
 using Client.App;
 using Client.App.Userquake;

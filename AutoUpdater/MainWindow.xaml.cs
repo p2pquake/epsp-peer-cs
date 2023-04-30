@@ -1,4 +1,4 @@
-﻿using AutoUpdater.Updater;
+﻿using Updater;
 
 using Sentry;
 
@@ -19,7 +19,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-using static AutoUpdater.Updater.UpdateClient;
+using static Updater.UpdateClient;
 
 namespace AutoUpdater
 {
