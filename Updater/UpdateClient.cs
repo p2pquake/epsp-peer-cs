@@ -21,13 +21,6 @@ namespace Updater
         {
             Failure,
             Success,
-            SuccessAndRestart,
-        }
-
-        enum TerminateResult
-        {
-            NotRunning,
-            Terminated,
         }
 
         private static string UpdateUri = "https://www.p2pquake.net/update";
@@ -57,8 +50,6 @@ namespace Updater
 
         public static async Task<UpdateResult> Update(UpdateEntry[] entries)
         {
-            var terminateResult = TerminateP2PQuake();
-
             foreach (var entry in entries)
             {
                 // 自分自身が更新対象の場合、 P2PQuakeAutoUpdater2.exe として退避する
@@ -97,50 +88,7 @@ namespace Updater
                 //}
             }
 
-            if (terminateResult == TerminateResult.Terminated)
-            {
-                Process.Start(GeneratePath("P2PQuake.exe"));
-                return UpdateResult.SuccessAndRestart;
-            }
-
             return UpdateResult.Success;
-        }
-
-        private static TerminateResult TerminateP2PQuake()
-        {
-            // プロセスは起動してる？
-            var processes = Process.GetProcessesByName("P2PQuake");
-            if (processes.Length <= 0)
-            {
-                return TerminateResult.NotRunning;
-            }
-
-            // パイプを開き、終了してもらう
-            using var pipe = new NamedPipeClientStream(".", IPC.Const.Name, PipeDirection.Out, PipeOptions.CurrentUserOnly);
-            try
-            {
-                pipe.Connect(1000);
-                using var stream = new StreamWriter(pipe);
-                stream.AutoFlush = true;
-                stream.WriteLine(JsonSerializer.Serialize(new IPC.Message(IPC.Method.Exit)));
-            }
-            catch (TimeoutException)
-            {
-                // 古いバージョンの場合はここに来る。強制終了する
-                processes.ToList().ForEach(process => process.Kill());
-            }
-
-            // 終了まで 10 秒待つ
-            var sw = new Stopwatch();
-            sw.Start();
-
-            while (sw.ElapsedMilliseconds <= 10000)
-            {
-                if (processes.All(process => { process.Refresh(); return process.HasExited; })) { return TerminateResult.Terminated; }
-                Thread.Sleep(500);
-            }
-
-            throw new Exception("P2P地震情報を終了できませんでした。");
         }
 
         private static string CalcSha256(string path)
