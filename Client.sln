@@ -29,7 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaMetricsCollector", "L
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapTest", "MapTest\MapTest.csproj", "{DA0A8D6F-02A0-4E96-937D-A4B235865B5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.csproj", "{1B4C9B5A-2AA6-4CE4-9230-E495A96C31BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Updater", "Updater\Updater.csproj", "{1B4C9B5A-2AA6-4CE4-9230-E495A96C31BD}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "WpfClientInstaller", "WpfClientInstaller\WpfClientInstaller.vdproj", "{5C90845A-3EAC-4687-9C0F-B26CDB4DF46B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -492,6 +494,22 @@ Global
 		{1B4C9B5A-2AA6-4CE4-9230-E495A96C31BD}.ReleaseExcludeWPF|x64.Build.0 = Release|Any CPU
 		{1B4C9B5A-2AA6-4CE4-9230-E495A96C31BD}.ReleaseExcludeWPF|x86.ActiveCfg = Release|Any CPU
 		{1B4C9B5A-2AA6-4CE4-9230-E495A96C31BD}.ReleaseExcludeWPF|x86.Build.0 = Release|Any CPU
+		{5C90845A-3EAC-4687-9C0F-B26CDB4DF46B}.Debug|Any CPU.ActiveCfg = Debug
+		{5C90845A-3EAC-4687-9C0F-B26CDB4DF46B}.Debug|arm64.ActiveCfg = Debug
+		{5C90845A-3EAC-4687-9C0F-B26CDB4DF46B}.Debug|x64.ActiveCfg = Debug
+		{5C90845A-3EAC-4687-9C0F-B26CDB4DF46B}.Debug|x86.ActiveCfg = Debug
+		{5C90845A-3EAC-4687-9C0F-B26CDB4DF46B}.DebugExcludeWPF|Any CPU.ActiveCfg = Debug
+		{5C90845A-3EAC-4687-9C0F-B26CDB4DF46B}.DebugExcludeWPF|arm64.ActiveCfg = Debug
+		{5C90845A-3EAC-4687-9C0F-B26CDB4DF46B}.DebugExcludeWPF|x64.ActiveCfg = Debug
+		{5C90845A-3EAC-4687-9C0F-B26CDB4DF46B}.DebugExcludeWPF|x86.ActiveCfg = Debug
+		{5C90845A-3EAC-4687-9C0F-B26CDB4DF46B}.Release|Any CPU.ActiveCfg = Release
+		{5C90845A-3EAC-4687-9C0F-B26CDB4DF46B}.Release|arm64.ActiveCfg = Release
+		{5C90845A-3EAC-4687-9C0F-B26CDB4DF46B}.Release|x64.ActiveCfg = Release
+		{5C90845A-3EAC-4687-9C0F-B26CDB4DF46B}.Release|x86.ActiveCfg = Release
+		{5C90845A-3EAC-4687-9C0F-B26CDB4DF46B}.ReleaseExcludeWPF|Any CPU.ActiveCfg = Release
+		{5C90845A-3EAC-4687-9C0F-B26CDB4DF46B}.ReleaseExcludeWPF|arm64.ActiveCfg = Release
+		{5C90845A-3EAC-4687-9C0F-B26CDB4DF46B}.ReleaseExcludeWPF|x64.ActiveCfg = Release
+		{5C90845A-3EAC-4687-9C0F-B26CDB4DF46B}.ReleaseExcludeWPF|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
