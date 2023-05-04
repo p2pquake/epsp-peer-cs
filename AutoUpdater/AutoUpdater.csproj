@@ -15,6 +15,7 @@
     <NeutralLanguage>ja-JP</NeutralLanguage>
     <AssemblyVersion>3.5.0.3</AssemblyVersion>
     <FileVersion>3.5.0.3</FileVersion>
+    <StartupObject>AutoUpdater.Program</StartupObject>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
