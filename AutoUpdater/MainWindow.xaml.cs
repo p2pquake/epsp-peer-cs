@@ -107,6 +107,7 @@ namespace AutoUpdater
             dataContext.UpdateStatus = UpdateStatus.Updating;
 
             UpdateResult result;
+            var terminateResult = P2PQuakeCommunicator.TerminateP2PQuake();
             try
             {
                 var updates = await Task.Run(async () =>
@@ -122,18 +123,25 @@ namespace AutoUpdater
             {
                 SentrySdk.CaptureException(ex);
                 TreatException(ex);
+                if (terminateResult == P2PQuakeCommunicator.TerminateResult.Terminated)
+                {
+                    P2PQuakeCommunicator.BootP2PQuake();
+                }
                 return;
             }
 
             switch (result)
             {
-                case UpdateClient.UpdateResult.SuccessAndRestart:
-                    Close();
-                    return;
                 case UpdateClient.UpdateResult.Failure:
                     dataContext.UpdatedResultMessage = $"アップデートに失敗しました。";
                     break;
                 case UpdateClient.UpdateResult.Success:
+                    if (terminateResult == P2PQuakeCommunicator.TerminateResult.Terminated)
+                    {
+                        P2PQuakeCommunicator.BootP2PQuake();
+                        Close();
+                        return;
+                    }
                     dataContext.UpdatedResultMessage = "アップデートが完了しました。";
                     break;
                 default:

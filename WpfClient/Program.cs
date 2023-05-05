@@ -57,6 +57,7 @@ namespace WpfClient
             configuration = ConfigurationManager.Configuration;
 
             var localMode = args.Length > 0 && args[0] == "local";
+            var noautoupdate = args.Length > 0 && args[0] == "noautoupdate";
 
             using var mutex = new Mutex(false, "P2PQuake");
             bool hasHandle = false;
@@ -90,7 +91,7 @@ namespace WpfClient
             if (Updater.HasUpdaterUpdate())
             {
                 Task.Run(() => { Updater.UpdateUpdater(); });
-            } else if (configuration.AutoUpdate)
+            } else if (configuration.AutoUpdate && !noautoupdate)
             {
                 Updater.Run();
             }
