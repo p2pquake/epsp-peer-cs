@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.15" />
-    <PackageReference Include="Nyamikan.Asn1PKCS" Version="0.1.1" />
+    <PackageReference Include="Nyamikan.Asn1PKCS" Version="0.2.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
   </ItemGroup>
 
