@@ -60,8 +60,8 @@
                     <ui:ToggleSwitch IsOn="{Binding Path=BootAtStartup, Mode=TwoWay}" />
                     <Label Content="起動時に最小化する" />
                     <ui:ToggleSwitch IsOn="{Binding Path=MinimizeAtBoot, Mode=TwoWay}" />
-                    <Label Content="自動更新する" />
-                    <ui:ToggleSwitch IsOn="{Binding Path=AutoUpdate, Mode=TwoWay}" />
+                    <Label Content="自動更新する" Visibility="{Binding AutoUpdateVisibility}" />
+                    <ui:ToggleSwitch IsOn="{Binding Path=AutoUpdate, Mode=TwoWay}" Visibility="{Binding AutoUpdateVisibility}" />
                 </ui:SimpleStackPanel>
             </ScrollViewer>
             <ScrollViewer Visibility="{Binding ConnectionVisibility}" d:Visibility="Hidden">

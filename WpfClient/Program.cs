@@ -639,9 +639,13 @@ namespace WpfClient
             // 初回の接続済み遷移、または 7 日経過後の遷移だった場合、アップデートチェック
             if (status == "接続済み" && DateTime.Now.Subtract(latestUpdateCheck).TotalDays >= 7)
             {
-                var result = await UpdateClient.Check();
-                viewModel.ShowUpdateLink = (result.Length > 0) ? Visibility.Visible : Visibility.Hidden;
                 latestUpdateCheck = DateTime.Now;
+
+                if (Updater.Exists())
+                {
+                    var result = await UpdateClient.Check();
+                    viewModel.ShowUpdateLink = (result.Length > 0) ? Visibility.Visible : Visibility.Hidden;
+                }
             }
         }
 

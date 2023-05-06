@@ -68,6 +68,11 @@ namespace WpfClient
             get { return selectTag == "Notification" ? Visibility.Visible : Visibility.Hidden; }
         }
 
+        public Visibility AutoUpdateVisibility
+        {
+            get { return Updater.Exists() ? Visibility.Visible : Visibility.Hidden; }
+        }
+
         private bool bootAtStartup;
         public bool BootAtStartup
         {

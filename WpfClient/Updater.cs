@@ -17,13 +17,17 @@ namespace WpfClient
 
         public static void Run()
         {
+            if (!Exists()) { return;  }
+
             string path = GeneratePath(updaterFilename);
-            if (!File.Exists(path)) {
-                // TODO: 存在しないことを伝えたほうがいいかも。
-                return;
-            }
             var process = Process.Start(path, "silent");
             process.WaitForExit();
+        }
+
+        public static bool Exists()
+        {
+            string path = GeneratePath(updaterFilename);
+            return File.Exists(path);
         }
 
         /// <summary>AutoUpdater の更新処理</summary>
