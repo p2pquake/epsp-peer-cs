@@ -55,6 +55,16 @@
     <None Remove="Resources\MapOverlays\tsunami_note_majorwarning.png" />
     <None Remove="Resources\MapOverlays\tsunami_note_warning.png" />
     <None Remove="Resources\MapOverlays\userquake_note.png" />
+    <None Remove="Resources\Scales\scale_10.png" />
+    <None Remove="Resources\Scales\scale_20.png" />
+    <None Remove="Resources\Scales\scale_30.png" />
+    <None Remove="Resources\Scales\scale_40.png" />
+    <None Remove="Resources\Scales\scale_45.png" />
+    <None Remove="Resources\Scales\scale_46.png" />
+    <None Remove="Resources\Scales\scale_50.png" />
+    <None Remove="Resources\Scales\scale_55.png" />
+    <None Remove="Resources\Scales\scale_60.png" />
+    <None Remove="Resources\Scales\scale_70.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -103,6 +113,16 @@
 
   <ItemGroup>
     <Resource Include="Resources\Icons\tsunami.svg" />
+    <Resource Include="Resources\Scales\scale_10.png" />
+    <Resource Include="Resources\Scales\scale_20.png" />
+    <Resource Include="Resources\Scales\scale_30.png" />
+    <Resource Include="Resources\Scales\scale_40.png" />
+    <Resource Include="Resources\Scales\scale_45.png" />
+    <Resource Include="Resources\Scales\scale_46.png" />
+    <Resource Include="Resources\Scales\scale_50.png" />
+    <Resource Include="Resources\Scales\scale_55.png" />
+    <Resource Include="Resources\Scales\scale_60.png" />
+    <Resource Include="Resources\Scales\scale_70.png" />
   </ItemGroup>
 
   <ItemGroup>
