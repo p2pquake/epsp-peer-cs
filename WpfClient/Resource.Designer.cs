@@ -19,7 +19,7 @@ namespace WpfClient {
     // または Visual Studio のようなツールを使用して自動生成されました。
     // メンバーを追加または削除するには、.ResX ファイルを編集して、/str オプションと共に
     // ResGen を実行し直すか、または VS プロジェクトをビルドし直します。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resource {
@@ -100,6 +100,63 @@ namespace WpfClient {
             get {
                 object obj = ResourceManager.GetObject("p2pquake", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   北海道,ほっかいどう
+        ///青森県,あおもりけん
+        ///岩手県,いわてけん
+        ///宮城県,みやぎけん
+        ///秋田県,あきたけん
+        ///山形県,やまがたけん
+        ///福島県,ふくしまけん
+        ///茨城県,いばらきけん
+        ///栃木県,とちぎけん
+        ///群馬県,ぐんまけん
+        ///埼玉県,さいたまけん
+        ///千葉県,ちばけん
+        ///東京都,とうきょうと
+        ///神奈川県,かながわけん
+        ///新潟県,にいがたけん
+        ///富山県,とやまけん
+        ///石川県,いしかわけん
+        ///福井県,ふくいけん
+        ///山梨県,やまなしけん
+        ///長野県,ながのけん
+        ///岐阜県,ぎふけん
+        ///静岡県,しずおかけん
+        ///愛知県,あいちけん
+        ///三重県,みえけん
+        ///滋賀県,しがけん
+        ///京都府,きょうとふ
+        ///大阪府,おおさかふ
+        ///兵庫県,ひょうごけん
+        ///奈良県,ならけん
+        ///和歌山県,わかやまけん
+        ///鳥取県,とっとりけん
+        ///島根県,しまねけん
+        ///岡山県,おかやまけん
+        ///広島県,ひろしまけん
+        ///山口県,やまぐちけん
+        ///徳島県,とくしまけん
+        ///香川県,かがわけん
+        ///愛媛県,えひめけん
+        ///高知県,こうちけん
+        ///福岡県,ふくおかけん
+        ///佐賀県,さがけん
+        ///長崎県,ながさきけん
+        ///熊本県,くまもとけん
+        ///大分県,おおいたけん
+        ///宮崎県,みやざきけん
+        ///鹿児島県,かごしまけん
+        ///沖縄県,おきなわけん
+        ///石狩地方北部,いしかりちほうほくぶ
+        ///石 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string Points2Kana {
+            get {
+                return ResourceManager.GetString("Points2Kana", resourceCulture);
             }
         }
     }
