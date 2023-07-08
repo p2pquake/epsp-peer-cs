@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Threading;
 
 using Client.Common.General;
+using System.IO;
 
 namespace Client.Common.Net
 {
@@ -136,6 +137,14 @@ namespace Client.Common.Net
                     else
                     {
                         // Fail
+                        try
+                        {
+                            socket.Close();
+                            socket.EndConnect(ar);
+                        }
+                        catch (SocketException) { }
+                        catch (ObjectDisposedException) { }
+
                         Logger.GetLog().Debug("タイムアウト: " + host + ":" + port);
                         return false;
                     }
