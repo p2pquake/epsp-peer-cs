@@ -500,7 +500,7 @@ namespace WpfClient
                         UpdatedAt = DateTime.Parse(evaluation.UpdatedAt),
                         Count = evaluation.Count,
                         Confidence = evaluation.Confidence,
-                        AreaConfidences = evaluation.AreaConfidences.Where(e => e.Value.Confidence >= 0).ToDictionary(e => e.Key, e => new UserquakeEvaluationArea() { AreaCode = e.Key, Confidence = e.Value.Confidence, Count = e.Value.Count } as IUserquakeEvaluationArea)
+                        AreaConfidences = evaluation.AreaConfidences.Where(e => e.Value.Confidence >= 0).ToDictionary(e => e.Key.PadLeft(3, '0'), e => new UserquakeEvaluationArea() { AreaCode = e.Key.PadLeft(3, '0'), Confidence = e.Value.Confidence, Count = e.Value.Count } as IUserquakeEvaluationArea)
                     };
 
                     AddUserquakeHistory(eventArgs);
