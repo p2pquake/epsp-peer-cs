@@ -348,7 +348,7 @@ namespace WpfClient
         
         private static void AddHistory(EventArgs e)
         {
-            var obj = Factory.WrapEventArgs(e, viewModel.InformationViewModel);
+            var obj = Factory.WrapEventArgs(e, client.CalcNowProtocolTime, viewModel.InformationViewModel);
             App.Current.Dispatcher.Invoke(() =>
             {
                 viewModel.InformationViewModel.Histories.Insert(0, obj);
@@ -369,7 +369,7 @@ namespace WpfClient
 
                 if (existItem == null)
                 {
-                    var obj = Factory.WrapEventArgs(eventArgs, viewModel.InformationViewModel);
+                    var obj = Factory.WrapEventArgs(eventArgs, client.CalcNowProtocolTime, viewModel.InformationViewModel);
                     histories.Insert(0, obj);
                     if (histories.Count > HistoryLimit)
                     {

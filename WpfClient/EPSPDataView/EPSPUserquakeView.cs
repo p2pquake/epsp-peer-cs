@@ -50,6 +50,7 @@ namespace WpfClient.EPSPDataView
             }
         }
 
+        public Func<DateTime> ProtocolTime { get; init; }
         public IFrameModel FrameModel { get; init; }
 
         public Visibility TestLabelVisibility => (EventArgs?.AreaConfidences.Any((area) => area.Key == "-1") ?? false) ? Visibility.Visible : Visibility.Collapsed;
@@ -65,9 +66,8 @@ namespace WpfClient.EPSPDataView
 
         public string Caption => "地震感知情報";
 
-        // FIXME: 受信中か判定するために MediatorContext (Client) からプロトコル日時を取る必要がある
         public Visibility ReceivingVisibility =>
-            EventArgs != null && DateTime.Now.Subtract(EventArgs.UpdatedAt).TotalSeconds < 40 ? Visibility.Visible : Visibility.Hidden;
+            EventArgs != null && ProtocolTime().Subtract(EventArgs.UpdatedAt).TotalSeconds < 40 ? Visibility.Visible : Visibility.Hidden;
 
         public string DetailTime => $"{EventArgs?.StartedAt.ToString("M月dd日HH時mm分ss秒")}～{EventArgs?.UpdatedAt.ToString("HH時mm分ss秒")}";
 
@@ -155,9 +155,10 @@ namespace WpfClient.EPSPDataView
         {
         }
 
-        public EPSPUserquakeView(UserquakeEvaluateEventArgs eventArgs, IFrameModel frameModel)
+        public EPSPUserquakeView(UserquakeEvaluateEventArgs eventArgs, Func<DateTime> protocolTime, IFrameModel frameModel)
         {
             this.EventArgs = eventArgs;
+            this.ProtocolTime = protocolTime;
             this.FrameModel = frameModel;
 
             // 画像生成スレッド
