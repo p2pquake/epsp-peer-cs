@@ -11,7 +11,7 @@ namespace WpfClient.EPSPDataView
 {
     public static class Factory
     {
-        public static object WrapEventArgs(EventArgs eventArgs, IFrameModel frameModel)
+        public static object WrapEventArgs(EventArgs eventArgs, Func<DateTime> protocolTime, IFrameModel frameModel)
         {
             if (eventArgs is EPSPQuakeEventArgs quake)
             {
@@ -35,7 +35,7 @@ namespace WpfClient.EPSPDataView
 
             if (eventArgs is UserquakeEvaluateEventArgs userquake)
             {
-                return new EPSPUserquakeView(userquake, frameModel);
+                return new EPSPUserquakeView(userquake, protocolTime, frameModel);
             }
 
             return null;
