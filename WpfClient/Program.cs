@@ -34,6 +34,7 @@ using WpfClient.Notifications;
 using WpfClient.Utils;
 
 using TsunamiCategory = Client.Peer.TsunamiCategory;
+using System.Net.Sockets;
 
 namespace WpfClient
 {
@@ -117,6 +118,24 @@ namespace WpfClient
 #else
                 o.Environment = "release";
 #endif
+                o.BeforeSend = (sentryEvent) =>
+                {
+                    // SocketException の OperationAborted は除外
+                    if (sentryEvent.Exception is SocketException && (sentryEvent.Exception as SocketException).SocketErrorCode == SocketError.OperationAborted)
+                    {
+                        return null;
+                    }
+
+                    if (sentryEvent.Exception is AggregateException)
+                    {
+                        var inners = (sentryEvent.Exception as AggregateException).InnerExceptions;
+                        if (inners.All((inner) => (inner is SocketException) && (inner as SocketException).SocketErrorCode == SocketError.OperationAborted))
+                        {
+                            return null;
+                        }
+                    }
+                    return sentryEvent;
+                };
             });
         }
 
