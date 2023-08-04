@@ -2,12 +2,16 @@
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.Diagnostics;
+using System.Linq;
+using System.Net.Sockets;
 using System.Threading;
 using Client.App;
 using log4net;
 using log4net.Appender;
 using log4net.Config;
 using log4net.Layout;
+
+using Sentry;
 
 namespace CLI.Command
 {
@@ -37,6 +41,33 @@ namespace CLI.Command
 
         private static void LoggerHandler(LoggerOptions options)
         {
+
+            SentrySdk.Init(options =>
+            {
+                options.Dsn = "https://5463a12ba324842b4a8ac18d939bca4d@o1151228.ingest.sentry.io/4505646797160448";
+                options.AutoSessionTracking = true;
+                options.IsGlobalModeEnabled = true;
+                options.EnableTracing = true;
+                options.BeforeSend = (sentryEvent) =>
+                {
+                    // SocketException の OperationAborted は除外
+                    if (sentryEvent.Exception is SocketException && (sentryEvent.Exception as SocketException).SocketErrorCode == SocketError.OperationAborted)
+                    {
+                        return null;
+                    }
+
+                    if (sentryEvent.Exception is AggregateException)
+                    {
+                        var inners = (sentryEvent.Exception as AggregateException).InnerExceptions;
+                        if (inners.All((inner) => (inner is SocketException) && (inner as SocketException).SocketErrorCode == SocketError.OperationAborted))
+                        {
+                            return null;
+                        }
+                    }
+                    return sentryEvent;
+                };
+            });
+
             var appender = new ConsoleAppender()
             {
                 Threshold = log4net.Core.Level.Info,
