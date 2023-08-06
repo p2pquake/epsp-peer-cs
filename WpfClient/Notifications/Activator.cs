@@ -1,6 +1,10 @@
 ﻿using Client.App;
 using Client.Peer;
 
+using Polly;
+
+using Sentry;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,18 +22,21 @@ namespace WpfClient.Notifications
 
         public static void Select(string type, string receivedAt = null, string startedAt = null)
         {
-            App.Current.Dispatcher.Invoke(() =>
-            {
-                var dataContext = (RootViewModel)App.Current.MainWindow.DataContext;
-                var item = dataContext.InformationViewModel.Histories.First((item) =>
-                    (type == "quake" && item is EPSPQuakeView quake && quake.EventArgs.ReceivedAt.ToString() == receivedAt) ||
-                    (type == "tsunami" && item is EPSPTsunamiView tsunami && tsunami.EventArgs.ReceivedAt.ToString() == receivedAt) ||
-                    (type == "eew" && item is EPSPEEWView eew && eew.EventArgs.ReceivedAt.ToString() == receivedAt) ||
-                    (type == "userquake" && item is EPSPUserquakeView userquake && userquake.EventArgs.StartedAt.ToString() == startedAt)
-                );
-                dataContext.InformationViewModel.SelectedIndex = dataContext.InformationViewModel.Histories.IndexOf(item);
-                dataContext.InformationIsSelected = true;
-            });
+            WithRetry(() =>
+                {
+                    App.Current.Dispatcher.Invoke(() =>
+                                {
+                                    var dataContext = (RootViewModel)App.Current.MainWindow.DataContext;
+                                    var item = dataContext.InformationViewModel.Histories.First((item) =>
+                                                        (type == "quake" && item is EPSPQuakeView quake && quake.EventArgs.ReceivedAt.ToString() == receivedAt) ||
+                                                        (type == "tsunami" && item is EPSPTsunamiView tsunami && tsunami.EventArgs.ReceivedAt.ToString() == receivedAt) ||
+                                                        (type == "eew" && item is EPSPEEWView eew && eew.EventArgs.ReceivedAt.ToString() == receivedAt) ||
+                                                        (type == "userquake" && item is EPSPUserquakeView userquake && userquake.EventArgs.StartedAt.ToString() == startedAt)
+                                                    );
+                                    dataContext.InformationViewModel.SelectedIndex = dataContext.InformationViewModel.Histories.IndexOf(item);
+                                    dataContext.InformationIsSelected = true;
+                                });
+                });
         }
 
         public static void Activate(string type, string receivedAt = null, string startedAt = null)
@@ -51,10 +58,10 @@ namespace WpfClient.Notifications
         {
             this.configuration = configuration;
 
-            mediatorContext.OnEarthquake += MediatorContext_OnEarthquake;
-            mediatorContext.OnTsunami += MediatorContext_OnTsunami;
-            mediatorContext.OnEEW += MediatorContext_OnEEW;
-            mediatorContext.OnNewUserquakeEvaluation += MediatorContext_OnNewUserquakeEvaluation;
+            mediatorContext.OnEarthquake += (s, e) => { Task.Run(() => MediatorContext_OnEarthquake(s, e)); };
+            mediatorContext.OnTsunami += (s, e) => { Task.Run(() => MediatorContext_OnTsunami(s, e)); };
+            mediatorContext.OnEEW += (s, e) => { Task.Run(() => MediatorContext_OnEEW(s, e)); };
+            mediatorContext.OnNewUserquakeEvaluation += (s, e) => { Task.Run(() => MediatorContext_OnNewUserquakeEvaluation(s, e)); };
         }
 
         private void MediatorContext_OnEarthquake(object sender, EPSPQuakeEventArgs e)
@@ -133,6 +140,16 @@ namespace WpfClient.Notifications
                 return;
             }
             Activate("userquake", null, e.StartedAt.ToString());
+        }
+        private static void WithRetry(Action a)
+        {
+            try
+            {
+                Policy.Handle<Exception>().WaitAndRetry(8, retryAttempt => TimeSpan.FromSeconds(Math.Pow(1.2, retryAttempt - 1) - 0.5)).Execute(a);
+            } catch (Exception e)
+            {
+                SentrySdk.CaptureException(e);
+            }
         }
     }
 }
