@@ -32,10 +32,10 @@ namespace WpfClient.Notifications
             this.mediatorContext = mediatorContext;
             this.userquakeArea = Resource.epsp_area.Split('\n').Skip(1).Select(e => e.Split(',')).ToDictionary(e => e[0], e => e[4]);
 
-            mediatorContext.OnEarthquake += MediatorContext_OnEarthquake;
-            mediatorContext.OnTsunami += MediatorContext_OnTsunami;
-            mediatorContext.OnEEW += MediatorContext_OnEEW;
-            mediatorContext.OnNewUserquakeEvaluation += MediatorContext_OnNewUserquakeEvaluation;
+            mediatorContext.OnEarthquake += (s,e) => { Task.Run(() => MediatorContext_OnEarthquake(s, e)); };
+            mediatorContext.OnTsunami += (s, e) => { Task.Run(() => MediatorContext_OnTsunami(s, e)); };
+            mediatorContext.OnEEW += (s, e) => { Task.Run(() => MediatorContext_OnEEW(s, e)); };
+            mediatorContext.OnNewUserquakeEvaluation += (s, e) => { Task.Run(() => MediatorContext_OnNewUserquakeEvaluation(s, e)); };
 
             ToastNotificationManagerCompat.OnActivated += ToastNotificationManagerCompat_OnActivated;
         }

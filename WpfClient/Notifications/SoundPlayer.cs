@@ -39,10 +39,10 @@ namespace WpfClient.Notifications
         {
             this.configuration = configuration;
 
-            mediatorContext.OnEarthquake += MediatorContext_OnEarthquake;
-            mediatorContext.OnTsunami += MediatorContext_OnTsunami;
-            mediatorContext.OnEEW += MediatorContext_OnEEW;
-            mediatorContext.OnNewUserquakeEvaluation += MediatorContext_OnNewUserquakeEvaluation;
+            mediatorContext.OnEarthquake += (s, e) => { Task.Run(() => MediatorContext_OnEarthquake(s, e)); };
+            mediatorContext.OnTsunami += (s, e) => { Task.Run(() => MediatorContext_OnTsunami(s, e)); };
+            mediatorContext.OnEEW += (s, e) => { Task.Run(() => MediatorContext_OnEEW(s, e)); };
+            mediatorContext.OnNewUserquakeEvaluation += (s, e) => { Task.Run(() => MediatorContext_OnNewUserquakeEvaluation(s, e)); };
         }
 
         private static void PlaySoundAsync(SoundType soundType)

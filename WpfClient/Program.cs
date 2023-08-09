@@ -230,12 +230,12 @@ namespace WpfClient
             client.ConnectionsChanged += Client_ConnectionsChanged;
             client.StateChanged += Client_StateChanged;
             client.OnAreapeers += Client_OnAreapeers;
-            client.OnEarthquake += Client_OnEarthquake;
-            client.OnTsunami += Client_OnTsunami;
-            client.OnEEWTest += Client_OnEEWTest;
-            client.OnEEW += Client_OnEEW;
-            client.OnNewUserquakeEvaluation += Client_OnNewUserquakeEvaluation;
-            client.OnUpdateUserquakeEvaluation += Client_OnUpdateUserquakeEvaluation;
+            client.OnEarthquake += (s,e) => { Task.Run(() => Client_OnEarthquake(s, e)); };
+            client.OnTsunami += (s, e) => { Task.Run(() => Client_OnTsunami(s, e)); };
+            client.OnEEWTest += (s, e) => { Task.Run(() => Client_OnEEWTest(s, e)); };
+            client.OnEEW += (s, e) => { Task.Run(() => Client_OnEEW(s, e)); };
+            client.OnNewUserquakeEvaluation += (s, e) => { Task.Run(() => Client_OnNewUserquakeEvaluation(s, e)); };
+            client.OnUpdateUserquakeEvaluation += (s, e) => { Task.Run(() => Client_OnUpdateUserquakeEvaluation(s, e)); };
 
             configuration.OnChangeEPSPConfiguration += (s, e) =>
             {
