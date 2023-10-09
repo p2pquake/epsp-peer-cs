@@ -35,8 +35,8 @@ namespace WpfClient.EPSPDataView
 
                 return ThemeManager.Current.ActualApplicationTheme switch
                 {
-                    ApplicationTheme.Light => "/Resources/Icons/tsunami_red.png",
-                    ApplicationTheme.Dark => "/Resources/Icons/tsunami_yellow.png",
+                    ApplicationTheme.Light => "/Resources/Icons/tsunami_black.png",
+                    ApplicationTheme.Dark => "/Resources/Icons/tsunami_white.png",
                     _ => throw new NotImplementedException(),
                 };
             }
