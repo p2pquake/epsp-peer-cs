@@ -6,25 +6,50 @@
              xmlns:local="clr-namespace:WpfClient.Pages.Informations"
              mc:Ignorable="d"
       Background="{Binding BackgroundColor}">
-    <TextBlock Text="{Binding Text}" Foreground="Black" Style="{StaticResource BaseTextBlockStyle}">
+    <TextBlock Text="{Binding Text}" Foreground="Black" Style="{StaticResource MiniTitleTextBlockStyle}">
         <TextBlock.RenderTransform>
-            <TranslateTransform X="0" Y="1" />
+            <TranslateTransform X="-1" Y="-1" />
         </TextBlock.RenderTransform>
     </TextBlock>
-    <TextBlock Text="{Binding Text}" Foreground="Black" Style="{StaticResource BaseTextBlockStyle}">
+    <TextBlock Text="{Binding Text}" Foreground="Black" Style="{StaticResource MiniTitleTextBlockStyle}">
         <TextBlock.RenderTransform>
             <TranslateTransform X="0" Y="-1" />
         </TextBlock.RenderTransform>
     </TextBlock>
-    <TextBlock Text="{Binding Text}" Foreground="Black" Style="{StaticResource BaseTextBlockStyle}">
+    <TextBlock Text="{Binding Text}" Foreground="Black" Style="{StaticResource MiniTitleTextBlockStyle}">
+        <TextBlock.RenderTransform>
+            <TranslateTransform X="1" Y="-1" />
+        </TextBlock.RenderTransform>
+    </TextBlock>
+    <TextBlock Text="{Binding Text}" Foreground="Black" Style="{StaticResource MiniTitleTextBlockStyle}">
         <TextBlock.RenderTransform>
             <TranslateTransform X="1" Y="0" />
         </TextBlock.RenderTransform>
     </TextBlock>
-    <TextBlock Text="{Binding Text}" Foreground="Black" Style="{StaticResource BaseTextBlockStyle}">
+    <TextBlock Text="{Binding Text}" Foreground="Black" Style="{StaticResource MiniTitleTextBlockStyle}">
+        <TextBlock.RenderTransform>
+            <TranslateTransform X="1" Y="1" />
+        </TextBlock.RenderTransform>
+    </TextBlock>
+    <TextBlock Text="{Binding Text}" Foreground="Black" Style="{StaticResource MiniTitleTextBlockStyle}">
+        <TextBlock.RenderTransform>
+            <TranslateTransform X="0" Y="1" />
+        </TextBlock.RenderTransform>
+    </TextBlock>
+    <TextBlock Text="{Binding Text}" Foreground="Black" Style="{StaticResource MiniTitleTextBlockStyle}">
+        <TextBlock.RenderTransform>
+            <TranslateTransform X="-1" Y="1" />
+        </TextBlock.RenderTransform>
+    </TextBlock>
+    <TextBlock Text="{Binding Text}" Foreground="Black" Style="{StaticResource MiniTitleTextBlockStyle}">
         <TextBlock.RenderTransform>
             <TranslateTransform X="-1" Y="0" />
         </TextBlock.RenderTransform>
     </TextBlock>
-    <TextBlock Text="{Binding Text}" Foreground="White" Style="{StaticResource BaseTextBlockStyle}" />
+    <TextBlock Text="{Binding Text}" Foreground="#80000080" Style="{StaticResource MiniTitleTextBlockStyle}">
+        <TextBlock.RenderTransform>
+            <TranslateTransform X="2" Y="2" />
+        </TextBlock.RenderTransform>
+    </TextBlock>
+    <TextBlock Text="{Binding Text}" Foreground="White" Style="{StaticResource MiniTitleTextBlockStyle}" />
 </Grid>

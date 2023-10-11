@@ -19,11 +19,11 @@
         </DataTemplate>
 
         <DataTemplate x:Key="DetailPrefectureItem">
-            <TextBlock Text="{Binding Text}" Margin="0,16,0,0" Style="{StaticResource BaseTextBlockStyle}" />
+            <TextBlock Text="{Binding Text}" Margin="0,16,0,0" Style="{StaticResource MiniTitleTextBlockStyle}" />
         </DataTemplate>
 
         <DataTemplate x:Key="DetailScaleItem">
-            <TextBlock Text="{Binding Text}" Style="{StaticResource BaseTextBlockStyle}" />
+            <TextBlock Text="{Binding Text}" Style="{StaticResource MiniTitleTextBlockStyle}" />
         </DataTemplate>
 
         <DataTemplate x:Key="DetailNameItem">
