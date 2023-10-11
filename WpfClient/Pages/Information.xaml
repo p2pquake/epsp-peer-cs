@@ -71,9 +71,9 @@
 
         <DataTemplate x:Key="EEWItem" DataType="data:EPSPEEWView">
             <StackPanel Orientation="Horizontal">
-                <ui:SymbolIcon Symbol="Volume"
-                               Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
-                               Width="32" Height="24" />
+                <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE7BA;" 
+                             Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
+                             Width="32" Height="24" VerticalAlignment="Center" />
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="テスト表示" Background="{DynamicResource SystemControlBackgroundBaseLowBrush}" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" Visibility="{Binding TestLabelVisibility}" />
                     <TextBlock Text="{Binding Time}" />
