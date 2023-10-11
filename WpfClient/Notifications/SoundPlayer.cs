@@ -91,7 +91,14 @@ namespace WpfClient.Notifications
                 return;
             }
 
-            var scale = e.InformationType == QuakeInformationType.Destination ? 30 : ScaleConverter.Str2Int(e.Scale);
+            // 震源情報を鳴動する必要性は低い
+            // See: https://www.data.jma.go.jp/eqev/data/joho/seisinfo.html
+            if (e.InformationType == QuakeInformationType.Destination)
+            {
+                return;
+            }
+
+            var scale = ScaleConverter.Str2Int(e.Scale);
             if (scale < earthquakeNotification.MinScale)
             {
                 return;
@@ -102,7 +109,7 @@ namespace WpfClient.Notifications
             if (e.OccuredTime != lastEarthquakeOccuredTime)
             {
                 PlaySoundAsync(soundType);
-            } else if (soundType != lastSoundType && lastSoundType != SoundType.P2PQ_Snd0)
+            } else if (soundType != lastSoundType)
             {
                 PlaySoundAsync(soundType);
             }
