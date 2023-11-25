@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Client.Common.Net
 {
-    interface ISocket
+    public interface ISocket
     {
         bool Connected { get; }
         EndPoint RemoteEndPoint { get; }

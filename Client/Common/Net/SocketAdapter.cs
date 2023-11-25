@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Client.Common.Net
 {
-    class SocketAdapter : ISocket
+    public class SocketAdapter : ISocket
     {
         private Socket socket;
 
