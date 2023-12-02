@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Client.Common.General;
+
+using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
-using Client.Common.General;
 
 namespace Client.Common.Net
 {
-    class AcceptEventArgs : EventArgs
+    public class AcceptEventArgs : EventArgs
     {
         public Socket Socket { get; set; }
     }
 
-    class AsyncListener
+    public class AsyncListener
     {
         bool interrupt;
         int port;

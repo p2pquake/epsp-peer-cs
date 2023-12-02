@@ -1,15 +1,16 @@
-﻿using System;
+﻿using Client.Common.General;
+using Client.Common.Net;
+using Client.Peer.General;
+
+using PKCSPeerCrypto;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using Client.Common.General;
-using Client.Common.Net;
-using Client.Peer.General;
-using PKCSPeerCrypto;
 
 namespace Client.Peer.Manager
 {
@@ -28,7 +29,7 @@ namespace Client.Peer.Manager
         public event EventHandler<EPSPEEWTestEventArgs> OnEEWTest;
         public event EventHandler<EPSPEEWEventArgs> OnEEW;
         public event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
-        public event EventHandler<EPSPRawDataEventArgs> OnData = (s, e) => {};
+        public event EventHandler<EPSPRawDataEventArgs> OnData = (s, e) => { };
 
         public Func<int> PeerId { get; set; }
         public Func<DateTime> ProtocolTime { get; set; }
@@ -78,14 +79,14 @@ namespace Client.Peer.Manager
             packet.Data = new string[] { Const.PROTOCOL_VERSION, Const.SOFTWARE_NAME, Const.SOFTWARE_VERSION };
             peer.Send(packet);
         }
-             
+
         public bool Connect(PeerData peerData)
         {
             Peer peer = new Peer(this);
             peer.Closed += new EventHandler(Peer_Closed);
             peer.ReadLine += new EventHandler<ReadLineEventArgs>(Peer_ReadLine);
             peer.PeerId += () => { return PeerId(); };
-            
+
             bool result = peer.Connect(peerData);
             if (result)
             {
@@ -98,7 +99,7 @@ namespace Client.Peer.Manager
 
             return result;
         }
-        
+
         internal void Send(Packet packet)
         {
             Send(packet, null);
@@ -170,7 +171,7 @@ namespace Client.Peer.Manager
                 return;
             }
 
-            EPSPQuakeEventArgs e = new EPSPQuakeEventArgs() { ReceivedAt = ProtocolTime() };
+            EPSPQuakeEventArgs e = new EPSPQuakeEventArgs() { ReceivedAt = ProtocolTime(), RawAbstractString = packet.Data[2], RawDetailString = packet.Data[3] };
             Verifier.VerifyResult result = Verifier.VerifyServerData(packet.Data[2] + packet.Data[3], packet.Data[1], packet.Data[0], ProtocolTime());
             e.IsExpired = result.isExpired;
             e.IsInvalidSignature = !result.isValidSignature;
@@ -245,7 +246,7 @@ namespace Client.Peer.Manager
             }
 
             string[] datas = packet.Data[2].Split(',');
-            EPSPTsunamiEventArgs e = new EPSPTsunamiEventArgs() { ReceivedAt = ProtocolTime() };
+            EPSPTsunamiEventArgs e = new EPSPTsunamiEventArgs() { ReceivedAt = ProtocolTime(), RawDetailString = packet.Data[2] };
             Verifier.VerifyResult result = Verifier.VerifyServerData(packet.Data[2], packet.Data[1], packet.Data[0], ProtocolTime());
             e.IsExpired = result.isExpired;
             e.IsInvalidSignature = !result.isValidSignature;
@@ -339,7 +340,7 @@ namespace Client.Peer.Manager
             {
                 return;
             }
-            
+
             EPSPEEWTestEventArgs e = new EPSPEEWTestEventArgs() { ReceivedAt = ProtocolTime() };
             Verifier.VerifyResult result = Verifier.VerifyServerData(packet.Data[2], packet.Data[1], packet.Data[0], ProtocolTime());
             e.IsExpired = result.isExpired;
@@ -440,7 +441,7 @@ namespace Client.Peer.Manager
                     (e.packet.Hop - 1).ToString()
                 };
                 ((Peer)sender).Send(packet);
-                
+
                 return true;
             }
 
@@ -456,7 +457,8 @@ namespace Client.Peer.Manager
                 if (peer == null || !peer.IsConnected)
                 {
                     Send(e.packet, (Peer)sender);
-                } else
+                }
+                else
                 {
                     peer.Send(e.packet);
                 }
@@ -492,7 +494,7 @@ namespace Client.Peer.Manager
             }
             ConnectionsChanged(this, EventArgs.Empty);
         }
-    
+
         private void EchoTimer_Tick(object state)
         {
             List<Peer> unresponsivePeers;
