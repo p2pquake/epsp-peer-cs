@@ -16,6 +16,7 @@ namespace LegacyPluginSupporter
         private readonly string serverName;
 
         public event EventHandler OnClosed = (s, e) => { };
+        public event EventHandler OnNameNotified = (s, e) => { };
         public event EventHandler<PluginReadLineEventArgs> OnReadLine = (s, e) => { };
 
         public Plugin(CRLFSocket socket, string serverName)
@@ -52,6 +53,7 @@ namespace LegacyPluginSupporter
             {
                 PluginName = e.packet.Data[0];
                 Send(new Packet() { Code = "SVER", Data = new string[] { serverName } });
+                OnNameNotified(this, EventArgs.Empty);
                 return;
             }
 

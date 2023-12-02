@@ -1,13 +1,9 @@
-﻿using System;
+﻿using Client.App;
+using Client.Common.Net;
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Client.App;
-using Client.Client;
-using Client.Common.General;
-using Client.Common.Net;
 
 namespace Client.Peer
 {
@@ -121,6 +117,10 @@ namespace Client.Peer
         public string IssueFrom { get; set; } = "不明";
         /// <summary>地震情報詳細（震度観測点）</summary>
         public IList<QuakeObservationPoint> PointList { get; set; } = null;
+        /// <summary>地震情報概要（分解前）</summary>
+        public string RawAbstractString { get; set; } = "";
+        /// <summary>地震情報詳細（分解前）</summary>
+        public string RawDetailString { get; set; } = "";
     }
 
     /// <summary>津波予報の種類を表す列挙型です。</summary>
@@ -154,6 +154,8 @@ namespace Client.Peer
         public bool IsCancelled { get; set; } = false;
         /// <summary>津波予報詳細（予報区ごとの情報）</summary>
         public IList<TsunamiForecastRegion> RegionList { get; set; } = null;
+        /// <summary>津波予報詳細（分解前）</summary>
+        public string RawDetailString { get; set; } = "";
     }
 
     /// <summary>地域ピア数のイベントデータクラスです。</summary>
@@ -213,7 +215,7 @@ namespace Client.Peer
         /// 津波予報イベント
         /// </summary>
         event EventHandler<EPSPTsunamiEventArgs> OnTsunami;
-        
+
         /// <summary>
         /// 緊急地震速報 配信試験(β)イベント
         /// </summary>
