@@ -7,7 +7,7 @@ using System.Net.Sockets;
 
 namespace LegacyPluginSupporter
 {
-    class Manager
+    public class Manager
     {
         private const int PORT = 6918;
 

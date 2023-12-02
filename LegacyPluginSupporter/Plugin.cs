@@ -2,12 +2,12 @@
 
 namespace LegacyPluginSupporter
 {
-    class PluginReadLineEventArgs : EventArgs
+    public class PluginReadLineEventArgs : EventArgs
     {
         public Packet packet;
     }
 
-    internal class Plugin
+    public class Plugin
     {
         public string PluginName { get; private set; } = "";
         public DateTime ConnectedAt { get; init; }
@@ -19,7 +19,7 @@ namespace LegacyPluginSupporter
         public event EventHandler OnNameNotified = (s, e) => { };
         public event EventHandler<PluginReadLineEventArgs> OnReadLine = (s, e) => { };
 
-        public Plugin(CRLFSocket socket, string serverName)
+        internal Plugin(CRLFSocket socket, string serverName)
         {
             this.socket = socket;
             this.serverName = serverName;
