@@ -51,6 +51,10 @@ namespace CLI.Command
             mc = new MediatorContext();
             mc.StateChanged += Mc_StateChanged;
             mc.OnData += Mc_OnData;
+            mc.OnAreapeersReceived += Mc_OnAreapeersReceived;
+            mc.OnEarthquake += Mc_OnEarthquake;
+            mc.OnTsunami += Mc_OnTsunami;
+            mc.OnUserquake += Mc_OnUserquake;
             mc.IsPortOpen = options.Port > 0;
             mc.Port = options.Port;
             mc.Connect();
@@ -69,6 +73,30 @@ namespace CLI.Command
 
         }
 
+        private static void Mc_OnAreapeersReceived(object sender, Client.Peer.EPSPAreapeersEventArgs e)
+        {
+            if (!e.IsValid) { return; }
+            logger.Info($"EPSP data arrived: {e.PacketString}");
+        }
+
+        private static void Mc_OnUserquake(object sender, Client.Peer.EPSPUserquakeEventArgs e)
+        {
+            if (!e.IsValid) { return; }
+            logger.Info($"EPSP data arrived: {e.PacketString}");
+        }
+
+        private static void Mc_OnTsunami(object sender, Client.Peer.EPSPTsunamiEventArgs e)
+        {
+            if (!e.IsValid) { return; }
+            logger.Info($"EPSP data arrived: {e.PacketString}");
+        }
+
+        private static void Mc_OnEarthquake(object sender, Client.Peer.EPSPQuakeEventArgs e)
+        {
+            if (!e.IsValid) { return; }
+            logger.Info($"EPSP data arrived: {e.PacketString}");
+        }
+
         private static void Mc_StateChanged(object sender, EventArgs e)
         {
             logger.Info($"State changed: {mc.ReadonlyState.GetType().Name}");
@@ -76,7 +104,7 @@ namespace CLI.Command
 
         private static void Mc_OnData(object sender, Client.Peer.EPSPRawDataEventArgs e)
         {
-            logger.Info($"EPSP data arrived: {e.Packet}");
+            logger.Info($"EPSP RAW DATA arrived: {e.Packet}");
         }
     }
 }

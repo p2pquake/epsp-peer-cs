@@ -20,6 +20,8 @@ namespace Client.Peer
         public bool IsInvalidSignature { get; set; } = true;
         /// <summary>署名が期限切れであるかを表します。</summary>
         public bool IsExpired { get; set; } = true;
+        /// <summary>パケット文字列</summary>
+        public string PacketString { get; set; }
 
         // TODO: FIXME: 本来ここに置くべきではない気がする。役割がおかしい。
         public event PropertyChangedEventHandler PropertyChanged;
@@ -230,6 +232,11 @@ namespace Client.Peer
         /// 地震感知情報イベント
         /// </summary>
         event EventHandler<EPSPUserquakeEventArgs> OnUserquake;
+
+        /// <summary>
+        /// 地域ピア数イベント
+        /// </summary>
+        event EventHandler<EPSPAreapeersEventArgs> OnAreapeers;
 
         /// <summary>
         /// データ受信イベント
