@@ -37,6 +37,7 @@ namespace Client.App
         public event EventHandler<EPSPQuakeEventArgs> OnEarthquake = (s, e) => { };
         public event EventHandler<EPSPTsunamiEventArgs> OnTsunami = (s, e) => { };
         public event EventHandler<EventArgs> OnAreapeers = (s, e) => { };
+        public event EventHandler<EPSPAreapeersEventArgs> OnAreapeersReceived = (s, e) => { };
         public event EventHandler<EPSPEEWTestEventArgs> OnEEWTest = (s, e) => { };
         public event EventHandler<EPSPEEWEventArgs> OnEEW = (s, e) => { };
         public event EventHandler<EPSPUserquakeEventArgs> OnUserquake = (s, e) => { };
@@ -122,6 +123,7 @@ namespace Client.App
             peerContext.PeerConfig = this;
             peerContext.PeerState = this;
             peerContext.ConnectionsChanged += (s,e) => { ConnectionsChanged(s, e); };
+            peerContext.OnAreapeers += (s,e) => {  if(!Verification || e.IsValid) { OnAreapeersReceived(s, e); } };
             peerContext.OnUserquake += (s, e) => { if ((!Verification || e.IsValid) && (!UserquakeDuplicateRemove || !e.IsDuplicate)) { OnUserquake(s, e); } };
             peerContext.OnTsunami += (s, e) => { if (!Verification || e.IsValid) { OnTsunami(s, e); } };
             peerContext.OnEarthquake += (s, e) => { if (!Verification || e.IsValid) { OnEarthquake(s, e); } };
