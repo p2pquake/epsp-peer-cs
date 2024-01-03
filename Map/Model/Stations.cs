@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Map.Model
 {
@@ -16,7 +13,7 @@ namespace Map.Model
 
         private readonly IReadOnlyDictionary<string, Station> stations;
         private readonly IReadOnlyDictionary<string, IReadOnlyDictionary<string, Station>> stationsByPrefecture;
-        private readonly Regex cityNameRegex = new(@"^(?:余市町|田村市|玉村町|東村山市|武蔵村山市|羽村市|十日町市|上市町|大町市|名古屋中村区|大阪堺市.+?区|下市町|大村市|野々市市|四日市市|廿日市市|大町町|.+?[市区町村])", RegexOptions.Compiled);
+        private readonly Regex cityNameRegex = StationNameShorter.ShortenPattern;
 
         private Stations()
         {
