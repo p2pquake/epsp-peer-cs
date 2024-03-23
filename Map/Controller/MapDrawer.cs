@@ -146,15 +146,15 @@ namespace Map.Controller
                 };
                 var coordinates = drawers.Select(e => e.CalcDrawLTRB()).Where(e => e != null);
                 var lt = trans.Geo2Pixel(new GeoCoordinate(
-                    coordinates.Select(e => e.TopLatitude).Max() + 1,
-                    coordinates.Select(e => e.LeftLongitude).Min() - 1.5
+                    coordinates.Select(e => e.TopLatitude).Max() + 0.7,
+                    coordinates.Select(e => e.LeftLongitude).Min() - 1.2
                 ));
                 var rb = trans.Geo2Pixel(new GeoCoordinate(
-                    coordinates.Select(e => e.BottomLatitude).Min() - 1,
-                    coordinates.Select(e => e.RightLongitude).Max() + 1.5
+                    coordinates.Select(e => e.BottomLatitude).Min() - 0.7,
+                    coordinates.Select(e => e.RightLongitude).Max() + 1.2
                 ));
 
-                var margin = MapType == MapType.JAPAN_1024 ? 240 : 480;
+                var margin = MapType == MapType.JAPAN_1024 ? 160 : 360;
                 var l = Math.Max(0, Math.Min(lt.X, rb.X - margin));
                 var t = Math.Max(0, Math.Min(lt.Y, rb.Y - margin));
                 var r = Math.Min(image.Width, Math.Max(rb.X, lt.X + margin));
