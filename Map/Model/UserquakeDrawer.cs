@@ -31,10 +31,10 @@ namespace Map.Model
                 .Select(e => uqAreas.Get(e.Areacode));
 
             return new LTRBCoordinate(
-                coordinates.Select(e => e.Longitude).Min(),
-                coordinates.Select(e => e.Latitude).Max(),
-                coordinates.Select(e => e.Longitude).Max(),
-                coordinates.Select(e => e.Latitude).Min()
+                coordinates.Select(e => e.Longitude).Min() - 0.2,
+                coordinates.Select(e => e.Latitude).Max() + 0.2,
+                coordinates.Select(e => e.Longitude).Max() + 0.2,
+                coordinates.Select(e => e.Latitude).Min() - 0.2
             );
         }
 

@@ -11,6 +11,8 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Drawing;
 using SixLabors.ImageSharp.Drawing.Processing;
+using Size = System.Drawing.Size;
+using SizeF = System.Drawing.SizeF;
 
 namespace Map.Controller
 {
@@ -144,21 +146,51 @@ namespace Map.Controller
                     IsMercator = mapData.IsMercator,
                     LTRBCoordinate = mapData.LTRBCoordinate
                 };
+
+                Dictionary<MapType, Size> minimumMap = new()
+                {
+                    { MapType.JAPAN_1024, new Size(240, 160) },
+                    { MapType.JAPAN_2048, new Size(320, 240) },
+                    { MapType.JAPAN_4096, new Size(320, 240) },
+                    { MapType.JAPAN_8192, new Size(1920, 1280) },
+                };
+
+                Dictionary<MapType, SizeF> paddingMap = new()
+                {
+                    { MapType.JAPAN_1024, new SizeF(1.0f, 0.75f) },
+                    { MapType.JAPAN_2048, new SizeF(1.0f, 0.75f) },
+                    { MapType.JAPAN_4096, new SizeF(0.75f, 0.5f) },
+                    { MapType.JAPAN_8192, new SizeF(1.0f, 0.75f) },
+                };
+
                 var coordinates = drawers.Select(e => e.CalcDrawLTRB()).Where(e => e != null);
                 var lt = trans.Geo2Pixel(new GeoCoordinate(
-                    coordinates.Select(e => e.TopLatitude).Max() + 0.7,
-                    coordinates.Select(e => e.LeftLongitude).Min() - 1.2
+                    coordinates.Select(e => e.TopLatitude).Max() + paddingMap[MapType].Height,
+                    coordinates.Select(e => e.LeftLongitude).Min() - paddingMap[MapType].Width
                 ));
                 var rb = trans.Geo2Pixel(new GeoCoordinate(
-                    coordinates.Select(e => e.BottomLatitude).Min() - 0.7,
-                    coordinates.Select(e => e.RightLongitude).Max() + 1.2
+                    coordinates.Select(e => e.BottomLatitude).Min() - paddingMap[MapType].Height,
+                    coordinates.Select(e => e.RightLongitude).Max() + paddingMap[MapType].Width
                 ));
 
-                var margin = MapType == MapType.JAPAN_1024 ? 160 : 360;
-                var l = Math.Max(0, Math.Min(lt.X, rb.X - margin));
-                var t = Math.Max(0, Math.Min(lt.Y, rb.Y - margin));
-                var r = Math.Min(image.Width, Math.Max(rb.X, lt.X + margin));
-                var b = Math.Min(image.Height, Math.Max(rb.Y, lt.Y + margin));
+                var marginX = MapType == MapType.JAPAN_1024 ? 320 : MapType == MapType.JAPAN_2048 ? 360 : 480;
+                var marginY = MapType == MapType.JAPAN_1024 ? 120 : MapType == MapType.JAPAN_2048 ? 160 : 240;
+                var l = Math.Max(0, lt.X);
+                var t = Math.Max(0, lt.Y);
+                var r = Math.Min(image.Width, rb.X);
+                var b = Math.Min(image.Height, rb.Y);
+
+                var minimum = minimumMap[MapType];
+                if (r - l < minimum.Width)
+                {
+                    l = Math.Max(0, l - minimum.Width / 2);
+                    r = Math.Min(image.Width, r + minimum.Width / 2);
+                }
+                if (b - t < minimum.Height)
+                {
+                    t = Math.Max(0, t - minimum.Height / 2);
+                    b = Math.Min(image.Height, b + minimum.Height / 2);
+                }
 
                 if (PreferedAspectRatio > 0)
                 {
