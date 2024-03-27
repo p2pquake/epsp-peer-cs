@@ -204,6 +204,8 @@ namespace CLI.Command
             public string pref;
         }
 
+        private static readonly double aspectRatio = 3.0 / 2.0;
+
         private static (int Code, string ContentType, byte[] ResponseBytes) ProcessTest(string _)
         {
             return (200, "text/plain", Encoding.ASCII.GetBytes("OK"));
@@ -230,7 +232,7 @@ namespace CLI.Command
                 Trim = param.trim,
                 Hypocenter = hypocenter,
                 ObservationPoints = param.points.Select(point => new ObservationPoint(point.pref, point.name, point.scale)).ToArray(),
-                PreferedAspectRatio = 4.0 / 3.0,
+                PreferedAspectRatio = aspectRatio,
             };
             using var png = drawer.DrawAsPng();
 
@@ -249,7 +251,7 @@ namespace CLI.Command
                 Trim = param.trim,
                 HideDraw = !param.draw,
                 TsunamiPoints = param.regions.Select(region => new TsunamiPoint(region.region, ToTsunamiCategory(region.category))).ToArray(),
-                PreferedAspectRatio = 4.0 / 3.0,
+                PreferedAspectRatio = aspectRatio,
             };
             using var png = drawer.DrawAsPng();
 
@@ -272,7 +274,7 @@ namespace CLI.Command
                 Trim = param.trim,
                 Hypocenter = hypocenter,
                 EEWPoints = param.areas.Select(area => area.pref).Distinct().Select(area => new EEWPoint(EEWConverter.GetAreaCode(area).ToString())).ToArray(),
-                PreferedAspectRatio = 4.0 / 3.0,
+                PreferedAspectRatio = aspectRatio,
             };
             using var png = drawer.DrawAsPng();
 
@@ -290,7 +292,7 @@ namespace CLI.Command
                 MapType = mapType,
                 Trim = param.trim,
                 UserquakePoints = param.confidences.Select(confidence => new UserquakePoint(confidence.areaCode, confidence.confidence)).ToArray(),
-                PreferedAspectRatio = 4.0 / 3.0,
+                PreferedAspectRatio = aspectRatio,
             };
             using var png = drawer.DrawAsPng();
 

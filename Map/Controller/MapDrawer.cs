@@ -154,11 +154,12 @@ namespace Map.Controller
                     coordinates.Select(e => e.RightLongitude).Max() + 1.2
                 ));
 
-                var margin = MapType == MapType.JAPAN_1024 ? 160 : 360;
-                var l = new int[] { 0, new int[] { lt.X, rb.X - margin }.Min() }.Max();
-                var t = new int[] { 0, new int[] { lt.Y, rb.Y - margin }.Min() }.Max();
-                var r = new int[] { image.Width, new int[] { rb.X, lt.X + margin }.Max() }.Min();
-                var b = new int[] { image.Height, new int[] { rb.Y, lt.Y + margin }.Max() }.Min();
+                var marginX = MapType == MapType.JAPAN_1024 ? 160 : 360;
+                var marginY = MapType == MapType.JAPAN_1024 ? 120 : 240;
+                var l = new int[] { 0, new int[] { lt.X, rb.X - marginX }.Min() }.Max();
+                var t = new int[] { 0, new int[] { lt.Y, rb.Y - marginY }.Min() }.Max();
+                var r = new int[] { image.Width, new int[] { rb.X, lt.X + marginX }.Max() }.Min();
+                var b = new int[] { image.Height, new int[] { rb.Y, lt.Y + marginY }.Max() }.Min();
 
                 if (PreferedAspectRatio > 0)
                 {
