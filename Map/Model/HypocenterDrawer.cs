@@ -32,8 +32,8 @@ namespace Map.Model
             };
             var pos = transformation.Geo2Pixel(new GeoCoordinate(Latitude, Longitude));
 
-            var size = 6;
-            var thickness = 2;
+            var size = 8;
+            var thickness = 3;
 
             new int[] { -1, 1 }.ToList().ForEach(v =>
             {
