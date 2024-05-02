@@ -55,7 +55,7 @@ namespace WpfClient.EPSPDataView
                 var shortenPoints = EventArgs.PointList.OrderByDescending(e => ConvertScaleIntForSort(e.ScaleInt)).Select(e =>
                 {
                     var match = regex.Match(e.Name);
-                    if (match.Success)
+                    if (match.Success && EventArgs?.InformationType != QuakeInformationType.ScalePrompt)
                     {
                         return new QuakeObservationPoint { Prefecture = e.Prefecture, Name = match.Groups[1].Value, Scale = e.Scale };
                     }
