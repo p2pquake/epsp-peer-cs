@@ -245,7 +245,8 @@ namespace WpfClient.EPSPDataView
         {
             // 信頼度は正規化する（ただし、係数は 8 まで）
             var normalizationFactor = new double[] { 8, 1.0 / eventArgs.AreaConfidences.Select(e => e.Value.Confidence).Append(0.1).Max() }.Min();
-            return eventArgs.AreaConfidences.Where(e => e.Value.Confidence > 0).Select(e => new UserquakePoint(e.Value.AreaCode, e.Value.Confidence * normalizationFactor)).ToList();
+            return eventArgs.AreaConfidences.Where(e => e.Value.Confidence > 0).Select(e => new UserquakePoint(e.Value.AreaCode, e.Value.Confidence * normalizationFactor))
+                .Where(e => e.Confidence > 0.01).ToList();
         }
 
         // See: https://docs.microsoft.com/ja-jp/dotnet/desktop/wpf/data/how-to-implement-property-change-notification
