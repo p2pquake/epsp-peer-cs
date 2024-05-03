@@ -1,12 +1,4 @@
-﻿using Client.App.Userquake;
-using Client.Peer;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 using WpfClient.EPSPDataView;
@@ -34,8 +26,12 @@ namespace WpfClient.Pages
                 return element.FindResource("EEWTestItem") as DataTemplate;
             }
 
-            if (item is EPSPEEWView)
+            if (item is EPSPEEWView eew)
             {
+                if (eew.EventArgs.IsCancelled)
+                {
+                    return element.FindResource("EEWCancelledItem") as DataTemplate;
+                }
                 return element.FindResource("EEWItem") as DataTemplate;
             }
 

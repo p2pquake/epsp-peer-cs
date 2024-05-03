@@ -172,14 +172,23 @@ namespace WpfClient.Notifications
             var hypocenter = $"震源: {EEWConverter.GetHypocenter(e.Hypocenter) ?? "（不明）"}";
             var area = $"強い揺れに警戒: {string.Join(' ', e.Areas.Select(e => EEWConverter.GetArea(e) ?? "（不明）"))}";
 
-            WithRetry(() =>
+            var builder = new ToastContentBuilder();
+            if (e.IsCancelled)
             {
-                new ToastContentBuilder()
-                    .AddText("緊急地震速報（警報） 部分配信")
-                    .AddText(hypocenter)
-                    .AddText(area)
-                    .AddArgument("type", "eew").AddArgument("receivedAt", e.ReceivedAt.ToString())
-                    .Show();
+                builder.AddText("緊急地震速報（警報） 取消");
+                builder.AddText("緊急地震速報（警報）は取り消されました");
+            }
+            else
+            {
+                builder.AddText("緊急地震速報（警報）" + (e.IsFollowUp ? " 続報" : ""));
+                builder.AddText(hypocenter);
+                builder.AddText(area);
+            }
+            builder.AddArgument("type", "eew").AddArgument("receivedAt", e.ReceivedAt.ToString());
+
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                builder.Show();
             });
         }
 

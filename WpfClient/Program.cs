@@ -498,12 +498,17 @@ namespace WpfClient
 
                 if (item is EEW eew)
                 {
+                    var serial = 1;
+                    int.TryParse(eew.Issue.Serial, out serial);
+
                     var eventArgs = new EPSPEEWEventArgs()
                     {
                         IsTest = false,
+                        IsCancelled = eew.Cancelled,
+                        IsFollowUp = serial > 1,
                         ReceivedAt = DateTime.Parse(eew.Time),
-                        Hypocenter = EEWConverter.GetHypocenterCode(eew.Earthquake.Hypocenter.ReduceName),
-                        Areas = eew.Areas.Select(e => e.Pref).Distinct().Select(e => EEWConverter.GetAreaCode(e)).ToArray(),
+                        Hypocenter = EEWConverter.GetHypocenterCode(eew.Earthquake?.Hypocenter?.ReduceName),
+                        Areas = (eew.Areas ?? Array.Empty<EEWArea>()).Select(e => e.Pref).Distinct().Select(e => EEWConverter.GetAreaCode(e)).ToArray(),
                     };
                     AddHistory(eventArgs);
                 }

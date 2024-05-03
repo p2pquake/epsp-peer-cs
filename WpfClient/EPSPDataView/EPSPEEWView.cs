@@ -4,18 +4,13 @@ using Map.Controller;
 using Map.Model;
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
-
-using WpfClient.Utils;
 
 namespace WpfClient.EPSPDataView
 {
@@ -94,6 +89,24 @@ namespace WpfClient.EPSPDataView
             }
         }
 
+        public string Caption
+        {
+            get
+            {
+                if (EventArgs.IsCancelled)
+                {
+                    return "緊急地震速報（警報） 取消";
+                }
+
+                if (EventArgs.IsFollowUp)
+                {
+                    return "緊急地震速報（警報） 続報";
+                }
+
+                return "緊急地震速報（警報）";
+            }
+        }
+
         public EPSPEEWView()
         {
 
@@ -108,6 +121,7 @@ namespace WpfClient.EPSPDataView
             _ = Task.Run(() =>
             {
                 if (EventArgs == null) { return; }
+                if (EventArgs.IsCancelled) { return; }
 
                 var mapDrawer = new MapDrawer()
                 {

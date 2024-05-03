@@ -248,7 +248,7 @@ namespace Map.Model
             return null;
         }
 
-        public static int GetHypocenterCode(string name)
+        public static int GetHypocenterCode(string? name)
         {
             return code2Hypocenter.FirstOrDefault(e => e.Value == name, new KeyValuePair<int, string>(-1, "")).Key;
         }

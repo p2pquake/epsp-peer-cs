@@ -124,6 +124,12 @@
   <data name="eew" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Sounds\EEW\eew.mp3;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="eew_cancelled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Sounds\EEW\eew_cancelled.mp3;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="eew_followup" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Sounds\EEW\eew_followup.mp3;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="guidance" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Sounds\EEW\guidance.mp3;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

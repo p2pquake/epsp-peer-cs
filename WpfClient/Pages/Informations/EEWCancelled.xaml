@@ -1,0 +1,55 @@
+﻿<Page x:Class="WpfClient.Pages.Informations.EEWCancelled"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:ui="http://schemas.modernwpf.com/2019"
+      xmlns:local="clr-namespace:WpfClient.Pages.Informations"
+      mc:Ignorable="d" 
+      xmlns:EPSPDataView="clr-namespace:WpfClient.EPSPDataView"
+      Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
+      Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
+      d:DesignHeight="450" d:DesignWidth="712"
+      Title="EEW">
+
+    <Page.DataContext>
+        <EPSPDataView:EPSPEEWView />
+    </Page.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Canvas Grid.ColumnSpan="2" Grid.Row="0" VerticalAlignment="Top" Height="40" Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}">
+            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="16" Margin="4">
+                <ui:SimpleStackPanel Orientation="Vertical">
+                    <TextBlock Text="受信日時" Style="{StaticResource CaptionTextBlockStyle}" />
+                    <Label Content="{Binding DetailTime}" FontWeight="Bold" />
+                </ui:SimpleStackPanel>
+            </ui:SimpleStackPanel>
+        </Canvas>
+        <Canvas Grid.Column="0" Grid.Row="1" Name="ImageCanvas">
+            <Image VerticalAlignment="Center" Source="/Resources/Examples/japan_1024.png" Width="{Binding Path=ActualWidth, ElementName=ImageCanvas}" Height="{Binding Path=ActualHeight, ElementName=ImageCanvas}" Stretch="Uniform" />
+            <Image Source="/Resources/MapOverlays/description.png" Height="8" Canvas.Bottom="0" Canvas.Left="0" />
+            <Canvas Width="{Binding Path=ActualWidth, ElementName=ImageCanvas}" Height="{Binding Path=ActualHeight, ElementName=ImageCanvas}">
+                <Canvas.Background>
+                    <SolidColorBrush  Color="Black" Opacity="0.5" />
+                </Canvas.Background>
+            </Canvas>
+        </Canvas>
+        <ScrollViewer Grid.Column="1" Grid.Row="1" Padding="4" Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}">
+            <ui:SimpleStackPanel Orientation="Vertical" Spacing="8" Margin="4">
+                <TextBlock FontWeight="Bold" Style="{StaticResource TitleTextBlockStyle}" HorizontalAlignment="Center" TextAlignment="Center">
+                    緊急地震速報（警報）は<LineBreak/>
+                    取り消されました
+                </TextBlock>
+                <TextBlock Text="落雷など地震以外の現象で発表されたものは、取り消されることがあります。" TextWrapping="WrapWithOverflow" Style="{StaticResource CaptionTextBlockStyle}" />
+            </ui:SimpleStackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
