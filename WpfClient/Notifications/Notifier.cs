@@ -5,17 +5,11 @@ using Map.Model;
 
 using Microsoft.Toolkit.Uwp.Notifications;
 
-using Polly;
-
-using Sentry;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-using WpfClient.EPSPDataView;
 using WpfClient.Utils;
 
 namespace WpfClient.Notifications
@@ -32,7 +26,7 @@ namespace WpfClient.Notifications
             this.mediatorContext = mediatorContext;
             this.userquakeArea = Resource.epsp_area.Split('\n').Skip(1).Select(e => e.Split(',')).ToDictionary(e => e[0], e => e[4]);
 
-            mediatorContext.OnEarthquake += (s,e) => { Task.Run(() => MediatorContext_OnEarthquake(s, e)); };
+            mediatorContext.OnEarthquake += (s, e) => { Task.Run(() => MediatorContext_OnEarthquake(s, e)); };
             mediatorContext.OnTsunami += (s, e) => { Task.Run(() => MediatorContext_OnTsunami(s, e)); };
             mediatorContext.OnEEW += (s, e) => { Task.Run(() => MediatorContext_OnEEW(s, e)); };
             mediatorContext.OnNewUserquakeEvaluation += (s, e) => { Task.Run(() => MediatorContext_OnNewUserquakeEvaluation(s, e)); };
@@ -93,7 +87,8 @@ namespace WpfClient.Notifications
             if (e.InformationType == QuakeInformationType.Foreign || e.InformationType == QuakeInformationType.Destination)
             {
                 builder.AddText($"{type} ({e.OccuredTime})");
-            } else
+            }
+            else
             {
                 builder.AddText($"{type} ({e.OccuredTime} 震度{e.Scale})");
             }
@@ -102,7 +97,8 @@ namespace WpfClient.Notifications
             {
                 var maxScaleGroup = e.PointList.OrderBy(e => e.ScaleInt).Reverse().GroupBy(e => e.Scale).First();
                 builder.AddText($"震度{maxScaleGroup.Key}: {string.Join('、', maxScaleGroup.Select(e => e.Name))}");
-            } else
+            }
+            else
             {
                 var tsunamiDescription = e.TsunamiType switch
                 {
@@ -115,7 +111,7 @@ namespace WpfClient.Notifications
             }
 
             builder.AddArgument("type", "quake").AddArgument("receivedAt", e.ReceivedAt.ToString());
-            WithRetry(() =>
+            App.Current.Dispatcher.Invoke(() =>
             {
                 builder.Show();
             });
@@ -136,17 +132,19 @@ namespace WpfClient.Notifications
 
             if (e.IsCancelled)
             {
-                new ToastContentBuilder()
-                    .AddText("津波予報 解除")
-                    .AddText("津波予報はすべて解除されました。")
-                    .AddArgument("type", "tsunami").AddArgument("receivedAt", e.ReceivedAt.ToString())
-                    .Show();
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    new ToastContentBuilder()
+                        .AddText("津波予報 解除")
+                        .AddText("津波予報はすべて解除されました。")
+                        .AddArgument("type", "tsunami").AddArgument("receivedAt", e.ReceivedAt.ToString())
+                        .Show();
+                });
                 return;
             }
 
             var maxCategoryGroup = e.RegionList.OrderByDescending(e => e.Category).GroupBy(e => e.Category).First();
-
-            WithRetry(() =>
+            App.Current.Dispatcher.Invoke(() =>
             {
                 new ToastContentBuilder()
                     .AddText("津波予報")
@@ -208,7 +206,7 @@ namespace WpfClient.Notifications
 
             var areas = e.AreaConfidences.Where(e => e.Value.Confidence >= 0 && userquakeArea.ContainsKey(e.Key)).OrderByDescending(e => e.Value.Confidence).Take(3).Select(e => userquakeArea[e.Key]);
 
-            WithRetry(() =>
+            App.Current.Dispatcher.Invoke(() =>
             {
                 new ToastContentBuilder()
                     .AddText("「揺れた！」報告（地震感知情報）")
@@ -216,17 +214,6 @@ namespace WpfClient.Notifications
                     .AddArgument("type", "userquake").AddArgument("startedAt", e.StartedAt.ToString())
                     .Show();
             });
-        }
-
-        private void WithRetry(Action a)
-        {
-            try
-            {
-                Policy.Handle<Exception>().Retry(3).Execute(a);
-            } catch (Exception e)
-            {
-                SentrySdk.CaptureException(e);
-            }
         }
     }
 }
