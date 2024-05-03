@@ -1,14 +1,6 @@
-﻿using Client.App.Userquake;
-using Client.Peer;
-
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 using WpfClient.EPSPDataView;
@@ -56,7 +48,8 @@ namespace WpfClient
         public object SelectItem
         {
             get { return selectItem; }
-            set {
+            set
+            {
                 selectItem = value;
                 OnPropertyChanged();
                 OnPropertyChanged("ItemPageName");
@@ -81,6 +74,7 @@ namespace WpfClient
                 EPSPUserquakeView => "Informations/Userquake.xaml",
                 EPSPTsunamiView => "Informations/Tsunami.xaml",
                 EPSPEEWTestView => "Informations/EEWTest.xaml",
+                _ when SelectItem is EPSPEEWView eew && eew.EventArgs.IsCancelled => "Informations/EEWCancelled.xaml",
                 EPSPEEWView => "Informations/EEW.xaml",
                 _ => "Informations/Unknown.xaml",
             };

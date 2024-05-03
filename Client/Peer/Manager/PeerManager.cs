@@ -365,24 +365,31 @@ namespace Client.Peer.Manager
             string[] datas = packet.Data[2].Split(';');
             bool isEEW = datas.Any(item => item == "952,0");
             bool isEEWTest = datas.Any(item => item == "953,0");
+            bool isCancelled = datas.Any(item => item == "954,0");
 
-            if (!isEEW && !isEEWTest)
+            if (!isEEW && !isEEWTest && !isCancelled)
             {
                 return;
             }
 
             EPSPEEWEventArgs e = new() { ReceivedAt = ProtocolTime() };
-            var zeroAreas = datas.Select(s => s.Split(',')).Where(s => s[1] == "0").Select(s => int.Parse(s[0]));
-            var hypocenter = zeroAreas.Where(i => i >= 721 && i <= 899).First();
-            var areas = zeroAreas.Where(i => (i >= 160 && i <= 199) || (i >= 360 && i <= 399));
 
             Verifier.VerifyResult result = Verifier.VerifyServerData(packet.Data[2], packet.Data[1], packet.Data[0], ProtocolTime());
             e.IsExpired = result.isExpired;
             e.IsInvalidSignature = !result.isValidSignature;
 
             e.IsTest = isEEWTest;
-            e.Hypocenter = hypocenter;
-            e.Areas = areas.ToArray();
+            e.IsCancelled = isCancelled;
+            e.IsFollowUp = datas.Any(item => item == "955,0");
+
+            if (!isCancelled)
+            {
+                var zeroAreas = datas.Select(s => s.Split(',')).Where(s => s[1] == "0").Select(s => int.Parse(s[0]));
+                var hypocenter = zeroAreas.Where(i => i >= 721 && i <= 899).First();
+                var areas = zeroAreas.Where(i => (i >= 160 && i <= 199) || (i >= 360 && i <= 399));
+                e.Hypocenter = hypocenter;
+                e.Areas = areas.ToArray();
+            }
 
             OnEEW(this, e);
         }

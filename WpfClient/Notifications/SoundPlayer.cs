@@ -3,16 +3,11 @@ using Client.Peer;
 
 using NAudio.Wave;
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-using WpfClient.EPSPDataView;
 using WpfClient.Utils;
 
 namespace WpfClient.Notifications
@@ -109,7 +104,8 @@ namespace WpfClient.Notifications
             if (e.OccuredTime != lastEarthquakeOccuredTime)
             {
                 PlaySoundAsync(soundType);
-            } else if (soundType != lastSoundType)
+            }
+            else if (soundType != lastSoundType)
             {
                 PlaySoundAsync(soundType);
             }
@@ -152,7 +148,7 @@ namespace WpfClient.Notifications
                 return;
             }
 
-            if (eewTestNotification.Sound)
+            if (eewTestNotification.Sound && !e.IsCancelled)
             {
                 PlaySoundAsync(SoundType.EEW_Beta);
             }

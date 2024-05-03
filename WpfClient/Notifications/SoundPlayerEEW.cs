@@ -7,8 +7,6 @@ using Sentry;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -33,13 +31,18 @@ namespace WpfClient.Notifications
         private static void PlayEEW(EPSPEEWEventArgs eew, string uuid)
         {
             var playIds = new List<string>();
-            if (eew.Areas == null || eew.Areas.Length == 0)
+            if (eew.IsCancelled)
             {
-                playIds.Add("eew");
+                playIds.Add("eew_cancelled");
+            }
+            else if (eew.Areas == null || eew.Areas.Length == 0)
+            {
+                playIds.Add(eew.IsFollowUp ? "eew_followup" : "eew");
                 playIds.Add("guidance");
-            } else
+            }
+            else
             {
-                playIds.Add("eew");
+                playIds.Add(eew.IsFollowUp ? "eew_followup" : "eew");
                 playIds.Add("announce_areas");
                 foreach (var area in eew.Areas)
                 {
@@ -56,7 +59,8 @@ namespace WpfClient.Notifications
                     if (uuid != playingUUID) { return; }
                     byte[] bytes = (byte[])EEWVoice.ResourceManager.GetObject(playId);
                     PlaySound(bytes);
-                } catch (Exception e)
+                }
+                catch (Exception e)
                 {
                     // 動作継続を優先
                     SentrySdk.CaptureException(e);

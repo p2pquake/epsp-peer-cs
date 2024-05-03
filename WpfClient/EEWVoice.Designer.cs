@@ -643,6 +643,26 @@ namespace WpfClient {
         /// <summary>
         ///   型 System.Byte[] のローカライズされたリソースを検索します。
         /// </summary>
+        internal static byte[] eew_cancelled {
+            get {
+                object obj = ResourceManager.GetObject("eew_cancelled", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static byte[] eew_followup {
+            get {
+                object obj = ResourceManager.GetObject("eew_followup", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
         internal static byte[] guidance {
             get {
                 object obj = ResourceManager.GetObject("guidance", resourceCulture);

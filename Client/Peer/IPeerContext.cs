@@ -178,6 +178,11 @@ namespace Client.Peer
     {
         /// <summary>テストかどうか</summary>
         public bool IsTest { get; set; } = false;
+        /// <summary>取消か</summary>
+        public bool IsCancelled { get; set; } = false;
+        /// <summary>続報か</summary>
+        public bool IsFollowUp { get; set; } = false;
+
         /// <summary>震源をあらわす地域コード</summary>
         public int Hypocenter { get; set; } = -1;
         /// <summary>震度 4 以上の揺れが予想される地域コード</summary>

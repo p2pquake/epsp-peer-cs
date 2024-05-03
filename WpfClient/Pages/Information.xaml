@@ -77,7 +77,24 @@
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="テスト表示" Background="{DynamicResource SystemControlBackgroundBaseLowBrush}" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" Visibility="{Binding TestLabelVisibility}" />
                     <TextBlock Text="{Binding Time}" />
-                    <TextBlock Text="緊急地震速報（警報）"
+                    <TextBlock Text="{Binding Caption}"
+                                           TextWrapping="WrapWithOverflow"
+                                           HorizontalAlignment="Stretch"
+                                           MaxWidth="136"
+                                           />
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="EEWCancelledItem" DataType="data:EPSPEEWView">
+            <StackPanel Orientation="Horizontal">
+                <ui:SymbolIcon Symbol="Volume"
+                               Foreground="{DynamicResource SystemControlDisabledBaseMediumBrush}"
+                               Width="32" Height="24" />
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="テスト表示" Background="{DynamicResource SystemControlBackgroundBaseLowBrush}" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" Visibility="{Binding TestLabelVisibility}" />
+                    <TextBlock Text="{Binding Time}" />
+                    <TextBlock Text="{Binding Caption}"
                                            TextWrapping="WrapWithOverflow"
                                            HorizontalAlignment="Stretch"
                                            MaxWidth="136"
