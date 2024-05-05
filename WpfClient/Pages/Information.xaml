@@ -153,7 +153,7 @@
         </ScrollViewer>
         <Border>
             <Grid>
-                <Frame NavigationUIVisibility="Hidden" Source="{Binding ItemPageName}" Navigated="Frame_Navigated" SizeChanged="Frame_SizeChanged" />
+                <Frame NavigationUIVisibility="Hidden" Source="{Binding ItemPageName}" Navigated="Frame_Navigated" SizeChanged="Frame_SizeChanged" Navigating="Frame_Navigating" />
                 <DockPanel LastChildFill="False" Visibility="{Binding TutorialVisibility}" d:Visibility="Visible" MouseDown="TutorialPanel_MouseDown">
                     <DockPanel.Background>
                         <!-- FIXME: ダークテーマとそうでないときで分けたい。 -->
