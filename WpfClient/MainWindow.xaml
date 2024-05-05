@@ -49,6 +49,6 @@
                 </ui:SimpleStackPanel>
             </ui:NavigationView.PaneFooter>
         </ui:NavigationView>
-        <Frame NavigationUIVisibility="Hidden" Source="{Binding PageFileName}" Navigated="Frame_Navigated" />
+        <Frame NavigationUIVisibility="Hidden" Source="{Binding PageFileName}" Navigated="Frame_Navigated" Navigating="Frame_Navigating" />
     </DockPanel>
 </Window>
