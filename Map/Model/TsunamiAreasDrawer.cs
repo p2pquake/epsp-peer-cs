@@ -75,18 +75,20 @@ namespace Map.Model
                     continue;
                 }
 
-                if (!colorMap.ContainsKey(point.Category)) {
+                if (!colorMap.ContainsKey(point.Category))
+                {
                     continue;
                 }
 
                 // TODO: 海岸線を残しながら描画するには、レイヤの概念がないと厳しそう
                 foreach (var coordinates in area.Coordinates)
                 {
-                    var path = new PathBuilder().AddLines(coordinates.Select(e => {
+                    var path = new PathBuilder().AddLines(coordinates.Select(e =>
+                    {
                         var pos = trans.Geo2FloatPixel(e);
                         return new SixLabors.ImageSharp.PointF(pos.X, pos.Y);
                     })).Build();
-                    var pen = new Pen(colorMap[point.Category], 6);
+                    var pen = new Pen(colorMap[point.Category], point.Category == TsunamiCategory.MajorWarning ? 12 : 6);
                     Image.Mutate(x => x.Draw(pen, path));
                 }
             }
