@@ -86,6 +86,7 @@ namespace WpfClient
     public class EarthquakeNotification : Notification
     {
         public int MinScale { get; set; } = 10;
+        public bool Foreign { get; set; }
     }
 
     public class Configuration
@@ -167,7 +168,7 @@ namespace WpfClient
         public bool SendIfRightDoubleClick { get; set; } = false;
 
         // 表示・通知
-        public EarthquakeNotification EarthquakeNotification { get; set; } = new EarthquakeNotification() { Enabled = true, Notice = false, Show = true, Sound = true };
+        public EarthquakeNotification EarthquakeNotification { get; set; } = new EarthquakeNotification() { Enabled = true, Notice = false, Show = true, Sound = true, Foreign = false };
         public Notification UserquakeNotification { get; set; } = new Notification() { Enabled = true, Notice = false, Show = true, Sound = true };
         public Notification TsunamiNotification { get; set; } = new Notification() { Enabled = true, Notice = false, Show = true, Sound = true };
         public Notification EEWTestNotification { get; set; } = new Notification() { Enabled = true, Notice = false, Show = true, Sound = true, VoiceGuidance = true };

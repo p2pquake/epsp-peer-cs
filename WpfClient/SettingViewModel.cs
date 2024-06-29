@@ -206,6 +206,17 @@ namespace WpfClient
             }
         }
 
+        private bool earthquakeForeign;
+        public bool EarthquakeForeign
+        {
+            get => earthquakeForeign;
+            set
+            {
+                earthquakeForeign = value;
+                OnPropertyChanged();
+            }
+        }
+
         private bool earthquakeShow;
         public bool EarthquakeShow
         {
@@ -400,6 +411,7 @@ namespace WpfClient
             // XXX: この羅列… なんとかならんのか？
             earthquakeNotification = configuration.EarthquakeNotification.Enabled;
             earthquakeMinScale = ConvertScaleValueToLabel(configuration.EarthquakeNotification.MinScale);
+            earthquakeForeign = configuration.EarthquakeNotification.Foreign;
             earthquakeShow = configuration.EarthquakeNotification.Show;
             earthquakeNotice = configuration.EarthquakeNotification.Notice;
             earthquakeSound = configuration.EarthquakeNotification.Sound;
@@ -440,6 +452,7 @@ namespace WpfClient
 
             configuration.EarthquakeNotification.Enabled = earthquakeNotification;
             configuration.EarthquakeNotification.MinScale = ConvertScaleLabelToValue(earthquakeMinScale);
+            configuration.EarthquakeNotification.Foreign = earthquakeForeign;
             configuration.EarthquakeNotification.Show = earthquakeShow;
             configuration.EarthquakeNotification.Notice = earthquakeNotice;
             configuration.EarthquakeNotification.Sound = earthquakeSound;
