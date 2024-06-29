@@ -458,6 +458,15 @@ namespace WpfClient
                             new QuakeObservationPoint() { Prefecture = e.Pref, Name = e.Addr, Scale = ConvertScale(e.Scale) }
                         ).ToList(),
                     };
+                    if (eventArgs.InformationType == QuakeInformationType.ScalePrompt)
+                    {
+                        eventArgs.Depth = "";
+                        eventArgs.Magnitude = "";
+                    }
+                    if (eventArgs.InformationType == QuakeInformationType.Destination)
+                    {
+                        eventArgs.Scale = "3以上";
+                    }
 
                     if (eventArgs.InformationType == QuakeInformationType.Unknown) { continue; }
                     AddHistory(eventArgs);
