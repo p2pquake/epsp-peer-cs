@@ -94,7 +94,8 @@ namespace WpfClient.Notifications
             }
 
             var scale = ScaleConverter.Str2Int(e.Scale);
-            if (scale < earthquakeNotification.MinScale)
+            var foreign = e.InformationType == QuakeInformationType.Foreign && earthquakeNotification.Foreign;
+            if (scale < earthquakeNotification.MinScale && !foreign)
             {
                 return;
             }
@@ -117,6 +118,7 @@ namespace WpfClient.Notifications
         private SoundType calcSoundType(QuakeInformationType informationType, int scale)
         {
             if (informationType == QuakeInformationType.Destination) { return SoundType.P2PQ_Snd0; }
+            if (informationType == QuakeInformationType.Foreign) { return SoundType.P2PQ_Snd0; }
             if (scale >= 55) { return SoundType.P2PQ_Snd4; }
             if (scale >= 45) { return SoundType.P2PQ_Snd3; }
             if (scale >= 30) { return SoundType.P2PQ_Snd2; }

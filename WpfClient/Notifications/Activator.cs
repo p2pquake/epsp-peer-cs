@@ -78,7 +78,8 @@ namespace WpfClient.Notifications
             }
 
             var scale = e.InformationType == QuakeInformationType.Destination ? 30 : ScaleConverter.Str2Int(e.Scale);
-            if (scale < earthquakeNotification.MinScale)
+            var foreign = e.InformationType == QuakeInformationType.Foreign && earthquakeNotification.Foreign;
+            if (scale < earthquakeNotification.MinScale && !foreign)
             {
                 return;
             }
