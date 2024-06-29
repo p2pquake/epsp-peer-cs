@@ -283,6 +283,10 @@ namespace Client.App
             };
 
             peerContext.SendAll(packet);
+
+            if (areaPeerDictionary != null)
+                userquakeAggregator.AddUserquake(CalcNowProtocolTime(), FormattedAreaCode, new Dictionary<string, int>(areaPeerDictionary));
+
             return true;
         }
 
