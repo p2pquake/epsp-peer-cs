@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Client.Common.Net;
+using Client.Peer;
+using Client.Peer.Manager;
+
+using NUnit.Framework;
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Client.Common.Net;
-using Client.Peer;
-using Client.Peer.Manager;
-using NUnit.Framework;
-using System.Reflection;
 
 namespace ClientTest.Peer.Manager
 {
@@ -232,7 +232,7 @@ namespace ClientTest.Peer.Manager
                     { "901", 5 },
                     { "905", 4 }
                 };
-            
+
             bool called = false;
             peerManager.OnAreapeers += (s, e) =>
             {
@@ -676,6 +676,36 @@ namespace ClientTest.Peer.Manager
                 Assert.AreEqual(DomesticTsunamiType.None, e.TsunamiType);
 
                 Assert.IsTrue(e.PointList == null || e.PointList.Count == 0);
+            };
+            invokeRaiseDataEvent(retreive);
+
+            Assert.IsTrue(called);
+        }
+
+        [TestCase]
+        public void raiseDataEvent_EarthquakeData_RaiseOnEarthquake_Foreign_FreeComments()
+        {
+            var retreive =
+                "551 1 LTGr+wiGobQziNULfSlpEsbh1ePlAOuCYWoM8DjUUTqENGvh6G0BdHsS8YarZvedr0AEDvLzILU58mEu+tL2HkL+GsPmMTiR/x7JM34q7ySEDrQsumyL77v68smPmF7fkme36TIHoGSnnVRErFmh/rXmLZHCBL+FXXTK4SvDv8A=:2024/07/15 12-16-21:30日4時00分,不明,2,5,インドネシア、タラウド諸島,-1km,-1.0,0,N2.3,E125.4,気象庁:=令和６年４月３０日０４時００分頃（日本時間）にルアング火山で大規模な噴火が発生しました（ダーウィン航空路火山灰情報センター（ＶＡＡＣ）による）。&newline;現在、海外および国内の観測点で有意な潮位変化は観測されていません。&newline;この噴火に伴って津波が発生して日本へ到達する場合、到達予想時刻は早いところ（沖縄県地方）で、３０日０６時００分頃です。予想される津波の最大波の 高さは不明です。&newline;ただし、到達予想時刻は、日本のなかで最も早く津波が到達する時刻です。場所によっては、この時刻よりもかなり遅れて津波が襲ってくることがあります。&newline;今後の情報に注意してください。&newline;次の遠地地震に関する情報は、３０日１１時３０分頃に発表の予定です。&newline;なお、新たな観測結果が入った場合には随時お知らせします。&newline;（注１）本情報の冒頭に「海外で規模の大きな地震がありました。」や「震源地」とありますが、これは「遠地地震に関する情報」を作成する際に自動的に付 与される文言です。実際には、規模の大きな地震は発生していない点に留意してください。&newline;（注２）早い場合の日本への到達予想時刻は、火山の大規模噴火により発生した気圧波が３１０ｍ／ｓで伝播し津波が発生したと想定した時刻です。&newline;（注３）地震に伴い発生する通常の津波が日本に到達する場合、沖縄県地方で３０日０７時頃と予想されます。";
+
+            bool called = false;
+            peerManager.OnEarthquake += (s, e) =>
+            {
+                called = true;
+                Assert.AreEqual(QuakeInformationType.Foreign, e.InformationType);
+                Assert.AreEqual("-1km", e.Depth);
+                Assert.AreEqual("インドネシア、タラウド諸島", e.Destination);
+                Assert.AreEqual(false, e.IsCorrection);
+                Assert.AreEqual("N2.3", e.Latitude);
+                Assert.AreEqual("E125.4", e.Longitude);
+                Assert.AreEqual("-1.0", e.Magnitude);
+                Assert.AreEqual("30日4時00分", e.OccuredTime);
+                Assert.AreEqual(DomesticTsunamiType.Checking, e.TsunamiType);
+
+                Assert.IsTrue(e.PointList == null || e.PointList.Count == 0);
+                Assert.IsTrue(e.FreeCommentList.Count == 1);
+                Assert.IsTrue(e.FreeCommentList.Any(e => e.Contains("ルアング火山で大規模な噴火が発生しました")));
+                Assert.IsTrue(e.FreeCommentList.Any(e => e.Contains("\n今後の情報に注意してください。\n")));
             };
             invokeRaiseDataEvent(retreive);
 

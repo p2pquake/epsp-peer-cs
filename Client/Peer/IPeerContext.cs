@@ -119,6 +119,8 @@ namespace Client.Peer
         public string IssueFrom { get; set; } = "不明";
         /// <summary>地震情報詳細（震度観測点）</summary>
         public IList<QuakeObservationPoint> PointList { get; set; } = null;
+        /// <summary>自由付加文</summary>
+        public IList<string> FreeCommentList { get; set; } = null;
         /// <summary>地震情報概要（分解前）</summary>
         public string RawAbstractString { get; set; } = "";
         /// <summary>地震情報詳細（分解前）</summary>
