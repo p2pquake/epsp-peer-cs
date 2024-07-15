@@ -120,8 +120,7 @@ namespace WpfClient
 #endif
                 o.BeforeSend = (sentryEvent) =>
                 {
-                    // SocketException の OperationAborted は除外
-                    if (sentryEvent.Exception is SocketException && (sentryEvent.Exception as SocketException).SocketErrorCode == SocketError.OperationAborted)
+                    if (IsExcludeException(sentryEvent.Exception))
                     {
                         return null;
                     }
@@ -129,7 +128,7 @@ namespace WpfClient
                     if (sentryEvent.Exception is AggregateException)
                     {
                         var inners = (sentryEvent.Exception as AggregateException).InnerExceptions;
-                        if (inners.All((inner) => (inner is SocketException) && (inner as SocketException).SocketErrorCode == SocketError.OperationAborted))
+                        if (inners.All((inner) => IsExcludeException(inner)))
                         {
                             return null;
                         }
@@ -137,6 +136,22 @@ namespace WpfClient
                     return sentryEvent;
                 };
             });
+        }
+
+        private static bool IsExcludeException(Exception? e)
+        {
+            if (e is not SocketException)
+            {
+                return false;
+            }
+
+            var s = (e as SocketException);
+            if (s?.SocketErrorCode == SocketError.OperationAborted || s?.SocketErrorCode == SocketError.ConnectionAborted || s?.SocketErrorCode == SocketError.HostNotFound)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private static void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
