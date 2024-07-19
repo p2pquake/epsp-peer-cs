@@ -195,8 +195,9 @@ namespace Client.Peer.Manager
             e.Longitude = abstracts[9];
             e.IssueFrom = abstracts[10];
 
-            // 震度観測点の解析
+            // 震度観測点の解析、自由付加文の抽出
             e.PointList = new List<QuakeObservationPoint>();
+            e.FreeCommentList = new List<string>();
             string[] details = packet.Data[3].Split(',');
             string prefecture = null;
             string scale = null;
@@ -215,6 +216,11 @@ namespace Client.Peer.Manager
                 if (detail[0] == '+')
                 {
                     scale = detail.Substring(1);
+                    continue;
+                }
+                if (detail[0] == '=')
+                {
+                    e.FreeCommentList.Add(detail.Substring(1).Replace("&newline;", "\n"));
                     continue;
                 }
                 if (detail[0] != '*')
