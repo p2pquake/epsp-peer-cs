@@ -24,25 +24,25 @@
 						<StackPanel Orientation="Horizontal"/>
 					</ItemsPanelTemplate>
 				</ListBox.ItemsPanel>
-				<ListBoxItem>
+				<ListBoxItem IsSelected="True">
 					<StackPanel Orientation="Horizontal">
 						<TextBlock>情報</TextBlock>
 					</StackPanel>
 				</ListBoxItem>
-				<ListBoxItem>
+				<ListBoxItem IsEnabled="False">
 					<StackPanel Orientation="Horizontal">
-						<TextBlock>設定</TextBlock>
+						<TextBlock>設定（未実装）</TextBlock>
 					</StackPanel>
 				</ListBoxItem>
 			</ListBox>
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="4">
-				<TextBlock VerticalAlignment="Center">接続済み (1,234 ピア)</TextBlock>
+				<TextBlock VerticalAlignment="Center" Text="{Binding PortStatus}" />
+				<TextBlock VerticalAlignment="Center" Text="/" />
+				<TextBlock VerticalAlignment="Center" Text="{Binding Status}" />
 				<Button>揺れた！</Button>
 			</StackPanel>
 		</DockPanel>
 		<!-- コンテンツ -->
-		<StackPanel>
-			<ContentControl Content="{Binding ActiveViewModel}" />
-		</StackPanel>
+		<ContentControl Content="{Binding ActiveViewModel}" />
 	</DockPanel>
 </Window>
