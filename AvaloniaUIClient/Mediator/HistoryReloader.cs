@@ -45,7 +45,7 @@ namespace AvaloniaUIClient.Mediator
             var results = await Task.WhenAll(getTasks);
             var items = results.SelectMany(e => e).Reverse();
 
-            var events = new List<object>();
+            var events = new List<EventArgs>();
             foreach (var item in items)
             {
                 // FIXME: あとで WpfClient/Program.cs と共通化する。

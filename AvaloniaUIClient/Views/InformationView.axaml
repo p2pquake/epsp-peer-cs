@@ -1,76 +1,96 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:vm="using:AvaloniaUIClient.ViewModels"
+			 xmlns:vmi="using:AvaloniaUIClient.ViewModels.Information"
 			 xmlns:ea="using:Client.Peer"
 			 xmlns:ue="using:Client.App.Userquake"
+			 xmlns:info="using:AvaloniaUIClient.Views.Information"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="400"
              x:Class="AvaloniaUIClient.Views.InformationView"
 			 x:DataType="vm:InformationViewModel"
 			>
-	<UserControl.DataTemplates>
-		<DataTemplate DataType="ea:EPSPQuakeEventArgs">
-			<StackPanel Orientation="Horizontal">
-				<StackPanel Orientation="Vertical">
-					<TextBlock Text="{Binding InformationType, Converter={x:Static vm:ViewConverters.QuakeTypeConverter}}" />
-					<TextBlock Text="{Binding OccuredTime}" />
-					<TextBlock Text="{Binding Destination}" TextWrapping="WrapWithOverflow" />
-				</StackPanel>
-			</StackPanel>
-		</DataTemplate>
-		<DataTemplate DataType="ea:EPSPEEWEventArgs">
-			<StackPanel Orientation="Horizontal">
-				<StackPanel Orientation="Vertical">
-					<TextBlock Classes.cancelled="{Binding IsCancelled}" Classes.followUp="{Binding IsFollowUp}" Classes.normally="{Binding !IsCancelled}">
-						<TextBlock.Styles>
-							<Style Selector="TextBlock.normally">
-								<Setter Property="Text" Value="緊急地震速報（警報）" />
-							</Style>
-							<Style Selector="TextBlock.followUp">
-								<Setter Property="Text" Value="緊急地震速報（警報） 続報" />
-							</Style>
-							<Style Selector="TextBlock.cancelled">
-								<Setter Property="Text" Value="緊急地震速報（警報） 取消" />
-							</Style>
-						</TextBlock.Styles>
-					</TextBlock>
-					<TextBlock Text="{Binding ReceivedAt, StringFormat='{}{0:d日HH時mm分}'}" />
-				</StackPanel>
-			</StackPanel>
-		</DataTemplate>
-		<DataTemplate DataType="ea:EPSPTsunamiEventArgs">
-			<StackPanel Orientation="Horizontal">
-				<StackPanel Orientation="Vertical">
-					<TextBlock Classes.cancelled="{Binding IsCancelled}" Classes.normally="{Binding !IsCancelled}">
-						<TextBlock.Styles>
-							<Style Selector="TextBlock.cancelled">
-								<Setter Property="Text" Value="津波予報 解除" />
-							</Style>
-							<Style Selector="TextBlock.normally">
-								<Setter Property="Text" Value="津波予報" />
-							</Style>
-						</TextBlock.Styles>
-					</TextBlock>
-					<TextBlock Text="{Binding ReceivedAt, StringFormat='{}{0:d日HH時mm分}'}" />
-				</StackPanel>
-			</StackPanel>
-		</DataTemplate>
-		<DataTemplate DataType="ue:UserquakeEvaluateEventArgs">
-			<StackPanel Orientation="Horizontal">
-				<StackPanel Orientation="Vertical">
-					<TextBlock>地震感知情報</TextBlock>
-					<TextBlock Text="{Binding StartedAt, StringFormat='{}{0:d日HH時mm分}'}" />
-				</StackPanel>
-			</StackPanel>
-		</DataTemplate>
-	</UserControl.DataTemplates>
-
-	<DockPanel>
-		<ListBox ItemsSource="{Binding Path=Histories}" Width="180" DockPanel.Dock="Left" />
+	<DockPanel LastChildFill="True">
+		<ListBox ItemsSource="{Binding Path=Histories}" Template="{StaticResource ListItem}" Width="180" DockPanel.Dock="Left" SelectionChanged="ListBox_SelectionChanged">
+			<ListBox.DataTemplates>
+				<DataTemplate DataType="ea:EPSPQuakeEventArgs">
+					<StackPanel Orientation="Horizontal">
+						<StackPanel Orientation="Vertical">
+							<TextBlock Text="{Binding InformationType, Converter={x:Static vm:ViewConverters.QuakeTypeConverter}}" />
+							<TextBlock Text="{Binding OccuredTime}" />
+							<TextBlock Text="{Binding Destination}" TextWrapping="WrapWithOverflow" />
+						</StackPanel>
+					</StackPanel>
+				</DataTemplate>
+				<DataTemplate DataType="ea:EPSPEEWEventArgs">
+					<StackPanel Orientation="Horizontal">
+						<StackPanel Orientation="Vertical">
+							<TextBlock Classes.cancelled="{Binding IsCancelled}" Classes.followUp="{Binding IsFollowUp}" Classes.normally="{Binding !IsCancelled}">
+								<TextBlock.Styles>
+									<Style Selector="TextBlock.normally">
+										<Setter Property="Text" Value="緊急地震速報（警報）" />
+									</Style>
+									<Style Selector="TextBlock.followUp">
+										<Setter Property="Text" Value="緊急地震速報（警報） 続報" />
+									</Style>
+									<Style Selector="TextBlock.cancelled">
+										<Setter Property="Text" Value="緊急地震速報（警報） 取消" />
+									</Style>
+								</TextBlock.Styles>
+							</TextBlock>
+							<TextBlock Text="{Binding ReceivedAt, StringFormat='{}{0:d日HH時mm分}'}" />
+						</StackPanel>
+					</StackPanel>
+				</DataTemplate>
+				<DataTemplate DataType="ea:EPSPTsunamiEventArgs">
+					<StackPanel Orientation="Horizontal">
+						<StackPanel Orientation="Vertical">
+							<TextBlock Classes.cancelled="{Binding IsCancelled}" Classes.normally="{Binding !IsCancelled}">
+								<TextBlock.Styles>
+									<Style Selector="TextBlock.cancelled">
+										<Setter Property="Text" Value="津波予報 解除" />
+									</Style>
+									<Style Selector="TextBlock.normally">
+										<Setter Property="Text" Value="津波予報" />
+									</Style>
+								</TextBlock.Styles>
+							</TextBlock>
+							<TextBlock Text="{Binding ReceivedAt, StringFormat='{}{0:d日HH時mm分}'}" />
+						</StackPanel>
+					</StackPanel>
+				</DataTemplate>
+				<DataTemplate DataType="ue:UserquakeEvaluateEventArgs">
+					<StackPanel Orientation="Horizontal">
+						<StackPanel Orientation="Vertical">
+							<TextBlock>地震感知情報</TextBlock>
+							<TextBlock Text="{Binding StartedAt, StringFormat='{}{0:d日HH時mm分}'}" />
+						</StackPanel>
+					</StackPanel>
+				</DataTemplate>
+			</ListBox.DataTemplates>
+		</ListBox>
+		<ContentControl Content="{Binding Path=ActiveViewModel}" SizeChanged="ContentControl_SizeChanged">
+			<ContentControl.DataTemplates>
+				<DataTemplate DataType="vmi:EarthquakeViewModel">
+					<info:Earthquake />
+				</DataTemplate>
+				<!--
+				<DataTemplate DataType="ea:EPSPEEWEventArgs">
+					<TextBlock Text="EEW" />
+				</DataTemplate>
+				<DataTemplate DataType="ea:EPSPTsunamiEventArgs">
+					<TextBlock Text="Tsunami" />
+				</DataTemplate>
+				<DataTemplate DataType="ue:UserquakeEvaluateEventArgs">
+					<TextBlock Text="Userquake" />
+				</DataTemplate>
+				-->
+			</ContentControl.DataTemplates>
+		</ContentControl>
+		<!--
 		<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
 			<TextBlock Text="テスト" />
-			<!--
 			<DockPanel LastChildFill="True">
 				<StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
 					<StackPanel Orientation="Vertical">
@@ -91,7 +111,7 @@
 					</Grid>
 				</SplitView>
 			</DockPanel>
-			-->
 		</StackPanel>
+		-->
 	</DockPanel>
 </UserControl>
