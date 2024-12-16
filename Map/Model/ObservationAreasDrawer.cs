@@ -21,22 +21,22 @@ namespace Map.Model
             return null;
         }
 
+        static readonly Dictionary<int, Color> colorMap = new Dictionary<int, Color>
+        {
+            { 10, new Color(new Rgb24(160, 224, 255)) },
+            { 20, new Color(new Rgb24(160, 208, 255)) },
+            { 30, new Color(new Rgb24(176, 192, 255)) },
+            { 40, new Color(new Rgb24(112, 224, 128)) },
+            { 45, new Color(new Rgb24(128, 192,   0)) },
+            { 46, new Color(new Rgb24(128, 192,   0)) },
+            { 50, new Color(new Rgb24(240, 128,   0)) },
+            { 55, new Color(new Rgb24(208, 112,   0)) },
+            { 60, new Color(new Rgb24(224,  32,  32)) },
+            { 70, new Color(new Rgb24(160,   0,  32)) }
+        };
+
         public override void Draw()
         {
-            var colorMap = new Dictionary<int, Color>
-            {
-                { 10, new Color(new Rgb24(160, 224, 255)) },
-                { 20, new Color(new Rgb24(160, 208, 255)) },
-                { 30, new Color(new Rgb24(176, 192, 255)) },
-                { 40, new Color(new Rgb24(112, 224, 128)) },
-                { 45, new Color(new Rgb24(128, 192, 0)) },
-                { 46, new Color(new Rgb24(128, 192, 0)) },
-                { 50, new Color(new Rgb24(240, 128, 0)) },
-                { 55, new Color(new Rgb24(208, 112, 0)) },
-                { 60, new Color(new Rgb24(224, 32, 32)) },
-                { 70, new Color(new Rgb24(160, 0, 32)) }
-            };
-
             var areas = ObservationAreas.Instance;
 
             var trans = new Transformation

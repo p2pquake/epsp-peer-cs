@@ -48,15 +48,15 @@ namespace Map.Model
             );
         }
 
+        static readonly Dictionary<TsunamiCategory, Color> colorMap = new Dictionary<TsunamiCategory, Color>
+        {
+            { TsunamiCategory.MajorWarning, new Color(new Rgb24(200,   0, 255)) },
+            { TsunamiCategory.Warning     , new Color(new Rgb24(255,  40,   0)) },
+            { TsunamiCategory.Advisory    , new Color(new Rgb24(250, 245,   0)) },
+        };
+
         public override void Draw()
         {
-            var colorMap = new Dictionary<TsunamiCategory, Color>
-            {
-                { TsunamiCategory.MajorWarning, new Color(new Rgb24(200, 0, 255)) },
-                { TsunamiCategory.Warning, new Color(new Rgb24(255, 40, 0)) },
-                { TsunamiCategory.Advisory, new Color(new Rgb24(250, 245, 0)) },
-            };
-
             var areas = TsunamiAreas.Instance;
 
             var trans = new Transformation

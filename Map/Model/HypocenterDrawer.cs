@@ -21,6 +21,8 @@ namespace Map.Model
             return new LTRBCoordinate(Longitude, Latitude, Longitude, Latitude);
         }
 
+        static readonly List<int> lineParams = new List<int>() { -1, 1 };
+
         public override void Draw()
         {
             var transformation = new Transformation
@@ -35,7 +37,7 @@ namespace Map.Model
             var size = 6;
             var thickness = 2;
 
-            new int[] { -1, 1 }.ToList().ForEach(v =>
+            lineParams.ForEach(v =>
             {
                 var path = new Path(new LinearLineSegment(
                     new SixLabors.ImageSharp.PointF(pos.X - size, pos.Y - (size * v)),
