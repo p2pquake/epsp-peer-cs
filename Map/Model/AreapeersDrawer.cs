@@ -17,6 +17,23 @@ namespace Map.Model
 
     class AreapeersDrawer : AbstractDrawer
     {
+        static readonly Lazy<FontFamily> s_fontFamily = new Lazy<FontFamily>(() =>
+        {
+            using var fontStream = new MemoryStream(FontResource.RobotoMono_Bold);
+            var collection = new FontCollection();
+            return collection.Add(fontStream);
+        });
+        static readonly Dictionary<int, Font> s_mappingDrawSizeToFont = new Dictionary<int, Font>();
+        static Font GetFont(int drawSize)
+        {
+            if (!s_mappingDrawSizeToFont.TryGetValue(drawSize, out var font))
+            {
+                font = s_fontFamily.Value.CreateFont(drawSize, FontStyle.Bold);
+                s_mappingDrawSizeToFont.Add(drawSize, font);
+            }
+            return font;
+        }
+
         public IList<Areapeer> Areapeers { get; init; }
 
         public override LTRBCoordinate CalcDrawLTRB()
@@ -88,10 +105,7 @@ namespace Map.Model
             }
 
             // 文字描画
-            using var fontStream = new MemoryStream(FontResource.RobotoMono_Bold);
-            var collection = new FontCollection();
-            var family = collection.Add(fontStream);
-            var font = family.CreateFont(drawSize, FontStyle.Bold);
+            var font = GetFont(drawSize);
             var rendererOptions = new TextOptions(font);
 
             foreach (var area in Areapeers) {
