@@ -72,28 +72,21 @@ namespace Map.Model
                 }
 
                 var coordinatesArray = uqAreas.GetMultiPolygon(point.Areacode);
+                var paths = coordinatesArray.Select(coordinates => new PathBuilder().AddLines(coordinates.Select(e =>
+                {
+                    var pos = trans.Geo2FloatPixel(e);
+                    return new SixLabors.ImageSharp.PointF(pos.X, pos.Y);
+                })).Build()).ToArray();
 
                 // 輪郭線
-                foreach (var coordinates in coordinatesArray)
+                foreach (var path in paths)
                 {
-                    var path = new PathBuilder().AddLines(coordinates.Select(e =>
-                    {
-                        var pos = trans.Geo2FloatPixel(e);
-                        return new SixLabors.ImageSharp.PointF(pos.X, pos.Y);
-                    })).Build();
-
                     Image.Mutate(x => x.Draw(new Pen(Color.Gray.WithAlpha(0.5f), 2), path));
                 }
 
                 // 塗りつぶし
-                foreach (var coordinates in coordinatesArray)
+                foreach (var path in paths)
                 {
-                    var path = new PathBuilder().AddLines(coordinates.Select(e =>
-                    {
-                        var pos = trans.Geo2FloatPixel(e);
-                        return new SixLabors.ImageSharp.PointF(pos.X, pos.Y);
-                    })).Build();
-
                     Image.Mutate(x => x.Fill(ConvConfidenceColor(point.Confidence).WithAlpha(0.95f), path));
                 }
             }
