@@ -155,10 +155,10 @@ namespace Map.Controller
                 ));
 
                 var margin = MapType == MapType.JAPAN_1024 ? 240 : 480;
-                var l = new int[] { 0, new int[] { lt.X, rb.X - margin }.Min() }.Max();
-                var t = new int[] { 0, new int[] { lt.Y, rb.Y - margin }.Min() }.Max();
-                var r = new int[] { image.Width, new int[] { rb.X, lt.X + margin }.Max() }.Min();
-                var b = new int[] { image.Height, new int[] { rb.Y, lt.Y + margin }.Max() }.Min();
+                var l = Math.Max(0, Math.Min(lt.X, rb.X - margin));
+                var t = Math.Max(0, Math.Min(lt.Y, rb.Y - margin));
+                var r = Math.Min(image.Width, Math.Max(rb.X, lt.X + margin));
+                var b = Math.Min(image.Height, Math.Max(rb.Y, lt.Y + margin));
 
                 if (PreferedAspectRatio > 0)
                 {
@@ -167,14 +167,14 @@ namespace Map.Controller
                     {
                         // 横を増やす
                         var appendWidth = (b - t) * PreferedAspectRatio - (r - l);
-                        l = new int[] { 0, (int)(l - appendWidth / 2) }.Max();
-                        r = new int[] { image.Width, (int)(r + appendWidth / 2) }.Min();
+                        l = Math.Max(0, (int)(l - appendWidth / 2));
+                        r = Math.Min(image.Width, (int)(r + appendWidth / 2));
                     } else
                     {
                         // 縦を増やす
                         var appendHeight = (r - l) / PreferedAspectRatio - (b - t);
-                        t = new int[] { 0, (int)(t - appendHeight / 2) }.Max();
-                        b = new int[] { image.Height, (int)(b + appendHeight / 2) }.Min();
+                        t = Math.Max(0, (int)(t - appendHeight / 2));
+                        b = Math.Min(image.Height, (int)(b + appendHeight / 2));
                     }
                 }
 
