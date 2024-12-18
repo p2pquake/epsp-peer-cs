@@ -29,22 +29,15 @@ namespace Map.Model
 
     public static class MapLoader
     {
-        static Dictionary<MapType, MapData> _cache = new Dictionary<MapType, MapData>();
-
         /// <summary>
         /// 地図の画像データと緯度経度範囲情報を読み込みます。
         /// <para>type = MapType.JAPAN_8192 でメモリを 300 MB 程度消費します。</para>
         /// </summary>
         public static MapData Load(MapType type)
         {
-            if (!_cache.TryGetValue(type, out var mapData))
-            {
-                var (image, isMercator) = ImageFromResource(type);
-                var ltrb = LTRB(type);
-                mapData = new MapData(image, ltrb, isMercator);
-                _cache.Add(type, mapData);
-            }
-            return mapData;
+            var (image, isMercator) = ImageFromResource(type);
+            var ltrb = LTRB(type);
+            return new MapData(image, ltrb, isMercator);
         }
 
         private static (Image image, bool isMercator) ImageFromResource(MapType type)
