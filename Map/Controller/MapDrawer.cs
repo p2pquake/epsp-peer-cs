@@ -44,7 +44,7 @@ namespace Map.Controller
         {
             // 画像ロード
             var mapData = MapLoader.Load(MapType);
-            var image = mapData.Image.Clone(x => { });
+            var image = mapData.Image;
 
             // 描画対象を準備 ----
             var drawers = new List<AbstractDrawer>();
