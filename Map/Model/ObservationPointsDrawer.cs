@@ -38,40 +38,39 @@ namespace Map.Model
             );
         }
 
-        static readonly Dictionary<int, Image> scaleImages = new Dictionary<int, Image>()
-        {
-            { 10, Image.Load(Map.ImageResource.Scale10) },
-            { 20, Image.Load(Map.ImageResource.Scale20) },
-            { 30, Image.Load(Map.ImageResource.Scale30) },
-            { 40, Image.Load(Map.ImageResource.Scale40) },
-            { 45, Image.Load(Map.ImageResource.Scale45) },
-            { 46, Image.Load(Map.ImageResource.Scale46) },
-            { 50, Image.Load(Map.ImageResource.Scale50) },
-            { 55, Image.Load(Map.ImageResource.Scale55) },
-            { 60, Image.Load(Map.ImageResource.Scale60) },
-            { 70, Image.Load(Map.ImageResource.Scale70) },
-        };
-
-        static readonly Dictionary<int, Image> scaleAreaImages = new Dictionary<int, Image>()
-        {
-            { 10, Image.Load(Map.ImageResource.Scale10) },
-            { 20, Image.Load(Map.ImageResource.Scale20) },
-            { 30, Image.Load(Map.ImageResource.Scale30) },
-            { 40, Image.Load(Map.ImageResource.Scale40) },
-            { 45, Image.Load(Map.ImageResource.Scale45) },
-            { 46, Image.Load(Map.ImageResource.Scale46) },
-            { 50, Image.Load(Map.ImageResource.Scale50) },
-            { 55, Image.Load(Map.ImageResource.Scale55) },
-            { 60, Image.Load(Map.ImageResource.Scale60) },
-            { 70, Image.Load(Map.ImageResource.Scale70) },
-        };
-
         public override void Draw()
         {
             var drawPointSize = Image.Width > 1024 ? 16 : 12;
             var drawAreaSize = Image.Width > 1024 ? 24 : 16;
 
             var stations = Stations.Instance;
+            // XXX: かしこくない実装方法
+            var scaleImages = new Dictionary<int, Image>() {
+                { 10, Image.Load(new MemoryStream(Map.ImageResource.Scale10)) },
+                { 20, Image.Load(new MemoryStream(Map.ImageResource.Scale20)) },
+                { 30, Image.Load(new MemoryStream(Map.ImageResource.Scale30)) },
+                { 40, Image.Load(new MemoryStream(Map.ImageResource.Scale40)) },
+                { 45, Image.Load(new MemoryStream(Map.ImageResource.Scale45)) },
+                { 46, Image.Load(new MemoryStream(Map.ImageResource.Scale46)) },
+                { 50, Image.Load(new MemoryStream(Map.ImageResource.Scale50)) },
+                { 55, Image.Load(new MemoryStream(Map.ImageResource.Scale55)) },
+                { 60, Image.Load(new MemoryStream(Map.ImageResource.Scale60)) },
+                { 70, Image.Load(new MemoryStream(Map.ImageResource.Scale70)) },
+            };
+            scaleImages.Values.ToList().ForEach(e => e.Mutate(x => x.Resize(drawPointSize, drawPointSize)));
+            var scaleAreaImages = new Dictionary<int, Image>() {
+                { 10, Image.Load(new MemoryStream(Map.ImageResource.Scale10)) },
+                { 20, Image.Load(new MemoryStream(Map.ImageResource.Scale20)) },
+                { 30, Image.Load(new MemoryStream(Map.ImageResource.Scale30)) },
+                { 40, Image.Load(new MemoryStream(Map.ImageResource.Scale40)) },
+                { 45, Image.Load(new MemoryStream(Map.ImageResource.Scale45)) },
+                { 46, Image.Load(new MemoryStream(Map.ImageResource.Scale46)) },
+                { 50, Image.Load(new MemoryStream(Map.ImageResource.Scale50)) },
+                { 55, Image.Load(new MemoryStream(Map.ImageResource.Scale55)) },
+                { 60, Image.Load(new MemoryStream(Map.ImageResource.Scale60)) },
+                { 70, Image.Load(new MemoryStream(Map.ImageResource.Scale70)) },
+            };
+            scaleAreaImages.Values.ToList().ForEach(e => e.Mutate(x => x.Resize(drawAreaSize, drawAreaSize)));
 
             var trans = new Transformation
             {
@@ -90,9 +89,7 @@ namespace Map.Model
                 }
 
                 var drawSize = areas.GetArea(point.Name) == null ? drawPointSize : drawAreaSize;
-                var scaleImage = areas.GetArea(point.Name) == null
-                    ? scaleImages[point.Scale].Clone(x => x.Resize(drawPointSize, drawPointSize))
-                    : scaleAreaImages[point.Scale].Clone(x => x.Resize(drawAreaSize, drawAreaSize));
+                var scaleImage = areas.GetArea(point.Name) == null ? scaleImages[point.Scale] : scaleAreaImages[point.Scale];
 
                 var pos = trans.Geo2Pixel(coordinate);
                 var rect = new Rectangle(pos.X - (drawSize / 2 + 1), pos.Y - (drawSize / 2 + 1), drawSize + 2, drawSize + 2);

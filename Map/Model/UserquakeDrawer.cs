@@ -38,21 +38,21 @@ namespace Map.Model
             );
         }
 
-        static readonly Dictionary<string, Image> uqImages = new Dictionary<string, Image>()
-        {
-            { "A", Image.Load(new MemoryStream(Map.ImageResource.ConfidenceA)) },
-            { "B", Image.Load(new MemoryStream(Map.ImageResource.ConfidenceB)) },
-            { "C", Image.Load(new MemoryStream(Map.ImageResource.ConfidenceC)) },
-            { "D", Image.Load(new MemoryStream(Map.ImageResource.ConfidenceD)) },
-            { "E", Image.Load(new MemoryStream(Map.ImageResource.ConfidenceE)) },
-            { "F", Image.Load(new MemoryStream(Map.ImageResource.ConfidenceF)) },
-        };
-
         public override void Draw()
         {
             var drawSize = Image.Width > 1024 ? 24 : 12;
 
             var uqAreas = UserquakeAreas.Instance;
+            var uqImages = new Dictionary<string, Image>()
+            {
+                { "A", Image.Load(new MemoryStream(Map.ImageResource.ConfidenceA)) },
+                { "B", Image.Load(new MemoryStream(Map.ImageResource.ConfidenceB)) },
+                { "C", Image.Load(new MemoryStream(Map.ImageResource.ConfidenceC)) },
+                { "D", Image.Load(new MemoryStream(Map.ImageResource.ConfidenceD)) },
+                { "E", Image.Load(new MemoryStream(Map.ImageResource.ConfidenceE)) },
+                { "F", Image.Load(new MemoryStream(Map.ImageResource.ConfidenceF)) },
+            };
+            uqImages.Values.ToList().ForEach(e => e.Mutate(x => x.Resize(drawSize, drawSize)));
 
             var trans = new Transformation
             {
@@ -101,7 +101,7 @@ namespace Map.Model
                 var coordinate = uqAreas.Get(point.Areacode);
                 var pos = trans.Geo2Pixel(coordinate);
                 var rect = new Rectangle(pos.X - (drawSize / 2 + 1), pos.Y - (drawSize / 2 + 1), drawSize + 2, drawSize + 2);
-                Image.Mutate(x => x.DrawImage(uqImages[ConvConfidence(point.Confidence)].Clone(x => x.Resize(drawSize, drawSize)), new Point(pos.X - (drawSize / 2), pos.Y - (drawSize / 2)), 1));
+                Image.Mutate(x => x.DrawImage(uqImages[ConvConfidence(point.Confidence)], new Point(pos.X - (drawSize / 2), pos.Y - (drawSize / 2)), 1));
             }
         }
 
