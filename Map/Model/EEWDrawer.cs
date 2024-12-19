@@ -69,29 +69,24 @@ namespace Map.Model
                 }
 
                 var coordinatesArray = eewAreas.GetMultiPolygon(point.Areacode);
-                var lineSize = Image.Width > 1024 ? 8 : 4;
-
-                // 輪郭線
-                foreach (var coordinates in coordinatesArray)
-                {
-                    var path = new PathBuilder().AddLines(coordinates.Select(e =>
+                var paths = coordinatesArray.Select(coordinates => 
+                    new PathBuilder().AddLines(coordinates.Select(e =>
                     {
                         var pos = trans.Geo2FloatPixel(e);
                         return new SixLabors.ImageSharp.PointF(pos.X, pos.Y);
-                    })).Build();
+                    })).Build()
+                ).ToArray();
+                var lineSize = Image.Width > 1024 ? 8 : 4;
 
+                // 輪郭線
+                foreach (var path in paths)
+                {
                     Image.Mutate(x => x.Draw(new Pen(Color.DarkOrange.WithAlpha(0.8f), lineSize), path));
                 }
 
                 // 塗りつぶし
-                foreach (var coordinates in coordinatesArray)
+                foreach (var path in paths)
                 {
-                    var path = new PathBuilder().AddLines(coordinates.Select(e =>
-                    {
-                        var pos = trans.Geo2FloatPixel(e);
-                        return new SixLabors.ImageSharp.PointF(pos.X, pos.Y);
-                    })).Build();
-
                     Image.Mutate(x => x.Fill(Color.Orange.WithAlpha(0.95f), path));
                 }
             }
