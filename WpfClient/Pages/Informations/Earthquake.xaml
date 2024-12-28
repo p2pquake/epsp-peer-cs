@@ -39,6 +39,19 @@
                 <TextBlock Text="{Binding Text}" Margin="0,0,0,4" Style="{StaticResource BodyTextBlockStyle}" Grid.Row="0" Grid.Column="1" />
             </Grid>
         </DataTemplate>
+
+        <DataTemplate x:Key="DetailFreeFormCommentItem">
+            <ui:SimpleStackPanel Spacing="4">
+                <Separator />
+                <ui:SimpleStackPanel>
+                    <TextBlock Text="自由付加文" Style="{StaticResource MiniTitleTextBlockStyle}" />
+                    <TextBlock Text="（付加的な情報、気象庁による）" Style="{StaticResource CaptionTextBlockStyle}" FontWeight="Bold" />
+                </ui:SimpleStackPanel>
+                <Border BorderBrush="{DynamicResource SystemControlPageTextBaseHighBrush}" BorderThickness="1" CornerRadius="2" Padding="4">
+                    <TextBlock Text="{Binding Text}" Style="{StaticResource CaptionTextBlockStyle}" />
+                </Border>
+            </ui:SimpleStackPanel>
+        </DataTemplate>
     </Page.Resources>
     <Page.DataContext>
         <EPSPDataView:EPSPQuakeView/>
