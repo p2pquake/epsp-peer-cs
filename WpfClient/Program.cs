@@ -457,6 +457,8 @@ namespace WpfClient
                         PointList = quake.Points.Select(e =>
                             new QuakeObservationPoint() { Prefecture = e.Pref, Name = e.Addr, Scale = ConvertScale(e.Scale) }
                         ).ToList(),
+                        FreeCommentList = (quake.Comments.FreeFormComment != null && quake.Comments.FreeFormComment != "") ?
+                           new List<string>() { quake.Comments.FreeFormComment} : new List<string>()
                     };
                     if (eventArgs.InformationType == QuakeInformationType.ScalePrompt)
                     {

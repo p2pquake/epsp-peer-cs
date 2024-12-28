@@ -74,6 +74,12 @@ namespace WpfClient.EPSPDataView
                     }
                 }
 
+                // 自由付加文
+                if (EventArgs?.FreeCommentList.Count > 0)
+                {
+                    list.Add(new DetailItemView(string.Join("\n", EventArgs?.FreeCommentList), TextStyles.FreeFormComment));
+                }
+
                 return list;
             }
         }
