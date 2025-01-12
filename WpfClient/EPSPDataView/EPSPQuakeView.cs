@@ -3,6 +3,8 @@
 using Map.Controller;
 using Map.Model;
 
+using ModernWpf;
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -18,7 +20,14 @@ namespace WpfClient.EPSPDataView
         public EPSPQuakeEventArgs EventArgs { get; init; }
         public IFrameModel FrameModel { get; init; }
 
-        public Visibility ForeignIconVisibility => EventArgs.InformationType == QuakeInformationType.Foreign ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility EruptionIconVisiility => EventArgs.InformationType == QuakeInformationType.Foreign && (EventArgs.FreeCommentList?.Any(e => e.Contains("大規模な噴火")) ?? false) ? Visibility.Visible : Visibility.Collapsed;
+        public string EruptionIconSource => ThemeManager.Current.ActualApplicationTheme switch
+                {
+                    ApplicationTheme.Light => "/Resources/Icons/eruption_black.png",
+                    ApplicationTheme.Dark => "/Resources/Icons/eruption_white.png",
+                    _ => throw new NotImplementedException(),
+                };
+        public Visibility ForeignIconVisibility => EventArgs.InformationType == QuakeInformationType.Foreign && EruptionIconVisiility != Visibility.Visible ? Visibility.Visible : Visibility.Collapsed;
         public Visibility ScaleVisibility => EventArgs.InformationType == QuakeInformationType.Foreign ? Visibility.Collapsed : Visibility.Visible;
         public Visibility TestLabelVisibility => (EventArgs?.PointList.Any((point) => point.Name == "テスト震度観測点") ?? false) ? Visibility.Visible : Visibility.Collapsed;
 
@@ -40,6 +49,8 @@ namespace WpfClient.EPSPDataView
             _ => throw new NotImplementedException(),
         };
 
+        public bool IsExpanded { get; init; }
+
         public List<DetailItemView> DetailItemViewList
         {
             get
@@ -48,7 +59,10 @@ namespace WpfClient.EPSPDataView
 
                 if (EventArgs?.PointList == null) { return list; }
 
-                list.Add(new DetailItemView("各地の震度", TextStyles.Title));
+                if (EventArgs?.PointList.Count > 0)
+                {
+                    list.Add(new DetailItemView("各地の震度", TextStyles.Title));
+                }
 
                 // 市区町村名に省略する
                 var regex = StationNameShorter.ShortenPattern;
@@ -72,6 +86,17 @@ namespace WpfClient.EPSPDataView
                     {
                         list.Add(new DetailItemView(string.Join('、', pointsByScale.Select(e => e.Name)), TextStyles.Name, pointsByScale.First().ScaleInt));
                     }
+                }
+
+                // 自由付加文
+                if (EruptionIconVisiility == Visibility.Visible)
+                {
+                    list.Add(new DetailItemView("", TextStyles.Eruption));
+                }
+
+                if (EventArgs?.FreeCommentList.Count > 0)
+                {
+                    list.Add(new DetailItemView(string.Join("\n", EventArgs?.FreeCommentList), TextStyles.FreeFormComment));
                 }
 
                 return list;

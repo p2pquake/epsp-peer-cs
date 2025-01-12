@@ -26,6 +26,7 @@
                                            Foreground="{Binding ScaleForeground}" />
                 </StackPanel>
                 <ui:SymbolIcon Visibility="{Binding ForeignIconVisibility}" Symbol="World" Width="32" Height="24" />
+                <Image Visibility="{Binding EruptionIconVisiility}" Source="{Binding EruptionIconSource}" Width="32" Height="24" />
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="テスト表示" Background="{DynamicResource SystemControlBackgroundBaseLowBrush}" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" Visibility="{Binding TestLabelVisibility}" />
                     <TextBlock Text="{Binding EventArgs.OccuredTime}" />
