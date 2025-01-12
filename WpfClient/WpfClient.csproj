@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <None Remove="Resources\Examples\japan_1024.png" />
+    <None Remove="Resources\Icons\eruption_white.png" />
     <None Remove="Resources\Icons\icon.png" />
     <None Remove="Resources\Icons\tsunami.svg" />
     <None Remove="Resources\Icons\tsunami_black.png" />
@@ -69,6 +70,8 @@
 
   <ItemGroup>
     <Resource Include="Resources\Examples\japan_1024.png" />
+    <Resource Include="Resources\Icons\eruption_black.png" />
+    <Resource Include="Resources\Icons\eruption_white.png" />
     <Resource Include="Resources\Icons\tsunami_black.png" />
     <Resource Include="Resources\Icons\tsunami_gray.png" />
     <Resource Include="Resources\Icons\tsunami_red.png" />

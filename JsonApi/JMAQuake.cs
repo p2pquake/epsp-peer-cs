@@ -12,6 +12,7 @@ namespace JsonApi
         public QuakeIssue Issue { get; set; }
         public Earthquake Earthquake { get; set; }
         public Point[] Points { get; set; }
+        public Comments Comments { get; set; }
     }
 
     public class QuakeIssue
@@ -48,4 +49,8 @@ namespace JsonApi
         public int Scale { get; set; }
     }
 
+    public class Comments
+    {
+        public string FreeFormComment { get; set; }
+    }
 }
