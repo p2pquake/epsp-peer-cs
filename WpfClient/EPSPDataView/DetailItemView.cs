@@ -14,6 +14,7 @@ namespace WpfClient.EPSPDataView
         // 地震情報
         Prefecture,
         Scale,
+        Eruption, // 噴火
         FreeFormComment, // 自由付加文
         // 津波予報
         Section,

@@ -31,6 +31,7 @@ namespace WpfClient.Pages.Informations
                 // 地震情報向け
                 TextStyles.Prefecture => element.FindResource("DetailPrefectureItem") as DataTemplate,
                 TextStyles.Scale => element.FindResource("DetailScaleItem") as DataTemplate,
+                TextStyles.Eruption => element.FindResource("DetailEruptionItem") as DataTemplate,
                 TextStyles.FreeFormComment => element.FindResource("DetailFreeFormCommentItem") as DataTemplate,
                 // 津波予報向け
                 TextStyles.Section => element.FindResource("DetailSectionItem") as DataTemplate,

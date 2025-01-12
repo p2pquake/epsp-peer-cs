@@ -40,15 +40,22 @@
             </Grid>
         </DataTemplate>
 
+        <DataTemplate x:Key="DetailEruptionItem">
+            <ui:SimpleStackPanel Spacing="4" Margin="0,0,0,8" >
+                <TextBlock Text="海外 大規模噴火" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <TextBlock Text="海外で大規模な噴火が発生しました。" Style="{StaticResource MiniTitleTextBlockStyle}" />
+            </ui:SimpleStackPanel>
+        </DataTemplate>
+
         <DataTemplate x:Key="DetailFreeFormCommentItem">
-            <ui:SimpleStackPanel Spacing="4">
+            <ui:SimpleStackPanel Spacing="8">
                 <Separator />
                 <ui:SimpleStackPanel>
                     <TextBlock Text="自由付加文" Style="{StaticResource MiniTitleTextBlockStyle}" />
                     <TextBlock Text="（付加的な情報、気象庁による）" Style="{StaticResource CaptionTextBlockStyle}" FontWeight="Bold" />
                 </ui:SimpleStackPanel>
                 <Border BorderBrush="{DynamicResource SystemControlPageTextBaseHighBrush}" BorderThickness="1" CornerRadius="2" Padding="4">
-                    <TextBlock Text="{Binding Text}" Style="{StaticResource CaptionTextBlockStyle}" />
+                    <TextBlock Text="{Binding Text}" LineHeight="20" Style="{StaticResource BodyTextBlockStyle}" />
                 </Border>
             </ui:SimpleStackPanel>
         </DataTemplate>
@@ -93,7 +100,7 @@
         <Expander Visibility="Visible" ExpandDirection="Left"
                                   HorizontalAlignment="Right"
                                   Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}"
-                                  IsExpanded="False" Header="詳細" MaxWidth="320" Margin="0,40,0,0">
+                                  IsExpanded="{Binding IsExpanded}" Header="詳細" MaxWidth="320" Margin="0,40,0,0">
             <ScrollViewer Width="240" Padding="4">
                 <ItemsControl
                                 ItemsSource="{Binding DetailItemViewList}"
