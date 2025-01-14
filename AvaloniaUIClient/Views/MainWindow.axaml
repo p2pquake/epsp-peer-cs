@@ -1,0 +1,48 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:AvaloniaUIClient.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:view="using:AvaloniaUIClient.Views"
+        mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="400"
+		Width="640" Height="400"
+        x:Class="AvaloniaUIClient.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/p2pquake.ico"
+        Title="P2P地震情報 MP">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+	<DockPanel LastChildFill="True">
+		<!-- メニュー -->
+		<DockPanel DockPanel.Dock="Top" LastChildFill="True">
+			<ListBox DockPanel.Dock="Left" SelectionChanged="ListBox_SelectionChanged">
+				<ListBox.ItemsPanel>
+					<ItemsPanelTemplate>
+						<StackPanel Orientation="Horizontal"/>
+					</ItemsPanelTemplate>
+				</ListBox.ItemsPanel>
+				<ListBoxItem IsSelected="True">
+					<StackPanel Orientation="Horizontal">
+						<TextBlock>情報</TextBlock>
+					</StackPanel>
+				</ListBoxItem>
+				<ListBoxItem IsEnabled="False">
+					<StackPanel Orientation="Horizontal">
+						<TextBlock>設定（未実装）</TextBlock>
+					</StackPanel>
+				</ListBoxItem>
+			</ListBox>
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="4">
+				<TextBlock VerticalAlignment="Center" Text="{Binding PortStatus}" />
+				<TextBlock VerticalAlignment="Center" Text="/" />
+				<TextBlock VerticalAlignment="Center" Text="{Binding Status}" />
+				<Button>揺れた！</Button>
+			</StackPanel>
+		</DockPanel>
+		<!-- コンテンツ -->
+		<ContentControl Content="{Binding ActiveViewModel}" />
+	</DockPanel>
+</Window>

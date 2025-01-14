@@ -1,0 +1,48 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="using:AvaloniaUIClient.ViewModels.Information"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AvaloniaUIClient.Views.Information.Earthquake"
+			 x:DataType="vm:EarthquakeViewModel"
+			 >
+		<DockPanel LastChildFill="True">
+			<StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Spacing="16">
+				<StackPanel Orientation="Vertical">
+					<TextBlock FontWeight="Bold">日時</TextBlock>
+					<TextBlock Text="{Binding OccuredAt}" />
+				</StackPanel>
+				<StackPanel Orientation="Vertical">
+					<TextBlock FontWeight="Bold">震源</TextBlock>
+					<TextBlock Text="{Binding Destination}" />
+				</StackPanel>
+				<StackPanel Orientation="Vertical">
+					<TextBlock FontWeight="Bold">深さ</TextBlock>
+					<TextBlock Text="{Binding Depth}" />
+				</StackPanel>
+				<StackPanel Orientation="Vertical">
+					<TextBlock FontWeight="Bold">規模</TextBlock>
+					<TextBlock Text="{Binding Magnitude}" />
+				</StackPanel>
+				<StackPanel Orientation="Vertical">
+					<TextBlock FontWeight="Bold" Text="{Binding TsunamiLabel}" />
+					<TextBlock Text="{Binding DomesticTsunami}" />
+				</StackPanel>
+			</StackPanel>
+			<SplitView IsPaneOpen="True" OpenPaneLength="48" DisplayMode="CompactOverlay" PanePlacement="Right">
+				<SplitView.Pane>
+					<TextBlock TextAlignment="Center">
+						<Run FontSize="16">◀</Run>
+						<LineBreak />
+						詳細
+						<LineBreak />
+						<Run FontSize="9">（未実装）</Run>
+					</TextBlock>
+				</SplitView.Pane>
+				<Grid>
+					<Image Source="{Binding BitmapImage}" />
+				</Grid>
+			</SplitView>
+		</DockPanel>
+</UserControl>
