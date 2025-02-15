@@ -33,7 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Updater", "Updater\Updater.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LegacyPluginSupporter", "LegacyPluginSupporter\LegacyPluginSupporter.csproj", "{7A59FF47-824B-4045-B982-DB61F61A2FD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LegacyPluginSupporterTest", "LegacyPluginSupporterTest\LegacyPluginSupporterTest.csproj", "{33C2BDE1-F500-4299-9C2D-A94F7C9317B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LegacyPluginSupporterTest", "LegacyPluginSupporterTest\LegacyPluginSupporterTest.csproj", "{33C2BDE1-F500-4299-9C2D-A94F7C9317B9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaloniaUIClient", "AvaloniaUIClient\AvaloniaUIClient.csproj", "{93530F5D-47E1-497F-83D9-2077230D48C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -560,6 +562,38 @@ Global
 		{33C2BDE1-F500-4299-9C2D-A94F7C9317B9}.ReleaseExcludeWPF|x64.Build.0 = Release|Any CPU
 		{33C2BDE1-F500-4299-9C2D-A94F7C9317B9}.ReleaseExcludeWPF|x86.ActiveCfg = Release|Any CPU
 		{33C2BDE1-F500-4299-9C2D-A94F7C9317B9}.ReleaseExcludeWPF|x86.Build.0 = Release|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.Debug|arm64.Build.0 = Debug|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.Debug|x64.Build.0 = Debug|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.Debug|x86.Build.0 = Debug|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.DebugExcludeWPF|Any CPU.ActiveCfg = Debug|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.DebugExcludeWPF|Any CPU.Build.0 = Debug|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.DebugExcludeWPF|arm64.ActiveCfg = Debug|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.DebugExcludeWPF|arm64.Build.0 = Debug|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.DebugExcludeWPF|x64.ActiveCfg = Debug|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.DebugExcludeWPF|x64.Build.0 = Debug|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.DebugExcludeWPF|x86.ActiveCfg = Debug|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.DebugExcludeWPF|x86.Build.0 = Debug|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.Release|arm64.ActiveCfg = Release|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.Release|arm64.Build.0 = Release|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.Release|x64.ActiveCfg = Release|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.Release|x64.Build.0 = Release|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.Release|x86.ActiveCfg = Release|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.Release|x86.Build.0 = Release|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.ReleaseExcludeWPF|Any CPU.ActiveCfg = Release|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.ReleaseExcludeWPF|Any CPU.Build.0 = Release|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.ReleaseExcludeWPF|arm64.ActiveCfg = Release|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.ReleaseExcludeWPF|arm64.Build.0 = Release|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.ReleaseExcludeWPF|x64.ActiveCfg = Release|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.ReleaseExcludeWPF|x64.Build.0 = Release|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.ReleaseExcludeWPF|x86.ActiveCfg = Release|Any CPU
+		{93530F5D-47E1-497F-83D9-2077230D48C2}.ReleaseExcludeWPF|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
