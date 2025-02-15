@@ -11,9 +11,9 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup .NET 6.0
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
             6.0.x
@@ -28,6 +28,6 @@ jobs:
         run: |
           powershell Move-Item .\WpfClient\bin\Release\net6.0-windows10.0.18362.0\publish .\P2PQuake_${{ github.ref_name }}; Compress-Archive -Path .\P2PQuake_${{ github.ref_name }} -DestinationPath .\P2PQuake_${{ github.ref_name }}.zip
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: P2PQuake_${{ github.ref_name }}.zip
