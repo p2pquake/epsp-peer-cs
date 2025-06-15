@@ -1,0 +1,101 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:vm="using:AvaloniaUIClient.ViewModels"
+			 xmlns:vmi="using:AvaloniaUIClient.ViewModels.Information"
+			 xmlns:ea="using:Client.Peer"
+			 xmlns:ue="using:Client.App.Userquake"
+			 xmlns:info="using:AvaloniaUIClient.Views.Information"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="400"
+             x:Class="AvaloniaUIClient.Views.InformationView"
+			 x:DataType="vm:InformationViewModel"
+			>
+	<Design.DataContext>
+		<vm:DesignInformationViewModel />
+	</Design.DataContext>
+	<DockPanel LastChildFill="True">
+		<ListBox ItemsSource="{Binding Path=Histories}" Template="{StaticResource ListItem}" Width="180" DockPanel.Dock="Left" SelectionChanged="ListBox_SelectionChanged">
+			<ListBox.DataTemplates>
+				<DataTemplate DataType="ea:EPSPQuakeEventArgs">
+					<StackPanel Orientation="Horizontal" Spacing="4">
+						<!-- TODO: 遠地地震は表示を変えたい（アイコンにしたい）。噴火も。 -->
+						<TextBlock TextAlignment="Center" VerticalAlignment="Center" Width="32">
+							<Run FontSize="12">震度</Run>
+							<LineBreak />
+							<Run FontSize="16" Text="{Binding Scale, Converter={x:Static vm:ViewConverters.ScaleConverter}}" />
+						</TextBlock>
+						<StackPanel Orientation="Vertical" VerticalAlignment="Center">
+							<TextBlock Text="{Binding OccuredTime}" />
+							<TextBlock Text="{Binding Destination}" TextWrapping="WrapWithOverflow" />
+						</StackPanel>
+					</StackPanel>
+				</DataTemplate>
+				<DataTemplate DataType="ea:EPSPEEWEventArgs">
+					<StackPanel Orientation="Horizontal" Spacing="4">
+						<Image Source="avares://AvaloniaUIClient/Assets/icons/eew_black.png" Stretch="Uniform" Width="24" Margin="4" />
+						<StackPanel Orientation="Vertical">
+							<TextBlock Text="{Binding ReceivedAt, StringFormat='{}{0:d日HH時mm分}'}" />
+							<TextBlock Classes.cancelled="{Binding IsCancelled}" Classes.followUp="{Binding IsFollowUp}" Classes.normally="{Binding !IsCancelled}">
+								<TextBlock.Styles>
+									<Style Selector="TextBlock.normally">
+										<Setter Property="Text" Value="緊急地震速報（警報）" />
+									</Style>
+									<Style Selector="TextBlock.followUp">
+										<Setter Property="Text" Value="緊急地震速報（警報） 続報" />
+									</Style>
+									<Style Selector="TextBlock.cancelled">
+										<Setter Property="Text" Value="緊急地震速報（警報） 取消" />
+									</Style>
+								</TextBlock.Styles>
+							</TextBlock>
+						</StackPanel>
+					</StackPanel>
+				</DataTemplate>
+				<DataTemplate DataType="ea:EPSPTsunamiEventArgs">
+					<StackPanel Orientation="Horizontal" Spacing="4">
+						<Image Source="avares://AvaloniaUIClient/Assets/icons/tsunami_black.png" Stretch="Uniform" Width="24" Margin="4" />
+						<StackPanel Orientation="Vertical">
+							<TextBlock Text="{Binding ReceivedAt, StringFormat='{}{0:d日HH時mm分}'}" />
+							<TextBlock Classes.cancelled="{Binding IsCancelled}" Classes.normally="{Binding !IsCancelled}">
+								<TextBlock.Styles>
+									<Style Selector="TextBlock.cancelled">
+										<Setter Property="Text" Value="津波予報 解除" />
+									</Style>
+									<Style Selector="TextBlock.normally">
+										<Setter Property="Text" Value="津波予報" />
+									</Style>
+								</TextBlock.Styles>
+							</TextBlock>
+						</StackPanel>
+					</StackPanel>
+				</DataTemplate>
+				<DataTemplate DataType="ue:UserquakeEvaluateEventArgs">
+					<StackPanel Orientation="Horizontal" Spacing="4">
+						<Image Source="avares://AvaloniaUIClient/Assets/icons/userquake_black.png" Stretch="Uniform" Width="24" Margin="4" />
+						<StackPanel Orientation="Vertical">
+							<TextBlock Text="{Binding StartedAt, StringFormat='{}{0:d日HH時mm分}'}" />
+							<TextBlock>地震感知情報</TextBlock>
+						</StackPanel>
+					</StackPanel>
+				</DataTemplate>
+			</ListBox.DataTemplates>
+		</ListBox>
+		<ContentControl Content="{Binding Path=ActiveViewModel}" SizeChanged="ContentControl_SizeChanged">
+			<ContentControl.DataTemplates>
+				<DataTemplate DataType="vmi:EmptyViewModel">
+					<!-- 空 -->
+				</DataTemplate>
+				<DataTemplate DataType="vmi:EarthquakeViewModel">
+					<info:Earthquake />
+				</DataTemplate>
+				<DataTemplate DataType="vmi:EEWViewModel">
+					<info:EEW />
+				</DataTemplate>
+				<DataTemplate DataType="vmi:UserquakeViewModel">
+					<info:Userquake />
+				</DataTemplate>
+			</ContentControl.DataTemplates>
+		</ContentControl>
+	</DockPanel>
+</UserControl>
