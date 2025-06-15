@@ -3,13 +3,11 @@ using Avalonia.Controls;
 using AvaloniaUIClient.Mediator;
 using AvaloniaUIClient.ViewModels;
 
-using System.Collections.Generic;
-
 namespace AvaloniaUIClient.Views
 {
     public partial class MainWindow : Window
     {
-        private List<ViewModelBase> viewModels;
+        //private List<ViewModelBase> viewModels;
 
         public MainWindow()
         {

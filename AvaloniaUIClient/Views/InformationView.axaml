@@ -11,21 +11,31 @@
              x:Class="AvaloniaUIClient.Views.InformationView"
 			 x:DataType="vm:InformationViewModel"
 			>
+	<Design.DataContext>
+		<vm:DesignInformationViewModel />
+	</Design.DataContext>
 	<DockPanel LastChildFill="True">
 		<ListBox ItemsSource="{Binding Path=Histories}" Template="{StaticResource ListItem}" Width="180" DockPanel.Dock="Left" SelectionChanged="ListBox_SelectionChanged">
 			<ListBox.DataTemplates>
 				<DataTemplate DataType="ea:EPSPQuakeEventArgs">
-					<StackPanel Orientation="Horizontal">
-						<StackPanel Orientation="Vertical">
-							<TextBlock Text="{Binding InformationType, Converter={x:Static vm:ViewConverters.QuakeTypeConverter}}" />
+					<StackPanel Orientation="Horizontal" Spacing="4">
+						<!-- TODO: 遠地地震は表示を変えたい（アイコンにしたい）。噴火も。 -->
+						<TextBlock TextAlignment="Center" VerticalAlignment="Center" Width="32">
+							<Run FontSize="12">震度</Run>
+							<LineBreak />
+							<Run FontSize="16" Text="{Binding Scale, Converter={x:Static vm:ViewConverters.ScaleConverter}}" />
+						</TextBlock>
+						<StackPanel Orientation="Vertical" VerticalAlignment="Center">
 							<TextBlock Text="{Binding OccuredTime}" />
 							<TextBlock Text="{Binding Destination}" TextWrapping="WrapWithOverflow" />
 						</StackPanel>
 					</StackPanel>
 				</DataTemplate>
 				<DataTemplate DataType="ea:EPSPEEWEventArgs">
-					<StackPanel Orientation="Horizontal">
+					<StackPanel Orientation="Horizontal" Spacing="4">
+						<Image Source="avares://AvaloniaUIClient/Assets/icons/eew_black.png" Stretch="Uniform" Width="24" Margin="4" />
 						<StackPanel Orientation="Vertical">
+							<TextBlock Text="{Binding ReceivedAt, StringFormat='{}{0:d日HH時mm分}'}" />
 							<TextBlock Classes.cancelled="{Binding IsCancelled}" Classes.followUp="{Binding IsFollowUp}" Classes.normally="{Binding !IsCancelled}">
 								<TextBlock.Styles>
 									<Style Selector="TextBlock.normally">
@@ -39,13 +49,14 @@
 									</Style>
 								</TextBlock.Styles>
 							</TextBlock>
-							<TextBlock Text="{Binding ReceivedAt, StringFormat='{}{0:d日HH時mm分}'}" />
 						</StackPanel>
 					</StackPanel>
 				</DataTemplate>
 				<DataTemplate DataType="ea:EPSPTsunamiEventArgs">
-					<StackPanel Orientation="Horizontal">
+					<StackPanel Orientation="Horizontal" Spacing="4">
+						<Image Source="avares://AvaloniaUIClient/Assets/icons/tsunami_black.png" Stretch="Uniform" Width="24" Margin="4" />
 						<StackPanel Orientation="Vertical">
+							<TextBlock Text="{Binding ReceivedAt, StringFormat='{}{0:d日HH時mm分}'}" />
 							<TextBlock Classes.cancelled="{Binding IsCancelled}" Classes.normally="{Binding !IsCancelled}">
 								<TextBlock.Styles>
 									<Style Selector="TextBlock.cancelled">
@@ -56,15 +67,15 @@
 									</Style>
 								</TextBlock.Styles>
 							</TextBlock>
-							<TextBlock Text="{Binding ReceivedAt, StringFormat='{}{0:d日HH時mm分}'}" />
 						</StackPanel>
 					</StackPanel>
 				</DataTemplate>
 				<DataTemplate DataType="ue:UserquakeEvaluateEventArgs">
-					<StackPanel Orientation="Horizontal">
+					<StackPanel Orientation="Horizontal" Spacing="4">
+						<Image Source="avares://AvaloniaUIClient/Assets/icons/userquake_black.png" Stretch="Uniform" Width="24" Margin="4" />
 						<StackPanel Orientation="Vertical">
-							<TextBlock>地震感知情報</TextBlock>
 							<TextBlock Text="{Binding StartedAt, StringFormat='{}{0:d日HH時mm分}'}" />
+							<TextBlock>地震感知情報</TextBlock>
 						</StackPanel>
 					</StackPanel>
 				</DataTemplate>
@@ -72,46 +83,19 @@
 		</ListBox>
 		<ContentControl Content="{Binding Path=ActiveViewModel}" SizeChanged="ContentControl_SizeChanged">
 			<ContentControl.DataTemplates>
+				<DataTemplate DataType="vmi:EmptyViewModel">
+					<!-- 空 -->
+				</DataTemplate>
 				<DataTemplate DataType="vmi:EarthquakeViewModel">
 					<info:Earthquake />
 				</DataTemplate>
-				<!--
-				<DataTemplate DataType="ea:EPSPEEWEventArgs">
-					<TextBlock Text="EEW" />
+				<DataTemplate DataType="vmi:EEWViewModel">
+					<info:EEW />
 				</DataTemplate>
-				<DataTemplate DataType="ea:EPSPTsunamiEventArgs">
-					<TextBlock Text="Tsunami" />
+				<DataTemplate DataType="vmi:UserquakeViewModel">
+					<info:Userquake />
 				</DataTemplate>
-				<DataTemplate DataType="ue:UserquakeEvaluateEventArgs">
-					<TextBlock Text="Userquake" />
-				</DataTemplate>
-				-->
 			</ContentControl.DataTemplates>
 		</ContentControl>
-		<!--
-		<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
-			<TextBlock Text="テスト" />
-			<DockPanel LastChildFill="True">
-				<StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-					<StackPanel Orientation="Vertical">
-						<TextBlock>日時</TextBlock>
-						<TextBlock>01日12時34分</TextBlock>
-					</StackPanel>
-					<StackPanel Orientation="Vertical">
-						<TextBlock>震源</TextBlock>
-						<TextBlock>千葉県北東部</TextBlock>
-					</StackPanel>
-				</StackPanel>
-				<SplitView IsPaneOpen="True" OpenPaneLength="50" DisplayMode="CompactOverlay" PanePlacement="Right" >
-					<SplitView.Pane>
-						<TextBlock>ぺーん</TextBlock>
-					</SplitView.Pane>
-					<Grid>
-						<Image Source="avares://AvaloniaUIClient/Assets/japan.png" />
-					</Grid>
-				</SplitView>
-			</DockPanel>
-		</StackPanel>
-		-->
 	</DockPanel>
 </UserControl>
