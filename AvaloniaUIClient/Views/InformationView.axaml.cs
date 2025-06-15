@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using AvaloniaUIClient.ViewModels;
 using AvaloniaUIClient.ViewModels.Information;
 
+using Client.App.Userquake;
 using Client.Peer;
 
 namespace AvaloniaUIClient.Views;
@@ -20,9 +21,17 @@ public partial class InformationView : UserControl
         var listBox = (ListBox)sender;
 
         context.ActiveEventArgs = context.Histories[listBox.SelectedIndex];
-        if (context.ActiveEventArgs is EPSPQuakeEventArgs ea)
+        if (context.ActiveEventArgs is EPSPQuakeEventArgs qea)
         {
-            context.ActiveViewModel = new EarthquakeViewModel(ea, context);
+            context.ActiveViewModel = new EarthquakeViewModel(qea, context);
+        }
+        if (context.ActiveEventArgs is EPSPEEWEventArgs eea)
+        {
+            context.ActiveViewModel = new EEWViewModel(eea, context);
+        }
+        if (context.ActiveEventArgs is UserquakeEvaluateEventArgs ueea)
+        {
+            context.ActiveViewModel = new UserquakeViewModel(ueea, context);
         }
     }
 

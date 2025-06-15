@@ -14,7 +14,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AvaloniaResource Remove="Assets\icons\loading.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\icons\tsunami_black.png" />
     <None Remove="Assets\p2pquake.ico" />
+    <None Remove="Views\Information\EEW.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaXaml Include="Views\Information\EEW.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AvaloniaXaml>
   </ItemGroup>
 
   <ItemGroup>
@@ -34,11 +46,33 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\icons\userquake_black.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="BehindResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BehindResource.resx</DependentUpon>
+    </Compile>
     <Compile Update="Views\ConfigurationView.axaml.cs">
       <DependentUpon>ConfigurationView.axaml</DependentUpon>
     </Compile>
     <Compile Update="Views\InformationView.axaml.cs">
       <DependentUpon>InformationView.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Information\EEW.xaml.cs">
+      <DependentUpon>EEW.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Information\Userquake.axaml.cs">
+      <DependentUpon>Userquake.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="BehindResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>BehindResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
