@@ -29,9 +29,9 @@
 						<TextBlock>情報</TextBlock>
 					</StackPanel>
 				</ListBoxItem>
-				<ListBoxItem IsEnabled="False">
+				<ListBoxItem>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock>設定（未実装）</TextBlock>
+						<TextBlock>設定</TextBlock>
 					</StackPanel>
 				</ListBoxItem>
 			</ListBox>
@@ -39,7 +39,8 @@
 				<TextBlock VerticalAlignment="Center" Text="{Binding PortStatus}" />
 				<TextBlock VerticalAlignment="Center" Text="/" />
 				<TextBlock VerticalAlignment="Center" Text="{Binding Status}" />
-				<Button>揺れた！</Button>
+				<Button Command="{Binding SendUserquakeCommand}"
+				        ToolTip.Tip="揺れたことを伝えます。">揺れた！</Button>
 			</StackPanel>
 		</DockPanel>
 		<!-- コンテンツ -->

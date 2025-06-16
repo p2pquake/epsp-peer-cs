@@ -145,40 +145,49 @@ namespace Map.Controller
                     LTRBCoordinate = mapData.LTRBCoordinate
                 };
                 var coordinates = drawers.Select(e => e.CalcDrawLTRB()).Where(e => e != null);
-                var lt = trans.Geo2Pixel(new GeoCoordinate(
-                    coordinates.Select(e => e.TopLatitude).Max() + 1,
-                    coordinates.Select(e => e.LeftLongitude).Min() - 1.5
-                ));
-                var rb = trans.Geo2Pixel(new GeoCoordinate(
-                    coordinates.Select(e => e.BottomLatitude).Min() - 1,
-                    coordinates.Select(e => e.RightLongitude).Max() + 1.5
-                ));
-
-                var margin = MapType == MapType.JAPAN_1024 ? 240 : 480;
-                var l = new int[] { 0, new int[] { lt.X, rb.X - margin }.Min() }.Max();
-                var t = new int[] { 0, new int[] { lt.Y, rb.Y - margin }.Min() }.Max();
-                var r = new int[] { image.Width, new int[] { rb.X, lt.X + margin }.Max() }.Min();
-                var b = new int[] { image.Height, new int[] { rb.Y, lt.Y + margin }.Max() }.Min();
-
-                if (PreferedAspectRatio > 0)
+                
+                // 有効な座標がない場合はトリムをスキップ
+                if (!coordinates.Any())
                 {
-                    var ratio = (double)(r - l) / (b - t);
-                    if (PreferedAspectRatio > ratio)
-                    {
-                        // 横を増やす
-                        var appendWidth = (b - t) * PreferedAspectRatio - (r - l);
-                        l = new int[] { 0, (int)(l - appendWidth / 2) }.Max();
-                        r = new int[] { image.Width, (int)(r + appendWidth / 2) }.Min();
-                    } else
-                    {
-                        // 縦を増やす
-                        var appendHeight = (r - l) / PreferedAspectRatio - (b - t);
-                        t = new int[] { 0, (int)(t - appendHeight / 2) }.Max();
-                        b = new int[] { image.Height, (int)(b + appendHeight / 2) }.Min();
-                    }
+                    System.Diagnostics.Debug.WriteLine("MapDrawer: トリム用の有効な座標がないため、トリムをスキップします");
                 }
+                else
+                {
+                    var lt = trans.Geo2Pixel(new GeoCoordinate(
+                        coordinates.Select(e => e.TopLatitude).Max() + 1,
+                        coordinates.Select(e => e.LeftLongitude).Min() - 1.5
+                    ));
+                    var rb = trans.Geo2Pixel(new GeoCoordinate(
+                        coordinates.Select(e => e.BottomLatitude).Min() - 1,
+                        coordinates.Select(e => e.RightLongitude).Max() + 1.5
+                    ));
 
-                image.Mutate(x => x.Crop(new Rectangle(l, t, r - l, b - t)));
+                    var margin = MapType == MapType.JAPAN_1024 ? 240 : 480;
+                    var l = new int[] { 0, new int[] { lt.X, rb.X - margin }.Min() }.Max();
+                    var t = new int[] { 0, new int[] { lt.Y, rb.Y - margin }.Min() }.Max();
+                    var r = new int[] { image.Width, new int[] { rb.X, lt.X + margin }.Max() }.Min();
+                    var b = new int[] { image.Height, new int[] { rb.Y, lt.Y + margin }.Max() }.Min();
+
+                    if (PreferedAspectRatio > 0)
+                    {
+                        var ratio = (double)(r - l) / (b - t);
+                        if (PreferedAspectRatio > ratio)
+                        {
+                            // 横を増やす
+                            var appendWidth = (b - t) * PreferedAspectRatio - (r - l);
+                            l = new int[] { 0, (int)(l - appendWidth / 2) }.Max();
+                            r = new int[] { image.Width, (int)(r + appendWidth / 2) }.Min();
+                        } else
+                        {
+                            // 縦を増やす
+                            var appendHeight = (r - l) / PreferedAspectRatio - (b - t);
+                            t = new int[] { 0, (int)(t - appendHeight / 2) }.Max();
+                            b = new int[] { image.Height, (int)(b + appendHeight / 2) }.Min();
+                        }
+                    }
+
+                    image.Mutate(x => x.Crop(new Rectangle(l, t, r - l, b - t)));
+                }
             }
 
             // 地理院タイルの出典

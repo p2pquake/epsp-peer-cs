@@ -6,31 +6,64 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AvaloniaUIClient.Views.Information.Userquake"
 			 x:DataType="vm:UserquakeViewModel"
+			 x:CompileBindings="False"
 			 >
-		<DockPanel LastChildFill="True">
-			<StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Spacing="16">
-				<StackPanel Orientation="Vertical">
-					<TextBlock FontWeight="Bold">日時</TextBlock>
-					<TextBlock Text="{Binding EventTimeLabel}" />
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition Width="240" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="40" />
+				<RowDefinition />
+			</Grid.RowDefinitions>
+			
+			<Canvas Grid.Column="0" Grid.Row="1" Name="ImageCanvas">
+				<Image Source="{Binding BitmapImage}" Width="{Binding $parent[Canvas].Bounds.Width}" Height="{Binding $parent[Canvas].Bounds.Height}" Stretch="Uniform" />
+				<Image Source="avares://AvaloniaUIClient/Assets/MapOverlays/userquake_note.png" Width="40" Canvas.Bottom="16" Canvas.Left="8"/>
+				<Image Source="avares://AvaloniaUIClient/Assets/MapOverlays/description.png" Height="8" Canvas.Bottom="0" Canvas.Left="0" />
+			</Canvas>
+			
+			<DockPanel Grid.ColumnSpan="2" Grid.Row="0" Height="40" VerticalAlignment="Top" Background="{DynamicResource SystemControlAltMediumBrush}">
+				<StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Spacing="16" Margin="4">
+					<StackPanel Orientation="Vertical">
+						<TextBlock Text="日時" FontSize="11" Opacity="0.8" />
+						<TextBlock Text="{Binding EventTimeLabel}" FontWeight="Bold" />
+					</StackPanel>
+					<StackPanel Orientation="Vertical">
+						<TextBlock Text="件数" FontSize="11" Opacity="0.8" />
+						<TextBlock Text="{Binding Count}" FontWeight="Bold" />
+					</StackPanel>
+					<StackPanel Orientation="Vertical">
+						<TextBlock Text="勢い" FontSize="11" Opacity="0.8" />
+						<TextBlock Text="{Binding Rate}" FontWeight="Bold" />
+					</StackPanel>
 				</StackPanel>
-				<StackPanel Orientation="Vertical">
-					<TextBlock FontWeight="Bold">件数</TextBlock>
-					<TextBlock Text="{Binding Count}" />
+				<TextBlock DockPanel.Dock="Right"
+						   IsVisible="{Binding ReceivingVisibility}"
+						   Text="受信中"
+						   FontWeight="Bold"
+						   Foreground="Red"
+						   HorizontalAlignment="Right"
+						   VerticalAlignment="Center" />
+			</DockPanel>
+			
+			<ScrollViewer Grid.Column="1" Grid.Row="1" Padding="4" Background="{DynamicResource SystemControlAltMediumBrush}">
+				<StackPanel Orientation="Vertical" Spacing="8" Margin="4">
+					<TextBlock Text="各地域の相対的な信頼度" FontSize="14" FontWeight="Bold" />
+					<ItemsControl ItemsSource="{Binding AreaDetails}">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal" Spacing="2">
+									<Rectangle Height="12" Width="{Binding Confidence}" Fill="{Binding brush}" />
+									<TextBlock Text="{Binding AreaName}" FontSize="12" />
+								</StackPanel>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+					<Separator />
+					<TextBlock Text="右上の「揺れた！」ボタンやスマホ版アプリで発信できる、利用者からの情報です。" TextWrapping="Wrap" FontSize="12" />
 				</StackPanel>
-			</StackPanel>
-			<SplitView IsPaneOpen="True" OpenPaneLength="48" DisplayMode="CompactOverlay" PanePlacement="Right">
-				<SplitView.Pane>
-					<TextBlock TextAlignment="Center">
-						<Run FontSize="16">◀</Run>
-						<LineBreak />
-						詳細
-						<LineBreak />
-						<Run FontSize="9">（未実装）</Run>
-					</TextBlock>
-				</SplitView.Pane>
-				<Grid>
-					<Image Source="{Binding BitmapImage}" />
-				</Grid>
-			</SplitView>
-		</DockPanel>
+			</ScrollViewer>
+		</Grid>
 </UserControl>

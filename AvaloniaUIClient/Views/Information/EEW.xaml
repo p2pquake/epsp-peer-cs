@@ -7,26 +7,41 @@
              x:Class="AvaloniaUIClient.Views.Information.EEW"
 			 x:DataType="vm:EEWViewModel"
 			 >
-		<DockPanel LastChildFill="True">
-			<StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Spacing="16">
-				<StackPanel Orientation="Vertical">
-					<TextBlock FontWeight="Bold">日時</TextBlock>
-					<TextBlock Text="{Binding EventTimeLabel}" />
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="40" />
+				<RowDefinition />
+			</Grid.RowDefinitions>
+			
+			<Canvas Grid.ColumnSpan="2" Grid.Row="0" VerticalAlignment="Top" Height="40" Background="{DynamicResource SystemControlAltMediumBrush}">
+				<StackPanel Orientation="Horizontal" Spacing="16" Margin="4">
+					<StackPanel Orientation="Vertical">
+						<TextBlock Text="受信日時" FontSize="11" Opacity="0.8" />
+						<TextBlock Text="{Binding EventTimeLabel}" FontWeight="Bold" />
+					</StackPanel>
 				</StackPanel>
-			</StackPanel>
-			<SplitView IsPaneOpen="True" OpenPaneLength="48" DisplayMode="CompactOverlay" PanePlacement="Right">
-				<SplitView.Pane>
-					<TextBlock TextAlignment="Center">
-						<Run FontSize="16">◀</Run>
-						<LineBreak />
-						詳細
-						<LineBreak />
-						<Run FontSize="9">（未実装）</Run>
-					</TextBlock>
-				</SplitView.Pane>
-				<Grid>
-					<Image Source="{Binding BitmapImage}" />
-				</Grid>
-			</SplitView>
-		</DockPanel>
+			</Canvas>
+			
+			<Canvas Grid.Column="0" Grid.Row="1" Name="ImageCanvas">
+				<Image VerticalAlignment="Center" Source="{Binding BitmapImage}" Width="{Binding $parent[Canvas].Bounds.Width}" Height="{Binding $parent[Canvas].Bounds.Height}" Stretch="Uniform" />
+				<Image Source="avares://AvaloniaUIClient/Assets/MapOverlays/description.png" Height="8" Canvas.Bottom="0" Canvas.Left="0" />
+			</Canvas>
+			
+			<ScrollViewer Grid.Column="1" Grid.Row="1" Padding="4" Background="{DynamicResource SystemControlAltMediumBrush}">
+				<StackPanel Orientation="Vertical" Spacing="8" Margin="4">
+					<TextBlock Text="緊急地震速報（警報）" Foreground="Red" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" />
+					<TextBlock Text="{Binding Hypocenter}" FontSize="14" HorizontalAlignment="Center" />
+					<Separator Margin="0,4,0,4" />
+					<TextBlock Text="強い揺れに警戒：" FontWeight="Bold" FontSize="14" TextWrapping="Wrap" />
+					<TextBlock Text="{Binding Areas}" FontSize="14" TextWrapping="Wrap" />
+					<Separator Margin="0,4,0,12" />
+					<TextBlock Text="対象地域では、あわてずに、身の安全を確保してください。" TextWrapping="Wrap" FontSize="11" />
+					<TextBlock Text="この情報は、緊急地震速報（警報）の内容の一部です。震源名と強い揺れが予想される地域をお伝えします。" TextWrapping="Wrap" FontSize="11" />
+				</StackPanel>
+			</ScrollViewer>
+		</Grid>
 </UserControl>

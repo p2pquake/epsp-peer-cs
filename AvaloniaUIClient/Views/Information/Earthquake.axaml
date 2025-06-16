@@ -3,46 +3,85 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:vm="using:AvaloniaUIClient.ViewModels.Information"
+			 xmlns:models="using:AvaloniaUIClient.Models"
+			 xmlns:conv="using:AvaloniaUIClient.Converters"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AvaloniaUIClient.Views.Information.Earthquake"
 			 x:DataType="vm:EarthquakeViewModel"
+			 x:CompileBindings="False"
 			 >
-		<DockPanel LastChildFill="True">
-			<StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Spacing="16">
-				<StackPanel Orientation="Vertical">
-					<TextBlock FontWeight="Bold">日時</TextBlock>
-					<TextBlock Text="{Binding OccuredAt}" />
+		<UserControl.Resources>
+			<conv:StringToBitmapConverter x:Key="StringToBitmapConverter" />
+		</UserControl.Resources>
+		<Grid>
+			<Image Source="{Binding BitmapImage}" Stretch="Uniform" />
+			<Canvas>
+				<Image Source="avares://AvaloniaUIClient/Assets/MapOverlays/quake_note.png" Width="40" Canvas.Bottom="16" Canvas.Left="8"/>
+				<Image Source="avares://AvaloniaUIClient/Assets/MapOverlays/description.png" Height="8" Canvas.Bottom="0" Canvas.Left="0" />
+			</Canvas>
+			<Canvas VerticalAlignment="Top" Height="40" Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}">
+				<StackPanel Orientation="Horizontal" Spacing="16" Margin="4">
+					<StackPanel Orientation="Vertical">
+						<TextBlock Text="日時" FontSize="11" Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}" />
+						<Label Content="{Binding OccuredAt}" FontWeight="Bold" Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}" />
+					</StackPanel>
+					<StackPanel Orientation="Vertical">
+						<TextBlock Text="震源" FontSize="11" Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}" />
+						<Label Content="{Binding Destination}" FontWeight="Bold" Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}" />
+					</StackPanel>
+					<StackPanel Orientation="Vertical">
+						<TextBlock Text="深さ" FontSize="11" Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}" />
+						<Label Content="{Binding Depth}" FontWeight="Bold" Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}" />
+					</StackPanel>
+					<StackPanel Orientation="Vertical">
+						<TextBlock Text="M" FontSize="11" Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}" />
+						<Label Content="{Binding Magnitude}" FontWeight="Bold" Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}" />
+					</StackPanel>
+					<StackPanel Orientation="Vertical">
+						<TextBlock Text="津波" FontSize="11" Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}" />
+						<Label Content="{Binding DomesticTsunami}" FontWeight="Bold" Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}" />
+					</StackPanel>
 				</StackPanel>
-				<StackPanel Orientation="Vertical">
-					<TextBlock FontWeight="Bold">震源</TextBlock>
-					<TextBlock Text="{Binding Destination}" />
-				</StackPanel>
-				<StackPanel Orientation="Vertical">
-					<TextBlock FontWeight="Bold">深さ</TextBlock>
-					<TextBlock Text="{Binding Depth}" />
-				</StackPanel>
-				<StackPanel Orientation="Vertical">
-					<TextBlock FontWeight="Bold">規模</TextBlock>
-					<TextBlock Text="{Binding Magnitude}" />
-				</StackPanel>
-				<StackPanel Orientation="Vertical">
-					<TextBlock FontWeight="Bold" Text="{Binding TsunamiLabel}" />
-					<TextBlock Text="{Binding DomesticTsunami}" />
-				</StackPanel>
-			</StackPanel>
-			<SplitView IsPaneOpen="True" OpenPaneLength="48" DisplayMode="CompactOverlay" PanePlacement="Right">
-				<SplitView.Pane>
-					<TextBlock TextAlignment="Center">
-						<Run FontSize="16">◀</Run>
-						<LineBreak />
-						詳細
-						<LineBreak />
-						<Run FontSize="9">（未実装）</Run>
-					</TextBlock>
-				</SplitView.Pane>
-				<Grid>
-					<Image Source="{Binding BitmapImage}" />
-				</Grid>
-			</SplitView>
-		</DockPanel>
+			</Canvas>
+			<Expander IsVisible="True" ExpandDirection="Left"
+					  HorizontalAlignment="Right"
+					  VerticalAlignment="Stretch"
+					  Background="{DynamicResource SystemControlPageBackgroundAltMediumBrush}"
+					  IsExpanded="False" Header="詳細" MaxWidth="320" Margin="0,40,0,0">
+				<ScrollViewer Width="240" Padding="4">
+						<ItemsControl ItemsSource="{Binding DetailItemViewList}" Margin="4">
+							<ItemsControl.ItemsPanel>
+								<ItemsPanelTemplate>
+									<StackPanel Spacing="4"/>
+								</ItemsPanelTemplate>
+							</ItemsControl.ItemsPanel>
+							<ItemsControl.DataTemplates>
+								<DataTemplate DataType="models:DetailItemView">
+									<Panel>
+										<!-- Title -->
+										<TextBlock Text="{Binding Text}" FontSize="16" FontWeight="Bold" Margin="0,0,0,4"
+												   IsVisible="{Binding TextStyle, Converter={x:Static conv:DetailItemViewTypeConverter.IsTitle}}"/>
+										<!-- Prefecture -->
+										<TextBlock Text="{Binding Text}" FontSize="14" FontWeight="Bold" Margin="0,16,0,0"
+												   IsVisible="{Binding TextStyle, Converter={x:Static conv:DetailItemViewTypeConverter.IsPrefecture}}"/>
+										<!-- Name -->
+										<Grid IsVisible="{Binding TextStyle, Converter={x:Static conv:DetailItemViewTypeConverter.IsName}}">
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="20" />
+												<ColumnDefinition Width="*" />
+											</Grid.ColumnDefinitions>
+											<Image Source="{Binding ScaleIconPath, Converter={StaticResource StringToBitmapConverter}}" Height="14" Width="14" 
+												   Grid.Column="0" VerticalAlignment="Top" Margin="0,2,0,0"
+												   Stretch="Uniform" 
+												   IsVisible="{Binding ScaleIconPath, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+											<TextBlock Text="{Binding Text}" Margin="0,0,0,4" 
+													   Grid.Column="1" TextWrapping="Wrap" />
+										</Grid>
+									</Panel>
+								</DataTemplate>
+							</ItemsControl.DataTemplates>
+						</ItemsControl>
+					</ScrollViewer>
+				</Expander>
+		</Grid>
 </UserControl>

@@ -1,0 +1,106 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:AvaloniaUIClient.ViewModels.Information"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AvaloniaUIClient.Views.Information.Tsunami"
+             x:DataType="vm:TsunamiViewModel">
+
+    <Grid>
+        <!-- 背景地図 -->
+        <Image Source="{Binding EmptyMapImage}" Stretch="Uniform" />
+        
+        <!-- 津波情報付き地図 -->
+        <Image Source="{Binding MapImage}" Stretch="Uniform" />
+        
+        <!-- ローディング表示 -->
+        <Grid IsVisible="{Binding IsLoading}" Background="#80000000">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image Source="avares://AvaloniaUIClient/Assets/loading.png" Width="64" Height="64"/>
+                <TextBlock Text="地図を生成しています..." Foreground="White" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+            </StackPanel>
+        </Grid>
+        
+        <!-- 注記画像とクレジット -->
+        <Canvas>
+            <!-- 津波凡例画像 -->
+            <Image Source="{Binding NoteImagePath}" Width="96" Canvas.Bottom="16" Canvas.Left="8" 
+                   IsVisible="{Binding !IsLoading}"/>
+            <!-- 出典注釈 -->
+            <Image Source="avares://AvaloniaUIClient/Assets/description.png" Height="8" 
+                   Canvas.Bottom="0" Canvas.Left="0"/>
+        </Canvas>
+        
+        <!-- 受信日時表示 -->
+        <Canvas VerticalAlignment="Top" Height="40">
+            <StackPanel Orientation="Horizontal" Spacing="16" Margin="4">
+                <StackPanel Orientation="Vertical" Background="{DynamicResource SystemControlAltMediumBrush}">
+                    <TextBlock Text="受信日時" FontSize="11" Opacity="0.8" />
+                    <TextBlock Text="{Binding DetailTime}" FontWeight="Bold" />
+                </StackPanel>
+            </StackPanel>
+        </Canvas>
+        
+        <!-- テスト表示 -->
+        <Border IsVisible="{Binding IsTestVisible}" 
+                Background="Orange" 
+                VerticalAlignment="Top" 
+                HorizontalAlignment="Center" 
+                Margin="0,50,0,0" 
+                CornerRadius="4" 
+                Padding="12,4">
+            <TextBlock Text="テスト" Foreground="White" FontWeight="Bold"/>
+        </Border>
+        
+        <!-- 詳細パネル -->
+        <Expander ExpandDirection="Left"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Stretch"
+                  Background="{DynamicResource SystemControlAltMediumBrush}"
+                  IsExpanded="False" 
+                  Header="詳細" 
+                  MaxWidth="320" 
+                  Margin="0,40,0,0">
+            <ScrollViewer Width="240" Padding="4">
+                <ItemsControl ItemsSource="{Binding DetailItems}" Margin="8">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Spacing="4"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.DataTemplates>
+                        <DataTemplate DataType="vm:TsunamiDetailItem">
+                            <Panel>
+                                <!-- Header -->
+                                <TextBlock Text="{Binding Text}" FontSize="16" FontWeight="Bold" Margin="0,8,0,4"
+                                           IsVisible="{Binding Type, Converter={x:Static vm:TsunamiDetailItemTypeConverter.IsHeader}}"/>
+                                <!-- Name -->
+                                <TextBlock Text="{Binding Text}" FontSize="14" Margin="0,2" TextWrapping="Wrap"
+                                           IsVisible="{Binding Type, Converter={x:Static vm:TsunamiDetailItemTypeConverter.IsName}}"/>
+                                <!-- Section -->
+                                <TextBlock Text="{Binding Text}" FontSize="13" FontWeight="SemiBold" Margin="0,4,0,2"
+                                           IsVisible="{Binding Type, Converter={x:Static vm:TsunamiDetailItemTypeConverter.IsSection}}"/>
+                                <!-- MajorWarning -->
+                                <Border Background="#C800FF" CornerRadius="4" Padding="8,4"
+                                        IsVisible="{Binding Type, Converter={x:Static vm:TsunamiDetailItemTypeConverter.IsMajorWarning}}">
+                                    <TextBlock Text="大津波警報（ 3 メートル超）" Foreground="White" FontWeight="Bold" FontSize="12"/>
+                                </Border>
+                                <!-- Warning -->
+                                <Border Background="#FF2800" CornerRadius="4" Padding="8,4"
+                                        IsVisible="{Binding Type, Converter={x:Static vm:TsunamiDetailItemTypeConverter.IsWarning}}">
+                                    <TextBlock Text="津波警報（最大 3 メートル）" Foreground="White" FontWeight="Bold" FontSize="12"/>
+                                </Border>
+                                <!-- Advisory -->
+                                <Border Background="#FAF500" CornerRadius="4" Padding="8,4"
+                                        IsVisible="{Binding Type, Converter={x:Static vm:TsunamiDetailItemTypeConverter.IsAdvisory}}">
+                                    <TextBlock Text="津波注意報（最大 1 メートル）" Foreground="Black" FontWeight="Bold" FontSize="12"/>
+                                </Border>
+                            </Panel>
+                        </DataTemplate>
+                    </ItemsControl.DataTemplates>
+                </ItemsControl>
+            </ScrollViewer>
+        </Expander>
+    </Grid>
+</UserControl>

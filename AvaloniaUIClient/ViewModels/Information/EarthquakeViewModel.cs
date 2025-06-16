@@ -1,4 +1,6 @@
-﻿using Avalonia.Media.Imaging;
+﻿using Avalonia.Media;
+using Avalonia.Media.Imaging;
+using AvaloniaUIClient.Models;
 
 using Client.Peer;
 
@@ -8,18 +10,37 @@ using Map.Model;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaUIClient.ViewModels.Information
 {
-    public class EarthquakeViewModel : ViewModelBase
+    public partial class EarthquakeViewModel : ViewModelBase
     {
         private EPSPQuakeEventArgs eventArgs;
         private InformationViewModel vm;
+
+        [ObservableProperty]
+        private bool isDetailPaneOpen = false;
+
+        [ObservableProperty]
+        private ObservableCollection<DetailItemView> detailItemViewList = new();
 
         public EarthquakeViewModel(EPSPQuakeEventArgs eventArgs, InformationViewModel vm)
         {
             this.eventArgs = eventArgs;
             this.vm = vm;
+            InitializeDetailItemViewList();
+        }
+
+        public string DetailPaneToggleIcon => IsDetailPaneOpen ? "▶" : "◀";
+
+        [RelayCommand]
+        public void ToggleDetailPane()
+        {
+            IsDetailPaneOpen = !IsDetailPaneOpen;
+            OnPropertyChanged(nameof(DetailPaneToggleIcon));
         }
 
         public string OccuredAt { get { return eventArgs.OccuredTime; } }
@@ -84,10 +105,22 @@ namespace AvaloniaUIClient.ViewModels.Information
                 return eventArgs.TsunamiType switch
                 {
                     DomesticTsunamiType.None => "心配はありません",
-                    DomesticTsunamiType.Effective => "⚠発表中",
+                    DomesticTsunamiType.Effective => "津波予報 発表中",
                     DomesticTsunamiType.Checking => "有無を調査中",
-                    DomesticTsunamiType.Unknown => "有無は不明",
-                    _ => "不明（情報なし）",
+                    DomesticTsunamiType.Unknown => "不明",
+                    _ => "不明",
+                };
+            }
+        }
+
+        public IBrush TsunamiForeground
+        {
+            get
+            {
+                return eventArgs.TsunamiType switch
+                {
+                    DomesticTsunamiType.Effective => new SolidColorBrush(Color.FromRgb(196, 43, 28)), // SystemControlErrorTextForegroundBrush相当
+                    _ => new SolidColorBrush(Color.FromRgb(0, 0, 0)), // SystemControlPageTextBaseHighBrush相当
                 };
             }
         }
@@ -172,6 +205,80 @@ namespace AvaloniaUIClient.ViewModels.Information
                 }
                 return longitude;
             }
+        }
+
+        private void InitializeDetailItemViewList()
+        {
+            var list = new List<DetailItemView>();
+
+            // ヘッダー追加
+            list.Add(new DetailItemView("各地の震度", TextStyles.Title));
+
+            if (eventArgs.PointList == null || !eventArgs.PointList.Any())
+            {
+                DetailItemViewList = new ObservableCollection<DetailItemView>(list);
+                return;
+            }
+
+            // 観測点名の短縮処理（WPFClientと同様）
+            var shortenPoints = eventArgs.PointList
+                .Where(p => !string.IsNullOrEmpty(p.Scale))
+                .OrderByDescending(e => ConvertScaleIntForSort(ConvertScale(e.Scale)))
+                .Select(e => new
+                {
+                    Name = ShortenLocationName(e.Name),
+                    Prefecture = e.Prefecture,
+                    Scale = e.Scale,
+                    ScaleInt = ConvertScale(e.Scale)
+                })
+                .GroupBy(e => e.Name)
+                .Select(g => g.First())
+                .ToList();
+
+            // 都道府県別にグループ化
+            var pointsByPrefs = shortenPoints.GroupBy(e => e.Prefecture);
+            foreach (var pointsByPref in pointsByPrefs)
+            {
+                list.Add(new DetailItemView(pointsByPref.Key, TextStyles.Prefecture));
+                
+                // 震度別にグループ化
+                var pointsByScales = pointsByPref.GroupBy(e => e.Scale);
+                foreach (var pointsByScale in pointsByScales)
+                {
+                    var names = string.Join('、', pointsByScale.Select(e => e.Name));
+                    list.Add(new DetailItemView(names, TextStyles.Name, pointsByScale.First().ScaleInt));
+                }
+            }
+
+            DetailItemViewList = new ObservableCollection<DetailItemView>(list);
+        }
+
+        private static string ShortenLocationName(string name)
+        {
+            // WPFClientと同様の正規表現による地名短縮
+            var patterns = new[]
+            {
+                @"^(.+?郡)(.+?[町村])(.*)$",
+                @"^(.+?市)(.+?区)(.*)$", 
+                @"^(.+?[市町村])(.*)$"
+            };
+
+            foreach (var pattern in patterns)
+            {
+                var match = System.Text.RegularExpressions.Regex.Match(name, pattern);
+                if (match.Success)
+                {
+                    if (match.Groups.Count >= 3 && !string.IsNullOrEmpty(match.Groups[2].Value))
+                    {
+                        return match.Groups[2].Value;
+                    }
+                    else if (match.Groups.Count >= 2)
+                    {
+                        return match.Groups[1].Value;
+                    }
+                }
+            }
+            return name;
         }
     }
 }

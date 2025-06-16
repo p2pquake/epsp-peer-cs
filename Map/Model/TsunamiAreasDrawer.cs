@@ -38,7 +38,17 @@ namespace Map.Model
                 .Select(e => areas.GetArea(e.Name))
                 .Where(e => e != null)
                 .Select(e => e.Coordinates)
-                .SelectMany(e => e).SelectMany(e => e);
+                .Where(e => e != null)  // Coordinatesがnullでないことを確認
+                .SelectMany(e => e)
+                .Where(e => e != null)  // 各座標グループがnullでないことを確認
+                .SelectMany(e => e)
+                .Where(e => e != null); // 各座標がnullでないことを確認
+
+            if (!coordinates.Any())
+            {
+                System.Diagnostics.Debug.WriteLine("TsunamiAreasDrawer.CalcDrawLTRB: 有効な座標が見つかりません");
+                return null;
+            }
 
             return new LTRBCoordinate(
                 coordinates.Min(e => e.Longitude),

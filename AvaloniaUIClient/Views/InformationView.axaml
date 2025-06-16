@@ -95,6 +95,9 @@
 				<DataTemplate DataType="vmi:UserquakeViewModel">
 					<info:Userquake />
 				</DataTemplate>
+				<DataTemplate DataType="vmi:TsunamiViewModel">
+					<info:Tsunami />
+				</DataTemplate>
 			</ContentControl.DataTemplates>
 		</ContentControl>
 	</DockPanel>

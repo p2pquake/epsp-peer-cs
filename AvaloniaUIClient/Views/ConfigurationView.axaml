@@ -2,8 +2,232 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="400"
-		     Width="640" Height="400"
-             x:Class="AvaloniaUIClient.Views.ConfigurationView">
-  Configuration Panel
+             xmlns:vm="using:AvaloniaUIClient.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AvaloniaUIClient.Views.ConfigurationView"
+             x:DataType="vm:ConfigurationViewModel">
+
+    <Grid ColumnDefinitions="200,*">
+        <!-- 左側：カテゴリ選択 -->
+        <Border Grid.Column="0" Background="{DynamicResource SystemControlAltMediumBrush}" 
+                BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}" 
+                BorderThickness="0,0,1,0">
+            <ListBox ItemsSource="{Binding Categories}" 
+                     SelectedItem="{Binding SelectedCategory}"
+                     Background="Transparent"
+                     Margin="8">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" Padding="8,12" FontSize="14"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+
+        <!-- 右側：設定内容 -->
+        <ScrollViewer Grid.Column="1" Margin="16">
+            <StackPanel Spacing="16">
+                
+                <!-- 起動設定 -->
+                <StackPanel IsVisible="{Binding IsBootupCategoryVisible}"
+                           Spacing="12">
+                    <TextBlock Text="起動" FontSize="20" FontWeight="Bold" Margin="0,0,0,8"/>
+                    
+                    <ToggleSwitch IsChecked="{Binding BootAtStartup}"
+                                  OnContent="Windows 起動時に開始"
+                                  OffContent="Windows 起動時に開始"/>
+                    
+                    <ToggleSwitch IsChecked="{Binding MinimizeAtBoot}"
+                                  OnContent="起動時に最小化"
+                                  OffContent="起動時に最小化"/>
+                    
+                    <ToggleSwitch IsChecked="{Binding AutoUpdate}"
+                                  OnContent="自動更新"
+                                  OffContent="自動更新"/>
+                </StackPanel>
+
+                <!-- 接続設定 -->
+                <StackPanel IsVisible="{Binding IsConnectionCategoryVisible}"
+                           Spacing="12">
+                    <TextBlock Text="接続" FontSize="20" FontWeight="Bold" Margin="0,0,0,8"/>
+                    
+                    <ToggleSwitch IsChecked="{Binding PortOpen}"
+                                  OnContent="ポート開放"
+                                  OffContent="ポート開放"/>
+                    
+                    <CheckBox IsChecked="{Binding UseUPnP}"
+                              IsEnabled="{Binding IsUPnPEnabled}"
+                              Content="UPnP を使ってポートを開放"/>
+                    
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock Text="ポート番号:" VerticalAlignment="Center"/>
+                        <NumericUpDown Value="{Binding Port}" 
+                                       Minimum="1" 
+                                       Maximum="65535" 
+                                       Width="120"/>
+                    </StackPanel>
+                    
+                    <ToggleSwitch IsChecked="{Binding DisconnectionComplement}"
+                                  OnContent="30分以上切断時、情報再取得"
+                                  OffContent="30分以上切断時、情報再取得"/>
+                </StackPanel>
+
+                <!-- 「揺れた！」設定 -->
+                <StackPanel IsVisible="{Binding IsUserquakeCategoryVisible}"
+                           Spacing="12">
+                    <TextBlock Text="「揺れた！」" FontSize="20" FontWeight="Bold" Margin="0,0,0,8"/>
+                    
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="発信地域"/>
+                        <ComboBox ItemsSource="{Binding AreaList}"
+                                  SelectedItem="{Binding SelectedArea}"
+                                  Width="300"
+                                  HorizontalAlignment="Left"/>
+                    </StackPanel>
+                    
+                    <TextBlock Text="発信方法" FontWeight="SemiBold" Margin="0,8,0,0"/>
+                    <CheckBox Content="「揺れた！」ボタン" IsChecked="True" IsEnabled="False"/>
+                    <CheckBox IsChecked="{Binding SendIfMiddleDoubleClick}"
+                              Content="トレイアイコンを中ダブルクリック"/>
+                    <CheckBox IsChecked="{Binding SendIfRightDoubleClick}"
+                              Content="トレイアイコンを右ダブルクリック"/>
+                </StackPanel>
+
+                <!-- 表示・通知設定 -->
+                <StackPanel IsVisible="{Binding IsNotificationCategoryVisible}"
+                           Spacing="16">
+                    <TextBlock Text="表示・通知" FontSize="20" FontWeight="Bold" Margin="0,0,0,8"/>
+                    
+                    <!-- 地震情報 -->
+                    <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}" 
+                            BorderThickness="1" 
+                            CornerRadius="4" 
+                            Padding="12">
+                        <StackPanel Spacing="8">
+                            <ToggleSwitch IsChecked="{Binding EarthquakeEnabled}"
+                                          OnContent="地震情報"
+                                          OffContent="地震情報"
+                                          FontWeight="Bold"/>
+                            
+                            <StackPanel IsEnabled="{Binding IsEarthquakeSettingsEnabled}" Spacing="6">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="最小震度:" VerticalAlignment="Center"/>
+                                    <ComboBox SelectedItem="{Binding EarthquakeMinScaleText}" Width="100">
+                                        <ComboBoxItem Content="1"/>
+                                        <ComboBoxItem Content="2"/>
+                                        <ComboBoxItem Content="3"/>
+                                        <ComboBoxItem Content="4"/>
+                                        <ComboBoxItem Content="5弱"/>
+                                        <ComboBoxItem Content="5強"/>
+                                        <ComboBoxItem Content="6弱"/>
+                                        <ComboBoxItem Content="6強"/>
+                                        <ComboBoxItem Content="7"/>
+                                    </ComboBox>
+                                </StackPanel>
+                                
+                                <CheckBox IsChecked="{Binding EarthquakeForeign}"
+                                          Content="海外地震を含む"/>
+                                
+                                <StackPanel Orientation="Horizontal" Spacing="16">
+                                    <ToggleSwitch IsChecked="{Binding EarthquakeShow}"
+                                                  OnContent="表示"
+                                                  OffContent="表示"/>
+                                    <ToggleSwitch IsChecked="{Binding EarthquakeNotice}"
+                                                  OnContent="通知"
+                                                  OffContent="通知"/>
+                                    <ToggleSwitch IsChecked="{Binding EarthquakeSound}"
+                                                  OnContent="音"
+                                                  OffContent="音"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- 地震感知情報 -->
+                    <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}" 
+                            BorderThickness="1" 
+                            CornerRadius="4" 
+                            Padding="12">
+                        <StackPanel Spacing="8">
+                            <ToggleSwitch IsChecked="{Binding UserquakeEnabled}"
+                                          OnContent="地震感知情報"
+                                          OffContent="地震感知情報"
+                                          FontWeight="Bold"/>
+                            
+                            <StackPanel IsEnabled="{Binding IsUserquakeSettingsEnabled}" 
+                                       Orientation="Horizontal" 
+                                       Spacing="16">
+                                <ToggleSwitch IsChecked="{Binding UserquakeShow}"
+                                              OnContent="表示"
+                                              OffContent="表示"/>
+                                <ToggleSwitch IsChecked="{Binding UserquakeNotice}"
+                                              OnContent="通知"
+                                              OffContent="通知"/>
+                                <ToggleSwitch IsChecked="{Binding UserquakeSound}"
+                                              OnContent="音"
+                                              OffContent="音"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- 津波予報 -->
+                    <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}" 
+                            BorderThickness="1" 
+                            CornerRadius="4" 
+                            Padding="12">
+                        <StackPanel Spacing="8">
+                            <ToggleSwitch IsChecked="{Binding TsunamiEnabled}"
+                                          OnContent="津波予報"
+                                          OffContent="津波予報"
+                                          FontWeight="Bold"/>
+                            
+                            <StackPanel IsEnabled="{Binding IsTsunamiSettingsEnabled}" 
+                                       Orientation="Horizontal" 
+                                       Spacing="16">
+                                <ToggleSwitch IsChecked="{Binding TsunamiShow}"
+                                              OnContent="表示"
+                                              OffContent="表示"/>
+                                <ToggleSwitch IsChecked="{Binding TsunamiNotice}"
+                                              OnContent="通知"
+                                              OffContent="通知"/>
+                                <ToggleSwitch IsChecked="{Binding TsunamiSound}"
+                                              OnContent="音"
+                                              OffContent="音"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- 緊急地震速報 -->
+                    <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}" 
+                            BorderThickness="1" 
+                            CornerRadius="4" 
+                            Padding="12">
+                        <StackPanel Spacing="8">
+                            <ToggleSwitch IsChecked="{Binding EEWEnabled}"
+                                          OnContent="緊急地震速報（警報）"
+                                          OffContent="緊急地震速報（警報）"
+                                          FontWeight="Bold"/>
+                            
+                            <StackPanel IsEnabled="{Binding IsEEWSettingsEnabled}" Spacing="6">
+                                <StackPanel Orientation="Horizontal" Spacing="16">
+                                    <ToggleSwitch IsChecked="{Binding EEWShow}"
+                                                  OnContent="表示"
+                                                  OffContent="表示"/>
+                                    <ToggleSwitch IsChecked="{Binding EEWNotice}"
+                                                  OnContent="通知"
+                                                  OffContent="通知"/>
+                                    <ToggleSwitch IsChecked="{Binding EEWSound}"
+                                                  OnContent="音"
+                                                  OffContent="音"/>
+                                </StackPanel>
+                                <ToggleSwitch IsChecked="{Binding EEWVoiceGuidance}"
+                                              OnContent="音声読み上げ"
+                                              OffContent="音声読み上げ"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </UserControl>

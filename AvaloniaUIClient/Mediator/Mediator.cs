@@ -1,6 +1,9 @@
 ﻿using AvaloniaUIClient.ViewModels;
+using AvaloniaUIClient.ViewModels.Information;
 
 using Client.App;
+using Client.App.Userquake;
+using Client.Peer;
 
 using System.Diagnostics;
 using System.Threading;
@@ -19,6 +22,10 @@ namespace AvaloniaUIClient.Mediator
             client = new MediatorContext();
             client.ConnectionsChanged += Client_ConnectionsChanged;
             client.StateChanged += Client_StateChanged;
+            client.OnTsunami += Client_OnTsunami;
+            client.OnEarthquake += Client_OnEarthquake;
+            client.OnEEW += Client_OnEEW;
+            client.OnNewUserquakeEvaluation += Client_OnNewUserquakeEvaluation;
             this.viewModel = viewModel;
         }
 
@@ -75,6 +82,50 @@ namespace AvaloniaUIClient.Mediator
             {
                 viewModel.PortStatus = "ポート: -";
             }
+        }
+
+        private void Client_OnTsunami(object? sender, EPSPTsunamiEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine($"津波イベント受信: IsCancelled={e.IsCancelled}, RegionList Count={e.RegionList?.Count ?? 0}");
+            
+            var tsunamiViewModel = new TsunamiViewModel();
+            System.Diagnostics.Debug.WriteLine($"TsunamiViewModel作成完了: {tsunamiViewModel.GetType().FullName}");
+            
+            tsunamiViewModel.Initialize(e);
+            System.Diagnostics.Debug.WriteLine("TsunamiViewModel初期化完了");
+
+            viewModel.InformationViewModel.Histories.Insert(0, e);
+            viewModel.InformationViewModel.ActiveEventArgs = e;
+            viewModel.InformationViewModel.ActiveViewModel = tsunamiViewModel;
+            
+            System.Diagnostics.Debug.WriteLine($"ActiveViewModel設定完了: {viewModel.InformationViewModel.ActiveViewModel?.GetType().FullName}");
+        }
+
+        private void Client_OnEarthquake(object? sender, EPSPQuakeEventArgs e)
+        {
+            var earthquakeViewModel = new EarthquakeViewModel(e, viewModel.InformationViewModel);
+
+            viewModel.InformationViewModel.Histories.Insert(0, e);
+            viewModel.InformationViewModel.ActiveEventArgs = e;
+            viewModel.InformationViewModel.ActiveViewModel = earthquakeViewModel;
+        }
+
+        private void Client_OnEEW(object? sender, EPSPEEWEventArgs e)
+        {
+            var eewViewModel = new EEWViewModel(e, viewModel.InformationViewModel);
+
+            viewModel.InformationViewModel.Histories.Insert(0, e);
+            viewModel.InformationViewModel.ActiveEventArgs = e;
+            viewModel.InformationViewModel.ActiveViewModel = eewViewModel;
+        }
+
+        private void Client_OnNewUserquakeEvaluation(object? sender, UserquakeEvaluateEventArgs e)
+        {
+            var userquakeViewModel = new UserquakeViewModel(e, viewModel.InformationViewModel);
+
+            viewModel.InformationViewModel.Histories.Insert(0, e);
+            viewModel.InformationViewModel.ActiveEventArgs = e;
+            viewModel.InformationViewModel.ActiveViewModel = userquakeViewModel;
         }
     }
 }
