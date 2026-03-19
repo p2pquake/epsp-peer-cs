@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:epsp="using:AvaloniaClient.EPSPDataView"
+             x:Class="AvaloniaClient.Views.Informations.EEWTestView"
+             x:DataType="epsp:EPSPEEWTestView">
+    <Grid>
+        <Image Source="avares://P2PQuake/Resources/Examples/japan_1024.png" Opacity="0.3" Stretch="UniformToFill" />
+        <ScrollViewer Padding="4" Background="{DynamicResource InformationSmokeFillColorBrush}">
+            <StackPanel Spacing="16">
+                <TextBlock Text="{Binding DetailTitle}" FontSize="24" />
+                <StackPanel Spacing="16">
+                    <TextBlock Text="揺れに備えよ" FontSize="72" FontWeight="Bold" Foreground="Gray" />
+                    <TextBlock Text="約 30 秒、揺れに備えてください。" FontSize="20" />
+                    <TextBlock Text="一律配信です。揺れないこともあります。" FontSize="20" />
+                </StackPanel>
+                <StackPanel Spacing="16">
+                    <TextBlock Text="過去の情報です。" FontSize="20" />
+                </StackPanel>
+                <Separator />
+                <TextBlock Text="これは緊急地震速報ではありません" FontWeight="Bold" />
+                <TextBlock Text="あくまで「一般向け緊急地震速報の『発表』」のみを伝えるものです。「震源」「地域」「猶予時間」などの情報は一切含みません。" />
+                <TextBlock Text="「地域」の情報を含みませんので、お住まいの地域が揺れるとは限りません。" />
+                <TextBlock Text="NHKラジオ第一の音声を自動認識しています。認識ミスによって誤報が配信されることがあります。" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

@@ -1,0 +1,164 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:fa="using:FluentAvalonia.UI.Controls"
+             xmlns:vm="using:AvaloniaClient.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="620" d:DesignHeight="416"
+             x:Class="AvaloniaClient.Views.Pages.SettingView"
+             x:DataType="vm:SettingViewModel">
+    <DockPanel LastChildFill="True">
+        <fa:NavigationView x:Name="SettingNav"
+                          SelectionChanged="NavigationView_SelectionChanged"
+                          Width="180" DockPanel.Dock="Left"
+                          PaneDisplayMode="Left"
+                          IsPaneToggleButtonVisible="False"
+                          IsBackButtonVisible="False"
+                          IsSettingsVisible="False">
+            <fa:NavigationView.PaneHeader>
+                <TextBlock VerticalAlignment="Center" Text="設定" FontSize="20" FontWeight="SemiBold" Margin="12" />
+            </fa:NavigationView.PaneHeader>
+            <fa:NavigationView.MenuItems>
+                <fa:NavigationViewItem IsSelected="True" Tag="Boot" Content="起動">
+                    <fa:NavigationViewItem.IconSource>
+                        <fa:SymbolIconSource Symbol="Setting" />
+                    </fa:NavigationViewItem.IconSource>
+                </fa:NavigationViewItem>
+                <fa:NavigationViewItem Tag="Connection" Content="接続">
+                    <fa:NavigationViewItem.IconSource>
+                        <fa:SymbolIconSource Symbol="Globe" />
+                    </fa:NavigationViewItem.IconSource>
+                </fa:NavigationViewItem>
+                <fa:NavigationViewItem Tag="Userquake" Content="「揺れた！」">
+                    <fa:NavigationViewItem.IconSource>
+                        <fa:SymbolIconSource Symbol="People" />
+                    </fa:NavigationViewItem.IconSource>
+                </fa:NavigationViewItem>
+                <fa:NavigationViewItem Tag="Notification" Content="表示・通知">
+                    <fa:NavigationViewItem.IconSource>
+                        <fa:SymbolIconSource Symbol="Alert" />
+                    </fa:NavigationViewItem.IconSource>
+                </fa:NavigationViewItem>
+            </fa:NavigationView.MenuItems>
+        </fa:NavigationView>
+        <Grid>
+            <!-- Boot -->
+            <ScrollViewer IsVisible="{Binding BootVisible}">
+                <StackPanel Spacing="16" Margin="16">
+                    <TextBlock Text="起動" FontSize="20" FontWeight="SemiBold" />
+                    <TextBlock Text="起動時に最小化する" />
+                    <ToggleSwitch IsChecked="{Binding MinimizeAtBoot, Mode=TwoWay}" />
+                    <TextBlock Text="自動起動、自動更新はサポートされていません。" Foreground="Gray" />
+                </StackPanel>
+            </ScrollViewer>
+            <!-- Connection -->
+            <ScrollViewer IsVisible="{Binding ConnectionVisible}">
+                <StackPanel Spacing="16" Margin="16">
+                    <TextBlock Text="接続" FontSize="20" FontWeight="SemiBold" />
+                    <TextBlock Text="P2Pネットワークの構築には、ポートを開放したピアが必要です。" TextWrapping="Wrap" />
+                    <TextBlock Text="ポートを開放する" />
+                    <ToggleSwitch IsChecked="{Binding PortOpen, Mode=TwoWay}" />
+                    <CheckBox Content="UPnP 機能を使用する" IsChecked="{Binding UseUPnP, Mode=TwoWay}" IsEnabled="{Binding PortOpen}" />
+                    <StackPanel Orientation="Horizontal" Spacing="16" IsEnabled="{Binding PortOpen}">
+                        <TextBlock Text="ポート番号" VerticalAlignment="Center" />
+                        <TextBox Text="{Binding Port, Mode=TwoWay}" Width="120" />
+                    </StackPanel>
+                    <Separator />
+                    <TextBlock Text="接続が30分以上途切れたときに、情報を再取得する" TextWrapping="Wrap" />
+                    <ToggleSwitch IsChecked="{Binding DisconnectionComplement, Mode=TwoWay}" />
+                </StackPanel>
+            </ScrollViewer>
+            <!-- Userquake -->
+            <ScrollViewer IsVisible="{Binding UserquakeVisible}">
+                <StackPanel Spacing="16" Margin="16">
+                    <TextBlock Text="「揺れた！」" FontSize="20" FontWeight="SemiBold" />
+                    <TextBlock Text="あなたの発信地域" />
+                    <ComboBox SelectedItem="{Binding SelectArea, Mode=TwoWay}" ItemsSource="{Binding UserquakeAreas}" />
+                    <TextBlock Text="発信方法" />
+                    <StackPanel Spacing="4">
+                        <CheckBox Content="ウィンドウ右上「揺れた！」ボタン" IsEnabled="False" IsChecked="True" />
+                        <TextBlock Text="トレイアイコンの中ダブルクリック、右ダブルクリックはサポートされていません。" Foreground="Gray" />
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+            <!-- Notification -->
+            <ScrollViewer IsVisible="{Binding NotificationVisible}">
+                <StackPanel Spacing="16" Margin="16" MaxWidth="640" HorizontalAlignment="Left">
+                    <TextBlock Text="通知設定" FontSize="20" FontWeight="SemiBold" />
+                    <TextBlock Text="ウィンドウを表示しているときに通知条件を満たした場合、表示が通知対象の情報に切り替わります。" TextWrapping="Wrap" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.2*" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="地震情報" Grid.Column="1" Grid.Row="0" Margin="4" />
+                        <TextBlock Text="地震感知情報" Grid.Column="2" Grid.Row="0" Margin="4" />
+                        <TextBlock Text="津波予報" Grid.Column="3" Grid.Row="0" Margin="4" />
+                        <TextBlock Grid.Column="4" Grid.Row="0" Margin="4">
+                            <Run Text="緊急地震速報" /><LineBreak/><Run Text="（警報）" />
+                        </TextBlock>
+
+                        <TextBlock Text="有効無効" Grid.Row="1" Grid.Column="0" Margin="4" VerticalAlignment="Top" />
+                        <TextBlock Text="ウィンドウを表示" Grid.Row="2" Grid.Column="0" Margin="4" />
+                        <TextBlock Text="通知を表示" Grid.Row="3" Grid.Column="0" Margin="4" />
+                        <TextBlock Text="音を鳴らす" Grid.Row="4" Grid.Column="0" Margin="4" />
+                        <StackPanel Grid.Row="5" Grid.Column="0" Margin="4">
+                            <TextBlock Text="音声読み上げ" />
+                            <TextBlock Text="(VOICEVOX 四国めたん)" FontSize="12" />
+                        </StackPanel>
+                        <TextBlock Text="テスト表示&#xA;（5秒後）" Grid.Row="6" Grid.Column="0" Margin="4" />
+
+                        <!-- Earthquake -->
+                        <StackPanel Grid.Row="1" Grid.Column="1" Spacing="4">
+                            <ToggleSwitch IsChecked="{Binding EarthquakeNotification, Mode=TwoWay}" />
+                            <ComboBox IsEnabled="{Binding EarthquakeNotification}" SelectedItem="{Binding EarthquakeMinScale}" ItemsSource="{Binding EarthquakeScales}" />
+                            <CheckBox IsEnabled="{Binding EarthquakeNotification}" IsChecked="{Binding EarthquakeForeign, Mode=TwoWay}" Content="海外地震" />
+                        </StackPanel>
+                        <ToggleSwitch IsEnabled="{Binding EarthquakeNotification}" IsChecked="{Binding EarthquakeShow, Mode=TwoWay}" Grid.Row="2" Grid.Column="1" />
+                        <ToggleSwitch IsEnabled="{Binding EarthquakeNotification}" IsChecked="{Binding EarthquakeNotice, Mode=TwoWay}" Grid.Row="3" Grid.Column="1" />
+                        <ToggleSwitch IsEnabled="{Binding EarthquakeNotification}" IsChecked="{Binding EarthquakeSound, Mode=TwoWay}" Grid.Row="4" Grid.Column="1" />
+                        <TextBlock Text="-" Grid.Row="5" Grid.Column="1" Margin="4" />
+                        <Button Content="テスト" Grid.Row="6" Grid.Column="1" Click="TestEarthquakeButton_Click" x:Name="TestEarthquakeButton" Margin="4" />
+
+                        <!-- Userquake -->
+                        <ToggleSwitch IsChecked="{Binding UserquakeNotification, Mode=TwoWay}" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" />
+                        <ToggleSwitch IsEnabled="{Binding UserquakeNotification}" IsChecked="{Binding UserquakeShow, Mode=TwoWay}" Grid.Row="2" Grid.Column="2" />
+                        <ToggleSwitch IsEnabled="{Binding UserquakeNotification}" IsChecked="{Binding UserquakeNotice, Mode=TwoWay}" Grid.Row="3" Grid.Column="2" />
+                        <ToggleSwitch IsEnabled="{Binding UserquakeNotification}" IsChecked="{Binding UserquakeSound, Mode=TwoWay}" Grid.Row="4" Grid.Column="2" />
+                        <TextBlock Text="-" Grid.Row="5" Grid.Column="2" Margin="4" />
+                        <Button Content="テスト" Grid.Row="6" Grid.Column="2" Click="TestUserquakeButton_Click" x:Name="TestUserquakeButton" Margin="4" />
+
+                        <!-- Tsunami -->
+                        <ToggleSwitch IsChecked="{Binding TsunamiNotification, Mode=TwoWay}" Grid.Row="1" Grid.Column="3" VerticalAlignment="Top" />
+                        <ToggleSwitch IsEnabled="{Binding TsunamiNotification}" IsChecked="{Binding TsunamiShow, Mode=TwoWay}" Grid.Row="2" Grid.Column="3" />
+                        <ToggleSwitch IsEnabled="{Binding TsunamiNotification}" IsChecked="{Binding TsunamiNotice, Mode=TwoWay}" Grid.Row="3" Grid.Column="3" />
+                        <ToggleSwitch IsEnabled="{Binding TsunamiNotification}" IsChecked="{Binding TsunamiSound, Mode=TwoWay}" Grid.Row="4" Grid.Column="3" />
+                        <TextBlock Text="-" Grid.Row="5" Grid.Column="3" Margin="4" />
+                        <Button Content="テスト" Grid.Row="6" Grid.Column="3" Click="TestTsunamiButton_Click" x:Name="TestTsunamiButton" Margin="4" />
+
+                        <!-- EEW -->
+                        <ToggleSwitch IsChecked="{Binding EEWTestNotification, Mode=TwoWay}" Grid.Row="1" Grid.Column="4" VerticalAlignment="Top" />
+                        <ToggleSwitch IsEnabled="{Binding EEWTestNotification}" IsChecked="{Binding EEWTestShow, Mode=TwoWay}" Grid.Row="2" Grid.Column="4" />
+                        <ToggleSwitch IsEnabled="{Binding EEWTestNotification}" IsChecked="{Binding EEWTestNotice, Mode=TwoWay}" Grid.Row="3" Grid.Column="4" />
+                        <ToggleSwitch IsEnabled="{Binding EEWTestNotification}" IsChecked="{Binding EEWTestSound, Mode=TwoWay}" Grid.Row="4" Grid.Column="4" />
+                        <ToggleSwitch IsEnabled="{Binding EEWTestNotification}" IsChecked="{Binding EEWVoiceGuidance, Mode=TwoWay}" Grid.Row="5" Grid.Column="4" />
+                        <Button Content="テスト" Grid.Row="6" Grid.Column="4" Click="TestEEWButton_Click" x:Name="TestEEWButton" Margin="4" />
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </DockPanel>
+</UserControl>

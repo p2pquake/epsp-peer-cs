@@ -1,0 +1,55 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AvaloniaClient.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="620" d:DesignHeight="416"
+             x:Class="AvaloniaClient.Views.Pages.StatusView"
+             x:DataType="vm:StatusViewModel">
+    <DockPanel LastChildFill="True">
+        <ScrollViewer DockPanel.Dock="Left" MaxWidth="360">
+            <StackPanel Spacing="12" Margin="16">
+                <TextBlock Text="{Binding StatusTitle}" FontSize="20" FontWeight="SemiBold" />
+                <TextBlock Text="{Binding StatusDescription}" TextWrapping="Wrap" />
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*">
+                    <TextBlock Text="接続総数:" Grid.Column="0" Grid.Row="0" Margin="4" />
+                    <TextBlock Text="自ピアとの接続数:" Grid.Column="0" Grid.Row="1" Margin="4" />
+                    <TextBlock Text="ポート:" Grid.Column="0" Grid.Row="2" Margin="4" />
+                    <TextBlock Text="鍵の状態:" Grid.Column="0" Grid.Row="3" Margin="4" />
+
+                    <TextBlock Text="{Binding NumberOfPeers}" Grid.Column="1" Grid.Row="0" Margin="4" />
+                    <TextBlock Text="{Binding Connections}" Grid.Column="1" Grid.Row="1" Margin="4" />
+                    <TextBlock Text="{Binding PortStatus}" Grid.Column="1" Grid.Row="2" Margin="4" />
+                    <TextBlock Text="{Binding KeyStatus}" Grid.Column="1" Grid.Row="3" Margin="4" />
+                </Grid>
+                <TextBlock Text="{Binding Version}" FontSize="20" FontWeight="SemiBold" />
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*">
+                    <TextBlock Text="Webサイト:" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" />
+                    <TextBlock Text="更新情報:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" />
+                    <TextBlock Text="サービス提供状況:" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" />
+                    <TextBlock Text="サーバー稼働状況:" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" />
+                    <TextBlock Text="プライバシーポリシー:" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" />
+                    <TextBlock Text="ソースコード:" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" />
+                    <TextBlock Text="ライセンス:" Grid.Column="0" Grid.Row="6" VerticalAlignment="Center" />
+
+                    <Button Content="https://www.p2pquake.net/" Tag="https://www.p2pquake.net/" Click="HyperlinkButton_Click" Grid.Column="1" Grid.Row="0" Classes="hyperlink" />
+                    <Button Content="https://github.com/p2pquake/epsp-peer-cs/releases" Tag="https://github.com/p2pquake/epsp-peer-cs/releases" Click="HyperlinkButton_Click" Grid.Column="1" Grid.Row="1" Classes="hyperlink" />
+                    <Button Content="https://twitter.com/p2pquake_takuya" Tag="https://twitter.com/p2pquake_takuya" Click="HyperlinkButton_Click" Grid.Column="1" Grid.Row="2" Classes="hyperlink" />
+                    <Button Content="https://stats.uptimerobot.com/JR0Qt8QGy" Tag="https://stats.uptimerobot.com/JR0Qt8QGy" Click="HyperlinkButton_Click" Grid.Column="1" Grid.Row="3" Classes="hyperlink" />
+                    <Button Content="https://www.p2pquake.net/privacy_policy/" Tag="https://www.p2pquake.net/privacy_policy/" Click="HyperlinkButton_Click" Grid.Column="1" Grid.Row="4" Classes="hyperlink" />
+                    <Button Content="https://github.com/p2pquake/epsp-peer-cs" Tag="https://github.com/p2pquake/epsp-peer-cs" Click="HyperlinkButton_Click" Grid.Column="1" Grid.Row="5" Classes="hyperlink" />
+                    <Button Content="ライセンスを表示" Click="ShowLicenseButton_Click" Grid.Column="1" Grid.Row="6" Classes="hyperlink" />
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+        <Grid>
+            <Image Source="{Binding BitmapImage}" Stretch="Uniform" />
+            <ScrollViewer MaxWidth="180" HorizontalAlignment="Right">
+                <StackPanel Spacing="12" Margin="16">
+                    <TextBlock Text="ピア分布データ" FontSize="20" FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding AreapeerText}" TextWrapping="Wrap" />
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </DockPanel>
+</UserControl>

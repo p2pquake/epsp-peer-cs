@@ -1,0 +1,49 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="using:FluentAvalonia.UI.Controls"
+        xmlns:vm="using:AvaloniaClient.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="480"
+        x:Class="AvaloniaClient.Views.MainWindow"
+        x:DataType="vm:RootViewModel"
+        Title="P2P地震情報"
+        Width="800" Height="480"
+        MinWidth="480" MinHeight="180">
+    <DockPanel LastChildFill="True">
+        <fa:NavigationView x:Name="NavView"
+                          SelectionChanged="NavigationView_SelectionChanged"
+                          PaneDisplayMode="Top"
+                          DockPanel.Dock="Top"
+                          IsBackButtonVisible="False"
+                          IsSettingsVisible="False">
+            <fa:NavigationView.MenuItems>
+                <fa:NavigationViewItem Content="情報" Tag="Information" IsSelected="{Binding InformationIsSelected, Mode=TwoWay}">
+                    <fa:NavigationViewItem.IconSource>
+                        <fa:SymbolIconSource Symbol="Globe" />
+                    </fa:NavigationViewItem.IconSource>
+                </fa:NavigationViewItem>
+                <fa:NavigationViewItem Content="設定" Tag="Setting">
+                    <fa:NavigationViewItem.IconSource>
+                        <fa:SymbolIconSource Symbol="Setting" />
+                    </fa:NavigationViewItem.IconSource>
+                </fa:NavigationViewItem>
+                <fa:NavigationViewItem Content="{Binding Status}" Tag="Status">
+                    <fa:NavigationViewItem.IconSource>
+                        <fa:SymbolIconSource Symbol="{Binding StatusSymbol}" />
+                    </fa:NavigationViewItem.IconSource>
+                </fa:NavigationViewItem>
+            </fa:NavigationView.MenuItems>
+            <fa:NavigationView.PaneFooter>
+                <StackPanel Orientation="Horizontal" Margin="4" Spacing="8">
+                    <TextBlock Text="{Binding PortStatus}" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding NumberOfPeersLabel}" VerticalAlignment="Center" />
+                    <Button Content="揺れた！" Click="ShakeButton_Click"
+                            Classes="accent"
+                            ToolTip.Tip="揺れたことを伝えます。" />
+                </StackPanel>
+            </fa:NavigationView.PaneFooter>
+        </fa:NavigationView>
+        <ContentControl Content="{Binding CurrentPage}" />
+    </DockPanel>
+</Window>

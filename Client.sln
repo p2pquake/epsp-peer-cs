@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LegacyPluginSupporter", "Le
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LegacyPluginSupporterTest", "LegacyPluginSupporterTest\LegacyPluginSupporterTest.csproj", "{33C2BDE1-F500-4299-9C2D-A94F7C9317B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaClient", "AvaloniaClient\AvaloniaClient.csproj", "{0273FF8F-77B1-4276-8C43-E286D7DCDECB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -560,6 +562,38 @@ Global
 		{33C2BDE1-F500-4299-9C2D-A94F7C9317B9}.ReleaseExcludeWPF|x64.Build.0 = Release|Any CPU
 		{33C2BDE1-F500-4299-9C2D-A94F7C9317B9}.ReleaseExcludeWPF|x86.ActiveCfg = Release|Any CPU
 		{33C2BDE1-F500-4299-9C2D-A94F7C9317B9}.ReleaseExcludeWPF|x86.Build.0 = Release|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.Debug|arm64.Build.0 = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.Debug|x64.Build.0 = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.Debug|x86.Build.0 = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.DebugExcludeWPF|Any CPU.ActiveCfg = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.DebugExcludeWPF|Any CPU.Build.0 = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.DebugExcludeWPF|arm64.ActiveCfg = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.DebugExcludeWPF|arm64.Build.0 = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.DebugExcludeWPF|x64.ActiveCfg = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.DebugExcludeWPF|x64.Build.0 = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.DebugExcludeWPF|x86.ActiveCfg = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.DebugExcludeWPF|x86.Build.0 = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.Release|arm64.ActiveCfg = Release|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.Release|arm64.Build.0 = Release|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.Release|x64.ActiveCfg = Release|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.Release|x64.Build.0 = Release|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.Release|x86.ActiveCfg = Release|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.Release|x86.Build.0 = Release|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.ReleaseExcludeWPF|Any CPU.ActiveCfg = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.ReleaseExcludeWPF|Any CPU.Build.0 = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.ReleaseExcludeWPF|arm64.ActiveCfg = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.ReleaseExcludeWPF|arm64.Build.0 = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.ReleaseExcludeWPF|x64.ActiveCfg = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.ReleaseExcludeWPF|x64.Build.0 = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.ReleaseExcludeWPF|x86.ActiveCfg = Debug|Any CPU
+		{0273FF8F-77B1-4276-8C43-E286D7DCDECB}.ReleaseExcludeWPF|x86.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

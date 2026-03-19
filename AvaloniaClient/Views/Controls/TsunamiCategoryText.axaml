@@ -1,0 +1,23 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="AvaloniaClient.Views.Controls.TsunamiCategoryText">
+    <Grid x:Name="RootGrid">
+        <!-- Shadow -->
+        <TextBlock x:Name="ShadowText" Foreground="#80000080" FontWeight="Bold" FontSize="16">
+            <TextBlock.RenderTransform>
+                <TranslateTransform X="2" Y="2" />
+            </TextBlock.RenderTransform>
+        </TextBlock>
+        <!-- Outline: 8 directions -->
+        <TextBlock x:Name="Outline1" Foreground="Black" FontWeight="Bold" FontSize="16"><TextBlock.RenderTransform><TranslateTransform X="-1" Y="-1" /></TextBlock.RenderTransform></TextBlock>
+        <TextBlock x:Name="Outline2" Foreground="Black" FontWeight="Bold" FontSize="16"><TextBlock.RenderTransform><TranslateTransform X="0" Y="-1" /></TextBlock.RenderTransform></TextBlock>
+        <TextBlock x:Name="Outline3" Foreground="Black" FontWeight="Bold" FontSize="16"><TextBlock.RenderTransform><TranslateTransform X="1" Y="-1" /></TextBlock.RenderTransform></TextBlock>
+        <TextBlock x:Name="Outline4" Foreground="Black" FontWeight="Bold" FontSize="16"><TextBlock.RenderTransform><TranslateTransform X="1" Y="0" /></TextBlock.RenderTransform></TextBlock>
+        <TextBlock x:Name="Outline5" Foreground="Black" FontWeight="Bold" FontSize="16"><TextBlock.RenderTransform><TranslateTransform X="1" Y="1" /></TextBlock.RenderTransform></TextBlock>
+        <TextBlock x:Name="Outline6" Foreground="Black" FontWeight="Bold" FontSize="16"><TextBlock.RenderTransform><TranslateTransform X="0" Y="1" /></TextBlock.RenderTransform></TextBlock>
+        <TextBlock x:Name="Outline7" Foreground="Black" FontWeight="Bold" FontSize="16"><TextBlock.RenderTransform><TranslateTransform X="-1" Y="1" /></TextBlock.RenderTransform></TextBlock>
+        <TextBlock x:Name="Outline8" Foreground="Black" FontWeight="Bold" FontSize="16"><TextBlock.RenderTransform><TranslateTransform X="-1" Y="0" /></TextBlock.RenderTransform></TextBlock>
+        <!-- Main text -->
+        <TextBlock x:Name="MainText" Foreground="White" FontWeight="Bold" FontSize="16" />
+    </Grid>
+</UserControl>

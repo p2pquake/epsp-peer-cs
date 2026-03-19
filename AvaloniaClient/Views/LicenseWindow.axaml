@@ -1,0 +1,24 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="using:AvaloniaClient"
+        x:Class="AvaloniaClient.Views.LicenseWindow"
+        Title="ライセンス - P2P地震情報" Width="640" Height="450">
+    <Window.DataContext>
+        <local:LicenseViewModel />
+    </Window.DataContext>
+    <ScrollViewer>
+        <StackPanel Spacing="8" Margin="16">
+            <TextBlock Text="ライセンス" FontSize="20" FontWeight="SemiBold" />
+            <TextBlock Text="P2P地震情報は、数々の OSS (オープンソースソフトウェア) によって成り立っています。" />
+            <ItemsControl ItemsSource="{Binding Licenses}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="local:LicenseModel">
+                        <Expander Header="{Binding Name}" HorizontalAlignment="Stretch">
+                            <TextBlock Margin="4" Text="{Binding Text}" TextWrapping="Wrap" FontFamily="Consolas" />
+                        </Expander>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
+</Window>

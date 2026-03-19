@@ -1,0 +1,83 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:AvaloniaClient"
+             xmlns:vm="using:AvaloniaClient.ViewModels"
+             xmlns:views="using:AvaloniaClient.Views.Pages"
+             xmlns:info="using:AvaloniaClient.Views.Informations"
+             xmlns:epsp="using:AvaloniaClient.EPSPDataView"
+             xmlns:sty="using:FluentAvalonia.Styling"
+             x:Class="AvaloniaClient.App"
+             RequestedThemeVariant="Default">
+    <TrayIcon.Icons>
+        <TrayIcons>
+            <TrayIcon Icon="avares://P2PQuake/Resources/Icons/p2pquake.ico"
+                      ToolTipText="P2P地震情報"
+                      Clicked="TrayIcon_Clicked">
+                <TrayIcon.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="表示" Click="TrayMenuShow_Click" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Header="揺れた！" Click="TrayMenuShake_Click" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Header="終了" Click="TrayMenuExit_Click" />
+                    </NativeMenu>
+                </TrayIcon.Menu>
+            </TrayIcon>
+        </TrayIcons>
+    </TrayIcon.Icons>
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="InformationSmokeFillColorBrush" Color="#99FFFFFF" />
+                    <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="#D0E0E0E0" />
+                    <SolidColorBrush x:Key="ExpanderHeaderBackgroundPointerOver" Color="#D8E0E0E0" />
+                    <SolidColorBrush x:Key="ExpanderHeaderBackgroundPressed" Color="#E0D8D8D8" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="InformationSmokeFillColorBrush" Color="#99000000" />
+                    <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="#D0303030" />
+                    <SolidColorBrush x:Key="ExpanderHeaderBackgroundPointerOver" Color="#D8383838" />
+                    <SolidColorBrush x:Key="ExpanderHeaderBackgroundPressed" Color="#E0404040" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+    <Application.Styles>
+        <sty:FluentAvaloniaTheme />
+        <!-- Left/Right Expander: reduce header padding for narrow toggle strip -->
+        <Style Selector="Expander:left /template/ ToggleButton#ExpanderHeader, Expander:right /template/ ToggleButton#ExpanderHeader">
+            <Setter Property="Padding" Value="0" />
+        </Style>
+        <Style Selector="Expander:left /template/ ToggleButton#ExpanderHeader /template/ Border#ExpandCollapseChevronBorder, Expander:right /template/ ToggleButton#ExpanderHeader /template/ Border#ExpandCollapseChevronBorder">
+            <Setter Property="Margin" Value="4" />
+        </Style>
+    </Application.Styles>
+    <Application.DataTemplates>
+        <DataTemplate DataType="vm:InformationViewModel">
+            <views:InformationView />
+        </DataTemplate>
+        <DataTemplate DataType="vm:SettingViewModel">
+            <views:SettingView />
+        </DataTemplate>
+        <DataTemplate DataType="vm:StatusViewModel">
+            <views:StatusView />
+        </DataTemplate>
+        <!-- Information detail views -->
+        <DataTemplate DataType="epsp:EPSPQuakeView">
+            <info:EarthquakeView />
+        </DataTemplate>
+        <DataTemplate DataType="epsp:EPSPTsunamiView">
+            <info:TsunamiView />
+        </DataTemplate>
+        <DataTemplate DataType="epsp:EPSPEEWView">
+            <info:EEWView />
+        </DataTemplate>
+        <DataTemplate DataType="epsp:EPSPEEWTestView">
+            <info:EEWTestView />
+        </DataTemplate>
+        <DataTemplate DataType="epsp:EPSPUserquakeView">
+            <info:UserquakeView />
+        </DataTemplate>
+    </Application.DataTemplates>
+</Application>

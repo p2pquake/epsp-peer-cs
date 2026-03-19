@@ -1,0 +1,71 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <Product>P2P地震情報</Product>
+    <PackageId>P2PQuake</PackageId>
+    <Authors>P2PQuake development team</Authors>
+    <AssemblyName>P2PQuake</AssemblyName>
+    <PackageProjectUrl>https://www.p2pquake.net/</PackageProjectUrl>
+    <AssemblyVersion>0.35.0.12</AssemblyVersion>
+    <FileVersion>0.35.0.12</FileVersion>
+    <Version>0.35.12</Version>
+    <RepositoryUrl>https://github.com/p2pquake/epsp-peer-cs</RepositoryUrl>
+    <ApplicationIcon>Resources\Icons\p2pquake.ico</ApplicationIcon>
+    <NeutralLanguage>ja-JP</NeutralLanguage>
+    <SatelliteResourceLanguages>ja-JP</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.0" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.0" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.0" />
+    <PackageReference Include="FluentAvaloniaUI" Version="2.3.0" />
+    <PackageReference Include="Polly" Version="7.2.3" />
+    <PackageReference Include="MP3Sharp" Version="1.0.5" />
+    <PackageReference Include="Sentry" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Client\Client.csproj" />
+    <ProjectReference Include="..\IPC\IPC.csproj" />
+    <ProjectReference Include="..\JsonApi\JsonApi.csproj" />
+    <ProjectReference Include="..\Map\Map.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Resources\**\*" Exclude="Resources\Sounds\**;Resources\Specifications\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Specifications\epsp-area.csv" />
+    <EmbeddedResource Include="Resources\Sounds\**\*.mp3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="License.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>License.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="License.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>License.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

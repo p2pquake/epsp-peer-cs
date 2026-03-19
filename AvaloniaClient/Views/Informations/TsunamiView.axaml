@@ -1,0 +1,80 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:epsp="using:AvaloniaClient.EPSPDataView"
+             xmlns:ts="using:AvaloniaClient.TemplateSelectors"
+             xmlns:ctrl="using:AvaloniaClient.Views.Controls"
+             xmlns:utils="using:AvaloniaClient.Utils"
+             x:Class="AvaloniaClient.Views.Informations.TsunamiView"
+             x:DataType="epsp:EPSPTsunamiView">
+    <UserControl.Resources>
+        <ts:DetailDescriptionTemplateSelector x:Key="DetailTemplateSelector">
+            <DataTemplate x:Key="DetailHeaderItem" x:DataType="epsp:DetailItemView">
+                <TextBlock Text="{Binding Text}" FontSize="20" FontWeight="SemiBold" />
+            </DataTemplate>
+            <DataTemplate x:Key="DetailNameItem" x:DataType="epsp:DetailItemView">
+                <TextBlock Text="{Binding Text}" TextWrapping="Wrap" Margin="0,0,0,4" />
+            </DataTemplate>
+            <DataTemplate x:Key="DetailSectionItem" x:DataType="epsp:DetailItemView">
+                <TextBlock Text="{Binding Text}" TextWrapping="Wrap" Margin="0,0,0,4" FontWeight="Bold" />
+            </DataTemplate>
+            <DataTemplate x:Key="DetailMajorWarningItem" x:DataType="epsp:DetailItemView">
+                <ctrl:TsunamiCategoryText Text="大津波警報（ 3 メートル超）" BackgroundColor="#C800FF" />
+            </DataTemplate>
+            <DataTemplate x:Key="DetailWarningItem" x:DataType="epsp:DetailItemView">
+                <ctrl:TsunamiCategoryText Text="津波警報（最大 3 メートル）" BackgroundColor="#FF2800" />
+            </DataTemplate>
+            <DataTemplate x:Key="DetailAdvisoryItem" x:DataType="epsp:DetailItemView">
+                <ctrl:TsunamiCategoryText Text="津波注意報（最大 1 メートル）" BackgroundColor="#FAF500" />
+            </DataTemplate>
+            <DataTemplate x:Key="DetailPrefectureItem" x:DataType="epsp:DetailItemView">
+                <TextBlock Text="{Binding Text}" FontWeight="Bold" FontSize="16" />
+            </DataTemplate>
+            <DataTemplate x:Key="DetailScaleItem" x:DataType="epsp:DetailItemView">
+                <TextBlock Text="{Binding Text}" FontWeight="Bold" FontSize="16" />
+            </DataTemplate>
+            <DataTemplate x:Key="DetailEruptionItem" x:DataType="epsp:DetailItemView">
+                <TextBlock Text="" />
+            </DataTemplate>
+            <DataTemplate x:Key="DetailFreeFormCommentItem" x:DataType="epsp:DetailItemView">
+                <TextBlock Text="" />
+            </DataTemplate>
+        </ts:DetailDescriptionTemplateSelector>
+    </UserControl.Resources>
+    <Grid>
+        <Image Source="{Binding EmptyBitmapImage}" Stretch="Uniform" />
+        <Image Source="{Binding BitmapImage}" Stretch="Uniform" />
+        <Canvas>
+            <Image Source="{Binding NoteFilename, Converter={x:Static utils:BitmapAssetConverter.Instance}}" Width="96" Canvas.Bottom="16" Canvas.Left="8" />
+            <Image Source="avares://P2PQuake/Resources/MapOverlays/description.png" Height="8" Canvas.Bottom="0" Canvas.Left="0" />
+        </Canvas>
+        <Panel VerticalAlignment="Top" Height="40">
+            <StackPanel Orientation="Horizontal" Spacing="16" Margin="4">
+                <StackPanel Background="{DynamicResource InformationSmokeFillColorBrush}">
+                    <TextBlock Text="受信日時" FontSize="10" />
+                    <TextBlock Text="{Binding DetailTime}" FontWeight="Bold" />
+                </StackPanel>
+            </StackPanel>
+        </Panel>
+        <Expander ExpandDirection="Left" HorizontalAlignment="Right"
+                  Background="{DynamicResource InformationSmokeFillColorBrush}"
+                  IsExpanded="False" MaxWidth="320" Margin="0,40,0,0">
+            <Expander.Header>
+                <LayoutTransformControl>
+                    <LayoutTransformControl.LayoutTransform>
+                        <RotateTransform Angle="90" />
+                    </LayoutTransformControl.LayoutTransform>
+                    <TextBlock Text="詳細" />
+                </LayoutTransformControl>
+            </Expander.Header>
+            <ScrollViewer Width="240" Padding="4">
+                <ItemsControl ItemsSource="{Binding DetailItemViewList}" ItemTemplate="{StaticResource DetailTemplateSelector}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Spacing="4" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
+        </Expander>
+    </Grid>
+</UserControl>

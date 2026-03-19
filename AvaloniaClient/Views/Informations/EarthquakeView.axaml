@@ -1,0 +1,109 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:epsp="using:AvaloniaClient.EPSPDataView"
+             xmlns:ts="using:AvaloniaClient.TemplateSelectors"
+             xmlns:utils="using:AvaloniaClient.Utils"
+             x:Class="AvaloniaClient.Views.Informations.EarthquakeView"
+             x:DataType="epsp:EPSPQuakeView">
+    <UserControl.Resources>
+        <ts:DetailDescriptionTemplateSelector x:Key="DetailTemplateSelector">
+            <DataTemplate x:Key="DetailHeaderItem" x:DataType="epsp:DetailItemView">
+                <TextBlock Text="{Binding Text}" FontSize="20" FontWeight="SemiBold" />
+            </DataTemplate>
+            <DataTemplate x:Key="DetailPrefectureItem" x:DataType="epsp:DetailItemView">
+                <TextBlock Text="{Binding Text}" Margin="0,16,0,0" FontWeight="Bold" FontSize="16" />
+            </DataTemplate>
+            <DataTemplate x:Key="DetailScaleItem" x:DataType="epsp:DetailItemView">
+                <TextBlock Text="{Binding Text}" FontWeight="Bold" FontSize="16" />
+            </DataTemplate>
+            <DataTemplate x:Key="DetailNameItem" x:DataType="epsp:DetailItemView">
+                <Grid ColumnDefinitions="20,*">
+                    <Image Source="{Binding ScaleIconPath, Converter={x:Static utils:BitmapAssetConverter.Instance}}" Height="14" Width="14" Grid.Column="0" VerticalAlignment="Top" Margin="0,2,0,0" />
+                    <TextBlock Text="{Binding Text}" TextWrapping="Wrap" Margin="0,0,0,4" Grid.Column="1" />
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="DetailEruptionItem" x:DataType="epsp:DetailItemView">
+                <StackPanel Spacing="4" Margin="0,0,0,8">
+                    <TextBlock Text="海外 大規模噴火" FontSize="20" FontWeight="SemiBold" />
+                    <TextBlock Text="海外で大規模な噴火が発生しました。" FontWeight="Bold" FontSize="16" />
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="DetailFreeFormCommentItem" x:DataType="epsp:DetailItemView">
+                <StackPanel Spacing="8">
+                    <Separator />
+                    <StackPanel>
+                        <TextBlock Text="自由付加文" FontWeight="Bold" FontSize="16" />
+                        <TextBlock Text="（付加的な情報、気象庁による）" FontSize="12" FontWeight="Bold" />
+                    </StackPanel>
+                    <Border BorderBrush="{DynamicResource TextFillColorPrimaryBrush}" BorderThickness="1" CornerRadius="2" Padding="4">
+                        <TextBlock Text="{Binding Text}" LineHeight="20" />
+                    </Border>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="DetailSectionItem" x:DataType="epsp:DetailItemView">
+                <TextBlock Text="{Binding Text}" FontWeight="Bold" />
+            </DataTemplate>
+            <DataTemplate x:Key="DetailMajorWarningItem" x:DataType="epsp:DetailItemView">
+                <TextBlock Text="" />
+            </DataTemplate>
+            <DataTemplate x:Key="DetailWarningItem" x:DataType="epsp:DetailItemView">
+                <TextBlock Text="" />
+            </DataTemplate>
+            <DataTemplate x:Key="DetailAdvisoryItem" x:DataType="epsp:DetailItemView">
+                <TextBlock Text="" />
+            </DataTemplate>
+        </ts:DetailDescriptionTemplateSelector>
+    </UserControl.Resources>
+    <Grid>
+        <Image Source="{Binding BitmapImage}" Stretch="Uniform" />
+        <Canvas>
+            <Image Source="avares://P2PQuake/Resources/MapOverlays/quake_note.png" Width="40" Canvas.Bottom="16" Canvas.Left="8" />
+            <Image Source="avares://P2PQuake/Resources/MapOverlays/description.png" Height="8" Canvas.Bottom="0" Canvas.Left="0" />
+        </Canvas>
+        <Panel VerticalAlignment="Top" Height="40" Background="{DynamicResource InformationSmokeFillColorBrush}">
+            <StackPanel Orientation="Horizontal" Spacing="16" Margin="4">
+                <StackPanel>
+                    <TextBlock Text="日時" FontSize="10" />
+                    <TextBlock Text="{Binding EventArgs.OccuredTime}" FontWeight="Bold" />
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="震源" FontSize="10" />
+                    <TextBlock Text="{Binding EventArgs.Destination}" FontWeight="Bold" />
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="深さ" FontSize="10" />
+                    <TextBlock Text="{Binding EventArgs.Depth}" FontWeight="Bold" />
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="M" FontSize="10" />
+                    <TextBlock Text="{Binding EventArgs.Magnitude}" FontWeight="Bold" />
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="津波" FontSize="10" />
+                    <TextBlock Text="{Binding TsunamiText}" FontWeight="Bold" Foreground="{Binding TsunamiForeground}" />
+                </StackPanel>
+            </StackPanel>
+        </Panel>
+        <Expander ExpandDirection="Left" HorizontalAlignment="Right"
+                  Background="{DynamicResource InformationSmokeFillColorBrush}"
+                  IsExpanded="{Binding IsExpanded}" MaxWidth="320" Margin="0,40,0,0">
+            <Expander.Header>
+                <LayoutTransformControl>
+                    <LayoutTransformControl.LayoutTransform>
+                        <RotateTransform Angle="90" />
+                    </LayoutTransformControl.LayoutTransform>
+                    <TextBlock Text="詳細" />
+                </LayoutTransformControl>
+            </Expander.Header>
+            <ScrollViewer Width="240" Padding="4">
+                <ItemsControl ItemsSource="{Binding DetailItemViewList}" ItemTemplate="{StaticResource DetailTemplateSelector}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Spacing="4" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
+        </Expander>
+    </Grid>
+</UserControl>

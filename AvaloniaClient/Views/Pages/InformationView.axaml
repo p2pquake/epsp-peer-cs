@@ -1,0 +1,136 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AvaloniaClient.ViewModels"
+             xmlns:epsp="using:AvaloniaClient.EPSPDataView"
+             xmlns:info="using:AvaloniaClient.Views.Informations"
+             xmlns:utils="using:AvaloniaClient.Utils"
+             mc:Ignorable="d" d:DesignWidth="620" d:DesignHeight="416"
+             x:Class="AvaloniaClient.Views.Pages.InformationView"
+             x:DataType="vm:InformationViewModel">
+
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Left" Width="180">
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="8">
+                <TextBlock Text="情報" FontSize="20" FontWeight="SemiBold" Width="124" />
+            </StackPanel>
+            <Grid>
+                <StackPanel Orientation="Vertical" IsVisible="{Binding IsLoading}" Margin="8" Spacing="8">
+                    <TextBlock Text="読み込み中..." HorizontalAlignment="Center" />
+                    <ProgressBar IsIndeterminate="True" />
+                </StackPanel>
+                <ListBox ItemsSource="{Binding Histories}"
+                         SelectedIndex="{Binding SelectedIndex}"
+                         SelectionChanged="ListBox_SelectionChanged">
+                    <ListBox.DataTemplates>
+                        <DataTemplate DataType="epsp:EPSPQuakeView">
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel IsVisible="{Binding ScaleVisible}" Width="32" Orientation="Vertical" VerticalAlignment="Center">
+                                    <TextBlock Text="震度" HorizontalAlignment="Center" FontSize="10" />
+                                    <TextBlock Text="{Binding EventArgs.Scale}" HorizontalAlignment="Center"
+                                               Foreground="{Binding ScaleForeground}" />
+                                </StackPanel>
+                                <PathIcon IsVisible="{Binding ForeignIconVisible}" Data="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" Width="32" Height="24" />
+                                <Image IsVisible="{Binding EruptionIconVisible}" Source="{Binding EruptionIconSource, Converter={x:Static utils:BitmapAssetConverter.Instance}}" Width="32" Height="24" />
+                                <StackPanel Orientation="Vertical">
+                                    <Border IsVisible="{Binding TestLabelVisible}" Padding="2" CornerRadius="2">
+                                        <TextBlock Text="テスト表示" FontSize="10" Foreground="Gray" />
+                                    </Border>
+                                    <TextBlock Text="{Binding EventArgs.OccuredTime}" />
+                                    <TextBlock Text="{Binding EventArgs.Destination}" TextWrapping="Wrap" MaxWidth="136" />
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+
+                        <DataTemplate DataType="epsp:EPSPTsunamiView">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Source, Converter={x:Static utils:BitmapAssetConverter.Instance}}" Width="32" Height="24" />
+                                <StackPanel Orientation="Vertical">
+                                    <Border IsVisible="{Binding TestLabelVisible}" Padding="2">
+                                        <TextBlock Text="テスト表示" FontSize="10" Foreground="Gray" />
+                                    </Border>
+                                    <TextBlock Text="{Binding Time}" />
+                                    <TextBlock Text="{Binding Caption}" TextWrapping="Wrap" MaxWidth="136" />
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+
+                        <DataTemplate DataType="epsp:EPSPEEWTestView">
+                            <StackPanel Orientation="Horizontal">
+                                <PathIcon Data="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" Foreground="Red" Width="32" Height="24" />
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{Binding Time}" />
+                                    <TextBlock Text="緊急地震速報 発表検出" TextWrapping="Wrap" MaxWidth="136" />
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+
+                        <DataTemplate DataType="epsp:EPSPEEWView">
+                            <StackPanel Orientation="Horizontal">
+                                <PathIcon Data="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" Foreground="{Binding EEWListForeground}" Width="32" Height="24" />
+                                <StackPanel Orientation="Vertical">
+                                    <Border IsVisible="{Binding TestLabelVisible}" Padding="2">
+                                        <TextBlock Text="テスト表示" FontSize="10" Foreground="Gray" />
+                                    </Border>
+                                    <TextBlock Text="{Binding Time}" />
+                                    <TextBlock Text="{Binding Caption}" TextWrapping="Wrap" MaxWidth="136" />
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+
+                        <DataTemplate DataType="epsp:EPSPUserquakeView">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Source, Converter={x:Static utils:BitmapAssetConverter.Instance}}" Width="32" Height="24" />
+                                <StackPanel Orientation="Vertical">
+                                    <Border IsVisible="{Binding TestLabelVisible}" Padding="2">
+                                        <TextBlock Text="テスト表示" FontSize="10" Foreground="Gray" />
+                                    </Border>
+                                    <TextBlock Text="{Binding Time}" />
+                                    <TextBlock Text="{Binding Caption}" TextWrapping="Wrap" MaxWidth="136" />
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.DataTemplates>
+                </ListBox>
+            </Grid>
+        </DockPanel>
+        <Border>
+            <Grid>
+                <ContentControl x:Name="DetailContent" Content="{Binding SelectItem}" SizeChanged="DetailContent_SizeChanged" />
+                <Panel IsVisible="{Binding TutorialVisible}" PointerPressed="TutorialPanel_PointerPressed">
+                    <Panel.Background>
+                        <SolidColorBrush Color="Black" Opacity="0.5" />
+                    </Panel.Background>
+                    <DockPanel LastChildFill="False">
+                        <Grid DockPanel.Dock="Top">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Border Margin="8" Padding="12" CornerRadius="8" HorizontalAlignment="Left" Grid.Column="0" Background="#E6FFFFFF">
+                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                    <TextBlock Text="自動起動や通知方法が設定できます" Foreground="Black" />
+                                </StackPanel>
+                            </Border>
+                            <Border Margin="8" Padding="12" CornerRadius="8" HorizontalAlignment="Right" Grid.Column="1" Background="#E6FFFFFF">
+                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                    <TextBlock Text="揺れたことを利用者に伝えます" Foreground="Black" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                        <Border Margin="8" Padding="12" CornerRadius="8" DockPanel.Dock="Left" VerticalAlignment="Center" Background="#E6FFFFFF">
+                            <TextBlock Text="過去の情報が確認できます" Foreground="Black" />
+                        </Border>
+                        <StackPanel Orientation="Vertical" Spacing="8" Margin="8" DockPanel.Dock="Bottom">
+                            <Border Padding="12" CornerRadius="8" HorizontalAlignment="Right" Background="#E6FFFFFF">
+                                <TextBlock Text="起動中は、最新情報をリアルタイムにお知らせします" Foreground="Black" />
+                            </Border>
+                            <TextBlock Text="クリックすると説明を閉じます。" Foreground="White" HorizontalAlignment="Right" />
+                        </StackPanel>
+                    </DockPanel>
+                </Panel>
+            </Grid>
+        </Border>
+    </DockPanel>
+</UserControl>

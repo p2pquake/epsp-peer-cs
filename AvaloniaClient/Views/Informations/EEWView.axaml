@@ -1,0 +1,51 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:epsp="using:AvaloniaClient.EPSPDataView"
+             x:Class="AvaloniaClient.Views.Informations.EEWView"
+             x:DataType="epsp:EPSPEEWView">
+    <Grid RowDefinitions="40,*" ColumnDefinitions="*,*">
+        <Panel Grid.ColumnSpan="2" Grid.Row="0" Height="40" Background="{DynamicResource InformationSmokeFillColorBrush}">
+            <StackPanel Orientation="Horizontal" Spacing="16" Margin="4">
+                <StackPanel>
+                    <TextBlock Text="受信日時" FontSize="10" />
+                    <TextBlock Text="{Binding DetailTime}" FontWeight="Bold" />
+                </StackPanel>
+            </StackPanel>
+        </Panel>
+        <!-- Normal EEW -->
+        <Panel Grid.Column="0" Grid.Row="1" IsVisible="{Binding IsNotCancelled}">
+            <Image Source="{Binding BitmapImage}" Stretch="Uniform" />
+            <Canvas>
+                <Image Source="avares://P2PQuake/Resources/MapOverlays/description.png" Height="8" Canvas.Bottom="0" Canvas.Left="0" />
+            </Canvas>
+        </Panel>
+        <ScrollViewer Grid.Column="1" Grid.Row="1" Padding="4" Background="{DynamicResource InformationSmokeFillColorBrush}" IsVisible="{Binding IsNotCancelled}">
+            <StackPanel Spacing="8" Margin="4">
+                <TextBlock Text="緊急地震速報（警報）" Foreground="Red" FontWeight="Bold" FontSize="24" HorizontalAlignment="Center" />
+                <TextBlock Text="{Binding Hypocenter}" HorizontalAlignment="Center" />
+                <Separator Margin="0,4" />
+                <TextBlock Text="強い揺れに警戒：" FontWeight="Bold" FontSize="20" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding Areas}" FontSize="20" TextWrapping="Wrap" />
+                <Separator Margin="0,4,0,12" />
+                <TextBlock Text="対象地域では、あわてずに、身の安全を確保してください。" TextWrapping="Wrap" FontSize="12" />
+                <TextBlock Text="この情報は、緊急地震速報（警報）の内容の一部です。震源名と強い揺れが予想される地域をお伝えします。" TextWrapping="Wrap" FontSize="12" />
+            </StackPanel>
+        </ScrollViewer>
+        <!-- Cancelled EEW -->
+        <Panel Grid.Column="0" Grid.Row="1" IsVisible="{Binding IsCancelled}">
+            <Image Source="avares://P2PQuake/Resources/Examples/japan_1024.png" Stretch="Uniform" />
+            <Panel Background="#80000000" />
+            <Canvas>
+                <Image Source="avares://P2PQuake/Resources/MapOverlays/description.png" Height="8" Canvas.Bottom="0" Canvas.Left="0" />
+            </Canvas>
+        </Panel>
+        <ScrollViewer Grid.Column="1" Grid.Row="1" Padding="4" Background="{DynamicResource InformationSmokeFillColorBrush}" IsVisible="{Binding IsCancelled}">
+            <StackPanel Spacing="8" Margin="4">
+                <TextBlock FontWeight="Bold" FontSize="24" HorizontalAlignment="Center" TextAlignment="Center">
+                    <Run Text="緊急地震速報（警報）は" /><LineBreak/><Run Text="取り消されました" />
+                </TextBlock>
+                <TextBlock Text="落雷など地震以外の現象で発表されたものは、取り消されることがあります。" TextWrapping="Wrap" FontSize="12" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

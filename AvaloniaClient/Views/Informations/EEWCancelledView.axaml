@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:epsp="using:AvaloniaClient.EPSPDataView"
+             x:Class="AvaloniaClient.Views.Informations.EEWCancelledView"
+             x:DataType="epsp:EPSPEEWView">
+    <Grid RowDefinitions="40,*" ColumnDefinitions="*,*">
+        <Panel Grid.ColumnSpan="2" Grid.Row="0" Height="40" Background="{DynamicResource InformationSmokeFillColorBrush}">
+            <StackPanel Orientation="Horizontal" Spacing="16" Margin="4">
+                <StackPanel>
+                    <TextBlock Text="受信日時" FontSize="10" />
+                    <TextBlock Text="{Binding DetailTime}" FontWeight="Bold" />
+                </StackPanel>
+            </StackPanel>
+        </Panel>
+        <Panel Grid.Column="0" Grid.Row="1">
+            <Image Source="avares://P2PQuake/Resources/Examples/japan_1024.png" Stretch="Uniform" />
+            <Panel Background="#80000000" />
+            <Canvas>
+                <Image Source="avares://P2PQuake/Resources/MapOverlays/description.png" Height="8" Canvas.Bottom="0" Canvas.Left="0" />
+            </Canvas>
+        </Panel>
+        <ScrollViewer Grid.Column="1" Grid.Row="1" Padding="4" Background="{DynamicResource InformationSmokeFillColorBrush}">
+            <StackPanel Spacing="8" Margin="4">
+                <TextBlock FontWeight="Bold" FontSize="24" HorizontalAlignment="Center" TextAlignment="Center">
+                    <Run Text="緊急地震速報（警報）は" /><LineBreak/><Run Text="取り消されました" />
+                </TextBlock>
+                <TextBlock Text="落雷など地震以外の現象で発表されたものは、取り消されることがあります。" TextWrapping="Wrap" FontSize="12" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
