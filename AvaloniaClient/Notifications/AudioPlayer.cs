@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
+using System.Threading;
 
 namespace AvaloniaClient.Notifications;
 
@@ -68,13 +68,66 @@ internal static class AudioPlayer
     }
 
     // =========================================================
-    // Windows: PCM WAV → winmm PlaySound
+    // Windows: PCM → waveOut API (複数インスタンスで同時再生可能)
     // =========================================================
     private static void PlayMp3Windows(string filePath)
     {
         var (pcm, sampleRate) = DecodeMp3(filePath);
-        var wav = CreateWav(pcm, sampleRate, 1, 16);
-        PlaySound(wav, IntPtr.Zero, SND_MEMORY | SND_SYNC | SND_NODEFAULT);
+
+        var fmt = new WAVEFORMATEX
+        {
+            wFormatTag = WAVE_FORMAT_PCM,
+            nChannels = 1,
+            nSamplesPerSec = (uint)sampleRate,
+            nAvgBytesPerSec = (uint)(sampleRate * 2),
+            nBlockAlign = 2,
+            wBitsPerSample = 16,
+            cbSize = 0,
+        };
+
+        using var doneEvent = new ManualResetEvent(false);
+
+        int mmr = waveOutOpen(out IntPtr hWaveOut, WAVE_MAPPER, ref fmt,
+            doneEvent.SafeWaitHandle.DangerousGetHandle(), IntPtr.Zero, CALLBACK_EVENT);
+        if (mmr != MMSYSERR_NOERROR)
+        {
+            Console.Error.WriteLine($"[AudioPlayer] waveOutOpen failed: {mmr}");
+            return;
+        }
+
+        var gcPcm = GCHandle.Alloc(pcm, GCHandleType.Pinned);
+        IntPtr pHdr = IntPtr.Zero;
+        try
+        {
+            var hdr = new WAVEHDR
+            {
+                lpData = gcPcm.AddrOfPinnedObject(),
+                dwBufferLength = (uint)pcm.Length,
+                dwFlags = 0,
+                dwLoops = 0,
+            };
+            uint hdrSize = (uint)Marshal.SizeOf<WAVEHDR>();
+            pHdr = Marshal.AllocHGlobal((int)hdrSize);
+            Marshal.StructureToPtr(hdr, pHdr, false);
+
+            waveOutPrepareHeader(hWaveOut, pHdr, hdrSize);
+
+            // WOM_OPEN で既にシグナル済みの場合に備えてリセット
+            doneEvent.Reset();
+            waveOutWrite(hWaveOut, pHdr, hdrSize);
+
+            // WOM_DONE を待つ (最大 30 秒)
+            doneEvent.WaitOne(30_000);
+
+            waveOutUnprepareHeader(hWaveOut, pHdr, hdrSize);
+        }
+        finally
+        {
+            if (pHdr != IntPtr.Zero)
+                Marshal.FreeHGlobal(pHdr);
+            gcPcm.Free();
+            waveOutClose(hWaveOut);
+        }
     }
 
     // =========================================================
@@ -114,14 +167,53 @@ internal static class AudioPlayer
     }
 
     // =========================================================
-    // Windows P/Invoke: winmm.dll
+    // Windows P/Invoke: winmm.dll waveOut API
     // =========================================================
-    [DllImport("winmm.dll", SetLastError = true)]
-    private static extern bool PlaySound(byte[] pszSound, IntPtr hmod, uint fdwSound);
+    private const uint WAVE_MAPPER = unchecked((uint)-1);
+    private const int MMSYSERR_NOERROR = 0;
+    private const uint CALLBACK_EVENT = 0x00050000;
+    private const ushort WAVE_FORMAT_PCM = 1;
 
-    private const uint SND_MEMORY = 0x0004;
-    private const uint SND_SYNC = 0x0000;
-    private const uint SND_NODEFAULT = 0x0002;
+    [StructLayout(LayoutKind.Sequential)]
+    private struct WAVEFORMATEX
+    {
+        public ushort wFormatTag;
+        public ushort nChannels;
+        public uint nSamplesPerSec;
+        public uint nAvgBytesPerSec;
+        public ushort nBlockAlign;
+        public ushort wBitsPerSample;
+        public ushort cbSize;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct WAVEHDR
+    {
+        public IntPtr lpData;
+        public uint dwBufferLength;
+        public uint dwBytesRecorded;
+        public IntPtr dwUser;
+        public uint dwFlags;
+        public uint dwLoops;
+        public IntPtr lpNext;
+        public IntPtr reserved;
+    }
+
+    [DllImport("winmm.dll")]
+    private static extern int waveOutOpen(out IntPtr hWaveOut, uint uDeviceID,
+        ref WAVEFORMATEX lpFormat, IntPtr dwCallback, IntPtr dwInstance, uint fdwOpen);
+
+    [DllImport("winmm.dll")]
+    private static extern int waveOutPrepareHeader(IntPtr hWaveOut, IntPtr lpWaveOutHdr, uint uSize);
+
+    [DllImport("winmm.dll")]
+    private static extern int waveOutWrite(IntPtr hWaveOut, IntPtr lpWaveOutHdr, uint uSize);
+
+    [DllImport("winmm.dll")]
+    private static extern int waveOutUnprepareHeader(IntPtr hWaveOut, IntPtr lpWaveOutHdr, uint uSize);
+
+    [DllImport("winmm.dll")]
+    private static extern int waveOutClose(IntPtr hWaveOut);
 
     // =========================================================
     // Linux P/Invoke: libpulse-simple.so.0 (PulseAudio Simple API)
@@ -151,32 +243,4 @@ internal static class AudioPlayer
 
     [DllImport("libpulse-simple.so.0")]
     private static extern void pa_simple_free(IntPtr s);
-
-    // =========================================================
-    // WAV ヘッダ生成 (Windows PlaySound 用)
-    // =========================================================
-    private static byte[] CreateWav(byte[] pcmData, int sampleRate, int channels, int bitsPerSample)
-    {
-        using var ms = new MemoryStream();
-        using var bw = new BinaryWriter(ms);
-        int byteRate = sampleRate * channels * bitsPerSample / 8;
-        int blockAlign = channels * bitsPerSample / 8;
-
-        bw.Write(Encoding.ASCII.GetBytes("RIFF"));
-        bw.Write(36 + pcmData.Length);
-        bw.Write(Encoding.ASCII.GetBytes("WAVE"));
-        bw.Write(Encoding.ASCII.GetBytes("fmt "));
-        bw.Write(16);
-        bw.Write((short)1); // PCM
-        bw.Write((short)channels);
-        bw.Write(sampleRate);
-        bw.Write(byteRate);
-        bw.Write((short)blockAlign);
-        bw.Write((short)bitsPerSample);
-        bw.Write(Encoding.ASCII.GetBytes("data"));
-        bw.Write(pcmData.Length);
-        bw.Write(pcmData);
-
-        return ms.ToArray();
-    }
 }
