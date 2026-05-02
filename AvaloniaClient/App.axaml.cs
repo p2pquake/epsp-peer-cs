@@ -124,17 +124,7 @@ public partial class App : Application
         activator = new Notifications.Activator(configuration!, client, viewModel!);
         player = new Player(configuration!, client);
 
-        // Initialize notification manager on UI thread
-        Dispatcher.UIThread.InvokeAsync(() =>
-        {
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop && desktop.MainWindow != null)
-            {
-                notifier.InitNotificationManager(desktop.MainWindow);
-            }
-        });
-
-        // TODO: P2P接続を一時的に無効化（GUI動作確認用）
-        // client.Connect();
+        client.Connect();
         Console.Error.WriteLine("[Boot] Skipping P2P connection, reading histories...");
         ReadHistories();
     }

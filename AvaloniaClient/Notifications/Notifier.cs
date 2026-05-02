@@ -1,7 +1,3 @@
-using Avalonia.Controls;
-using Avalonia.Controls.Notifications;
-using Avalonia.Threading;
-
 using Client.App;
 using Client.Peer;
 
@@ -11,7 +7,6 @@ using AvaloniaClient.ViewModels;
 
 using Map.Model;
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +19,6 @@ public class Notifier
     private MediatorContext mediatorContext;
     private RootViewModel viewModel;
     private Dictionary<string, string> userquakeArea;
-    private WindowNotificationManager? notificationManager;
 
     public Notifier(Configuration configuration, MediatorContext mediatorContext, RootViewModel viewModel)
     {
@@ -39,29 +33,9 @@ public class Notifier
         mediatorContext.OnNewUserquakeEvaluation += (s, e) => { Task.Run(() => MediatorContext_OnNewUserquakeEvaluation(s, e)); };
     }
 
-    public void InitNotificationManager(Window window)
-    {
-        notificationManager = new WindowNotificationManager(window)
-        {
-            Position = NotificationPosition.BottomRight,
-            MaxItems = 3,
-        };
-    }
-
     private void ShowNotification(string title, string message, string type, string? receivedAt = null, string? startedAt = null)
     {
-        Dispatcher.UIThread.InvokeAsync(() =>
-        {
-            notificationManager?.Show(new Avalonia.Controls.Notifications.Notification(
-                title,
-                message,
-                NotificationType.Information,
-                onClick: () =>
-                {
-                    Activator.Activate(viewModel, type, receivedAt, startedAt);
-                }
-            ));
-        });
+        OsNotifier.Show(title, message);
     }
 
     private void MediatorContext_OnEarthquake(object? sender, EPSPQuakeEventArgs e)
