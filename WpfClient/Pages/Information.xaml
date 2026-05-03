@@ -142,7 +142,8 @@
                         ItemTemplateSelector="{StaticResource ListTemplateSelector}"
                         ItemsSource="{Binding Histories}"
                         SelectedIndex="{Binding SelectedIndex, Mode=OneWay}"
-                        SelectionChanged="ListView_SelectionChanged">
+                        SelectionChanged="ListView_SelectionChanged"
+                        Visibility="{Binding HistoryVisibility}">
                         <ui:ListView.ItemContainerStyle>
                             <Style TargetType="ui:ListViewItem">
                                 <Setter Property="Padding" Value="8" />

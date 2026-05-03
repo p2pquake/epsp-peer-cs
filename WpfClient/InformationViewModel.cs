@@ -29,9 +29,11 @@ namespace WpfClient
                 isLoading = value;
                 OnPropertyChanged();
                 OnPropertyChanged("LoadingVisibility");
+                OnPropertyChanged("HistoryVisibility");
             }
         }
         public Visibility LoadingVisibility => isLoading ? Visibility.Visible : Visibility.Hidden;
+        public Visibility HistoryVisibility => isLoading ? Visibility.Collapsed : Visibility.Visible;
 
         private Visibility tutorialVisibility = Visibility.Hidden;
         public Visibility TutorialVisibility
