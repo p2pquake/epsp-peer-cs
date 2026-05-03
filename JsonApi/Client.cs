@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -28,7 +29,13 @@ namespace JsonApi
 
         public async static Task<BasicData[]> Get(int limit = 100, int offset = 0, params Code[] codes)
         {
-            var response = await client.GetAsync($"https://api.p2pquake.net/v2/history?limit={limit}&offset={offset}{(codes.Length > 0 ? "&" : "")}{string.Join('&', codes.Select(e => $"codes={(int)e}"))}");
+            var url = $"https://api.p2pquake.net/v2/history?limit={limit}&offset={offset}{(codes.Length > 0 ? "&" : "")}{string.Join('&', codes.Select(e => $"codes={(int)e}"))}";
+            using var request = new HttpRequestMessage(HttpMethod.Get, url)
+            {
+                Version = HttpVersion.Version20,
+                VersionPolicy = HttpVersionPolicy.RequestVersionOrLower,
+            };
+            var response = await client.SendAsync(request);
             response.EnsureSuccessStatusCode();
             string body = await response.Content.ReadAsStringAsync();
 
