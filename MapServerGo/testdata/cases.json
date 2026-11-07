@@ -1,0 +1,44 @@
+[
+  {
+    "name": "eq_chiba_1024",
+    "path": "/earthquake",
+    "width": 469,
+    "height": 313
+  },
+  {
+    "name": "eq_chiba_4096",
+    "path": "/earthquake",
+    "width": 786,
+    "height": 524
+  },
+  {
+    "name": "eq_scaleprompt_1024",
+    "path": "/earthquake",
+    "width": 399,
+    "height": 266
+  },
+  {
+    "name": "eq_untrimmed_1024",
+    "path": "/earthquake",
+    "width": 1024,
+    "height": 1050
+  },
+  {
+    "name": "tsunami_1024",
+    "path": "/tsunami",
+    "width": 1024,
+    "height": 1015
+  },
+  {
+    "name": "eew_1024",
+    "path": "/eew",
+    "width": 431,
+    "height": 287
+  },
+  {
+    "name": "uq_1024",
+    "path": "/userquake",
+    "width": 407,
+    "height": 272
+  }
+]

@@ -1,0 +1,30 @@
+name: go map server
+
+on:
+  push:
+    paths:
+      - "MapServerGo/**"
+      - "Map/Resources/**"
+      - ".github/workflows/go-map-server.yml"
+  pull_request:
+    paths:
+      - "MapServerGo/**"
+      - "Map/Resources/**"
+      - ".github/workflows/go-map-server.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: MapServerGo
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: MapServerGo/go.mod
+          cache-dependency-path: MapServerGo/go.sum
+      - name: Vet
+        run: go vet ./...
+      - name: Test
+        run: go test ./...
