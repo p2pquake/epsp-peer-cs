@@ -9,6 +9,7 @@ using Map.Model;
 using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -29,6 +30,11 @@ namespace CLI.Command
             )
             {
                 new Option<int>("--port", () => -1),
+                new Option<string>(
+                    "--preload",
+                    () => "JAPAN_1024,JAPAN_4096",
+                    "起動時にデコードしてキャッシュし、ウォームアップ描画を行う地図種別 (カンマ区切り。空文字で無効)"
+                ),
             };
 
             command.Handler = CommandHandler.Create<ServerOptions>(ServerHandler);
@@ -38,6 +44,7 @@ namespace CLI.Command
         public class ServerOptions
         {
             public int Port { get; set; }
+            public string Preload { get; set; }
         }
 
         private static ILog logger;
@@ -54,7 +61,12 @@ namespace CLI.Command
 
             logger = LogManager.GetLogger("MapServer");
 
-            var server = new MapServer(options.Port, logger);
+            var preloadTypes = (options.Preload ?? "")
+                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Select(MapServer.ToMapType)
+                .ToArray();
+
+            var server = new MapServer(options.Port, logger, preloadTypes);
             Task.Run(server.Run);
 
             Console.WriteLine("Enter キーを押すと終了します。");
@@ -71,15 +83,61 @@ namespace CLI.Command
         private int port;
         private ILog logger;
         private bool quit = false;
+        private readonly MapType[] preloadTypes;
 
-        public MapServer(int port, ILog logger)
+        public MapServer(int port, ILog logger, MapType[] preloadTypes)
         {
             this.port = port;
             this.logger = logger;
+            this.preloadTypes = preloadTypes;
+        }
+
+        /// <summary>
+        /// 地図画像をキャッシュし、ダミーの地震情報を描画して JIT やフォント等の初期化を済ませます。
+        /// 待ち受け開始前に行うことで、最初のリクエストから温まった状態で応答できます。
+        /// </summary>
+        private void WarmUp()
+        {
+            if (preloadTypes.Length == 0)
+            {
+                return;
+            }
+
+            var sw = Stopwatch.StartNew();
+            MapLoader.Preload(preloadTypes);
+            logger.Info($"Preloaded {string.Join(",", preloadTypes)} in {sw.ElapsedMilliseconds} ms.");
+
+            foreach (var type in preloadTypes)
+            {
+                sw.Restart();
+                try
+                {
+                    var drawer = new MapDrawer()
+                    {
+                        MapType = type,
+                        Trim = true,
+                        Hypocenter = new GeoCoordinate(35.7, 140.0),
+                        ObservationPoints = new[]
+                        {
+                            new ObservationPoint("東京都", "東京千代田区大手町", 30),
+                            new ObservationPoint("千葉県", "千葉中央区中央港", 40),
+                        },
+                        PreferedAspectRatio = aspectRatio,
+                    };
+                    using var png = drawer.DrawAsPng();
+                    logger.Info($"Warmed up {type} in {sw.ElapsedMilliseconds} ms.");
+                }
+                catch (Exception e)
+                {
+                    logger.Warn($"Failed to warm up {type}", e);
+                }
+            }
         }
 
         public void Run()
         {
+            WarmUp();
+
             HttpListener listener = new HttpListener();
             // FIXME: 実際の実行時は *: とする。
             listener.Prefixes.Add("http://*:" + port + "/");
@@ -304,7 +362,7 @@ namespace CLI.Command
             quit = true;
         }
 
-        private static MapType ToMapType(string mapType)
+        public static MapType ToMapType(string mapType)
         {
             return mapType switch
             {
