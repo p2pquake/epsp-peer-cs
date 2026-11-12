@@ -12,21 +12,21 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup .NET 6.0
+      - name: Setup .NET 10.0
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
-            6.0.x
+            10.0.x
       - name: Publish AutoUpdater
         run: dotnet publish .\AutoUpdater\AutoUpdater.csproj /p:Configuration=Release /p:PublishProfile=FolderProfile
       - name: Publish WpfClient
         run: dotnet publish .\WpfClient\WpfClient.csproj /p:Configuration=Release /p:PublishProfile=FolderProfile
       - name: Collect package files
         run: |
-          powershell Copy-Item -Path .\AutoUpdater\bin\Release\net6.0-windows\publish\P2PQuakeAutoUpdater.exe -Destination .\WpfClient\bin\Release\net6.0-windows10.0.18362.0\publish\
+          powershell Copy-Item -Path .\AutoUpdater\bin\Release\net10.0-windows\publish\P2PQuakeAutoUpdater.exe -Destination .\WpfClient\bin\Release\net10.0-windows10.0.18362.0\publish\
       - name: Package
         run: |
-          powershell Move-Item .\WpfClient\bin\Release\net6.0-windows10.0.18362.0\publish .\P2PQuake_${{ github.ref_name }}; Compress-Archive -Path .\P2PQuake_${{ github.ref_name }} -DestinationPath .\P2PQuake_${{ github.ref_name }}.zip
+          powershell Move-Item .\WpfClient\bin\Release\net10.0-windows10.0.18362.0\publish .\P2PQuake_${{ github.ref_name }}; Compress-Archive -Path .\P2PQuake_${{ github.ref_name }} -DestinationPath .\P2PQuake_${{ github.ref_name }}.zip
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
